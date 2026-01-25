@@ -1,10 +1,10 @@
-import { Layout } from "antd";
+import DashboardHeader from "@/app/dashboard/components/DashboardHeader";
 
 export default function DashboardLayout({ children }) {
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <header>Header</header>
-      {children}
-    </Layout>
+    <>
+      <DashboardHeader />
+      <main className="max-w-387.5 w-full mx-auto">{children}</main>
+    </>
   );
 }
