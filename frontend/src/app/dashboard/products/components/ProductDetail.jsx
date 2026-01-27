@@ -1,20 +1,29 @@
 'use client';
 
-import { Tabs, Button, Space, Tag, Image } from 'antd';
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
+import { Button, Image, Space, Tabs, Tag } from 'antd';
 
-const { TabPane } = Tabs;
+const items = [
+  {
+    key: "info",
+    label: "Thông tin",
+  },
+  {
+    key: "stockCard",
+    label: "Thẻ kho",
+  },
+  {
+    key: "inventory",
+    label: "Tồn kho",
+  },
+];
+
 
 export default function ProductDetail({ product }) {
   return (
     <div className="p-6 bg-white">
       {/* Tabs */}
-      <Tabs defaultActiveKey="info" className="mb-6">
-        <TabPane tab="Thông tin" key="info" />
-        <TabPane tab="Thẻ kho" key="stockCard" />
-        <TabPane tab="Tồn kho" key="inventory" />
-        <TabPane tab="Món thêm" key="extra" />
-      </Tabs>
+      <Tabs defaultActiveKey="info" items={items} />
 
       {/* Tên sản phẩm + Tags trạng thái */}
       <div className="mb-6">

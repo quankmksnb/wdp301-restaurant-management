@@ -29,6 +29,28 @@ const data = [
     noPoint: true,
     noExtra: true,
   },
+  {
+    key: '2',
+    image: 'https://images.unsplash.com/photo-1585518419759-fac080360acd?w=400',
+    thumbnail: 'https://via.placeholder.com/40',
+    code: 'SP000002',
+    name: 'Cà phê đen đá',
+    category: 'Đồ uống',
+    group: 'Cà phê',
+    type: 'Hàng hóa thường',
+    price: 12000,
+    cost: 5000,
+    stock: 50,
+    minStock: 10,
+    maxStock: 200,
+    location: 'Tủ lạnh A1',
+    orderNote: 'Ghi chú đặt hàng',
+    description: 'Cà phê đen đá ngon',
+    status: 'Đang kinh doanh',
+    directSale: true,
+    noPoint: false,
+    noExtra: false,
+  },
   // Thêm data khác nếu cần
 ];
 
