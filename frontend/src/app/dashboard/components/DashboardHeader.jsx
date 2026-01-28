@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import EmployeeDropdown from "./EmployeeDropdown";
 
 export default function DashboardHeader() {
   return (
@@ -23,12 +24,7 @@ export default function DashboardHeader() {
         >
           Phòng bàn
         </Link>
-        <Link
-          href={"/dashboard/staff"}
-          className="text-white font-semibold px-4.25 py-2.5 text-[14px] cursor-pointer hover:rounded-sm hover:bg-[#0060d0] transition-all duration-250"
-        >
-          Nhân viên
-        </Link>
+        <EmployeeDropdown />
         <Link
           href={"/dashboard"}
           className="text-white font-semibold px-4.25 py-2.5 text-[14px] cursor-pointer hover:rounded-sm hover:bg-[#0060d0] transition-all duration-250"
