@@ -1,0 +1,27 @@
+[
+  {
+    "_id": { "$oid": "65f000000000000000000060" },
+    "orderDate": { "$date": "2026-01-27T10:00:00Z" },
+    "orderStatus": "completed",
+    "items": [
+      {
+        "menuItem": { "$oid": "65f000000000000000000050" },
+        "itemName": "Phở bò",
+        "unitPrice": 50000,
+        "quantity": 2,
+        "subTotal": 100000
+      },
+      {
+        "menuItem": { "$oid": "65f000000000000000000051" },
+        "itemName": "Trà đá",
+        "unitPrice": 5000,
+        "quantity": 2,
+        "subTotal": 10000
+      }
+    ],
+    "totalAmount": 110000,
+    "customer": { "$oid": "65f000000000000000000030" },
+    "user": { "$oid": "65f000000000000000000002" },
+    "table": { "$oid": "65f000000000000000000020" }
+  }
+]

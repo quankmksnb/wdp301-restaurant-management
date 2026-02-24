@@ -1,0 +1,8 @@
+[
+  {
+    "_id": { "$oid": "65f000000000000000000010" },
+    "areaName": "Tầng 1",
+    "description": "Khu vực gần cửa ra vào",
+    "createdBy": { "$oid": "65f000000000000000000001" }
+  }
+]

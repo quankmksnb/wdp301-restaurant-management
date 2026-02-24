@@ -1,0 +1,14 @@
+[
+  {
+    "_id": { "$oid": "65f000000000000000000040" },
+    "categoryName": "Món chính",
+    "description": "Các món ăn chính",
+    "status": "active"
+  },
+  {
+    "_id": { "$oid": "65f000000000000000000041" },
+    "categoryName": "Đồ uống",
+    "description": "Nước giải khát",
+    "status": "active"
+  }
+]
