@@ -169,6 +169,43 @@ export default function ProductTable() {
       ),
       hidden: !visibleColumns.stock,
     },
+    {
+      title: 'Vị trí',
+      dataIndex: 'location',
+      key: 'location',
+      hidden: !visibleColumns.location,
+    },
+    {
+      title: 'Đặt hàng',
+      dataIndex: 'orderNote',
+      key: 'order',
+      hidden: !visibleColumns.order,
+    },
+    {
+      title: 'Định mức tồn ít nhất',
+      dataIndex: 'minStock',
+      key: 'latestStock',
+      render: (v) => v.toLocaleString('vi-VN'),
+      hidden: !visibleColumns.latestStock,
+    },
+    {
+      title: 'Định mức tồn nhiều nhất',
+      dataIndex: 'maxStock',
+      key: 'maxStock',
+      render: (v) => v.toLocaleString('vi-VN'),
+      hidden: !visibleColumns.maxStock,
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => (
+        <Tag color={status === 'Đang kinh doanh' ? 'green' : 'default'}>
+          {status}
+        </Tag>
+      ),
+      hidden: !visibleColumns.status,
+    },
   ].filter(col => !col.hidden);
 
   return (

@@ -137,16 +137,16 @@ export default function ProductDetail({ product }) {
       {/* Nút hành động */}
       <div className="mt-10 flex justify-end">
         <Space size="middle">
-          <Button type="primary" className="bg-green-600 hover:bg-green-700">
+          <Button type="primary" size='large' className="bg-green-600 hover:bg-green-700">
             Cập nhật
           </Button>
-          <Button icon={<span className="mr-1">🖨️</span>}>
+          <Button size='large' >
             In mã vạch
           </Button>
-          <Button type="primary" className="bg-green-500 hover:bg-green-600">
+          <Button type="primary" size='large' className="bg-green-500 hover:bg-green-600">
             Trang thái kinh doanh
           </Button>
-          <Button danger>Xóa</Button>
+          <Button size='large'danger>Xóa</Button>
         </Space>
       </div>
     </div>
