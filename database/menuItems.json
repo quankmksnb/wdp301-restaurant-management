@@ -1,0 +1,18 @@
+[
+  {
+    "_id": { "$oid": "65f000000000000000000050" },
+    "itemName": "Phở bò",
+    "price": 50000,
+    "description": "Phở bò truyền thống",
+    "availabilityStatus": "available",
+    "category": { "$oid": "65f000000000000000000040" }
+  },
+  {
+    "_id": { "$oid": "65f000000000000000000051" },
+    "itemName": "Trà đá",
+    "price": 5000,
+    "description": "Trà đá mát lạnh",
+    "availabilityStatus": "available",
+    "category": { "$oid": "65f000000000000000000041" }
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "_id": { "$oid": "65f000000000000000000070" },
+    "paymentDate": { "$date": "2026-01-27T11:00:00Z" },
+    "paymentMethod": "cash",
+    "paymentStatus": "paid",
+    "amount": 110000,
+    "order": { "$oid": "65f000000000000000000060" },
+    "user": { "$oid": "65f000000000000000000001" }
+  }
+]

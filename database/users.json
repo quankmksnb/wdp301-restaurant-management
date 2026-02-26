@@ -1,0 +1,26 @@
+[
+  {
+    "_id": { "$oid": "65f000000000000000000001" },
+    "fullName": "Manager 1",
+    "password": "123456",
+    "phone": "0900000001",
+    "role": "manager",
+    "status": "active"
+  },
+  {
+    "_id": { "$oid": "65f000000000000000000002" },
+    "fullName": "Waiter 1",
+    "password": "123456",
+    "phone": "0900000002",
+    "role": "waiter",
+    "status": "active"
+  },
+  {
+    "_id": { "$oid": "65f000000000000000000003" },
+    "fullName": "Receptionist 1",
+    "password": "123456",
+    "phone": "0900000003",
+    "role": "receptionist",
+    "status": "active"
+  }
+]
