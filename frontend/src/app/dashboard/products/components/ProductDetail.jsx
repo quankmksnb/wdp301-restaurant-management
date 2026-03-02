@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
+import { BarcodeOutlined, CheckCircleFilled, CheckCircleOutlined, CloseCircleFilled, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Button, Image, Space, Tabs, Tag } from 'antd';
 
 const items = [
@@ -137,16 +137,40 @@ export default function ProductDetail({ product }) {
       {/* Nút hành động */}
       <div className="mt-10 flex justify-end">
         <Space size="middle">
-          <Button type="primary" size='large' className="bg-green-600 hover:bg-green-700">
+          <Button
+            type="primary"
+            size="large"
+            icon={<EditOutlined />}
+            className="!bg-secondary !border-secondary hover:!bg-secondary/90"
+          >
             Cập nhật
           </Button>
-          <Button size='large' >
+
+          <Button
+            size="large"
+            icon={<BarcodeOutlined />}
+            style={{ backgroundColor: "#595959", color: "white", border: "none" }}
+          >
             In mã vạch
           </Button>
-          <Button type="primary" size='large' className="bg-green-500 hover:bg-green-600">
-            Trang thái kinh doanh
+
+          <Button
+            type="primary"
+            size="large"
+            icon={<CheckCircleOutlined />}
+            className="!bg-secondary !border-secondary hover:!bg-secondary/90"
+          >
+            Trạng thái kinh doanh
           </Button>
-          <Button size='large'danger>Xóa</Button>
+
+          <Button
+            type="primary"
+            size="large"
+            danger
+            icon={<DeleteOutlined />}
+          >
+            Xóa
+          </Button>
         </Space>
       </div>
     </div>
