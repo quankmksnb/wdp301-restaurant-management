@@ -73,7 +73,6 @@ export default function ProductHeader({
         { key: 'name', label: 'Tên hàng' },
         { key: 'category', label: 'Loại thực đơn' },
         { key: 'group', label: 'Nhóm hàng' },
-        { key: 'type', label: 'Loại hàng' },
         { key: 'price', label: 'Giá bán' },
     ];
 
@@ -81,7 +80,6 @@ export default function ProductHeader({
         { key: 'cost', label: 'Giá vốn' },
         { key: 'stock', label: 'Tồn kho' },
         { key: 'location', label: 'Vị trí' },
-        { key: 'order', label: 'Đặt hàng' },
         { key: 'latestStock', label: 'Định mức tồn ít nhất' },
         { key: 'maxStock', label: 'Định mức tồn nhiều nhất' },
         { key: 'status', label: 'Trạng thái' },

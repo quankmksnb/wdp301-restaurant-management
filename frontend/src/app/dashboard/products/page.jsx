@@ -6,7 +6,7 @@ import ProductTable from './components/ProductTable';
 
 export default function ProductsPage() {
     return (
-        <div className="min-h-screen bg-gray-50 py-6">
+        <div className="min-h-screen bg-gray-100 py-6">
             <div className="max-w-[80vw] mx-auto">
                 <Row gutter={24}>
                     {/* LEFT FILTER */}

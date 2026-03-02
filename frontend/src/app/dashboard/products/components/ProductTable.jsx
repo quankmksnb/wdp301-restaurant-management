@@ -141,12 +141,6 @@ export default function ProductTable() {
       hidden: !visibleColumns.group,
     },
     {
-      title: 'Loại hàng',
-      dataIndex: 'type',
-      key: 'type',
-      hidden: !visibleColumns.type,
-    },
-    {
       title: 'Giá bán',
       dataIndex: 'price',
       key: 'price',
@@ -174,12 +168,6 @@ export default function ProductTable() {
       dataIndex: 'location',
       key: 'location',
       hidden: !visibleColumns.location,
-    },
-    {
-      title: 'Đặt hàng',
-      dataIndex: 'orderNote',
-      key: 'order',
-      hidden: !visibleColumns.order,
     },
     {
       title: 'Định mức tồn ít nhất',

@@ -52,19 +52,6 @@ export default function FilterPanel() {
                 </Checkbox.Group>
             )}
 
-            {/* LOẠI HÀNG */}
-            {renderCollapse(
-                'Loại hàng',
-                <Checkbox.Group className="flex flex-col space-y-3">
-                    <Checkbox>Hàng hóa thường</Checkbox>
-                    <Checkbox>Chế biến</Checkbox>
-                    <Checkbox>Dịch vụ</Checkbox>
-                    <Checkbox>Combo - Đóng gói</Checkbox>
-                    <Checkbox>Combo tùy chọn</Checkbox>
-                    <Checkbox>Buffet gọi món</Checkbox>
-                </Checkbox.Group>
-            )}
-
             {/* NHÓM HÀNG */}
             {renderCollapse(
                 'Nhóm hàng',
@@ -73,6 +60,11 @@ export default function FilterPanel() {
                     <Checkbox.Group className="flex flex-col space-y-2">
                         <Checkbox value="all">Tất cả</Checkbox>
                         <Checkbox value="nicotin">Nicotin</Checkbox>
+                        <Checkbox value="nicotin">Đồ uống</Checkbox>
+                        <Checkbox value="nicotin">Đồ ăn</Checkbox>
+                        <Checkbox value="nicotin">Nicotin</Checkbox>
+                        <Checkbox value="nicotin">Khác</Checkbox>
+
                     </Checkbox.Group>
                 </>
             )}
