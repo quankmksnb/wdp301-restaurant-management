@@ -2,6 +2,8 @@
 
 import { BarcodeOutlined, CheckCircleFilled, CheckCircleOutlined, CloseCircleFilled, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Button, Image, Space, Tabs, Tag } from 'antd';
+import { useState } from 'react';
+import UpdateProductModal from './modals/UpdateProductModal';
 
 const items = [
   {
@@ -20,6 +22,9 @@ const items = [
 
 
 export default function ProductDetail({ product }) {
+
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <div className="p-6 bg-white">
       {/* Tabs */}
@@ -142,6 +147,7 @@ export default function ProductDetail({ product }) {
             size="large"
             icon={<EditOutlined />}
             className="!bg-secondary !border-secondary hover:!bg-secondary/90"
+            onClick={() => setModalOpen(true)}
           >
             Cập nhật
           </Button>
@@ -173,6 +179,16 @@ export default function ProductDetail({ product }) {
           </Button>
         </Space>
       </div>
+
+      <UpdateProductModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={(updatedProduct) => {
+          console.log('Updated:', updatedProduct);
+          setModalOpen(false);
+        }}
+        product={product}  
+      />
     </div>
   );
 }
