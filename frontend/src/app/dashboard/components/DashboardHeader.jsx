@@ -12,14 +12,17 @@ import {
   CreditCard,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function DashboardHeader() {
+  const pathname = usePathname();
   const menus = [
-    "Tổng quan",
-    "Hàng hóa",
-    "Phòng/Bàn",
-    "Nhân viên",
-    "Báo cáo",
+    { label: "Tổng quan", path: "/dashboard" },
+    { label: "Hàng hóa", path: "/dashboard/products" },
+    { label: "Phòng/Bàn", path: "/dashboard/table" },
+    { label: "Nhân viên", path: "/dashboard/staff" },
+    { label: "Báo cáo", path: "/dashboard/reports" },
   ];
 
   const [languageOpen, setLanguageOpen] = useState(false);
@@ -38,14 +41,12 @@ export default function DashboardHeader() {
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
     <header className="w-full text-white shadow-sm">
       <div className="h-10 bg-blue-700 flex items-center justify-end px-6 text-xs gap-4 relative">
-
         <Bell className="w-4 h-4 cursor-pointer opacity-90 hover:opacity-100" />
         <Settings className="w-4 h-4 cursor-pointer opacity-90 hover:opacity-100" />
 
@@ -87,34 +88,43 @@ export default function DashboardHeader() {
             />
           </div>
 
-          <span className="text-lg font-semibold tracking-wide">
-            ThanhHoa
-          </span>
+          <span className="text-lg font-semibold tracking-wide">ThanhHoa</span>
         </div>
 
-
         {/* Menu */}
-        <nav className="ml-10 flex items-center gap-6 text-sm font-medium">
-          {menus.map((item) => (
-            <span
-              key={item}
-              className={`cursor-pointer relative pb-1
-                ${item === "Tổng quan"
-                  ? "font-semibold after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-white"
-                  : "opacity-90 hover:opacity-100"
-                }`}
-            >
-              {item}
-            </span>
-          ))}
+        <nav className="ml-10 flex items-center gap-8 text-sm font-medium">
+          {menus.map((item) => {
+            const isActive =
+              item.path === "/dashboard"
+                ? pathname === "/dashboard"
+                : pathname.startsWith(item.path);
+
+            return (
+              <Link
+                key={item.path}
+                href={item.path}
+                className={`
+          relative pb-1 transition-all duration-300
+          ${isActive ? "font-semibold" : "opacity-80 hover:opacity-100"}
+        `}
+              >
+                {item.label}
+
+                {/* underline animation */}
+                <span
+                  className={`
+            absolute left-0 bottom-0 h-[2px] bg-white transition-all duration-300
+            ${isActive ? "w-full" : "w-0 group-hover:w-full"}
+          `}
+                />
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Right actions */}
         <div className="ml-auto flex items-center gap-3">
-          <RoleButton
-            label="Nhà bếp"
-            icon={<Utensils className="w-4 h-4" />}
-          />
+          <RoleButton label="Nhà bếp" icon={<Utensils className="w-4 h-4" />} />
           <RoleButton
             label="Lễ tân"
             icon={<ClipboardList className="w-4 h-4" />}
@@ -124,12 +134,10 @@ export default function DashboardHeader() {
             icon={<CreditCard className="w-4 h-4" />}
           />
         </div>
-
       </div>
     </header>
   );
 }
-
 
 function RoleButton({ label, icon }) {
   return (
