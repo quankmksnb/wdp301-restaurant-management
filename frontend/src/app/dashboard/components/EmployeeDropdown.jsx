@@ -25,30 +25,6 @@ export default function EmployeeDropdown() {
       ),
     },
     {
-      key: 'attendance',
-      label: (
-        <Link href="/dashboard/employee/attendance" className="block px-3 py-2 text-sm">
-          Bảng chấm công
-        </Link>
-      ),
-    },
-    {
-      key: 'salary',
-      label: (
-        <Link href="/dashboard/employee/salary" className="block px-3 py-2 text-sm">
-          Bảng lương
-        </Link>
-      ),
-    },
-    {
-      key: 'commission',
-      label: (
-        <Link href="/dashboard/employee/commission" className="block px-3 py-2 text-sm">
-          Bảng hoa hồng
-        </Link>
-      ),
-    },
-    {
       key: 'settings',
       label: (
         <Link href="/dashboard/employee/settings" className="block px-3 py-2 text-sm">
