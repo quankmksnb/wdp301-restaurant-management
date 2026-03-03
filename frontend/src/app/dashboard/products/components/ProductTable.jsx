@@ -103,7 +103,7 @@ export default function ProductTable() {
 
   const allColumns = [
     {
-      title: 'Hình ảnh',
+      title: '',
       dataIndex: 'image',
       key: 'image',
       width: 80,

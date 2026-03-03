@@ -15,6 +15,7 @@ export const createMenuItem = async (req, res) => {
             category,
         } = req.body;
 
+        // VALIDATE CATEGORY
         if (!category) {
             return res.status(400).json({ message: "Vui lòng chọn danh mục" });
         }
@@ -25,23 +26,52 @@ export const createMenuItem = async (req, res) => {
             return res.status(400).json({ message: "Danh mục không tồn tại" });
         }
 
-        // Không cho gắn vào category cha
         if (!categoryExists.parentId) {
             return res.status(400).json({
                 message: "Không thể gắn sản phẩm vào danh mục cha",
             });
         }
 
-        // Check status
         if (categoryExists.status !== "active") {
             return res.status(400).json({
                 message: "Danh mục đang bị khóa",
             });
         }
 
+        // VALIDATE PRODUCT CODE
+        if (!productCode) {
+            return res.status(400).json({ message: "Vui lòng nhập mã sản phẩm" });
+        }
+
+        const trimmedCode = productCode.trim();
+
+        const existingCode = await MenuItem.findOne({
+            productCode: trimmedCode,
+        });
+
+        if (existingCode) {
+            return res.status(400).json({
+                message: "Mã sản phẩm đã tồn tại",
+            });
+        }
+
+        // VALIDATE PRICE
+        if (!price || price <= 0) {
+            return res.status(400).json({
+                message: "Giá bán phải lớn hơn 0",
+            });
+        }
+
+        if (costPrice && costPrice < 0) {
+            return res.status(400).json({
+                message: "Giá vốn không hợp lệ",
+            });
+        }
+
+        // CREATE ITEM
         const item = await MenuItem.create({
             itemName,
-            productCode,
+            productCode: trimmedCode,
             price,
             costPrice,
             description,
@@ -55,7 +85,6 @@ export const createMenuItem = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 
 // GET ALL MENU ITEMS (search + filter + pagination)
 export const getAllMenuItems = async (req, res) => {
@@ -126,7 +155,6 @@ export const getAllMenuItems = async (req, res) => {
     }
 };
 
-
 //GET MENU ITEM BY ID
 export const getMenuItemById = async (req, res) => {
     try {
@@ -144,7 +172,6 @@ export const getMenuItemById = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 
 //UPDATE MENU ITEM
 export const updateMenuItem = async (req, res) => {
@@ -212,7 +239,6 @@ export const updateMenuItem = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 
 // DELETE MENU ITEM
 export const deleteMenuItem = async (req, res) => {

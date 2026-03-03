@@ -1,4 +1,5 @@
-import MenuCategory from "../models/MenuCategory";
+import MenuCategory from "../models/MenuCategory.js";
+import MenuItem from "../models/MenuItem.js";
 
 
 // Tạo danh mục mới
@@ -79,20 +80,16 @@ export const getAllCategories = async (req, res) => {
 // Lấy cây danh mục (danh mục cha + con)
 export const getCategoryTree = async (req, res) => {
     try {
-        const parents = await MenuCategory.find({ parentId: null });
+        const categories = await MenuCategory.find();
 
-        const result = [];
+        const parents = categories.filter(c => !c.parentId);
 
-        for (const parent of parents) {
-            const children = await MenuCategory.find({
-                parentId: parent._id,
-            });
-
-            result.push({
-                ...parent.toObject(),
-                children,
-            });
-        }
+        const result = parents.map(parent => ({
+            ...parent.toObject(),
+            children: categories.filter(
+                c => c.parentId && c.parentId.toString() === parent._id.toString()
+            )
+        }));
 
         res.json(result);
     } catch (error) {
@@ -127,21 +124,31 @@ export const updateCategory = async (req, res) => {
 // Xóa danh mục
 export const deleteCategory = async (req, res) => {
     try {
-        const id = req.params.id;
+        const { id } = req.params;
 
-        const hasChildren = await MenuCategory.findOne({ parentId: id });
+        const category = await MenuCategory.findById(id);
 
-        if (hasChildren) {
+        if (!category) {
+            return res.status(404).json({ message: "Không tìm thấy danh mục" });
+        }
+
+        // Không cho xóa danh mục cha
+        if (!category.parentId) {
             return res.status(400).json({
-                message: "Không thể xóa vì còn danh mục con",
+                message: "Không được xóa danh mục cha",
             });
         }
 
-        const deleted = await MenuCategory.findByIdAndDelete(id);
+        // Kiểm tra còn menu item không
+        const itemExists = await MenuItem.exists({ category: id });
 
-        if (!deleted) {
-            return res.status(404).json({ message: "Không tìm thấy danh mục" });
+        if (itemExists) {
+            return res.status(400).json({
+                message: "Không thể xóa vì còn sản phẩm thuộc danh mục",
+            });
         }
+
+        await category.deleteOne();
 
         res.json({ message: "Xóa thành công" });
     } catch (error) {

@@ -26,7 +26,7 @@ export default function ProductDetail({ product }) {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <div className="p-6 bg-white">
+    <div className="p-6 bg-white rounded-lg shadow-md">
       {/* Tabs */}
       <Tabs defaultActiveKey="info" items={items} />
 
@@ -90,10 +90,6 @@ export default function ProductDetail({ product }) {
               <span className="text-gray-600">Loại thực đơn:</span>
               <span className="ml-3 font-semibold">{product.category}</span>
             </div>
-            <div>
-              <span className="text-gray-600">Ghi chú đặt hàng:</span>
-              <span className="ml-3">{product.orderNote || '-'}</span>
-            </div>
 
             <div>
               <span className="text-gray-600">Nhóm hàng:</span>
@@ -101,17 +97,10 @@ export default function ProductDetail({ product }) {
             </div>
             <div></div>
 
-            <div>
-              <span className="text-gray-600">Loại hàng:</span>
-              <span className="ml-3 font-semibold">{product.type}</span>
-            </div>
             <div></div>
 
             <div>
-              <span className="text-gray-600">Định mức tồn:</span>
-              <span className="ml-3">
-                {product.minStock} → {product.maxStock.toLocaleString('vi-VN')}
-              </span>
+              
             </div>
             <div></div>
 
@@ -131,10 +120,6 @@ export default function ProductDetail({ product }) {
             </div>
             <div></div>
 
-            <div>
-              <span className="text-gray-600">Vị trí:</span>
-              <span className="ml-3">{product.location || '-'}</span>
-            </div>
           </div>
         </div>
       </div>
@@ -187,7 +172,7 @@ export default function ProductDetail({ product }) {
           console.log('Updated:', updatedProduct);
           setModalOpen(false);
         }}
-        product={product}  
+        product={product}
       />
     </div>
   );
