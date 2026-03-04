@@ -1,3 +1,9 @@
+import express from "express";
+import userRoutes from "./userRoutes.js";
 
+const router = express.Router();
 
-// import all routes here
+// base path: /api/users
+router.use("/users", userRoutes);
+
+export default router;

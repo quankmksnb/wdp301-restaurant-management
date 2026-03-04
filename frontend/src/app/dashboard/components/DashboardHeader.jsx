@@ -13,9 +13,10 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function DashboardHeader() {
+  const router = useRouter();
   const pathname = usePathname();
   const menus = [
     { label: "Tổng quan", path: "/dashboard" },
@@ -44,6 +45,11 @@ export default function DashboardHeader() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    router.push("/");
+  };
+
   return (
     <header className="w-full text-white shadow-sm">
       <div className="h-10 bg-blue-700 flex items-center justify-end px-6 text-xs gap-4 relative">
@@ -63,12 +69,13 @@ export default function DashboardHeader() {
 
           {userOpen && (
             <div className="absolute right-0 mt-2 w-45 bg-white text-gray-700 rounded-md shadow-lg py-1 text-sm z-50">
-              <DropdownItem icon={<User />} label="Tài khoản" />
+              <DropdownItem icon={<User/>} label="Tài khoản" />
               <div className="border-t my-1" />
               <DropdownItem
-                icon={<LogOut className="text-red-500" />}
+                icon={<LogOut className="text-red-500 w-4 h-4" />}
                 label="Đăng xuất"
                 danger
+                onClick={handleLogout}
               />
             </div>
           )}
@@ -158,10 +165,11 @@ function RoleButton({ label, icon }) {
   );
 }
 
-function DropdownItem({ icon, label, danger }) {
+function DropdownItem({ icon, label, danger, onClick }) {
   return (
     <div
-      className={`px-8 py-1 flex items-center gap-3 cursor-pointer
+      onClick={onClick}
+      className={`px-8 py-1 flex items-center gap-3 cursor-pointer text-sm
         ${danger ? "hover:bg-red-50 text-red-600" : "hover:bg-gray-100"}
       `}
     >
