@@ -2,7 +2,7 @@
 
 import { Input, Checkbox, Select, DatePicker, Radio, Button, Form } from 'antd';
 import { useState } from 'react';
-import { CameraOutlined } from '@ant-design/icons';
+import { CameraOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 
 export default function EmployeeInfoTab({ form, isEdit = false }) {
     const [showAdvanced, setShowAdvanced] = useState(isEdit);
@@ -65,6 +65,35 @@ export default function EmployeeInfoTab({ form, isEdit = false }) {
                         >
                             <Input placeholder="Nhập số điện thoại" />
                         </Form.Item>
+                        {!isEdit && (
+                            <Form.Item
+                                name="password"
+                                label="Mật khẩu"
+                                tooltip="Để trống sẽ mặc định là 123456"
+                            >
+                                <Input.Password
+                                    placeholder="Để trống mặc định 123456"
+                                    iconRender={(visible) =>
+                                        visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                                    }
+                                />
+                            </Form.Item>
+                        )}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <Form.Item
+                            name="role"
+                            label="Vai trò"
+                            initialValue="waiter"
+                        >
+                            <Select placeholder="Chọn vai trò">
+                                <Select.Option value="waiter">Phục vụ</Select.Option>
+                                <Select.Option value="receptionist">Lễ tân</Select.Option>
+                                <Select.Option value="kitchenStaff">Nhà bếp</Select.Option>
+                                <Select.Option value="manager">Quản lý</Select.Option>
+                            </Select>
+                        </Form.Item>
                     </div>
                 </div>
 
@@ -102,12 +131,6 @@ export default function EmployeeInfoTab({ form, isEdit = false }) {
                                 <Form.Item name="position" label="Chức danh">
                                     <div className="flex gap-2">
                                         <Select placeholder="Chọn Chức danh" className="flex-1" />
-                                        <Button>+</Button>
-                                    </div>
-                                </Form.Item>
-                                <Form.Item name="account" label="Tài khoản đăng nhập">
-                                    <div className="flex gap-2">
-                                        <Select placeholder="Chọn Tài khoản" className="flex-1" />
                                         <Button>+</Button>
                                     </div>
                                 </Form.Item>

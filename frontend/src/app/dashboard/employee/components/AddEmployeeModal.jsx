@@ -15,14 +15,16 @@ export default function EmployeeFormModal({ open, onClose, onSave, employee = nu
                     code: employee.code,
                     name: employee.name,
                     phone: employee.phone,
-                    workerCode: employee.workerCode,
                     idNumber: employee.idNumber,
                     gender: employee.gender,
                     position: employee.position,
+                    department: employee.department,
                     email: employee.email,
                     facebook: employee.facebook,
                     address: employee.address,
+                    city: employee.city,
                     notes: employee.notes,
+                    role: employee.role,
                 });
             } else {
                 form.resetFields();
@@ -34,25 +36,29 @@ export default function EmployeeFormModal({ open, onClose, onSave, employee = nu
         try {
             const values = await form.validateFields();
 
-            if (isEdit) {
-                // Merge with existing employee data to preserve key and other fields
-                onSave({ ...employee, ...values });
-                message.success('Cập nhật nhân viên thành công!');
-            } else {
-                // Generate auto code if needed
-                if (!values.code) {
-                    values.code = `NV${String(Date.now()).slice(-6)}`;
-                }
-                values.key = String(Date.now());
-                values.debt = '0';
-                values.branch = '';
-                values.workerCode = values.workerCode || '';
-                onSave(values);
-                message.success('Thêm nhân viên thành công!');
-            }
-            onClose();
+            // Build data payload for API
+            const payload = {
+                name: values.name,
+                phone: values.phone,
+                role: values.role || 'waiter',
+                password: values.password || undefined, // undefined → backend defaults to 123456
+                code: values.code || undefined, // undefined → backend auto-generates
+                idNumber: values.idNumber,
+                birthDate: values.birthDate ? values.birthDate.toISOString() : undefined,
+                gender: values.gender,
+                department: values.department,
+                position: values.position,
+                startDate: values.startDate ? values.startDate.toISOString() : undefined,
+                email: values.email,
+                facebook: values.facebook,
+                address: values.address,
+                city: values.city,
+                notes: values.notes,
+            };
+
+            await onSave(payload);
         } catch (error) {
-            // Form validation failed
+            // Form validation failed - ignore
         }
     };
 

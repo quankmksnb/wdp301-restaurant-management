@@ -3,8 +3,17 @@
 import { Table, Checkbox, Button, Popconfirm, Tooltip, Space } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
-export default function EmployeeList({ employees = [], onRowClick, onEdit, onDelete }) {
-    const columns = [
+export default function EmployeeList({
+    employees = [],
+    visibleColumns = [],
+    onRowClick,
+    onEdit,
+    onDelete,
+    loading = false,
+    pagination = {},
+    onPageChange,
+}) {
+    const allColumns = [
         {
             title: '',
             dataIndex: 'select',
@@ -51,15 +60,44 @@ export default function EmployeeList({ employees = [], onRowClick, onEdit, onDel
             key: 'idNumber',
         },
         {
-            title: 'Nợ ra toàn ứng',
-            dataIndex: 'debt',
-            key: 'debt',
-            align: 'right',
-        },
-        {
             title: 'Chi nhánh',
             dataIndex: 'branch',
             key: 'branch',
+        },
+        {
+            title: 'Ngày sinh',
+            dataIndex: 'birthDate',
+            key: 'birthDate',
+        },
+        {
+            title: 'Giới tính',
+            dataIndex: 'gender',
+            key: 'gender',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: 'Facebook',
+            dataIndex: 'facebook',
+            key: 'facebook',
+        },
+        {
+            title: 'Địa chỉ',
+            dataIndex: 'address',
+            key: 'address',
+        },
+        {
+            title: 'Chức danh',
+            dataIndex: 'position',
+            key: 'position',
+        },
+        {
+            title: 'Ngày bắt đầu làm việc',
+            dataIndex: 'startDate',
+            key: 'startDate',
         },
         {
             title: 'Thao tác',
@@ -105,22 +143,62 @@ export default function EmployeeList({ employees = [], onRowClick, onEdit, onDel
         },
     ];
 
+    // Always show 'select' and 'actions', filter the rest by visibleColumns
+    const alwaysVisible = ['select', 'actions'];
+    const columns = allColumns.filter(
+        (col) => alwaysVisible.includes(col.key) || visibleColumns.includes(col.key)
+    );
+
     return (
-        <div className="flex-1 bg-white">
-            <Table
-                columns={columns}
-                dataSource={employees}
-                pagination={{
-                    pageSize: 20,
-                    showSizeChanger: true,
-                    showTotal: (total) => `Tổng ${total} nhân viên`,
-                }}
-                size="small"
-                onRow={(record) => ({
-                    onClick: () => onRowClick && onRowClick(record),
-                    className: 'cursor-pointer hover:bg-blue-50',
-                })}
-            />
+        <div className="flex-1 bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col overflow-hidden">
+            <div className="flex-1 overflow-auto">
+                <Table
+                    columns={columns}
+                    dataSource={employees}
+                    pagination={false}
+                    size="small"
+                    loading={loading}
+                    onRow={(record) => ({
+                        onClick: () => onRowClick && onRowClick(record),
+                        className: 'cursor-pointer hover:bg-blue-50',
+                    })}
+                />
+            </div>
+            <div className="border-t border-gray-200 bg-gray-50 px-4 py-2.5 flex items-center justify-between text-sm text-gray-500">
+                <span>Tổng <strong className="text-gray-700">{pagination.total || employees.length}</strong> nhân viên</span>
+                <div className="flex items-center gap-2">
+                    {pagination.totalPages > 1 && (
+                        <>
+                            <button
+                                className="px-2 py-1 border rounded hover:bg-white disabled:opacity-40"
+                                disabled={pagination.page <= 1}
+                                onClick={() => onPageChange && onPageChange(pagination.page - 1, pagination.limit)}
+                            >
+                                ‹
+                            </button>
+                            <span>Trang <strong>{pagination.page}</strong> / {pagination.totalPages}</span>
+                            <button
+                                className="px-2 py-1 border rounded hover:bg-white disabled:opacity-40"
+                                disabled={pagination.page >= pagination.totalPages}
+                                onClick={() => onPageChange && onPageChange(pagination.page + 1, pagination.limit)}
+                            >
+                                ›
+                            </button>
+                        </>
+                    )}
+                    <span>Hiển thị</span>
+                    <select
+                        className="border border-gray-300 rounded-md px-2 py-1 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-blue-400"
+                        value={pagination.limit || 20}
+                        onChange={(e) => onPageChange && onPageChange(1, parseInt(e.target.value))}
+                    >
+                        <option value={20}>20</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                    </select>
+                    <span>/ trang</span>
+                </div>
+            </div>
         </div>
     );
 }
