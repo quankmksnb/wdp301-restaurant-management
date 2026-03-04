@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Button, Dropdown, Space, Typography } from 'antd';
 import {
     PlusOutlined,
@@ -13,7 +14,26 @@ import {
     CloseOutlined,
 } from '@ant-design/icons';
 
+// Import 4 modal components
+import AddProductModal from './modals/AddProductModal';
+import AddProcessedProductModal from './modals/AddProcessedProductModal';
+import AddServiceModal from './modals/AddServiceModal';
+import AddComboBuffetModal from './modals/AddComboBuffetModal';
+
 const { Text } = Typography;
+
+// Helper component for checkbox items
+const ColumnCheckbox = ({ columnKey, label, visibleColumns, onColumnVisibilityChange }) => (
+    <div className="flex items-center">
+        <input
+            type="checkbox"
+            checked={visibleColumns[columnKey] || false}
+            onChange={(e) => onColumnVisibilityChange(columnKey, e.target.checked)}
+            className="mr-2"
+        />
+        {label}
+    </div>
+);
 
 export default function ProductHeader({
     selectedRowKeys = [],
@@ -22,11 +42,19 @@ export default function ProductHeader({
     onColumnVisibilityChange = () => { },
     onDeselectAll = () => { },
 }) {
+    // State để quản lý 4 modal riêng biệt
+    const [modalStates, setModalStates] = useState({
+        product: false,
+        processed: false,
+        service: false,
+        combo: false,
+    });
+
     const addMenuItems = [
-        { key: '1', label: 'Thêm hàng hóa' },
-        { key: '2', label: 'Thêm hàng chế biến' },
-        { key: '3', label: 'Thêm dịch vụ' },
-        { key: '4', label: 'Thêm combo buffet' },
+        { key: 'product', label: 'Thêm hàng hóa' },
+        { key: 'processed', label: 'Thêm hàng chế biến' },
+        { key: 'service', label: 'Thêm dịch vụ' },
+        { key: 'combo', label: 'Thêm combo buffet' },
     ];
 
     const batchActionItems = [
@@ -39,207 +67,79 @@ export default function ProductHeader({
         { key: 'price', label: 'Cập nhật giá bán hàng loạt' },
     ];
 
+    const mainColumns = [
+        { key: 'image', label: 'Hình ảnh' },
+        { key: 'code', label: 'Mã hàng hóa' },
+        { key: 'name', label: 'Tên hàng' },
+        { key: 'category', label: 'Loại thực đơn' },
+        { key: 'group', label: 'Nhóm hàng' },
+        { key: 'price', label: 'Giá bán' },
+    ];
+
+    const additionalColumns = [
+        { key: 'cost', label: 'Giá vốn' },
+        { key: 'stock', label: 'Tồn kho' },
+        { key: 'location', label: 'Vị trí' },
+        { key: 'latestStock', label: 'Định mức tồn ít nhất' },
+        { key: 'maxStock', label: 'Định mức tồn nhiều nhất' },
+        { key: 'status', label: 'Trạng thái' },
+    ];
+
     const columnMenuItems = [
         {
-            key: 'image',
+            key: 'columns-grid',
             label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.image || false}
-                        onChange={(e) => onColumnVisibilityChange('image', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Hình ảnh
-                </div>
-            ),
-        },
-        {
-            key: 'code',
-            label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.code || false}
-                        onChange={(e) => onColumnVisibilityChange('code', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Mã hàng hóa
-                </div>
-            ),
-        },
-        {
-            key: 'name',
-            label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.name || false}
-                        onChange={(e) => onColumnVisibilityChange('name', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Tên hàng
-                </div>
-            ),
-        },
-        {
-            key: 'category',
-            label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.category || false}
-                        onChange={(e) => onColumnVisibilityChange('category', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Loại thực đơn
-                </div>
-            ),
-        },
-        {
-            key: 'group',
-            label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.group || false}
-                        onChange={(e) => onColumnVisibilityChange('group', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Nhóm hàng
-                </div>
-            ),
-        },
-        {
-            key: 'type',
-            label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.type || false}
-                        onChange={(e) => onColumnVisibilityChange('type', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Loại hàng
-                </div>
-            ),
-        },
-        {
-            key: 'price',
-            label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.price || false}
-                        onChange={(e) => onColumnVisibilityChange('price', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Giá bán
-                </div>
-            ),
-        },
-        {
-            key: 'cost',
-            label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.cost || false}
-                        onChange={(e) => onColumnVisibilityChange('cost', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Giá vốn
-                </div>
-            ),
-        },
-        {
-            key: 'stock',
-            label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.stock || false}
-                        onChange={(e) => onColumnVisibilityChange('stock', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Tồn kho
-                </div>
-            ),
-        },
-        {
-            key: 'location',
-            label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.location || false}
-                        onChange={(e) => onColumnVisibilityChange('location', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Vị trí
-                </div>
-            ),
-        },
-        {
-            key: 'order',
-            label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.order || false}
-                        onChange={(e) => onColumnVisibilityChange('order', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Đặt hàng
-                </div>
-            ),
-        },
-        {
-            type: 'divider',
-        },
-        {
-            key: 'latestStock',
-            label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.latestStock || false}
-                        onChange={(e) => onColumnVisibilityChange('latestStock', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Định mức tồn ít nhất
-                </div>
-            ),
-        },
-        {
-            key: 'maxStock',
-            label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.maxStock || false}
-                        onChange={(e) => onColumnVisibilityChange('maxStock', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Định mức tồn nhiều nhất
-                </div>
-            ),
-        },
-        {
-            key: 'status',
-            label: (
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        checked={visibleColumns.status || false}
-                        onChange={(e) => onColumnVisibilityChange('status', e.target.checked)}
-                        className="mr-2"
-                    />
-                    Trạng thái
+                <div className="grid grid-cols-2 gap-4 min-w-96">
+                    <div className="space-y-2">
+                        {mainColumns.map((col) => (
+                            <div key={col.key}>
+                                <ColumnCheckbox
+                                    columnKey={col.key}
+                                    label={col.label}
+                                    visibleColumns={visibleColumns}
+                                    onColumnVisibilityChange={onColumnVisibilityChange}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="space-y-2">
+                        {additionalColumns.map((col) => (
+                            <div key={col.key}>
+                                <ColumnCheckbox
+                                    columnKey={col.key}
+                                    label={col.label}
+                                    visibleColumns={visibleColumns}
+                                    onColumnVisibilityChange={onColumnVisibilityChange}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             ),
         },
     ];
+
+    // Hàm mở modal
+    const openModal = (modalType) => {
+        setModalStates(prev => ({ ...prev, [modalType]: true }));
+    };
+
+    // Hàm đóng modal
+    const closeModal = (modalType) => {
+        setModalStates(prev => ({ ...prev, [modalType]: false }));
+    };
+
+    // Hàm xác nhận (lưu)
+    const handleConfirm = (modalType) => {
+        console.log(`${modalType} confirmed`);
+        // Xử lý logic lưu dữ liệu ở đây
+        closeModal(modalType);
+    };
+
+    // Xử lý khi click vào menu dropdown
+    const handleMenuClick = ({ key }) => {
+        openModal(key);
+    };
 
     return (
         <div className="p-4 mb-10">
@@ -251,8 +151,7 @@ export default function ProductHeader({
                     {hasSelected && (
                         <Space className="animate-fade-in">
                             <Text strong>{selectedRowKeys.length} mục đã chọn</Text>
-                            <Button type="link" onClick={onDeselectAll} icon={<CloseOutlined />}>
-                            </Button>
+                            <Button type="link" onClick={onDeselectAll} icon={<CloseOutlined />} />
                         </Space>
                     )}
                 </div>
@@ -265,7 +164,12 @@ export default function ProductHeader({
                             </Button>
                         </Dropdown>
                     )}
-                    <Dropdown menu={{ items: addMenuItems }} placement="bottomLeft">
+                    
+                    <Dropdown
+                        menu={{ items: addMenuItems, onClick: handleMenuClick }}
+                        placement="bottomLeft"
+                        trigger={['hover']}
+                    >
                         <Button type="primary" icon={<PlusOutlined />} size="large" className="!bg-secondary !border-secondary hover:!bg-secondary/90">
                             Thêm mới
                         </Button>
@@ -274,6 +178,7 @@ export default function ProductHeader({
                     <Button type="primary" icon={<UploadOutlined />} size="large" className="!bg-secondary !border-secondary hover:!bg-secondary/90">
                         Import
                     </Button>
+                    
                     <Button type="primary" icon={<DownloadOutlined />} size="large" className="!bg-secondary !border-secondary hover:!bg-secondary/90">
                         Xuất file
                     </Button>
@@ -289,9 +194,33 @@ export default function ProductHeader({
                             icon={<MenuOutlined className="text-white" />}
                         />
                     </Dropdown>
-
                 </Space>
             </div>
+
+            {/* 4 Modal riêng biệt */}
+            <AddProductModal
+                open={modalStates.product}
+                onClose={() => closeModal('product')}
+                onConfirm={() => handleConfirm('product')}
+            />
+
+            <AddProcessedProductModal
+                open={modalStates.processed}
+                onClose={() => closeModal('processed')}
+                onConfirm={() => handleConfirm('processed')}
+            />
+
+            <AddServiceModal
+                open={modalStates.service}
+                onClose={() => closeModal('service')}
+                onConfirm={() => handleConfirm('service')}
+            />
+
+            <AddComboBuffetModal
+                open={modalStates.combo}
+                onClose={() => closeModal('combo')}
+                onConfirm={() => handleConfirm('combo')}
+            />
         </div>
     );
 }

@@ -167,31 +167,28 @@ export default function EmployeeList({
             <div className="border-t border-gray-200 bg-gray-50 px-4 py-2.5 flex items-center justify-between text-sm text-gray-500">
                 <span>Tổng <strong className="text-gray-700">{pagination.total || employees.length}</strong> nhân viên</span>
                 <div className="flex items-center gap-2">
-                    {pagination.totalPages > 1 && (
-                        <>
-                            <button
-                                className="px-2 py-1 border rounded hover:bg-white disabled:opacity-40"
-                                disabled={pagination.page <= 1}
-                                onClick={() => onPageChange && onPageChange(pagination.page - 1, pagination.limit)}
-                            >
-                                ‹
-                            </button>
-                            <span>Trang <strong>{pagination.page}</strong> / {pagination.totalPages}</span>
-                            <button
-                                className="px-2 py-1 border rounded hover:bg-white disabled:opacity-40"
-                                disabled={pagination.page >= pagination.totalPages}
-                                onClick={() => onPageChange && onPageChange(pagination.page + 1, pagination.limit)}
-                            >
-                                ›
-                            </button>
-                        </>
-                    )}
-                    <span>Hiển thị</span>
+                    <button
+                        className="px-2 py-1 border rounded hover:bg-white disabled:opacity-40"
+                        disabled={pagination.page <= 1}
+                        onClick={() => onPageChange && onPageChange(pagination.page - 1, pagination.limit)}
+                    >
+                        ‹
+                    </button>
+                    <span>Trang <strong>{pagination.page || 1}</strong> / {pagination.totalPages || 1}</span>
+                    <button
+                        className="px-2 py-1 border rounded hover:bg-white disabled:opacity-40"
+                        disabled={pagination.page >= pagination.totalPages}
+                        onClick={() => onPageChange && onPageChange(pagination.page + 1, pagination.limit)}
+                    >
+                        ›
+                    </button>
+                    <span className="ml-2">Hiển thị</span>
                     <select
                         className="border border-gray-300 rounded-md px-2 py-1 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-blue-400"
-                        value={pagination.limit || 20}
+                        value={pagination.limit || 10}
                         onChange={(e) => onPageChange && onPageChange(1, parseInt(e.target.value))}
                     >
+                        <option value={10}>10</option>
                         <option value={20}>20</option>
                         <option value={50}>50</option>
                         <option value={100}>100</option>

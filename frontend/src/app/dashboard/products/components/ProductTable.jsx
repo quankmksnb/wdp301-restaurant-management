@@ -29,6 +29,28 @@ const data = [
     noPoint: true,
     noExtra: true,
   },
+  {
+    key: '2',
+    image: 'https://images.unsplash.com/photo-1585518419759-fac080360acd?w=400',
+    thumbnail: 'https://via.placeholder.com/40',
+    code: 'SP000002',
+    name: 'Cà phê đen đá',
+    category: 'Đồ uống',
+    group: 'Cà phê',
+    type: 'Hàng hóa thường',
+    price: 12000,
+    cost: 5000,
+    stock: 50,
+    minStock: 10,
+    maxStock: 200,
+    location: 'Tủ lạnh A1',
+    orderNote: 'Ghi chú đặt hàng',
+    description: 'Cà phê đen đá ngon',
+    status: 'Đang kinh doanh',
+    directSale: true,
+    noPoint: false,
+    noExtra: false,
+  },
   // Thêm data khác nếu cần
 ];
 
@@ -81,7 +103,7 @@ export default function ProductTable() {
 
   const allColumns = [
     {
-      title: 'Hình ảnh',
+      title: '',
       dataIndex: 'image',
       key: 'image',
       width: 80,
@@ -119,12 +141,6 @@ export default function ProductTable() {
       hidden: !visibleColumns.group,
     },
     {
-      title: 'Loại hàng',
-      dataIndex: 'type',
-      key: 'type',
-      hidden: !visibleColumns.type,
-    },
-    {
       title: 'Giá bán',
       dataIndex: 'price',
       key: 'price',
@@ -146,6 +162,37 @@ export default function ProductTable() {
         <Tag color={value === 0 ? 'red' : 'green'}>{value}</Tag>
       ),
       hidden: !visibleColumns.stock,
+    },
+    {
+      title: 'Vị trí',
+      dataIndex: 'location',
+      key: 'location',
+      hidden: !visibleColumns.location,
+    },
+    {
+      title: 'Định mức tồn ít nhất',
+      dataIndex: 'minStock',
+      key: 'latestStock',
+      render: (v) => v.toLocaleString('vi-VN'),
+      hidden: !visibleColumns.latestStock,
+    },
+    {
+      title: 'Định mức tồn nhiều nhất',
+      dataIndex: 'maxStock',
+      key: 'maxStock',
+      render: (v) => v.toLocaleString('vi-VN'),
+      hidden: !visibleColumns.maxStock,
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => (
+        <Tag color={status === 'Đang kinh doanh' ? 'green' : 'default'}>
+          {status}
+        </Tag>
+      ),
+      hidden: !visibleColumns.status,
     },
   ].filter(col => !col.hidden);
 

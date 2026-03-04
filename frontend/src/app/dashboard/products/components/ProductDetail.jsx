@@ -1,20 +1,34 @@
 'use client';
 
-import { Tabs, Button, Space, Tag, Image } from 'antd';
-import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
+import { BarcodeOutlined, CheckCircleFilled, CheckCircleOutlined, CloseCircleFilled, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Button, Image, Space, Tabs, Tag } from 'antd';
+import { useState } from 'react';
+import UpdateProductModal from './modals/UpdateProductModal';
 
-const { TabPane } = Tabs;
+const items = [
+  {
+    key: "info",
+    label: "Thông tin",
+  },
+  {
+    key: "stockCard",
+    label: "Thẻ kho",
+  },
+  {
+    key: "inventory",
+    label: "Tồn kho",
+  },
+];
+
 
 export default function ProductDetail({ product }) {
+
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
-    <div className="p-6 bg-white">
+    <div className="p-6 bg-white rounded-lg shadow-md">
       {/* Tabs */}
-      <Tabs defaultActiveKey="info" className="mb-6">
-        <TabPane tab="Thông tin" key="info" />
-        <TabPane tab="Thẻ kho" key="stockCard" />
-        <TabPane tab="Tồn kho" key="inventory" />
-        <TabPane tab="Món thêm" key="extra" />
-      </Tabs>
+      <Tabs defaultActiveKey="info" items={items} />
 
       {/* Tên sản phẩm + Tags trạng thái */}
       <div className="mb-6">
@@ -76,10 +90,6 @@ export default function ProductDetail({ product }) {
               <span className="text-gray-600">Loại thực đơn:</span>
               <span className="ml-3 font-semibold">{product.category}</span>
             </div>
-            <div>
-              <span className="text-gray-600">Ghi chú đặt hàng:</span>
-              <span className="ml-3">{product.orderNote || '-'}</span>
-            </div>
 
             <div>
               <span className="text-gray-600">Nhóm hàng:</span>
@@ -87,17 +97,10 @@ export default function ProductDetail({ product }) {
             </div>
             <div></div>
 
-            <div>
-              <span className="text-gray-600">Loại hàng:</span>
-              <span className="ml-3 font-semibold">{product.type}</span>
-            </div>
             <div></div>
 
             <div>
-              <span className="text-gray-600">Định mức tồn:</span>
-              <span className="ml-3">
-                {product.minStock} → {product.maxStock.toLocaleString('vi-VN')}
-              </span>
+              
             </div>
             <div></div>
 
@@ -117,10 +120,6 @@ export default function ProductDetail({ product }) {
             </div>
             <div></div>
 
-            <div>
-              <span className="text-gray-600">Vị trí:</span>
-              <span className="ml-3">{product.location || '-'}</span>
-            </div>
           </div>
         </div>
       </div>
@@ -128,18 +127,53 @@ export default function ProductDetail({ product }) {
       {/* Nút hành động */}
       <div className="mt-10 flex justify-end">
         <Space size="middle">
-          <Button type="primary" className="bg-green-600 hover:bg-green-700">
+          <Button
+            type="primary"
+            size="large"
+            icon={<EditOutlined />}
+            className="!bg-secondary !border-secondary hover:!bg-secondary/90"
+            onClick={() => setModalOpen(true)}
+          >
             Cập nhật
           </Button>
-          <Button icon={<span className="mr-1">🖨️</span>}>
+
+          <Button
+            size="large"
+            icon={<BarcodeOutlined />}
+            style={{ backgroundColor: "#595959", color: "white", border: "none" }}
+          >
             In mã vạch
           </Button>
-          <Button type="primary" className="bg-green-500 hover:bg-green-600">
-            Trang thái kinh doanh
+
+          <Button
+            type="primary"
+            size="large"
+            icon={<CheckCircleOutlined />}
+            className="!bg-secondary !border-secondary hover:!bg-secondary/90"
+          >
+            Trạng thái kinh doanh
           </Button>
-          <Button danger>Xóa</Button>
+
+          <Button
+            type="primary"
+            size="large"
+            danger
+            icon={<DeleteOutlined />}
+          >
+            Xóa
+          </Button>
         </Space>
       </div>
+
+      <UpdateProductModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={(updatedProduct) => {
+          console.log('Updated:', updatedProduct);
+          setModalOpen(false);
+        }}
+        product={product}
+      />
     </div>
   );
 }
