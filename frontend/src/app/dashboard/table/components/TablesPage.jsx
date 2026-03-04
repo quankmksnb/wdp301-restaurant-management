@@ -4,18 +4,18 @@ import { Row, Col } from "antd";
 import TableFilterPanel from "./components/TableFilterPanel";
 import TableManagement from "./components/TableManagement";
 
-export default function Page() {
+export default function TablesPage() {
   return (
     <div className="min-h-screen py-6">
       <div className="max-w-[80vw] mx-auto">
         <Row gutter={24}>
           {/* LEFT FILTER */}
-          <Col span={6}>
+          <Col span={4}>
             <TableFilterPanel />
           </Col>
 
           {/* RIGHT CONTENT */}
-          <Col span={18}>
+          <Col span={20}>
             <div className="bg-white rounded-lg shadow-sm">
               <TableManagement />
             </div>
