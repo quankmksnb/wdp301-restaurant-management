@@ -9,12 +9,10 @@ export default function TablesPage() {
     <div className="min-h-screen py-6">
       <div className="max-w-[80vw] mx-auto">
         <Row gutter={24}>
-          {/* LEFT FILTER */}
           <Col span={4}>
             <TableFilterPanel />
           </Col>
 
-          {/* RIGHT CONTENT */}
           <Col span={20}>
             <div className="bg-white rounded-lg shadow-sm">
               <TableManagement />

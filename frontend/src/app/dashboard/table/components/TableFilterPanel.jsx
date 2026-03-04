@@ -28,14 +28,12 @@ export default function TableFilterPanel() {
 
   return (
     <div className="space-y-[10px]">
-      {/* SEARCH */}
       <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
         <div className="font-medium mb-2">Tìm kiếm</div>
 
         <Input placeholder="Theo tên bàn" size="large" />
       </div>
 
-      {/* KHU VỰC */}
       {renderCollapse(
         "Khu vực",
         <Select
@@ -51,7 +49,6 @@ export default function TableFilterPanel() {
         />,
       )}
 
-      {/* TRẠNG THÁI */}
       {renderCollapse(
         "Trạng thái",
         <Radio.Group className="flex flex-col space-y-3">

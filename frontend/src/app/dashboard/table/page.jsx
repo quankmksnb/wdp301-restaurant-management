@@ -9,13 +9,11 @@ export default function Page() {
     <div className="min-h-screen py-6">
       <div className="max-w-[80vw] mx-auto">
         <Row gutter={24}>
-          {/* LEFT FILTER */}
-          <Col span={6}>
+          <Col span={5}>
             <TableFilterPanel />
           </Col>
 
-          {/* RIGHT CONTENT */}
-          <Col span={18}>
+          <Col span={19}>
             <div className="bg-white rounded-lg shadow-sm">
               <TableManagement />
             </div>
