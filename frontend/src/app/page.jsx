@@ -1,8 +1,70 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { User, Lock, Phone } from "lucide-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
+import { Mail, Lock, Phone } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        },
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message);
+        setLoading(false);
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+
+      const decoded = jwtDecode(data.token);
+
+      const role = decoded.role;
+
+      toast.success("Đăng nhập thành công!");
+
+      setTimeout(() => {
+        if (role === "manager") {
+          router.push("/dashboard");
+        } else if (role === "waiter") {
+          router.push("/waiter");
+        } else if (role === "receptionist") {
+          router.push("/reception");
+        } else if (role === "kitchenStaff") {
+          router.push("/kitchen");
+        }
+      }, 1000);
+    } catch (err) {
+      setError("Không thể kết nối server");
+    }
+    setLoading(false);
+  };
+
   return (
     <div className="relative min-h-screen">
       {/* Background */}
@@ -39,19 +101,20 @@ export default function LoginPage() {
           </div>
 
           {/* Form */}
-          <form className="space-y-4">
-            {/* Username */}
+          <form onSubmit={handleLogin} className="space-y-4">
+            {/* Email */}
             <div>
-              <label className="block text-sm text-gray-600 mb-1">
-                Tên đăng nhập
-              </label>
+              <label className="block text-sm text-gray-600 mb-1">Email</label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
-                  type="text"
-                  placeholder="Nhập tên đăng nhập"
+                  type="email"
+                  placeholder="thanhhoa@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-11 pr-4 py-2.5 border rounded-lg text-sm
                              focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
                 />
               </div>
             </div>
@@ -66,11 +129,16 @@ export default function LoginPage() {
                 <input
                   type="password"
                   placeholder="Nhập mật khẩu"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-11 pr-4 py-2.5 border rounded-lg text-sm
                              focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
                 />
               </div>
             </div>
+
+            {error && <p className="text-red-500 text-sm">{error}</p>}
 
             {/* Forgot password */}
             <div className="text-right">
@@ -82,14 +150,15 @@ export default function LoginPage() {
               </Link>
             </div>
 
-            {/* Login */}
-            <Link
-              href="/dashboard"
-              className="block text-center bg-blue-600 hover:bg-blue-700
+            {/* Login Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="block w-full text-center bg-blue-600 hover:bg-blue-700
                          transition text-white py-2.5 rounded-lg font-semibold"
             >
-              Đăng nhập
-            </Link>
+              {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+            </button>
           </form>
 
           {/* Footer */}
