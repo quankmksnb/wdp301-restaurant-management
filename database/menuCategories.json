@@ -1,0 +1,236 @@
+[{
+  "_id": {
+    "$oid": "69a639b0345df7184385f2ce"
+  },
+  "categoryName": "Đồ uống",
+  "description": "Các loại đồ uống",
+  "parentId": null,
+  "status": "active",
+  "updatedAt": {
+    "$date": "2026-03-03T02:07:06.059Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69a639b0345df7184385f2cf"
+  },
+  "categoryName": "Đồ tráng miệng",
+  "description": "Bánh và món ngọt",
+  "parentId": null,
+  "status": "active"
+},
+{
+  "_id": {
+    "$oid": "69a639b0345df7184385f2d0"
+  },
+  "categoryName": "Món chính",
+  "description": "Các món ăn chính trong thực đơn",
+  "parentId": null,
+  "status": "active"
+},
+{
+  "_id": {
+    "$oid": "69a639b0345df7184385f2d1"
+  },
+  "categoryName": "Pizza",
+  "description": "Các loại pizza",
+  "parentId": null,
+  "status": "active"
+},
+{
+  "_id": {
+    "$oid": "69a639b0345df7184385f2d2"
+  },
+  "categoryName": "Món ăn vặt",
+  "description": "Snack và món ăn nhẹ",
+  "parentId": null,
+  "status": "active"
+},
+{
+  "_id": {
+    "$oid": "69a639b0345df7184385f2d3"
+  },
+  "categoryName": "Salad",
+  "description": "Các món salad tươi",
+  "parentId": null,
+  "status": "active"
+},
+{
+  "_id": {
+    "$oid": "69a63c3d0ebe5960a93dce06"
+  },
+  "categoryName": "Trà sữa",
+  "description": "các loại trà sữa",
+  "parentId": {
+    "$oid": "69a639b0345df7184385f2ce"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-03T01:41:17.613Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T01:41:17.613Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a6430876538b42f5e9b3b8"
+  },
+  "categoryName": "Nước ép",
+  "description": "Các loại nước ép",
+  "parentId": {
+    "$oid": "69a639b0345df7184385f2ce"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-03T02:10:16.376Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T02:10:16.376Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a717e4f2b0010546dad69d"
+  },
+  "categoryName": "Rượu",
+  "description": "Các loại rượu",
+  "parentId": {
+    "$oid": "69a639b0345df7184385f2ce"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-03T17:18:28.258Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T17:18:28.258Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a71815f2b0010546dad6a4"
+  },
+  "categoryName": "Bia",
+  "description": "Các loại bia",
+  "parentId": {
+    "$oid": "69a639b0345df7184385f2ce"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-03T17:19:17.139Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T17:19:17.139Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a718daf2b0010546dad6d7"
+  },
+  "categoryName": "Chiên/rán",
+  "description": "đồ ăn vặt chiên rán",
+  "parentId": {
+    "$oid": "69a639b0345df7184385f2d2"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-03T17:22:34.430Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T17:22:34.430Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a718ecf2b0010546dad6da"
+  },
+  "categoryName": "Nướng",
+  "description": "đồ ăn vặt nướng",
+  "parentId": {
+    "$oid": "69a639b0345df7184385f2d2"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-03T17:22:52.400Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T17:22:52.400Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a71900f2b0010546dad6dd"
+  },
+  "categoryName": "Trộn/gỏi",
+  "description": "đồ ăn vặt trộn/gỏi",
+  "parentId": {
+    "$oid": "69a639b0345df7184385f2d2"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-03T17:23:12.078Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T17:23:12.078Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a71910f2b0010546dad6e0"
+  },
+  "categoryName": "Luộc/hấp",
+  "description": "đồ ăn vặt luộc/hấp",
+  "parentId": {
+    "$oid": "69a639b0345df7184385f2d2"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-03T17:23:28.697Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T17:23:28.697Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a71920f2b0010546dad6e3"
+  },
+  "categoryName": "Ăn liền",
+  "description": "đồ ăn vặt ăn liền",
+  "parentId": {
+    "$oid": "69a639b0345df7184385f2d2"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-03T17:23:44.144Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T17:23:44.144Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a8f52d812bac6f0040d747"
+  },
+  "categoryName": "kem",
+  "parentId": {
+    "$oid": "69a639b0345df7184385f2cf"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-05T03:14:53.777Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-05T03:14:53.777Z"
+  },
+  "__v": 0
+}]

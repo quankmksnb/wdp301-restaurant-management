@@ -1,0 +1,48 @@
+[{
+  "_id": {
+    "$oid": "69a8e496758bb0947f29ec22"
+  },
+  "itemName": "Gà rang muối",
+  "productCode": "GRM001",
+  "price": 80000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "/uploads/1772676246300-755580608.jpg"
+  ],
+  "costPrice": 60000,
+  "category": {
+    "$oid": "69a718daf2b0010546dad6d7"
+  },
+  "createdAt": {
+    "$date": "2026-03-05T02:04:06.327Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-05T02:04:06.327Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a8e65a758bb0947f29ec61"
+  },
+  "itemName": "Trà sữa trân châu đường đen",
+  "productCode": "TS001",
+  "price": 35000,
+  "description": "trà sữa trân châu đường đen",
+  "availabilityStatus": "available",
+  "images": [
+    "/uploads/1772676698161-405135724.jpg"
+  ],
+  "costPrice": 15000,
+  "category": {
+    "$oid": "69a63c3d0ebe5960a93dce06"
+  },
+  "createdAt": {
+    "$date": "2026-03-05T02:11:38.169Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-05T02:28:32.648Z"
+  },
+  "__v": 0
+}]

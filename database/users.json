@@ -1,0 +1,70 @@
+[
+  {
+    "_id": { "$oid": "65f000000000000000000002" },
+    "fullName": "Waiter 1",
+    "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+    "phone": "0900000002",
+    "email": "waiter1@example.com",
+    "role": "waiter",
+    "status": "active"
+  },
+  {
+    "_id": { "$oid": "65f000000000000000000001" },
+    "fullName": "Waiter 2",
+    "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+    "phone": "0900000001",
+    "email": "waiter2@example.com",
+    "role": "waiter",
+    "status": "active"
+  },
+  {
+    "_id": { "$oid": "65f000000000000000000003" },
+    "fullName": "Receptionist 1",
+    "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+    "phone": "0900000003",
+    "email": "receptionist1@example.com",
+    "role": "receptionist",
+    "status": "active"
+  },
+  {
+    "_id": { "$oid": "65f000000000000000000004" },
+    "fullName": "Dinh Thi Thuy",
+    "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+    "phone": "0975432353",
+    "email": "thuydthe181836@fpt.edu.vn",
+    "role": "manager",
+    "status": "active"
+  },
+  {
+    "fullName": "Đoàn Quang Huy",
+    "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+    "phone": "0123456789",
+    "email": "doanhuy2004@gmail.com",
+    "role": "manager",
+    "status": "active"
+  },
+  {
+    "fullName": "Nguyễn Minh Quân",
+    "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+    "phone": "0123456789",
+    "email": "quannguyenkm16122004@gmail.com",
+    "role": "manager",
+    "status": "active"
+  },
+  {
+    "fullName": "Nguyễn Văn Hoàng",
+    "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+    "phone": "0123456789",
+    "email": "hoangptkdhy@gmail.com",
+    "role": "manager",
+    "status": "active"
+  },
+  {
+    "fullName": "Hà Văn Vinh",
+    "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+    "phone": "0681228204",
+    "email": "vinhhv28@gmail.com",
+    "role": "manager",
+    "status": "active"
+  }
+]

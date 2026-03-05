@@ -1,0 +1,16 @@
+[
+  {
+    "_id": { "$oid": "65f000000000000000000020" },
+    "tableNumber": 1,
+    "capacity": 4,
+    "tableStatus": "available",
+    "area": { "$oid": "65f000000000000000000010" }
+  },
+  {
+    "_id": { "$oid": "65f000000000000000000021" },
+    "tableNumber": 2,
+    "capacity": 6,
+    "tableStatus": "available",
+    "area": { "$oid": "65f000000000000000000010" }
+  }
+]

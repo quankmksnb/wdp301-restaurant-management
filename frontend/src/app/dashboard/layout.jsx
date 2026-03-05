@@ -1,10 +1,13 @@
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 import DashboardHeader from "@/app/dashboard/components/DashboardHeader";
 
 export default function DashboardLayout({ children }) {
   return (
-    <>
+    <ProtectedRoute role="manager">
       <DashboardHeader />
-      <main className="max-w-387.5 w-full mx-auto">{children}</main>
-    </>
+      <main className="max-w-387.5 w-full mx-auto">
+        {children}
+      </main>
+    </ProtectedRoute>
   );
 }
