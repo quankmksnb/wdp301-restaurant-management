@@ -28,11 +28,13 @@ api.interceptors.request.use(
 
 // Interceptor response
 api.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        console.error("API Error:", error.response?.data || error.message);
-        return Promise.reject(error);
-    }
+  (response) => response,
+  (error) => {
+    console.log("FULL ERROR:", error);
+    console.log("STATUS:", error.response?.status);
+    console.log("DATA:", error.response?.data);
+    return Promise.reject(error);
+  }
 );
 
 export default api;
