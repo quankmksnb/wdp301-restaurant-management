@@ -11,7 +11,7 @@ export default function AddTableModal({ open, onClose, onConfirm }) {
       title="Thêm phòng/bàn"
       open={open}
       onCancel={onClose}
-      width={700}
+      width={600}
       footer={
         <div className="flex justify-end gap-2">
           <Button icon={<StopOutlined />} onClick={onClose}>
@@ -38,36 +38,33 @@ export default function AddTableModal({ open, onClose, onConfirm }) {
           <Input placeholder="Ví dụ: Bàn 01" />
         </div>
 
-        {/* GRID 2 CỘT */}
-        <div className="grid grid-cols-2 gap-4">
-          {/* KHU VỰC */}
-          <div>
-            <label className="mb-2 block">Khu vực</label>
+        {/* KHU VỰC */}
+        <div>
+          <label className="mb-2 block">Khu vực</label>
 
-            <div className="flex gap-2">
-              <Select
-                className="w-full"
-                placeholder="--Lựa chọn--"
-                options={[
-                  { value: "l1", label: "Lầu 1" },
-                  { value: "l2", label: "Lầu 2" },
-                ]}
-              />
-
-              <Button icon={<PlusOutlined />} />
-            </div>
+          <div className="flex gap-2">
+            <Select
+              className="w-full"
+              placeholder="--Lựa chọn--"
+              options={[
+                { value: "l1", label: "Lầu 1" },
+                { value: "l2", label: "Lầu 2" },
+              ]}
+            />
+            <Button icon={<PlusOutlined />} />
           </div>
+        </div>
 
-          {/* SỐ THỨ TỰ */}
+        {/* SỐ THỨ TỰ + SỐ GHẾ */}
+        <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="mb-2 block">Số thứ tự</label>
-            <InputNumber className="w-full" defaultValue={1} />
+            <InputNumber style={{ width: "100%" }} defaultValue={1} />
           </div>
 
-          {/* SỐ GHẾ */}
           <div>
             <label className="mb-2 block">Số ghế</label>
-            <InputNumber className="w-full" placeholder="Ví dụ: 4" />
+            <InputNumber style={{ width: "100%" }} placeholder="Ví dụ: 4" />
           </div>
         </div>
 
