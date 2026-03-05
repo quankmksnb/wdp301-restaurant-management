@@ -34,5 +34,37 @@
     "email": "thuydthe181836@fpt.edu.vn",
     "role": "manager",
     "status": "active"
+  },
+  {
+    "fullName": "Đoàn Quang Huy",
+    "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+    "phone": "0123456789",
+    "email": "doanhuy2004@gmail.com",
+    "role": "manager",
+    "status": "active"
+  },
+  {
+    "fullName": "Nguyễn Minh Quân",
+    "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+    "phone": "0123456789",
+    "email": "quannguyenkm16122004@gmail.com",
+    "role": "manager",
+    "status": "active"
+  },
+  {
+    "fullName": "Nguyễn Văn Hoàng",
+    "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+    "phone": "0123456789",
+    "email": "hoangptkdhy@gmail.com",
+    "role": "manager",
+    "status": "active"
+  },
+  {
+    "fullName": "Hà Văn Vinh",
+    "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+    "phone": "0681228204",
+    "email": "vinhhv28@gmail.com",
+    "role": "manager",
+    "status": "active"
   }
 ]
