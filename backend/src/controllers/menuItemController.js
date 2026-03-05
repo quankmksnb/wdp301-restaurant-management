@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import MenuItem from "../models/MenuItem.js";
 import MenuCategory from "../models/MenuCategory.js";
 
@@ -11,11 +13,11 @@ export const createMenuItem = async (req, res) => {
             costPrice,
             description,
             availabilityStatus,
-            images,
             category,
         } = req.body;
 
-        // VALIDATE CATEGORY
+        /* ================= VALIDATE CATEGORY ================= */
+
         if (!category) {
             return res.status(400).json({ message: "Vui lòng chọn danh mục" });
         }
@@ -38,7 +40,8 @@ export const createMenuItem = async (req, res) => {
             });
         }
 
-        // VALIDATE PRODUCT CODE
+        /* ================= VALIDATE PRODUCT CODE ================= */
+
         if (!productCode) {
             return res.status(400).json({ message: "Vui lòng nhập mã sản phẩm" });
         }
@@ -55,7 +58,8 @@ export const createMenuItem = async (req, res) => {
             });
         }
 
-        // VALIDATE PRICE
+        /* ================= VALIDATE PRICE ================= */
+
         if (!price || price <= 0) {
             return res.status(400).json({
                 message: "Giá bán phải lớn hơn 0",
@@ -68,7 +72,18 @@ export const createMenuItem = async (req, res) => {
             });
         }
 
-        // CREATE ITEM
+        /* ================= HANDLE IMAGE UPLOAD ================= */
+
+        let imagePaths = [];
+
+        if (req.files && req.files.length > 0) {
+            imagePaths = req.files.map(
+                (file) => `/uploads/${file.filename}`
+            );
+        }
+
+        /* ================= CREATE ITEM ================= */
+
         const item = await MenuItem.create({
             itemName,
             productCode: trimmedCode,
@@ -76,7 +91,7 @@ export const createMenuItem = async (req, res) => {
             costPrice,
             description,
             availabilityStatus,
-            images,
+            images: imagePaths,
             category,
         });
 
@@ -183,21 +198,35 @@ export const updateMenuItem = async (req, res) => {
             costPrice,
             description,
             availabilityStatus,
-            images,
             category,
         } = req.body;
 
-        let updateData = {
-            itemName,
-            productCode,
-            price,
-            costPrice,
-            description,
-            availabilityStatus,
-            images,
-        };
+        const item = await MenuItem.findById(req.params.id);
 
-        // Nếu có thay đổi category thì validate
+        if (!item) {
+            return res.status(404).json({
+                message: "Không tìm thấy sản phẩm",
+            });
+        }
+
+        /* ================= VALIDATE PRODUCT CODE ================= */
+
+        if (productCode && productCode.trim() !== item.productCode) {
+            const existingCode = await MenuItem.findOne({
+                productCode: productCode.trim(),
+            });
+
+            if (existingCode) {
+                return res.status(400).json({
+                    message: "Mã sản phẩm đã tồn tại",
+                });
+            }
+
+            item.productCode = productCode.trim();
+        }
+
+        /* ================= VALIDATE CATEGORY ================= */
+
         if (category) {
             const categoryExists = await MenuCategory.findById(category);
 
@@ -219,22 +248,43 @@ export const updateMenuItem = async (req, res) => {
                 });
             }
 
-            updateData.category = category;
+            item.category = category;
         }
 
-        const updated = await MenuItem.findByIdAndUpdate(
-            req.params.id,
-            updateData,
-            { new: true }
-        );
+        /* ================= HANDLE IMAGE UPDATE ================= */
 
-        if (!updated) {
-            return res.status(404).json({
-                message: "Không tìm thấy sản phẩm",
-            });
+        if (req.files && req.files.length > 0) {
+            // XÓA ẢNH CŨ
+            if (item.images && item.images.length > 0) {
+                item.images.forEach((imgPath) => {
+                    const fullPath = path.join(
+                        process.cwd(),
+                        imgPath
+                    );
+
+                    if (fs.existsSync(fullPath)) {
+                        fs.unlinkSync(fullPath);
+                    }
+                });
+            }
+
+            // LƯU ẢNH MỚI
+            item.images = req.files.map(
+                (file) => `/uploads/${file.filename}`
+            );
         }
 
-        res.json(updated);
+        /* ================= UPDATE OTHER FIELDS ================= */
+
+        if (itemName) item.itemName = itemName;
+        if (price) item.price = price;
+        if (costPrice >= 0) item.costPrice = costPrice;
+        if (description) item.description = description;
+        if (availabilityStatus) item.availabilityStatus = availabilityStatus;
+
+        await item.save();
+
+        res.json(item);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -243,15 +293,57 @@ export const updateMenuItem = async (req, res) => {
 // DELETE MENU ITEM
 export const deleteMenuItem = async (req, res) => {
     try {
-        const deleted = await MenuItem.findByIdAndDelete(req.params.id);
+        const item = await MenuItem.findById(req.params.id);
 
-        if (!deleted) {
+        if (!item) {
             return res.status(404).json({
                 message: "Không tìm thấy sản phẩm",
             });
         }
 
+        // XÓA FILE ẢNH
+        if (item.images && item.images.length > 0) {
+            item.images.forEach((imgPath) => {
+                const fullPath = path.join(
+                    process.cwd(),
+                    imgPath
+                );
+
+                if (fs.existsSync(fullPath)) {
+                    fs.unlinkSync(fullPath);
+                }
+            });
+        }
+
+        await item.deleteOne();
+
         res.json({ message: "Xóa thành công" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+// TOGGLE AVAILABILITY STATUS
+export const toggleAvailabilityStatus = async (req, res) => {
+    try {
+        const item = await MenuItem.findById(req.params.id);
+
+        if (!item) {
+            return res.status(404).json({ message: "Không tìm thấy sản phẩm" });
+        }
+
+        // Chỉ toggle giữa available ↔ unavailable
+        // out_of_stock được quản lý riêng (theo tồn kho)
+        item.availabilityStatus =
+            item.availabilityStatus === "available" ? "unavailable" : "available";
+
+        await item.save();
+
+        res.json({
+            message: `Đã chuyển trạng thái sang "${item.availabilityStatus}"`,
+            data: item,
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

@@ -40,7 +40,6 @@ export const createCategory = async (req, res) => {
     }
 };
 
-
 // Lấy tất cả danh mục với filter và phân trang
 export const getAllCategories = async (req, res) => {
     try {
