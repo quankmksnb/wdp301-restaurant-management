@@ -1,5 +1,6 @@
 "use client";
 
+import { resetPassword } from "@/services/userService";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -15,40 +16,37 @@ export default function NewPasswordPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleReset = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!newPassword || !confirmPassword)
-      return toast.error("Vui lòng nhập đầy đủ");
+  if (!newPassword || !confirmPassword)
+    return toast.error("Vui lòng nhập đầy đủ");
 
-    if (newPassword.length < 6)
-      return toast.error("Mật khẩu phải ít nhất 6 ký tự");
+  if (newPassword.length < 6)
+    return toast.error("Mật khẩu phải ít nhất 6 ký tự");
 
-    if (newPassword !== confirmPassword)
-      return toast.error("Mật khẩu không khớp");
+  if (newPassword !== confirmPassword)
+    return toast.error("Mật khẩu không khớp");
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/reset-password`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          newPassword,
-          confirmPassword,
-        }),
-      }
-    );
-
-    const data = await res.json();
-
-    if (!res.ok) return toast.error(data.message);
+  try {
+    const res = await resetPassword({
+      email,
+      newPassword,
+      confirmPassword,
+    });
 
     toast.success("Đổi mật khẩu thành công!");
 
     setTimeout(() => {
       router.push("/");
     }, 1500);
-  };
+  } catch (err) {
+    if (err.response) {
+      toast.error(err.response.data.message);
+    } else {
+      toast.error("Không thể kết nối server");
+    }
+  }
+};
 
   return (
     <div className="relative min-h-screen">

@@ -1,5 +1,6 @@
 "use client";
 
+import { sendOtp, verifyOtp } from "@/services/userService";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -59,62 +60,60 @@ export default function ResetPasswordPage() {
   };
 
   const handleSendOtp = async () => {
-    if (!email) return toast.error("Nhập email trước");
+  if (!email) return toast.error("Nhập email trước");
 
+  try {
     setLoading(true);
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/send-otp`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      }
-    );
-
-    const data = await res.json();
-    setLoading(false);
-
-    if (!res.ok) return toast.error(data.message);
+    await sendOtp({ email });
 
     toast.success("OTP đã gửi!");
     setCountdown(60);
-  };
+  } catch (err) {
+    if (err.response) {
+      toast.error(err.response.data.message);
+    } else {
+      toast.error("Không thể kết nối server");
+    }
+  }
+
+  setLoading(false);
+};
 
   const handleVerify = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const fullOtp = otp.join("");
+  const fullOtp = otp.join("");
 
-    if (fullOtp.length !== 6)
-      return toast.error("Nhập đủ 6 số OTP");
+  if (fullOtp.length !== 6)
+    return toast.error("Nhập đủ 6 số OTP");
 
+  try {
     setLoading(true);
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/verify-otp`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp: fullOtp }),
-      }
-    );
-
-    const data = await res.json();
-    setLoading(false);
-
-    if (!res.ok) {
-      setShake(true);
-      setTimeout(() => setShake(false), 400);
-      return toast.error(data.message);
-    }
+    await verifyOtp({
+      email,
+      otp: fullOtp,
+    });
 
     toast.success("OTP hợp lệ!");
 
     setTimeout(() => {
       router.push(`/auth/new-password?email=${email}`);
     }, 1000);
-  };
+  } catch (err) {
+    setShake(true);
+    setTimeout(() => setShake(false), 400);
+
+    if (err.response) {
+      toast.error(err.response.data.message);
+    } else {
+      toast.error("Không thể kết nối server");
+    }
+  }
+
+  setLoading(false);
+};
 
   return (
     <div className="relative min-h-screen">
