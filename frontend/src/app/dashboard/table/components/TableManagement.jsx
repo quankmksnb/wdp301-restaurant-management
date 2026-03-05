@@ -1,18 +1,10 @@
 "use client";
 
-import { Table, Tag, Button, Space, Typography, Dropdown } from "antd";
+import { Table, Tag } from "antd";
 import { useState } from "react";
-import {
-  PlusOutlined,
-  UploadOutlined,
-  DownloadOutlined,
-  MenuOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
+import TableHeader from "./TableHeader";
 
-const { Text } = Typography;
-
-const data = [
+const initialData = [
   {
     key: "1",
     name: "Bàn 20",
@@ -28,20 +20,19 @@ const data = [
     note: "",
     area: "Lầu 3",
     seats: 6,
-    status: "Đang hoạt động",
+    status: "Ngừng hoạt động",
     order: 1,
   },
 ];
 
 export default function TableManagement() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [tableData, setTableData] = useState(initialData);
 
   const rowSelection = {
     selectedRowKeys,
     onChange: (keys) => setSelectedRowKeys(keys),
   };
-
-  const hasSelected = selectedRowKeys.length > 0;
 
   const columns = [
     {
@@ -77,67 +68,18 @@ export default function TableManagement() {
 
   return (
     <div>
-      <div className="p-4 mb-6">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-6">
-            <h1 className="text-3xl font-bold">Phòng/Bàn</h1>
+      {/* HEADER */}
+      <TableHeader
+        selectedRowKeys={selectedRowKeys}
+        hasSelected={selectedRowKeys.length > 0}
+        onDeselectAll={() => setSelectedRowKeys([])}
+      />
 
-            {hasSelected && (
-              <Space className="animate-fade-in">
-                <Text strong>{selectedRowKeys.length} mục đã chọn</Text>
-
-                <Button
-                  type="link"
-                  icon={<CloseOutlined />}
-                  onClick={() => setSelectedRowKeys([])}
-                />
-              </Space>
-            )}
-          </div>
-
-          <Space>
-            <Button
-              type="primary"
-              size="large"
-              icon={<PlusOutlined />}
-              className="!bg-secondary !border-secondary hover:!bg-secondary/90"
-            >
-              Thêm phòng/bàn
-            </Button>
-
-            <Button
-              type="primary"
-              size="large"
-              icon={<UploadOutlined />}
-              className="!bg-secondary !border-secondary hover:!bg-secondary/90"
-            >
-              Import
-            </Button>
-
-            <Button
-              type="primary"
-              size="large"
-              icon={<DownloadOutlined />}
-              className="!bg-secondary !border-secondary hover:!bg-secondary/90"
-            >
-              Xuất file
-            </Button>
-
-            <Dropdown menu={{ items: [] }} trigger={["click"]}>
-              <Button
-                size="large"
-                icon={<MenuOutlined />}
-                className="!bg-secondary !border-secondary hover:!bg-secondary/90 !text-white"
-              />
-            </Dropdown>
-          </Space>
-        </div>
-      </div>
-
+      {/* TABLE */}
       <Table
         rowSelection={rowSelection}
         columns={columns}
-        dataSource={data}
+        dataSource={tableData}
         pagination={{
           pageSize: 10,
         }}

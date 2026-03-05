@@ -81,14 +81,14 @@ export default function DashboardHeader() {
           <div className="w-8 h-8 relative">
             <Image
               src="/images/logo.png"
-              alt="ThanhHoa Restaurant"
+              alt="ThanHoa Restaurant"
               fill
               className="object-contain"
               priority
             />
           </div>
 
-          <span className="text-lg font-semibold tracking-wide">ThanhHoa</span>
+          <span className="text-lg font-semibold tracking-wide">ThanHoa</span>
         </div>
 
         {/* Menu */}

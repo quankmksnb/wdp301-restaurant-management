@@ -20,7 +20,6 @@ export default function LoginPage() {
       {/* Card */}
       <div className="relative z-10 flex min-h-screen items-center justify-center px-4">
         <div className="w-full max-w-[400px] bg-white rounded-2xl shadow-2xl px-8 py-9">
-          
           {/* Header */}
           <div className="flex flex-col items-center mb-7">
             <Image
@@ -35,7 +34,7 @@ export default function LoginPage() {
             </span>
 
             <h1 className="mt-1 text-2xl font-bold text-gray-800 text-center leading-tight">
-              ThanhHoa Restaurant 
+              ThanHoa Restaurant
             </h1>
           </div>
 
@@ -99,7 +98,7 @@ export default function LoginPage() {
               <Phone className="w-4 h-4" />
               <span>Hỗ trợ 1900 6522</span>
             </div>
-            <span>© ThanhHoa Restaurant</span>
+            <span>© ThanHoa Restaurant</span>
           </div>
         </div>
       </div>
