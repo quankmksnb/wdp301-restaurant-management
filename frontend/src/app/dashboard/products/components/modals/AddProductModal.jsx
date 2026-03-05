@@ -139,7 +139,15 @@ function ProductInfoTab({ parentOptions, childOptions, selectedParentId, onParen
                     label="Giá bán"
                     rules={[
                         { required: true, message: 'Vui lòng nhập giá bán' },
-                        { type: 'number', min: 1, message: 'Giá bán phải lớn hơn 0' },
+                        // ← bỏ type: 'number', dùng validator thủ công
+                        {
+                            validator: (_, value) => {
+                                if (!value || value <= 0) {
+                                    return Promise.reject('Giá bán phải lớn hơn 0');
+                                }
+                                return Promise.resolve();
+                            }
+                        },
                     ]}
                 >
                     <PriceInput />
@@ -189,13 +197,13 @@ export default function AddProductModal({ open, onClose, onConfirm }) {
             setLoading(true);
 
             const formData = new FormData();
-            formData.append("itemName",           values.itemName);
-            formData.append("productCode",        values.productCode);
-            formData.append("price",              values.price);
-            formData.append("costPrice",          values.cost || 0);
-            formData.append("description",        values.description || "");
+            formData.append("itemName", values.itemName);
+            formData.append("productCode", values.productCode);
+            formData.append("price", values.price);
+            formData.append("costPrice", values.cost || 0);
+            formData.append("description", values.description || "");
             formData.append("availabilityStatus", "available");
-            formData.append("category",           values.category);
+            formData.append("category", values.category);
 
             fileList.forEach(file => {
                 if (file.originFileObj) formData.append("images", file.originFileObj);
