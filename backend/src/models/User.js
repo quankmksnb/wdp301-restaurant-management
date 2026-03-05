@@ -10,6 +10,13 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     phone: { type: String },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
     status: {
       type: String,
       enum: ["active", "inactive"],
