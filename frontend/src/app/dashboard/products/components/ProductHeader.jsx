@@ -41,6 +41,7 @@ export default function ProductHeader({
     visibleColumns = {},
     onColumnVisibilityChange = () => { },
     onDeselectAll = () => { },
+    onRefresh = () => { },
 }) {
     // State để quản lý 4 modal riêng biệt
     const [modalStates, setModalStates] = useState({
@@ -50,11 +51,16 @@ export default function ProductHeader({
         combo: false,
     });
 
+    const handleProductConfirm = (newItem, andNew) => {
+        if (!andNew) closeModal('product'); 
+        onRefresh();                         
+    };
+
     const addMenuItems = [
         { key: 'product', label: 'Thêm hàng hóa' },
-        { key: 'processed', label: 'Thêm hàng chế biến' },
-        { key: 'service', label: 'Thêm dịch vụ' },
-        { key: 'combo', label: 'Thêm combo buffet' },
+        // { key: 'processed', label: 'Thêm hàng chế biến' },
+        // { key: 'service', label: 'Thêm dịch vụ' },
+        // { key: 'combo', label: 'Thêm combo buffet' },
     ];
 
     const batchActionItems = [
@@ -73,15 +79,12 @@ export default function ProductHeader({
         { key: 'name', label: 'Tên hàng' },
         { key: 'category', label: 'Loại thực đơn' },
         { key: 'group', label: 'Nhóm hàng' },
-        { key: 'price', label: 'Giá bán' },
+
     ];
 
     const additionalColumns = [
+        { key: 'price', label: 'Giá bán' },
         { key: 'cost', label: 'Giá vốn' },
-        { key: 'stock', label: 'Tồn kho' },
-        { key: 'location', label: 'Vị trí' },
-        { key: 'latestStock', label: 'Định mức tồn ít nhất' },
-        { key: 'maxStock', label: 'Định mức tồn nhiều nhất' },
         { key: 'status', label: 'Trạng thái' },
     ];
 
@@ -129,13 +132,6 @@ export default function ProductHeader({
         setModalStates(prev => ({ ...prev, [modalType]: false }));
     };
 
-    // Hàm xác nhận (lưu)
-    const handleConfirm = (modalType) => {
-        console.log(`${modalType} confirmed`);
-        // Xử lý logic lưu dữ liệu ở đây
-        closeModal(modalType);
-    };
-
     // Xử lý khi click vào menu dropdown
     const handleMenuClick = ({ key }) => {
         openModal(key);
@@ -164,7 +160,7 @@ export default function ProductHeader({
                             </Button>
                         </Dropdown>
                     )}
-                    
+
                     <Dropdown
                         menu={{ items: addMenuItems, onClick: handleMenuClick }}
                         placement="bottomLeft"
@@ -178,7 +174,7 @@ export default function ProductHeader({
                     <Button type="primary" icon={<UploadOutlined />} size="large" className="!bg-secondary !border-secondary hover:!bg-secondary/90">
                         Import
                     </Button>
-                    
+
                     <Button type="primary" icon={<DownloadOutlined />} size="large" className="!bg-secondary !border-secondary hover:!bg-secondary/90">
                         Xuất file
                     </Button>
@@ -201,10 +197,10 @@ export default function ProductHeader({
             <AddProductModal
                 open={modalStates.product}
                 onClose={() => closeModal('product')}
-                onConfirm={() => handleConfirm('product')}
+                onConfirm={handleProductConfirm}
             />
 
-            <AddProcessedProductModal
+            {/* <AddProcessedProductModal
                 open={modalStates.processed}
                 onClose={() => closeModal('processed')}
                 onConfirm={() => handleConfirm('processed')}
@@ -220,7 +216,7 @@ export default function ProductHeader({
                 open={modalStates.combo}
                 onClose={() => closeModal('combo')}
                 onConfirm={() => handleConfirm('combo')}
-            />
+            /> */}
         </div>
     );
 }
