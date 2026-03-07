@@ -1,8 +1,11 @@
 "use client";
 
 import { Input, Collapse, Radio, Select } from "antd";
+import useAreas from "@/hooks/useAreas";
 
 export default function TableFilterPanel() {
+  const { areas } = useAreas();
+
   const collapseClass = `
     bg-white rounded-lg shadow-sm
     [&_.ant-collapse-header]:font-medium
@@ -26,6 +29,14 @@ export default function TableFilterPanel() {
     />
   );
 
+  const areaOptions = [
+    { label: "Tất cả", value: "all" },
+    ...areas.map((area) => ({
+      label: area.areaName,
+      value: area._id,
+    })),
+  ];
+
   return (
     <div className="space-y-[10px]">
       <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
@@ -40,12 +51,7 @@ export default function TableFilterPanel() {
           className="w-full"
           size="large"
           defaultValue="all"
-          options={[
-            { label: "Tất cả", value: "all" },
-            { label: "Lầu 1", value: "l1" },
-            { label: "Lầu 2", value: "l2" },
-            { label: "Lầu 3", value: "l3" },
-          ]}
+          options={areaOptions}
         />,
       )}
 

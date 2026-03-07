@@ -5,11 +5,13 @@ import { Modal, Input, Select, InputNumber, Button } from "antd";
 import { SaveOutlined, StopOutlined, PlusOutlined } from "@ant-design/icons";
 
 import AddAreaModal from "./AddAreaModal";
+import useAreas from "@/hooks/useAreas";
 
 const { TextArea } = Input;
 
 export default function AddTableModal({ open, onClose, onConfirm }) {
   const [openAreaModal, setOpenAreaModal] = useState(false);
+  const { areas } = useAreas();
 
   return (
     <>
@@ -50,10 +52,10 @@ export default function AddTableModal({ open, onClose, onConfirm }) {
               <Select
                 className="w-full"
                 placeholder="--Lựa chọn--"
-                options={[
-                  { value: "l1", label: "Lầu 1" },
-                  { value: "l2", label: "Lầu 2" },
-                ]}
+                options={areas.map((area) => ({
+                  value: area._id,
+                  label: area.areaName,
+                }))}
               />
 
               <Button
