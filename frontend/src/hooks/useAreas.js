@@ -1,30 +1,33 @@
 import { useEffect, useState } from "react";
-import { getAllAreas } from "../services/areaService";
+import { getAllAreas } from "@/services/areaService";
 
 export default function useAreas() {
   const [areas, setAreas] = useState([]);
-  const [loading, setLoading] = useState(false);
 
-  const fetchAreas = async () => {
+  const refreshAreas = async () => {
     try {
-      setLoading(true);
       const res = await getAllAreas();
-
-      setAreas(res.data || []);
+      setAreas(res.data);
     } catch (error) {
-      console.error("Lỗi load khu vực", error);
-    } finally {
-      setLoading(false);
+      console.error("Fetch areas failed", error);
     }
   };
 
   useEffect(() => {
-    fetchAreas();
+    const loadAreas = async () => {
+      try {
+        const res = await getAllAreas();
+        setAreas(res.data);
+      } catch (error) {
+        console.error("Fetch areas failed", error);
+      }
+    };
+
+    loadAreas();
   }, []);
 
   return {
     areas,
-    loading,
-    refreshAreas: fetchAreas,
+    refreshAreas,
   };
 }

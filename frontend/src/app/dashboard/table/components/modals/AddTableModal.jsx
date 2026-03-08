@@ -11,7 +11,9 @@ const { TextArea } = Input;
 
 export default function AddTableModal({ open, onClose, onConfirm }) {
   const [openAreaModal, setOpenAreaModal] = useState(false);
-  const { areas } = useAreas();
+  const [selectedArea, setSelectedArea] = useState(null);
+
+  const { areas, refreshAreas } = useAreas();
 
   return (
     <>
@@ -42,6 +44,7 @@ export default function AddTableModal({ open, onClose, onConfirm }) {
             <label className="mb-2 block">
               Tên phòng bàn <span className="text-red-500">*</span>
             </label>
+
             <Input placeholder="Ví dụ: Bàn 01" />
           </div>
 
@@ -52,6 +55,8 @@ export default function AddTableModal({ open, onClose, onConfirm }) {
               <Select
                 className="w-full"
                 placeholder="--Lựa chọn--"
+                value={selectedArea}
+                onChange={(value) => setSelectedArea(value)}
                 options={areas.map((area) => ({
                   value: area._id,
                   label: area.areaName,
@@ -87,7 +92,11 @@ export default function AddTableModal({ open, onClose, onConfirm }) {
       <AddAreaModal
         open={openAreaModal}
         onClose={() => setOpenAreaModal(false)}
-        onConfirm={() => setOpenAreaModal(false)}
+        onConfirm={(newArea) => {
+          refreshAreas(); // cập nhật list area
+          setSelectedArea(newArea._id); // chọn luôn area vừa tạo
+          setOpenAreaModal(false);
+        }}
       />
     </>
   );
