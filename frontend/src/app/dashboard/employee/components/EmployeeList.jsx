@@ -11,6 +11,7 @@ import {
     StopOutlined,
     CheckCircleOutlined,
     SafetyCertificateOutlined,
+    PlusOutlined,
 } from '@ant-design/icons';
 import { Typography } from 'antd';
 
@@ -393,12 +394,12 @@ export default function EmployeeList({
                     <Space>
                         <Button
                             type="primary"
-                            icon={<UserAddOutlined />}
+                            icon={<PlusOutlined />}
                             size="large"
                             className="!bg-secondary !border-secondary hover:!bg-secondary/90"
                             onClick={onOpenAddModal}
                         >
-                            Thêm mới
+                            Thêm nhân viên
                         </Button>
 
                         <Button

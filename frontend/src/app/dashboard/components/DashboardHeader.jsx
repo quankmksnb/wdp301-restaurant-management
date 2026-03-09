@@ -109,7 +109,8 @@ export default function DashboardHeader() {
                 : pathname.startsWith(item.path);
 
             if (item.component) {
-              return <React.Fragment key={item.path}>{item.component}</React.Fragment>;
+              const isActive = pathname.startsWith(item.path);
+              return <React.Fragment key={item.path}>{React.cloneElement(item.component, { isActive })}</React.Fragment>;
             }
 
             return (
