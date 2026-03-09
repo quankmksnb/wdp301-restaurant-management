@@ -100,7 +100,7 @@ export const getCategoryTree = async (req, res) => {
 export const updateCategory = async (req, res) => {
     try {
         const { id } = req.params;
-        const { categoryName, description, status } = req.body;
+        const { categoryName, description, status, parentId } = req.body;
 
         const category = await MenuCategory.findById(id);
 
@@ -108,13 +108,55 @@ export const updateCategory = async (req, res) => {
             return res.status(404).json({ message: "Không tìm thấy danh mục" });
         }
 
+        // update thông tin cơ bản
         category.categoryName = categoryName ?? category.categoryName;
         category.description = description ?? category.description;
-        category.status = status ?? category.status;
+        category.parentId =
+            parentId !== undefined ? (parentId || null) : category.parentId;
+
+        let categoryIdsToUpdate = [];
+
+        // Nếu status thay đổi
+        if (status && status !== category.status) {
+            category.status = status;
+
+            // luôn thêm chính nó
+            categoryIdsToUpdate.push(category._id);
+
+            // Nếu là category CHA → lấy tất cả con
+            if (!category.parentId) {
+                const childCategories = await MenuCategory.find(
+                    { parentId: category._id },
+                    { _id: 1 }
+                );
+
+                const childIds = childCategories.map(c => c._id);
+
+                if (childIds.length) {
+                    // update status category con
+                    await MenuCategory.updateMany(
+                        { _id: { $in: childIds } },
+                        { $set: { status } }
+                    );
+
+                    categoryIdsToUpdate.push(...childIds);
+                }
+            }
+
+            // Update item theo category
+            const itemStatus =
+                status === "inactive" ? "unavailable" : "available";
+
+            await MenuItem.updateMany(
+                { category: { $in: categoryIdsToUpdate } },
+                { $set: { availabilityStatus: itemStatus } }
+            );
+        }
 
         await category.save();
 
         res.json(category);
+
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

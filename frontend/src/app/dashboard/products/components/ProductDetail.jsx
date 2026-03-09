@@ -18,9 +18,9 @@ import { toggleMenuItemStatus, deleteMenuItem } from '@/services/menuItemService
 const BASE_URL = 'http://localhost:5000';
 
 const STATUS_MAP = {
-    available:   { label: 'Đang kinh doanh',   color: 'success' },
+    available: { label: 'Đang kinh doanh', color: 'success' },
     unavailable: { label: 'Ngừng kinh doanh', color: 'default' },
-    out_of_stock:{ label: 'Hết hàng',          color: 'error'   },
+    out_of_stock: { label: 'Hết hàng', color: 'error' },
 };
 
 const tabItems = [{ key: 'info', label: 'Thông tin chi tiết sản phẩm' }];
@@ -35,10 +35,10 @@ function InfoRow({ label, value, bold = false }) {
 }
 
 export default function ProductDetail({ product, onRefresh }) {
-    const [modalOpen, setModalOpen]         = useState(false);
-    const [categoryTree, setCategoryTree]   = useState([]);
-    const [toggling, setToggling]           = useState(false);
-    const [deleting, setDeleting]           = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [categoryTree, setCategoryTree] = useState([]);
+    const [toggling, setToggling] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
     useEffect(() => {
         getCategoryTree()
@@ -54,13 +54,13 @@ export default function ProductDetail({ product, onRefresh }) {
 
     if (!product) return null;
 
-    const name        = product.itemName ?? product.name;
-    const code        = product.productCode ?? product.code;
-    const price       = product.price ?? 0;
-    const cost        = product.costPrice ?? product.cost ?? 0;
+    const name = product.itemName ?? product.name;
+    const code = product.productCode ?? product.code;
+    const price = product.price ?? 0;
+    const cost = product.costPrice ?? product.cost ?? 0;
     const description = product.description ?? '-';
-    const status      = product.availabilityStatus ?? null;
-    const statusInfo  = STATUS_MAP[status];
+    const status = product.availabilityStatus ?? null;
+    const statusInfo = STATUS_MAP[status];
 
     const images = useMemo(() => {
         const raw = product.images ?? (product.image ? [product.image] : []);
@@ -69,18 +69,18 @@ export default function ProductDetail({ product, onRefresh }) {
 
     const mainImage = images[0] ?? null;
 
-    const categoryObj    = product.category;
-    const isChild        = !!categoryObj?.parentId;
-    const groupName      = categoryObj?.categoryName ?? '-';
+    const categoryObj = product.category;
+    const isChild = !!categoryObj?.parentId;
+    const groupName = categoryObj?.categoryName ?? '-';
     const parentCategory = isChild
         ? categoryTree.find(p => p._id?.toString() === categoryObj?.parentId?.toString())
         : categoryObj;
-    const categoryName   = parentCategory?.categoryName ?? '-';
+    const categoryName = parentCategory?.categoryName ?? '-';
 
     // ====== TOGGLE STATUS ======
     const handleToggleStatus = () => {
-        const nextStatus  = status === 'available' ? 'Ngừng kinh doanh' : 'Đang kinh doanh';
-        const nextColor   = status === 'available' ? '#ff4d4f' : '#52c41a';
+        const nextStatus = status === 'available' ? 'Ngừng kinh doanh' : 'Đang kinh doanh';
+        const nextColor = status === 'available' ? '#ff4d4f' : '#52c41a';
 
         Modal.confirm({
             title: 'Xác nhận thay đổi trạng thái',
@@ -99,8 +99,19 @@ export default function ProductDetail({ product, onRefresh }) {
             onOk: async () => {
                 try {
                     setToggling(true);
-                    await toggleMenuItemStatus(product._id);
-                    message.success(`Đã chuyển trạng thái sang "${nextStatus}"`);
+
+                    const res = await toggleMenuItemStatus(product._id);
+
+                    const msg = res?.message || res?.data?.message;
+
+                    // Nếu danh mục bị khóa
+                    if (msg?.includes("khóa")) {
+                        message.warning(msg);
+                        return;
+                    }
+
+                    message.success(msg || `Đã chuyển trạng thái sang "${nextStatus}"`);
+
                     onRefresh?.();
                 } catch (err) {
                     message.error(err?.message || 'Cập nhật trạng thái thất bại');
@@ -150,8 +161,8 @@ export default function ProductDetail({ product, onRefresh }) {
                 <Space size="small" wrap>
                     {statusInfo && <Tag color={statusInfo.color}>{statusInfo.label}</Tag>}
                     {product.directSale && <Tag icon={<CheckCircleFilled />} color="success">Bán trực tiếp</Tag>}
-                    {product.noPoint    && <Tag icon={<CloseCircleFilled />} color="error">Không tích điểm</Tag>}
-                    {product.noExtra    && <Tag icon={<CloseCircleFilled />} color="error">Không là món thêm</Tag>}
+                    {product.noPoint && <Tag icon={<CloseCircleFilled />} color="error">Không tích điểm</Tag>}
+                    {product.noExtra && <Tag icon={<CloseCircleFilled />} color="error">Không là món thêm</Tag>}
                 </Space>
             </div>
 
@@ -186,15 +197,15 @@ export default function ProductDetail({ product, onRefresh }) {
                 {/* INFO */}
                 <div className="flex-1 min-w-0">
                     <div className="grid grid-cols-3 gap-x-8 gap-y-4 text-sm">
-                        <InfoRow label="Mã hàng hóa"   value={code}                                   bold />
-                        <InfoRow label="Loại thực đơn"  value={categoryName}                           bold />
-                        <InfoRow label="Nhóm hàng"      value={groupName}                              bold />
-                        <InfoRow label="Giá bán"        value={`${price.toLocaleString('vi-VN')} đ`}  bold />
-                        <InfoRow label="Giá vốn"        value={`${cost.toLocaleString('vi-VN')} đ`}   bold />
+                        <InfoRow label="Mã hàng hóa" value={code} bold />
+                        <InfoRow label="Loại thực đơn" value={categoryName} bold />
+                        <InfoRow label="Nhóm hàng" value={groupName} bold />
+                        <InfoRow label="Giá bán" value={`${price.toLocaleString('vi-VN')} đ`} bold />
+                        <InfoRow label="Giá vốn" value={`${cost.toLocaleString('vi-VN')} đ`} bold />
                         {product.stock !== undefined && (
                             <InfoRow label="Tồn kho" value={
                                 <Tag color={product.stock === 0 ? 'red' : 'green'}>{product.stock}</Tag>
-                            }/>
+                            } />
                         )}
                         <div className="col-span-3">
                             <InfoRow label="Mô tả" value={description} />

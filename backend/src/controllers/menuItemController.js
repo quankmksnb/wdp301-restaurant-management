@@ -327,16 +327,31 @@ export const deleteMenuItem = async (req, res) => {
 // TOGGLE AVAILABILITY STATUS
 export const toggleAvailabilityStatus = async (req, res) => {
     try {
-        const item = await MenuItem.findById(req.params.id);
+
+        const item = await MenuItem
+            .findById(req.params.id)
+            .populate("category");
 
         if (!item) {
-            return res.status(404).json({ message: "Không tìm thấy sản phẩm" });
+            return res.status(404).json({
+                message: "Không tìm thấy sản phẩm"
+            });
         }
 
-        // Chỉ toggle giữa available ↔ unavailable
-        // out_of_stock được quản lý riêng (theo tồn kho)
-        item.availabilityStatus =
-            item.availabilityStatus === "available" ? "unavailable" : "available";
+        const newStatus =
+            item.availabilityStatus === "available"
+                ? "unavailable"
+                : "available";
+
+        // Nếu muốn bật available nhưng category inactive
+        if (newStatus === "available" && item.category.status === "inactive") {
+            return res.json({
+                message: "Danh mục đang bị khóa, không thể bật bán sản phẩm",
+                data: item
+            });
+        }
+
+        item.availabilityStatus = newStatus;
 
         await item.save();
 
@@ -344,7 +359,10 @@ export const toggleAvailabilityStatus = async (req, res) => {
             message: `Đã chuyển trạng thái sang "${item.availabilityStatus}"`,
             data: item,
         });
+
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({
+            message: error.message
+        });
     }
 };
