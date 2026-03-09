@@ -1,5 +1,11 @@
-import React from "react";
+"use client";
 
-export default function Kitchen() {
-  return <div>Kitchen</div>;
+import ProtectedRoute from "@/app/components/ProtectedRoute";
+
+export default function KitchenPage() {
+  return (
+    <ProtectedRoute role="kitchen">
+      <h1>Kitchen Page</h1>
+    </ProtectedRoute>
+  );
 }

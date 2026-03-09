@@ -1,7 +1,11 @@
-import React from 'react'
+"use client";
 
-export default function Reception() {
-  return (
-    <div>Reception</div>
-  )
+import ProtectedRoute from "@/app/components/ProtectedRoute";
+
+export default function ReceptionPage() {
+  return (
+    <ProtectedRoute role="receptionist">
+      <h1>Reception Page</h1>
+    </ProtectedRoute>
+  );
 }

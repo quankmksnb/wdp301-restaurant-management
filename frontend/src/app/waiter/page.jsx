@@ -1,7 +1,11 @@
-import React from 'react'
+"use client";
 
-export default function Waiter() {
-  return (
-    <div>Waiter</div>
-  )
+import ProtectedRoute from "@/app/components/ProtectedRoute";
+
+export default function WaiterPage() {
+  return (
+    <ProtectedRoute role="waiter">
+      <h1>Waiter Page</h1>
+    </ProtectedRoute>
+  );
 }
