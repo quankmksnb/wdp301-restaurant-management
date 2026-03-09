@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api",
+    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api",
     headers: {
         "Content-Type": "application/json",
     },
@@ -34,5 +34,44 @@ api.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+// ===================== Employee API =====================
+
+/**
+ * Lấy danh sách nhân viên (phân trang + tìm kiếm + lọc)
+ * @param {Object} params - { page, limit, search, department, position, status }
+ */
+export const getEmployees = (params = {}) => {
+    return api.get("/employees", { params });
+};
+
+/**
+ * Lấy chi tiết nhân viên theo ID
+ */
+export const getEmployeeById = (id) => {
+    return api.get(`/employees/${id}`);
+};
+
+/**
+ * Tạo nhân viên mới
+ * @param {Object} data - { name, phone, role, password, code, ... }
+ */
+export const createEmployee = (data) => {
+    return api.post("/employees", data);
+};
+
+/**
+ * Cập nhật nhân viên
+ */
+export const updateEmployee = (id, data) => {
+    return api.put(`/employees/${id}`, data);
+};
+
+/**
+ * Xóa nhân viên (soft delete)
+ */
+export const deleteEmployee = (id) => {
+    return api.delete(`/employees/${id}`);
+};
 
 export default api;

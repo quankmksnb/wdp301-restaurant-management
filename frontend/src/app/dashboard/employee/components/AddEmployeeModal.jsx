@@ -1,11 +1,12 @@
 'use client';
 
 import { Modal, Form, message } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import EmployeeInfoTab from './tabs/EmployeeInfoTab';
 
 export default function EmployeeFormModal({ open, onClose, onSave, employee = null }) {
     const [form] = Form.useForm();
+    const [imageFile, setImageFile] = useState(null);
     const isEdit = !!employee;
 
     useEffect(() => {
@@ -17,8 +18,6 @@ export default function EmployeeFormModal({ open, onClose, onSave, employee = nu
                     phone: employee.phone,
                     idNumber: employee.idNumber,
                     gender: employee.gender,
-                    position: employee.position,
-                    department: employee.department,
                     email: employee.email,
                     facebook: employee.facebook,
                     address: employee.address,
@@ -29,6 +28,7 @@ export default function EmployeeFormModal({ open, onClose, onSave, employee = nu
             } else {
                 form.resetFields();
             }
+            setImageFile(null);
         }
     }, [open, employee, form]);
 
@@ -36,27 +36,34 @@ export default function EmployeeFormModal({ open, onClose, onSave, employee = nu
         try {
             const values = await form.validateFields();
 
-            // Build data payload for API
-            const payload = {
-                name: values.name,
-                phone: values.phone,
-                role: values.role || 'waiter',
-                password: values.password || undefined, // undefined → backend defaults to 123456
-                code: values.code || undefined, // undefined → backend auto-generates
-                idNumber: values.idNumber,
-                birthDate: values.birthDate ? values.birthDate.toISOString() : undefined,
-                gender: values.gender,
-                department: values.department,
-                position: values.position,
-                startDate: values.startDate ? values.startDate.toISOString() : undefined,
-                email: values.email,
-                facebook: values.facebook,
-                address: values.address,
-                city: values.city,
-                notes: values.notes,
-            };
+            // Build FormData to support image upload
+            const formData = new FormData();
+            formData.append('name', values.name);
+            formData.append('phone', values.phone);
+            formData.append('role', values.role || 'waiter');
 
-            await onSave(payload);
+            // Only send email when creating (email is locked on edit)
+            if (!isEdit) {
+                formData.append('email', values.email);
+            }
+
+            if (values.password) formData.append('password', values.password);
+            if (values.code) formData.append('code', values.code);
+            if (values.idNumber) formData.append('idNumber', values.idNumber);
+            if (values.birthDate) formData.append('birthDate', values.birthDate.toISOString());
+            if (values.gender) formData.append('gender', values.gender);
+            if (values.startDate) formData.append('startDate', values.startDate.toISOString());
+            if (values.facebook) formData.append('facebook', values.facebook);
+            if (values.address) formData.append('address', values.address);
+            if (values.city) formData.append('city', values.city);
+            if (values.notes) formData.append('notes', values.notes);
+
+            // Append image file if selected
+            if (imageFile) {
+                formData.append('photo', imageFile);
+            }
+
+            await onSave(formData);
         } catch (error) {
             // Form validation failed - ignore
         }
@@ -97,7 +104,13 @@ export default function EmployeeFormModal({ open, onClose, onSave, employee = nu
                 layout="vertical"
                 requiredMark={false}
             >
-                <EmployeeInfoTab form={form} isEdit={isEdit} />
+                <EmployeeInfoTab
+                    form={form}
+                    isEdit={isEdit}
+                    imageFile={imageFile}
+                    onImageChange={setImageFile}
+                    existingImageUrl={employee?.photo ? `http://localhost:5000${employee.photo}` : null}
+                />
             </Form>
         </Modal>
     );

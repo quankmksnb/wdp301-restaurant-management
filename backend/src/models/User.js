@@ -28,14 +28,12 @@ const userSchema = new mongoose.Schema(
     idNumber: { type: String },
     birthDate: { type: Date },
     gender: { type: String, enum: ["Nam", "Nữ", ""] },
-    department: { type: String },
-    position: { type: String },
     startDate: { type: Date },
-    email: { type: String },
     facebook: { type: String },
     address: { type: String },
     city: { type: String },
     notes: { type: String },
+    photo: { type: String },
   },
   { timestamps: true }
 );

@@ -1,47 +1,67 @@
 'use client';
 
-import { Radio, Button } from 'antd';
+import { Input, Radio, Collapse } from 'antd';
 import { useState } from 'react';
 
-export default function EmployeeFilters() {
-    const [selectedDept, setSelectedDept] = useState('all');
-    const [selectedPosition, setSelectedPosition] = useState('all');
+export default function EmployeeFilters({ onFilterChange }) {
+    const [selectedStatus, setSelectedStatus] = useState('active');
+    const [search, setSearch] = useState('');
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+        onFilterChange?.({ search: e.target.value, status: selectedStatus });
+    };
+
+    const handleStatusChange = (e) => {
+        setSelectedStatus(e.target.value);
+        onFilterChange?.({ search, status: e.target.value });
+    };
+
+    const collapseClass = `
+        bg-white rounded-lg shadow-sm
+        [&_.ant-collapse-header]:font-medium
+        [&_.ant-collapse-item]:border-0
+    `;
+
+    const renderCollapse = (title, content) => (
+        <Collapse
+            defaultActiveKey={['1']}
+            bordered={false}
+            expandIconPlacement="end"
+            className={collapseClass}
+            style={{ background: '#fff', marginBottom: 16 }}
+            items={[{ key: '1', label: title, children: content }]}
+        />
+    );
 
     return (
-        <div className="w-60 bg-white rounded-lg shadow-sm border border-gray-200 p-4 overflow-y-auto">
-            <div className="mb-5 pb-5 border-b border-gray-100">
-                <h3 className="text-sm font-semibold mb-3 text-gray-700">Trạng thái nhân viên</h3>
-                <Radio.Group value={selectedDept} onChange={(e) => setSelectedDept(e.target.value)}>
-                    <div className="flex flex-col space-y-2">
-                        <Radio value="all">Đang làm việc</Radio>
-                        <Radio value="quit">Đã nghỉ</Radio>
+        <div className="space-y-[10px]">
+            {/* TÌM KIẾM */}
+            <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
+                <div className="font-medium mb-2">Tìm kiếm</div>
+                <Input
+                    placeholder="Theo mã, tên nhân viên"
+                    size="large"
+                    className="w-full"
+                    value={search}
+                    onChange={handleSearchChange}
+                    allowClear
+                />
+            </div>
+
+            {/* TRẠNG THÁI NHÂN VIÊN */}
+            {renderCollapse(
+                'Trạng thái nhân viên',
+                <Radio.Group
+                    value={selectedStatus}
+                    onChange={handleStatusChange}
+                >
+                    <div className="flex flex-col gap-3">
+                        <Radio value="active">Đang làm việc</Radio>
+                        <Radio value="inactive">Đã nghỉ</Radio>
                     </div>
                 </Radio.Group>
-            </div>
-
-            <div className="mb-5 pb-5 border-b border-gray-100">
-                <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-semibold text-gray-700">Phòng ban</h3>
-                    <Button type="link" size="small" className="text-xs p-0 h-auto">
-                        +
-                    </Button>
-                </div>
-                <div className="text-sm text-gray-500">
-                    <input type="text" placeholder="Chọn phòng ban" className="w-full px-2 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 transition" />
-                </div>
-            </div>
-
-            <div className="mb-2">
-                <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-semibold text-gray-700">Chức danh</h3>
-                    <Button type="link" size="small" className="text-xs p-0 h-auto">
-                        +
-                    </Button>
-                </div>
-                <div className="text-sm text-gray-500">
-                    <input type="text" placeholder="Chọn chức danh" className="w-full px-2 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 transition" />
-                </div>
-            </div>
+            )}
         </div>
     );
 }
