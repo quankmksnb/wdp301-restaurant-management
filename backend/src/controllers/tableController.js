@@ -3,7 +3,7 @@ import Area from "../models/Area.js";
 
 export const createTable = async (req, res) => {
   try {
-    const { tableName, tableNumber, capacity, area } = req.body;
+    const { tableName, tableNumber, capacity, area, note } = req.body;
 
     const existed = await Table.findOne({
       tableName,
@@ -22,6 +22,7 @@ export const createTable = async (req, res) => {
       tableNumber,
       capacity,
       area,
+      note,
     });
 
     res.status(201).json({
@@ -134,6 +135,31 @@ export const toggleTableStatus = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Lỗi khi cập nhật trạng thái",
+    });
+  }
+};
+
+export const deleteTable = async (req, res) => {
+  try {
+    const table = await Table.findById(req.params.id);
+
+    if (!table) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy bàn",
+      });
+    }
+
+    await Table.findByIdAndDelete(req.params.id);
+
+    res.json({
+      success: true,
+      message: "Xóa bàn thành công",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi xóa bàn",
     });
   }
 };

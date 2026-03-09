@@ -18,6 +18,7 @@ export const createTableSchema = z.object({
   area: z.string({
     required_error: "Khu vực là bắt buộc",
   }),
+  note: z.string().max(500, "Ghi chú tối đa 500 ký tự").optional(),
 });
 
 export const updateTableSchema = z.object({
@@ -25,4 +26,5 @@ export const updateTableSchema = z.object({
   tableNumber: z.number().optional(),
   capacity: z.number().optional(),
   area: z.string().optional(),
+  note: z.string().max(500).optional(),
 });

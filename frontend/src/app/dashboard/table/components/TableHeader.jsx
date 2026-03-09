@@ -15,6 +15,7 @@ export default function TableHeader({
   selectedRowKeys = [],
   hasSelected = false,
   onDeselectAll = () => {},
+  refreshTables,
 }) {
   const [openAddModal, setOpenAddModal] = useState(false);
 
@@ -72,7 +73,10 @@ export default function TableHeader({
       <AddTableModal
         open={openAddModal}
         onClose={() => setOpenAddModal(false)}
-        onConfirm={() => setOpenAddModal(false)}
+        onConfirm={() => {
+          refreshTables?.();
+          setOpenAddModal(false);
+        }}
       />
     </div>
   );
