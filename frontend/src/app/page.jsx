@@ -1,5 +1,6 @@
 "use client";
 
+import { loginUser } from "@/services/userService";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -16,51 +17,43 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+  e.preventDefault();
+  setLoading(true);
+  setError("");
 
-    try {
-      const res = await fetch(`http://localhost:5000/api/users/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+  try {
+    const res = await loginUser({ email, password });
 
-      const data = await res.json();
+    const data = res.data;
 
-      if (!res.ok) {
-        setError(data.message);
-        setLoading(false);
-        return;
+    localStorage.setItem("token", data.token);
+
+    const decoded = jwtDecode(data.token);
+    const role = decoded.role;
+
+    toast.success("Đăng nhập thành công!");
+
+    setTimeout(() => {
+      if (role === "manager") {
+        router.push("/dashboard");
+      } else if (role === "waiter") {
+        router.push("/waiter");
+      } else if (role === "receptionist") {
+        router.push("/reception");
+      } else if (role === "kitchenStaff") {
+        router.push("/kitchen");
       }
-
-      localStorage.setItem("token", data.token);
-
-      const decoded = jwtDecode(data.token);
-
-      const role = decoded.role;
-
-      toast.success("Đăng nhập thành công!");
-
-      setTimeout(() => {
-        if (role === "manager") {
-          router.push("/dashboard");
-        } else if (role === "waiter") {
-          router.push("/waiter");
-        } else if (role === "receptionist") {
-          router.push("/reception");
-        } else if (role === "kitchenStaff") {
-          router.push("/kitchen");
-        }
-      }, 1000);
-    } catch (err) {
+    }, 1000);
+  } catch (err) {
+    if (err.response) {
+      setError(err.response.data.message);
+    } else {
       setError("Không thể kết nối server");
     }
-    setLoading(false);
-  };
+  }
+
+  setLoading(false);
+};
 
   return (
     <div className="relative min-h-screen">
