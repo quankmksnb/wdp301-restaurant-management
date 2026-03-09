@@ -63,30 +63,36 @@ function ProductInfoTab({ parentOptions, childOptions, selectedParentId, onParen
             {/* ── Giá hàng hóa ── */}
             <SectionHeader title="Giá hàng hóa" />
             <div className="grid grid-cols-2 gap-4">
-                <Form.Item name="cost" label="Giá vốn">
+                <Form.Item label="Giá vốn">
                     <Space.Compact className="w-full">
-                        <InputNumber
-                            className="w-full"
-                            formatter={(v) => `${v}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            parser={(v) => v.replace(/\$\s?|(,*)/g, '')}
-                        />
+                        <Form.Item name="costPrice" noStyle>
+                            <InputNumber
+                                className="w-full"
+                                style={{ width: "100%" }}
+                                formatter={(v) => `${v}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                parser={(v) => v?.replace(/,/g, '')}
+                            />
+                        </Form.Item>
                         <Button disabled>₫</Button>
                     </Space.Compact>
                 </Form.Item>
-                <Form.Item
-                    name="price"
-                    label="Giá bán"
-                    rules={[
-                        { required: true, message: 'Vui lòng nhập giá bán' },
-                        { type: 'number', min: 1, message: 'Giá bán phải lớn hơn 0' },
-                    ]}
-                >
+                <Form.Item label="Giá bán" required>
                     <Space.Compact className="w-full">
-                        <InputNumber
-                            className="w-full"
-                            formatter={(v) => `${v}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            parser={(v) => v.replace(/\$\s?|(,*)/g, '')}
-                        />
+                        <Form.Item
+                            name="price"
+                            noStyle
+                            rules={[
+                                { required: true, message: 'Vui lòng nhập giá bán' },
+                                { type: 'number', min: 1, message: 'Giá bán phải lớn hơn 0' },
+                            ]}
+                        >
+                            <InputNumber
+                                className="w-full"
+                                style={{ width: "100%" }}
+                                formatter={(v) => `${v}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                parser={(v) => v?.replace(/,/g, '')}
+                            />
+                        </Form.Item>
                         <Button disabled>₫</Button>
                     </Space.Compact>
                 </Form.Item>
@@ -124,13 +130,16 @@ export default function UpdateProductModal({ open, onClose, onConfirm, product }
                     url: url.startsWith('http') ? url : `${BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`,
                 })));
 
+                console.log('price:', item.price);
+                console.log('costPrice:', item.costPrice);
+
                 form.setFieldsValue({
                     productCode: item.productCode,
                     itemName: item.itemName,
                     parentCategory: parentId ?? undefined,
                     category: childId ?? undefined,
-                    cost: item.costPrice,
-                    price: item.price,
+                    costPrice: item.costPrice || 0,
+                    price: item.price || 0,
                     description: item.description,
                 });
             })
@@ -146,7 +155,7 @@ export default function UpdateProductModal({ open, onClose, onConfirm, product }
             formData.append('itemName', values.itemName);
             formData.append('productCode', values.productCode);
             formData.append('price', values.price);
-            formData.append('costPrice', values.cost || 0);
+            formData.append('costPrice', values.costPrice || 0);
             formData.append('description', values.description || '');
             formData.append('category', values.category);
 
@@ -186,7 +195,8 @@ export default function UpdateProductModal({ open, onClose, onConfirm, product }
         form.setFieldValue('category', undefined);
     };
 
-    const tabItems = useMemo(() => [
+    // Xóa useMemo, dùng trực tiếp
+    const tabItems = [
         {
             key: '1',
             label: 'Thông tin',
@@ -213,7 +223,7 @@ export default function UpdateProductModal({ open, onClose, onConfirm, product }
                 </div>
             ),
         },
-    ], [parentOptions, childOptions, selectedParentId, fileList]);
+    ];
 
     return (
         <Modal

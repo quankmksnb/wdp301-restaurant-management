@@ -5,7 +5,7 @@ import { Button, Form, Input, InputNumber, Modal, Select, Tabs, Upload, message 
 import { useEffect, useMemo, useState } from 'react';
 import { getCategoryTree } from '@/services/menuCategoryService';
 import { createMenuItem } from '@/services/menuItemService';
-import AddCategoryModal from './modals/AddCategoryModal';
+import AddCategoryModal from './AddCategoryModal';
 
 const { TextArea } = Input;
 
