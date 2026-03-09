@@ -14,6 +14,8 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import React from "react";
+import EmployeeDropdown from "./EmployeeDropdown";
 
 export default function DashboardHeader() {
   const router = useRouter();
@@ -22,7 +24,7 @@ export default function DashboardHeader() {
     { label: "Tổng quan", path: "/dashboard" },
     { label: "Hàng hóa", path: "/dashboard/products" },
     { label: "Phòng/Bàn", path: "/dashboard/table" },
-    { label: "Nhân viên", path: "/dashboard/staff" },
+    { label: "employee-dropdown", path: "/dashboard/employee", component: <EmployeeDropdown /> },
     { label: "Báo cáo", path: "/dashboard/reports" },
   ];
 
@@ -105,6 +107,10 @@ export default function DashboardHeader() {
               item.path === "/dashboard"
                 ? pathname === "/dashboard"
                 : pathname.startsWith(item.path);
+
+            if (item.component) {
+              return <React.Fragment key={item.path}>{item.component}</React.Fragment>;
+            }
 
             return (
               <Link

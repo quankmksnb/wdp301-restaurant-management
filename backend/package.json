@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/quankmksnb/wdp301-restaurant-management#readme",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "axios": "^1.13.6",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
