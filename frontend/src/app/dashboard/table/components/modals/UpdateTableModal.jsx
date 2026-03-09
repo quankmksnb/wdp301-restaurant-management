@@ -20,9 +20,6 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
 
   const [loading, setLoading] = useState(false);
 
-  /**
-   * load data khi mở modal
-   */
   useEffect(() => {
     if (open && table) {
       setTableName(table.tableName || "");
@@ -33,9 +30,6 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
     }
   }, [open, table]);
 
-  /**
-   * reset form
-   */
   const resetForm = () => {
     setTableName("");
     setSelectedArea(null);
@@ -110,7 +104,6 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
       }
     >
       <div className="space-y-4">
-        {/* tên bàn */}
         <div>
           <label className="mb-2 block">
             Tên phòng/bàn <span className="text-red-500">*</span>
@@ -123,7 +116,6 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
           />
         </div>
 
-        {/* khu vực */}
         <div>
           <label className="mb-2 block">
             Khu vực <span className="text-red-500">*</span>
@@ -141,7 +133,6 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
           />
         </div>
 
-        {/* số thứ tự + số ghế */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="mb-2 block">Số thứ tự</label>
@@ -166,7 +157,6 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
           </div>
         </div>
 
-        {/* ghi chú */}
         <div>
           <label className="mb-2 block">Ghi chú</label>
 

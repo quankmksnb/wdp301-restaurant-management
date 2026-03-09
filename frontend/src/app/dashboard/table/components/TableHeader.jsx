@@ -22,7 +22,6 @@ export default function TableHeader({
   return (
     <div className="p-4 mb-10">
       <div className="flex justify-between items-center">
-        {/* LEFT */}
         <div className="flex items-center gap-6">
           <h1 className="text-3xl font-bold">Phòng/Bàn</h1>
 
@@ -37,7 +36,6 @@ export default function TableHeader({
           )}
         </div>
 
-        {/* RIGHT BUTTON */}
         <Space>
           <Button
             type="primary"
@@ -69,7 +67,6 @@ export default function TableHeader({
         </Space>
       </div>
 
-      {/* MODAL */}
       <AddTableModal
         open={openAddModal}
         onClose={() => setOpenAddModal(false)}
