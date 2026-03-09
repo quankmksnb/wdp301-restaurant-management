@@ -154,7 +154,7 @@ export default function EmployeePage() {
     };
 
     return (
-        <div className="h-full overflow-hidden py-4">
+        <div className="min-h-screen py-6">
             <div className="max-w-[80vw] mx-auto h-full">
                 <Row gutter={24} className="h-full">
                     {/* LEFT FILTER */}
