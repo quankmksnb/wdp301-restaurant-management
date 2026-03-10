@@ -1,24 +1,23 @@
 'use client';
 
-import { useState } from 'react';
-import { Button, Dropdown, Space, Typography } from 'antd';
 import {
-    PlusOutlined,
-    UploadOutlined,
-    DownloadOutlined,
-    MenuOutlined,
-    DeleteOutlined,
-    TagOutlined,
-    PrinterOutlined,
-    ExportOutlined,
     CloseOutlined,
+    DeleteOutlined,
+    DownloadOutlined,
+    EditOutlined,
+    ExportOutlined,
+    MenuOutlined,
+    PlusOutlined,
+    PrinterOutlined,
+    TagOutlined
 } from '@ant-design/icons';
+import { Button, Dropdown, Space, Typography } from 'antd';
+import { useState } from 'react';
 
 // Import 4 modal components
 import AddProductModal from './modals/AddProductModal';
-import AddProcessedProductModal from './modals/AddProcessedProductModal';
-import AddServiceModal from './modals/AddServiceModal';
-import AddComboBuffetModal from './modals/AddComboBuffetModal';
+import CategoryManagerModal from './modals/CategoryManagerModal';
+
 
 const { Text } = Typography;
 
@@ -43,6 +42,8 @@ export default function ProductHeader({
     onDeselectAll = () => { },
     onRefresh = () => { },
 }) {
+    const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+
     // State để quản lý 4 modal riêng biệt
     const [modalStates, setModalStates] = useState({
         product: false,
@@ -52,8 +53,8 @@ export default function ProductHeader({
     });
 
     const handleProductConfirm = (newItem, andNew) => {
-        if (!andNew) closeModal('product'); 
-        onRefresh();                         
+        if (!andNew) closeModal('product');
+        onRefresh();
     };
 
     const addMenuItems = [
@@ -171,8 +172,14 @@ export default function ProductHeader({
                         </Button>
                     </Dropdown>
 
-                    <Button type="primary" icon={<UploadOutlined />} size="large" className="!bg-secondary !border-secondary hover:!bg-secondary/90">
-                        Import
+                    <Button
+                        type="primary"
+                        icon={<EditOutlined />}
+                        size="large"
+                        className="!bg-secondary !border-secondary hover:!bg-secondary/90"
+                        onClick={() => setCategoryModalOpen(true)}
+                    >
+                        Danh mục hàng hóa
                     </Button>
 
                     <Button type="primary" icon={<DownloadOutlined />} size="large" className="!bg-secondary !border-secondary hover:!bg-secondary/90">
@@ -198,6 +205,11 @@ export default function ProductHeader({
                 open={modalStates.product}
                 onClose={() => closeModal('product')}
                 onConfirm={handleProductConfirm}
+            />
+
+            <CategoryManagerModal
+                open={categoryModalOpen}
+                onClose={() => setCategoryModalOpen(false)}
             />
 
             {/* <AddProcessedProductModal

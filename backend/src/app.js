@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
+import employeeRoutes from "./routes/employee.routes.js";
 import routes from "./routes/index.js";
+
 
 const app = express();
 
@@ -15,5 +17,8 @@ app.use("/uploads", express.static("uploads")); // Cho phép truy cập file tro
 app.get("/", (req, res) => {
   res.send("API is running with ES Modules 🚀");
 });
+
+// Routes
+app.use("/api/employees", employeeRoutes);
 
 export default app;
