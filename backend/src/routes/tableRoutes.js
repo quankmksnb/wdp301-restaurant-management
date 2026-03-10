@@ -5,6 +5,7 @@ import {
   getTable,
   updateTable,
   toggleTableStatus,
+  deleteTable,
 } from "../controllers/tableController.js";
 
 import { validate } from "../middlewares/validateMiddleware.js";
@@ -24,5 +25,7 @@ router.get("/:id", getTable);
 router.put("/:id", validate(updateTableSchema), updateTable);
 
 router.patch("/:id/status", toggleTableStatus);
+
+router.delete("/:id", deleteTable);
 
 export default router;

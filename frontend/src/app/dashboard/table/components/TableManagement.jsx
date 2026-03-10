@@ -2,32 +2,18 @@
 
 import { Table, Tag } from "antd";
 import { useState } from "react";
-import TableHeader from "./TableHeader";
 
-const initialData = [
-  {
-    key: "1",
-    name: "Bàn 20",
-    note: "",
-    area: "Lầu 3",
-    seats: 4,
-    status: "Đang hoạt động",
-    order: 0,
-  },
-  {
-    key: "2",
-    name: "Bàn 19",
-    note: "",
-    area: "Lầu 3",
-    seats: 6,
-    status: "Ngừng hoạt động",
-    order: 1,
-  },
-];
+import TableHeader from "./TableHeader";
+import TableDetail from "./TableDetail";
+
+import useTables from "@/hooks/useTables";
 
 export default function TableManagement() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [tableData, setTableData] = useState(initialData);
+  const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+  const [page, setPage] = useState(1);
+
+  const { tables, total, loading, refreshTables } = useTables(page);
 
   const rowSelection = {
     selectedRowKeys,
@@ -37,55 +23,66 @@ export default function TableManagement() {
   const columns = [
     {
       title: "Tên phòng/bàn",
-      dataIndex: "name",
+      dataIndex: "tableName",
     },
     {
       title: "Ghi chú",
       dataIndex: "note",
+      render: (note) => note || "-",
     },
     {
       title: "Khu vực",
-      dataIndex: "area",
+      dataIndex: ["area", "areaName"],
     },
     {
       title: "Số ghế",
-      dataIndex: "seats",
+      dataIndex: "capacity",
     },
     {
       title: "Trạng thái",
-      dataIndex: "status",
+      dataIndex: "tableStatus",
       render: (status) => (
-        <Tag color={status === "Đang hoạt động" ? "green" : "default"}>
-          {status}
+        <Tag color={status === "active" ? "green" : "default"}>
+          {status === "active" ? "Đang hoạt động" : "Ngừng hoạt động"}
         </Tag>
       ),
     },
-    {
-      title: "Số thứ tự",
-      dataIndex: "order",
-    },
   ];
+
+  const handleRowClick = (record) => {
+    const key = record._id;
+
+    setExpandedRowKeys((prev) => (prev.includes(key) ? [] : [key]));
+  };
 
   return (
     <div>
-      {/* HEADER */}
-      <TableHeader
-        selectedRowKeys={selectedRowKeys}
-        hasSelected={selectedRowKeys.length > 0}
-        onDeselectAll={() => setSelectedRowKeys([])}
-      />
+      <TableHeader refreshTables={refreshTables} />
 
-      {/* TABLE */}
       <Table
+        rowKey="_id"
         rowSelection={rowSelection}
         columns={columns}
-        dataSource={tableData}
-        pagination={{
-          pageSize: 10,
-        }}
+        dataSource={tables}
+        loading={loading}
         scroll={{ x: "max-content" }}
         className="border-t"
-        rowClassName="cursor-pointer hover:bg-gray-50"
+        pagination={{
+          current: page,
+          total: total,
+          pageSize: 10,
+          onChange: (p) => setPage(p),
+        }}
+        expandable={{
+          expandedRowRender: (record) => (
+            <TableDetail table={record} onRefresh={refreshTables} />
+          ),
+          expandedRowKeys,
+          expandIcon: () => null,
+        }}
+        onRow={(record) => ({
+          onClick: () => handleRowClick(record),
+        })}
       />
     </div>
   );

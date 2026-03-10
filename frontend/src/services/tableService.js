@@ -1,0 +1,31 @@
+import api from "./api";
+
+export const getTables = async (params = {}) => {
+  const res = await api.get("/tables", { params });
+  return res.data;
+};
+
+export const createTable = async (data) => {
+  const res = await api.post("/tables", data);
+  return res.data;
+};
+
+export const getTableById = async (id) => {
+  const res = await api.get(`/tables/${id}`);
+  return res.data;
+};
+
+export const updateTable = async (id, data) => {
+  const res = await api.put(`/tables/${id}`, data);
+  return res.data;
+};
+
+export const deleteTable = async (id) => {
+  const res = await api.delete(`/tables/${id}`);
+  return res.data;
+};
+
+export const toggleTableStatus = async (id) => {
+  const res = await api.patch(`/tables/${id}/status`);
+  return res.data;
+};
