@@ -34,7 +34,7 @@ const ColumnCheckbox = ({ columnKey, label, visibleColumns, onToggle }) => (
 function ExpandedInfoPanel({ employee }) {
     return (
         <div className="p-4">
-            <div className="flex gap-6">
+            <div className="flex flex-col gap-6">
                 {/* Photo */}
                 <div className="w-24 h-24 bg-gray-200 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
                     {employee.photo ? (
@@ -54,81 +54,68 @@ function ExpandedInfoPanel({ employee }) {
                 </div>
 
                 {/* Info Grid */}
-                <div className="flex-1 grid grid-cols-4 gap-x-6 gap-y-4">
+                <div className="w-full min-w-0 grid grid-cols-4 gap-x-4 gap-y-4 max-w-6xl">
                     {/* Row 1 */}
-                    <div>
+                    <div className="w-full overflow-hidden pr-2">
                         <div className="text-xs text-gray-500 mb-1">Mã nhân viên:</div>
-                        <div className="font-medium">{employee.code}</div>
+                        <div className="font-medium line-clamp-2 break-words" title={employee.code}>{employee.code}</div>
                     </div>
-                    <div>
+                    <div className="w-full overflow-hidden pr-2">
                         <div className="text-xs text-gray-500 mb-1">Tên nhân viên:</div>
-                        <div className="font-medium">{employee.name}</div>
+                        <div className="font-medium line-clamp-2 break-words" title={employee.name}>{employee.name}</div>
                     </div>
-                    <div>
+                    <div className="w-full overflow-hidden pr-2">
                         <div className="text-xs text-gray-500 mb-1">Ngày sinh:</div>
-                        <div className="font-medium">{employee.birthDate || '-'}</div>
+                        <div className="font-medium line-clamp-2 break-words" title={employee.birthDate}>{employee.birthDate || '-'}</div>
                     </div>
 
                     {/* Row 2 */}
-                    <div>
+                    <div className="w-full overflow-hidden pr-2">
                         <div className="text-xs text-gray-500 mb-1">Giới tính:</div>
-                        <div className="font-medium">{employee.gender || '-'}</div>
+                        <div className="font-medium line-clamp-2 break-words" title={employee.gender}>{employee.gender || '-'}</div>
                     </div>
-                    <div>
+                    <div className="w-full overflow-hidden pr-2">
                         <div className="text-xs text-gray-500 mb-1">Số CMND/CCCD:</div>
-                        <div className="font-medium">{employee.idNumber || '-'}</div>
+                        <div className="font-medium line-clamp-2 break-words" title={employee.idNumber}>{employee.idNumber || '-'}</div>
                     </div>
-                    <div>
+                    <div className="w-full overflow-hidden pr-2">
                         <div className="text-xs text-gray-500 mb-1">Phòng ban:</div>
-                        <div className="font-medium">{employee.department || '-'}</div>
+                        <div className="font-medium line-clamp-2 break-words" title={employee.department}>{employee.department || '-'}</div>
                     </div>
-                    <div>
+                    <div className="w-full overflow-hidden pr-2">
                         <div className="text-xs text-gray-500 mb-1">Chức danh:</div>
-                        <div className="font-medium">{employee.position || '-'}</div>
+                        <div className="font-medium line-clamp-2 break-words" title={employee.position}>{employee.position || '-'}</div>
                     </div>
 
                     {/* Row 3 */}
-                    <div>
+                    <div className="w-full overflow-hidden pr-2">
                         <div className="text-xs text-gray-500 mb-1">Ngày bắt đầu làm việc:</div>
-                        <div className="font-medium">{employee.startDate || '-'}</div>
+                        <div className="font-medium line-clamp-2 break-words" title={employee.startDate}>{employee.startDate || '-'}</div>
                     </div>
-                    <div>
-                        <div className="text-xs text-gray-500 mb-1">Chi nhánh trả lương:</div>
-                        <div className="font-medium">{employee.branch || 'Chi nhánh trung tâm'}</div>
-                    </div>
-                    <div>
-                        <div className="text-xs text-gray-500 mb-1">Chi nhánh làm việc:</div>
-                        <div className="font-medium">{employee.branch || 'Chi nhánh trung tâm'}</div>
-                    </div>
-
                     {/* Row 4 */}
-                    <div>
+                    <div className="w-full overflow-hidden pr-2">
                         <div className="text-xs text-gray-500 mb-1">Số điện thoại:</div>
-                        <div className="font-medium">{employee.phone || '-'}</div>
+                        <div className="font-medium line-clamp-2 break-words" title={employee.phone}>{employee.phone || '-'}</div>
                     </div>
-                    <div>
+                    <div className="w-full overflow-hidden pr-2">
                         <div className="text-xs text-gray-500 mb-1">Email:</div>
-                        <div className="font-medium">{employee.email || '-'}</div>
+                        <div className="font-medium line-clamp-2 break-words" title={employee.email}>{employee.email || '-'}</div>
                     </div>
-                    <div>
+                    <div className="w-full overflow-hidden pr-2">
                         <div className="text-xs text-gray-500 mb-1">Facebook:</div>
-                        <div className="font-medium">{employee.facebook || '-'}</div>
+                        <div className="font-medium line-clamp-2 break-words" title={employee.facebook}>{employee.facebook || '-'}</div>
                     </div>
-                    <div>
+                    <div className="w-full overflow-hidden pr-2">
                         <div className="text-xs text-gray-500 mb-1">Địa chỉ:</div>
-                        <div className="font-medium">{employee.address || '-'}</div>
+                        <div className="font-medium line-clamp-2 break-words" title={employee.address}>{employee.address || '-'}</div>
                     </div>
                 </div>
-            </div>
 
-            {/* Mobile device & Notes row */}
-            <div className="mt-4 flex gap-6">
-                <div className="w-24 flex-shrink-0" /> {/* spacer to align with grid */}
-                <div className="flex-1 flex gap-6">
-                    <div className="ml-auto max-w-xs">
-                        <div className="border rounded px-3 py-2 text-sm text-gray-400 min-w-[200px]">
-                            Ghi chú...
-                        </div>
+                {/* Notes section */}
+                <div className="w-full max-w-sm">
+                    <div className="text-xs text-gray-500 mb-1">Ghi chú:</div>
+                    <div className={`border rounded px-3 py-2 text-sm min-w-[200px] whitespace-pre-wrap ${employee.notes ? 'text-gray-700 bg-gray-50' : 'text-gray-400'}`}>
+                        {employee.notes || 'Ghi chú...'}
                     </div>
                 </div>
             </div>
@@ -156,24 +143,24 @@ function ExpandedRowContent({ employee, onEdit, onDeactivate }) {
             <Tabs defaultActiveKey="info" items={tabItems} className="px-4" />
 
             {/* Footer action bar */}
-            <div className="border-t border-gray-200 px-4 py-3 flex items-center justify-between bg-gray-50">
-                <Popconfirm
-                    title="Ngừng làm việc"
-                    description={`Bạn có chắc chắn muốn cho nhân viên "${employee.name}" ngừng làm việc?`}
-                    onConfirm={() => onDeactivate && onDeactivate(employee.key)}
-                    okText="Xác nhận"
-                    cancelText="Hủy"
-                    okButtonProps={{ danger: true }}
-                >
-                    <Button
-                        icon={<StopOutlined />}
-                        className="text-gray-600 hover:text-red-500"
-                    >
-                        Ngừng làm việc
-                    </Button>
-                </Popconfirm>
-
+            <div className="border-t border-gray-200 px-4 py-3 flex items-center justify-end bg-gray-50">
                 <Space>
+                    <Popconfirm
+                        title="Ngừng làm việc"
+                        description={`Bạn có chắc chắn muốn cho nhân viên "${employee.name}" ngừng làm việc?`}
+                        onConfirm={() => onDeactivate && onDeactivate(employee.key)}
+                        okText="Xác nhận"
+                        cancelText="Hủy"
+                        okButtonProps={{ danger: true }}
+                    >
+                        <Button
+                            icon={<StopOutlined />}
+                            className="text-gray-600 hover:text-red-500"
+                        >
+                            Ngừng làm việc
+                        </Button>
+                    </Popconfirm>
+
                     <Button
                         type="primary"
                         icon={<CheckCircleOutlined />}
@@ -212,24 +199,22 @@ export default function EmployeeList({
         });
     };
 
-    // column definitions for the visibility selector
     const mainColumnDefs = [
         { key: 'photo', label: 'Ảnh' },
         { key: 'code', label: 'Mã nhân viên' },
         { key: 'name', label: 'Tên nhân viên' },
         { key: 'phone', label: 'Số điện thoại' },
-        { key: 'idNumber', label: 'Số CMND/CCCD' },
-        { key: 'branch', label: 'Chi nhánh' },
+        { key: 'email', label: 'Email' },
+        { key: 'gender', label: 'Giới tính' },
     ];
 
     const additionalColumnDefs = [
         { key: 'birthDate', label: 'Ngày sinh' },
-        { key: 'gender', label: 'Giới tính' },
-        { key: 'email', label: 'Email' },
         { key: 'facebook', label: 'Facebook' },
         { key: 'address', label: 'Địa chỉ' },
         { key: 'position', label: 'Chức danh' },
         { key: 'startDate', label: 'Ngày bắt đầu làm việc' },
+        { key: 'idNumber', label: 'Số CMND/CCCD' },
     ];
 
     const columnMenuItems = [
@@ -313,11 +298,6 @@ export default function EmployeeList({
             title: 'Số CMND/CCCD',
             dataIndex: 'idNumber',
             key: 'idNumber',
-        },
-        {
-            title: 'Chi nhánh',
-            dataIndex: 'branch',
-            key: 'branch',
         },
         {
             title: 'Ngày sinh',
@@ -468,7 +448,7 @@ export default function EmployeeList({
                 </span>
                 <Pagination
                     current={pagination.page || 1}
-                    pageSize={pagination.limit || 20}
+                    pageSize={pagination.limit || 10}
                     total={pagination.total || 0}
                     showSizeChanger
                     pageSizeOptions={['10', '20', '50', '100']}
