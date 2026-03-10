@@ -30,11 +30,13 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error("FULL ERROR:", error);
-    console.error("STATUS:", error.response?.status);
-    console.error("DATA:", error.response?.data);
+    if (error.response?.status !== 401) {
+      console.error("FULL ERROR:", error);
+      console.error("STATUS:", error.response?.status);
+      console.error("DATA:", error.response?.data);
+    }
     return Promise.reject(error);
-  },
+  }
 );
 
 // ===================== Employee API =====================
