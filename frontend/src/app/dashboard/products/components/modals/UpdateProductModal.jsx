@@ -103,7 +103,10 @@ function ProductInfoTab({
       <div className="grid grid-cols-2 gap-4">
         <Form.Item label="Giá vốn">
           <Space.Compact className="w-full">
-            <Form.Item name="costPrice" noStyle>
+            <Form.Item name="costPrice" noStyle rules={[
+              { required: true, message: "Vui lòng nhập giá bán" },
+              { type: "number", min: 1, message: "Giá bán phải lớn hơn 0" },
+            ]}>
               <InputNumber
                 className="w-full"
                 style={{ width: "100%" }}

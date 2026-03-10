@@ -129,6 +129,17 @@ function ProductInfoTab({ parentOptions, childOptions, selectedParentId, onParen
                 <Form.Item
                     name="cost"
                     label={<span className="flex items-center gap-1">Giá vốn <QuestionCircleOutlined className="text-gray-400 text-sm" /></span>}
+                    rules={[
+                        { required: true, message: "Vui lòng nhập giá bán" },
+                        {
+                            validator: (_, value) => {
+                                if (!value || value <= 0) {
+                                    return Promise.reject('Giá bán phải lớn hơn 0');
+                                }
+                                return Promise.resolve();
+                            }
+                        },
+                    ]}
                 >
                     <PriceInput />
                 </Form.Item>
