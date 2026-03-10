@@ -254,7 +254,7 @@ function ParentRow({ node, onEdit, onDelete, onAddChild }) {
 }
 
 // ========================= MAIN MODAL =========================
-export default function CategoryManagerModal({ open, onClose }) {
+export default function CategoryManagerModal({ open, onClose, onSuccess }) {
     const [categoryTree, setCategoryTree] = useState([]);
     const [loading, setLoading]           = useState(false);
     const [formModalOpen, setFormModalOpen] = useState(false);
@@ -282,6 +282,7 @@ export default function CategoryManagerModal({ open, onClose }) {
             await deleteCategory(id, false);
             message.success('Xóa thành công');
             loadTree();
+            onSuccess?.(); 
         } catch (err) {
             message.error(err?.response?.data?.message || 'Xóa thất bại');
         }
@@ -398,6 +399,7 @@ export default function CategoryManagerModal({ open, onClose }) {
                 onSuccess={() => {
                     setFormModalOpen(false);
                     loadTree();
+                    onSuccess?.();
                 }}
             />
         </>

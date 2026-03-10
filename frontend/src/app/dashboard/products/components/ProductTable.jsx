@@ -198,6 +198,7 @@ export default function ProductTable({ filters = {} }) {
                 onColumnVisibilityChange={handleColumnVisibilityChange}
                 onDeselectAll={() => setSelectedRowKeys([])}
                 onRefresh={() => fetchData(pagination.current, pagination.pageSize)}
+                onCategoryChanged={() => fetchData(1, pagination.pageSize)}
             />
 
             <Table
