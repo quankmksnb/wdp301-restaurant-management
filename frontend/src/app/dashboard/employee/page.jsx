@@ -10,7 +10,7 @@ import EmployeeFormModal from './components/AddEmployeeModal';
 export default function EmployeePage() {
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [pagination, setPagination] = useState({ page: 1, limit: 20, total: 0, totalPages: 0 });
+    const [pagination, setPagination] = useState({ page: 1, limit: 10, total: 0, totalPages: 0 });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingEmployee, setEditingEmployee] = useState(null);
     const [searchText, setSearchText] = useState('');
@@ -18,7 +18,7 @@ export default function EmployeePage() {
 
     // ---- Column visibility ----
     const [visibleColumns, setVisibleColumns] = useState(
-        ['photo', 'code', 'workerCode', 'name', 'phone', 'idNumber', 'branch']
+        ['photo', 'code', 'name', 'phone', 'email', 'gender']
     );
 
     const handleToggleColumn = (key) => {
@@ -39,7 +39,7 @@ export default function EmployeePage() {
     };
 
     // ---- Fetch employees from API ----
-    const fetchEmployees = useCallback(async (page = 1, limit = 20, search = '', status = 'active') => {
+    const fetchEmployees = useCallback(async (page = 1, limit = 10, search = '', status = 'active') => {
         setLoading(true);
         try {
             const params = { page, limit };
