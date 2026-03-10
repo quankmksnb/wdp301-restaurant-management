@@ -8,12 +8,12 @@ import TableDetail from "./TableDetail";
 
 import useTables from "@/hooks/useTables";
 
-export default function TableManagement() {
+export default function TableManagement({ filters }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [page, setPage] = useState(1);
 
-  const { tables, total, loading, refreshTables } = useTables(page);
+  const { tables, total, loading, refreshTables } = useTables(page, filters);
 
   const rowSelection = {
     selectedRowKeys,

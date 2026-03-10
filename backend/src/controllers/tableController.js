@@ -41,13 +41,43 @@ export const createTable = async (req, res) => {
 
 export const getTables = async (req, res) => {
   try {
-    const tables = await Table.find()
+    const { page = 1, limit = 10, area, status, search } = req.query;
+
+    const filter = {};
+
+    // filter area
+    if (area && area !== "all") {
+      filter.area = area;
+    }
+
+    // filter status
+    if (status && status !== "all") {
+      filter.tableStatus = status;
+    }
+
+    // search tableName
+    if (search) {
+      filter.tableName = {
+        $regex: search,
+        $options: "i",
+      };
+    }
+
+    const skip = (page - 1) * limit;
+
+    const tables = await Table.find(filter)
       .populate("area", "areaName")
-      .sort({ tableNumber: 1 });
+      .sort({ tableNumber: 1 })
+      .skip(skip)
+      .limit(Number(limit));
+
+    const total = await Table.countDocuments(filter);
 
     res.json({
       success: true,
-      total: tables.length,
+      total,
+      page: Number(page),
+      limit: Number(limit),
       data: tables,
     });
   } catch (error) {
