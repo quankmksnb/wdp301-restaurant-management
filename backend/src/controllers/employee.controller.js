@@ -128,6 +128,7 @@ export const getEmployees = async (req, res) => {
             search = "",
             department,
             position,
+            role,
             status,
         } = req.query;
 
@@ -147,6 +148,9 @@ export const getEmployees = async (req, res) => {
 
         if (department) filter.department = department;
         if (position) filter.position = position;
+        if (role) {
+            filter.role = { $in: role.split(',') };
+        }
         if (status) {
             filter.status = status;
         } else {
