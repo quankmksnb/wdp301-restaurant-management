@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Col, Row, message } from 'antd';
-import { getEmployees, createEmployee, updateEmployee, deleteEmployee } from '@/services/api';
+import { getEmployees, createEmployee, updateEmployee, deleteEmployee } from '@/services/employeeService';
+import useExportFile from '@/hooks/useExportFile';
 import EmployeeFilters from './components/EmployeeFilters';
 import EmployeeList from './components/EmployeeList';
 import EmployeeFormModal from './components/AddEmployeeModal';
@@ -15,6 +16,13 @@ export default function EmployeePage() {
     const [editingEmployee, setEditingEmployee] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [statusFilter, setStatusFilter] = useState('active');
+    const [roleFilter, setRoleFilter] = useState('');
+
+    // ---- Export ----
+    const { exporting, exportFile } = useExportFile('employees');
+    const handleExportFile = () => {
+        exportFile({ search: searchText, status: statusFilter });
+    };
 
     // ---- Column visibility ----
     const [visibleColumns, setVisibleColumns] = useState(
@@ -39,12 +47,13 @@ export default function EmployeePage() {
     };
 
     // ---- Fetch employees from API ----
-    const fetchEmployees = useCallback(async (page = 1, limit = 10, search = '', status = 'active') => {
+    const fetchEmployees = useCallback(async (page = 1, limit = 10, search = '', status = 'active', role = '') => {
         setLoading(true);
         try {
             const params = { page, limit };
             if (search) params.search = search;
             if (status) params.status = status;
+            if (role) params.role = role;
 
             const res = await getEmployees(params);
             const json = res.data;
@@ -84,7 +93,7 @@ export default function EmployeePage() {
     }, []);
 
     useEffect(() => {
-        fetchEmployees(pagination.page, pagination.limit, searchText, statusFilter);
+        fetchEmployees(pagination.page, pagination.limit, searchText, statusFilter, roleFilter);
     }, []);
 
     // ---- Filter change from EmployeeFilters ----
@@ -93,19 +102,22 @@ export default function EmployeePage() {
         if (newFilters.status !== undefined) {
             setStatusFilter(newFilters.status);
         }
+        if (newFilters.role !== undefined) {
+            setRoleFilter(newFilters.role);
+        }
     };
 
     // ---- Search with debounce ----
     useEffect(() => {
         const timer = setTimeout(() => {
-            fetchEmployees(1, pagination.limit, searchText, statusFilter);
+            fetchEmployees(1, pagination.limit, searchText, statusFilter, roleFilter);
         }, 400);
         return () => clearTimeout(timer);
-    }, [searchText, statusFilter]);
+    }, [searchText, statusFilter, roleFilter]);
 
     // ---- Pagination change ----
     const handlePageChange = (page, pageSize) => {
-        fetchEmployees(page, pageSize, searchText, statusFilter);
+        fetchEmployees(page, pageSize, searchText, statusFilter, roleFilter);
     };
 
     // ---- Add Employee ----
@@ -132,7 +144,7 @@ export default function EmployeePage() {
             }
             setIsModalOpen(false);
             setEditingEmployee(null);
-            fetchEmployees(pagination.page, pagination.limit, searchText, statusFilter);
+            fetchEmployees(pagination.page, pagination.limit, searchText, statusFilter, roleFilter);
         } catch (err) {
             message.error(err.response?.data?.message || 'Có lỗi xảy ra');
         }
@@ -147,7 +159,7 @@ export default function EmployeePage() {
             await deleteEmployee(emp._id);
             message.success('Đã cho nhân viên ngừng làm việc!');
 
-            fetchEmployees(pagination.page, pagination.limit, searchText, statusFilter);
+            fetchEmployees(pagination.page, pagination.limit, searchText, statusFilter, roleFilter);
         } catch (err) {
             message.error(err.response?.data?.message || 'Có lỗi xảy ra');
         }
@@ -175,6 +187,8 @@ export default function EmployeePage() {
                                 loading={loading}
                                 pagination={pagination}
                                 onPageChange={handlePageChange}
+                                onExportFile={handleExportFile}
+                                exportLoading={exporting}
                             />
                         </div>
                     </Col>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Table, Button, Popconfirm, Tooltip, Space, Dropdown, Tag, Pagination, Tabs } from 'antd';
+import useExportFile from '@/hooks/useExportFile';
 import {
     EditOutlined,
     UserAddOutlined,
@@ -184,6 +185,8 @@ export default function EmployeeList({
     loading = false,
     pagination = {},
     onPageChange,
+    onExportFile,
+    exportLoading = false,
 }) {
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [expandedRowKeys, setExpandedRowKeys] = useState([]);
@@ -387,6 +390,8 @@ export default function EmployeeList({
                             icon={<DownloadOutlined />}
                             size="large"
                             className="!bg-secondary !border-secondary hover:!bg-secondary/90"
+                            onClick={onExportFile}
+                            loading={exportLoading}
                         >
                             Xuất file
                         </Button>
