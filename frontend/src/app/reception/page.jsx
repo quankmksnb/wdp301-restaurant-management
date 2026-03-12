@@ -23,7 +23,7 @@ import {
 
 import useTables from "@/hooks/useTables";
 import useAreas from "@/hooks/useAreas";
-import ReservationModal from "@/app/dashboard/reception/components/ReservationModal";
+import ReservationModal from "@/app/reception/components/ReservationModal";
 
 // ─── Constants ───────────────────────────────────────────────────
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
@@ -49,7 +49,7 @@ function getDaysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
 function getFirstDayOfMonth(y, m) { const d = new Date(y, m, 1).getDay(); return d === 0 ? 6 : d - 1; }
 
 // ─── Mock Reservations ───────────────────────────────────────────
-import mockReservations from "@/app/dashboard/reception/mockReservations";
+import mockReservations from "@/app/reception/mockReservations";
 
 // ─────────────────────────────────────────────────────────────────
 // MAIN PAGE
