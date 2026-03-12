@@ -142,6 +142,7 @@ export default function DashboardHeader() {
           <RoleButton
             label="Lễ tân"
             icon={<ClipboardList className="w-4 h-4" />}
+            onClick={() => router.push("/reception")}
           />
           <RoleButton
             label="Thu ngân"
@@ -153,9 +154,10 @@ export default function DashboardHeader() {
   );
 }
 
-function RoleButton({ label, icon }) {
+function RoleButton({ label, icon, onClick }) {
   return (
     <button
+      onClick={onClick}
       className="
         bg-white text-blue-600
         text-sm font-medium
@@ -164,6 +166,7 @@ function RoleButton({ label, icon }) {
         flex items-center gap-2
         hover:bg-blue-50
         transition
+        cursor-pointer
       "
     >
       {icon}
