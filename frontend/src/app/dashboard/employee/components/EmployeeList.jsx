@@ -412,7 +412,7 @@ export default function EmployeeList({
             </div>
 
             {/* ── Table with expandable rows ── */}
-            <div className="flex-1 overflow-auto">
+            <div className="flex-1 overflow-hidden" id="employee-table-container">
                 <Table
                     rowSelection={{
                         selectedRowKeys,
@@ -422,8 +422,8 @@ export default function EmployeeList({
                     dataSource={employees}
                     loading={loading}
                     pagination={false}
-                    scroll={{ x: 'max-content' }}
-                    className="border-t employee-table"
+                    scroll={{ x: 'max-content', y: 'calc(100vh - 345px)' }}
+                    className="border-t employee-table h-full [&_.ant-spin-nested-loading]:h-full [&_.ant-spin-container]:h-full [&_.ant-table]:h-full [&_.ant-table-container]:h-full [&_.ant-table-body]:!h-[calc(100vh-390px)]"
                     rowClassName="cursor-pointer hover:bg-gray-50"
                     onRow={(record) => ({
                         onClick: () => handleRowClick(record),
