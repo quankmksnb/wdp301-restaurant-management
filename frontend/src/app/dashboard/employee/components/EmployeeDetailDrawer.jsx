@@ -24,10 +24,6 @@ function EmployeeInfoPanel({ employee }) {
                         <div className="font-medium">{employee.name}</div>
                     </div>
                     <div>
-                        <div className="text-xs text-gray-500 mb-1">Mã chấm công:</div>
-                        <div className="font-medium">{employee.workerCode || '-'}</div>
-                    </div>
-                    <div>
                         <div className="text-xs text-gray-500 mb-1">Ngày sinh:</div>
                         <div className="font-medium">{employee.birthDate || '-'}</div>
                     </div>
