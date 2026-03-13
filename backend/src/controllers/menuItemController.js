@@ -323,7 +323,6 @@ export const deleteMenuItem = async (req, res) => {
     }
 };
 
-
 // TOGGLE AVAILABILITY STATUS
 export const toggleAvailabilityStatus = async (req, res) => {
     try {
@@ -363,6 +362,43 @@ export const toggleAvailabilityStatus = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: error.message
+        });
+    }
+};
+
+
+// lấy item theo category con
+export const getMenuItemsByChildCategory = async (req, res) => {
+    try {
+        const { category, search } = req.query;
+
+        const filter = {};
+
+        // lọc theo category con
+        if (category) {
+            filter.category = new mongoose.Types.ObjectId(category);
+        }
+
+        // chỉ lấy món đang bán
+        filter.availabilityStatus = { $ne: "unavailable" };
+
+        // search theo tên món
+        if (search) {
+            filter.itemName = { $regex: search, $options: "i" };
+        }
+
+        const items = await MenuItem.find(filter)
+            .populate("category", "categoryName")
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            data: items,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
         });
     }
 };

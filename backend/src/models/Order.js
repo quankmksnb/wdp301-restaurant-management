@@ -11,21 +11,25 @@ const orderItemSchema = new mongoose.Schema(
       required: true,
     },
     itemName: String,
+    orderItemStatus: {
+      type: String,
+      enum: ["pending", "preparing", "ready", "served", "cancelled", "out_of_stock"],
+      default: "pending",
+    },
     unitPrice: Number,
     quantity: { type: Number, required: true },
     subTotal: Number,
   },
-  { _id: false },
+  { timestamps: true },
 );
 
 const orderSchema = new mongoose.Schema(
   {
     orderDate: { type: Date, default: Date.now },
-
     orderStatus: {
       type: String,
-      enum: ["pending", "preparing", "served", "completed", "cancelled"],
-      default: "pending",
+      enum: ["open", "completed", "cancelled"],
+      default: "open"
     },
     items: [orderItemSchema],
     totalAmount: { type: Number, default: 0 },

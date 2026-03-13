@@ -193,3 +193,56 @@ export const deleteTable = async (req, res) => {
     });
   }
 };
+
+// Lấy danh sách bàn theo khu vực
+export const getTableByArea = async (req, res) => {
+  try {
+    const { area } = req.query;
+
+    const match = {};
+
+    // nếu có truyền area thì lọc theo area
+    if (area) {
+      match.area = new mongoose.Types.ObjectId(area);
+    }
+
+    const tables = await Table.aggregate([
+      {
+        $match: match,
+      },
+      {
+        $lookup: {
+          from: "orders",
+          localField: "_id",
+          foreignField: "table",
+          as: "orders",
+        },
+      },
+      {
+        $addFields: {
+          totalAmount: {
+            $ifNull: [{ $arrayElemAt: ["$orders.totalAmount", 0] }, 0],
+          },
+        },
+      },
+      {
+        $project: {
+          orders: 0,
+        },
+      },
+      {
+        $sort: { tableNumber: 1 },
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data: tables,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

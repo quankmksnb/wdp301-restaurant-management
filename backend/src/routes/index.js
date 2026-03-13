@@ -4,11 +4,13 @@ import menuItemRoutes from "./menuItemRoutes.js";
 import userRoutes from "./userRoutes.js";
 import areaRoutes from "./areaRoutes.js";
 import tableRoutes from "./tableRoutes.js";
+import orderRoutes from "./orderRoutes.js";
 
 const router = express.Router();
 
 router.use("/menu-categories", menuCategoryRoutes);
 router.use("/menu-items", menuItemRoutes);
+router.use("/orders", orderRoutes);
 
 // base path: /api/users
 router.use("/users", userRoutes);
