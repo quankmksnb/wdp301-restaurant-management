@@ -1,66 +1,57 @@
 "use client";
 
 import { useState } from "react";
+import { Plus } from "lucide-react";
 
 export default function FoodCard({ food, onAdd, cartQty }) {
-  const [h, setH] = useState(false);
+
+  const [hover, setHover] = useState(false);
+
   return (
     <div
       onClick={() => onAdd(food)}
-      onMouseEnter={()=>setH(true)}
-      onMouseLeave={()=>setH(false)}
-      style={{
-        background:"white", borderRadius:10,
-        border: h ? "2px solid #3b82f6" : "1.5px solid #e5e7eb",
-        cursor:"pointer", overflow:"hidden",
-        boxShadow: h ? "0 6px 20px rgba(37,99,235,.2)" : "0 1px 4px rgba(0,0,0,.08)",
-        transition:"all .15s",
-        transform: h ? "translateY(-3px) scale(1.02)" : "none",
-        position:"relative",
-      }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      className={`bg-white rounded-lg overflow-hidden cursor-pointer transition
+      ${hover ? "border-2 border-blue-500 shadow-lg scale-[1.02]" : "border border-slate-200 shadow-sm"}`}
     >
       {/* Image */}
-      <div style={{ position:"relative", paddingTop:"68%", overflow:"hidden", background:"#f1f5f9" }}>
-        <img src={food.img} alt={food.name}
-          style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover", transition:"transform .15s", transform: h?"scale(1.06)":"scale(1)" }}
-          onError={e=>{ e.target.style.display="none"; }}
+      <div className="relative pt-[68%] bg-slate-100 overflow-hidden">
+
+        <img
+          src={food.img}
+          alt={food.name}
+          className={`absolute inset-0 w-full h-full object-cover transition
+          ${hover ? "scale-105" : ""}`}
         />
-        {/* Blue overlay on hover */}
-        {h && (
-          <div style={{ position:"absolute", inset:0, background:"rgba(37,99,235,.12)", display:"flex", alignItems:"center", justifyContent:"center" }}>
-            <div style={{ background:"#2563eb", borderRadius:"50%", width:32, height:32, display:"flex", alignItems:"center", justifyContent:"center" }}>
-              <Plus size={18} color="white"/>
+
+        {/* Hover add button */}
+        {hover && (
+          <div className="absolute inset-0 bg-blue-500/10 flex items-center justify-center">
+            <div className="bg-blue-600 w-8 h-8 rounded-full flex items-center justify-center">
+              <Plus size={18} color="white" />
             </div>
           </div>
         )}
-        {/* Price badge */}
-        <div style={{
-          position:"absolute", bottom:0, left:0, right:0,
-          background: h ? "rgba(37,99,235,.9)" : "rgba(29,78,216,.82)",
-          color:"white", fontSize:11, fontWeight:700,
-          textAlign:"center", padding:"3px 0",
-        }}>
+
+        {/* Price */}
+        <div className={`absolute bottom-0 left-0 right-0 text-center text-[11px] font-bold text-white py-[3px]
+        ${hover ? "bg-blue-600/90" : "bg-blue-800/80"}`}>
           {food.price.toLocaleString("vi-VN")}
         </div>
-        {/* Cart qty badge */}
+
+        {/* Cart qty */}
         {cartQty > 0 && (
-          <div style={{
-            position:"absolute", top:6, right:6,
-            background:"#ef4444", color:"white", borderRadius:"50%",
-            width:20, height:20, fontSize:11, fontWeight:700,
-            display:"flex", alignItems:"center", justifyContent:"center",
-          }}>{cartQty}</div>
+          <div className="absolute top-1.5 right-1.5 bg-red-500 text-white w-5 h-5 text-[11px] rounded-full flex items-center justify-center font-bold">
+            {cartQty}
+          </div>
         )}
       </div>
       {/* Name */}
-      <div style={{
-        padding:"7px 8px 8px",
-        fontSize:12, fontWeight: h ? 600 : 500,
-        color: h ? "#1d4ed8" : "#1e293b",
-        textAlign:"center", lineHeight:1.35,
-        minHeight:38, display:"flex", alignItems:"center", justifyContent:"center",
-        transition:"color .15s",
-      }}>
+      <div
+        className={`px-2 py-2 text-[12px] text-center min-h-[38px] flex items-center justify-center transition
+        ${hover ? "text-blue-700 font-semibold" : "text-slate-800 font-medium"}`}
+      >
         {food.name}
       </div>
     </div>
