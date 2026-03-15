@@ -144,10 +144,10 @@ export const cancelOrderItem = async (req, res) => {
       });
     }
 
-    if (item.orderItemStatus !== "preparing") {
+    if (item.orderItemStatus !== "pending") {
       return res.status(400).json({
         success: false,
-        message: "Chỉ được hủy món khi đang preparing",
+        message: "Chỉ được hủy món khi đang pending",
       });
     }
 
@@ -161,6 +161,69 @@ export const cancelOrderItem = async (req, res) => {
       success: true,
       message: "Hủy món thành công",
       data: order,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// updateOrderItemQuantity
+export const updateOrderItemQuantity = async (req, res) => {
+  try {
+    const { orderId, itemId, quantity } = req.body;
+
+    if (!quantity || quantity < 1) {
+      return res.status(400).json({
+        success: false,
+        message: "Số lượng không hợp lệ",
+      });
+    }
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order không tồn tại",
+      });
+    }
+
+    const item = order.items.id(itemId);
+
+    if (!item) {
+      return res.status(404).json({
+        success: false,
+        message: "Món không tồn tại trong order",
+      });
+    }
+
+    if (item.orderItemStatus !== "pending") {
+      return res.status(400).json({
+        success: false,
+        message: "Chỉ được cập nhật số lượng khi món đang pending",
+      });
+    }
+
+    // Cập nhật quantity và subTotal
+    const oldSubTotal = item.subTotal;
+    item.quantity = quantity;
+    item.subTotal = item.unitPrice * quantity;
+
+    // Cập nhật lại totalAmount
+    order.totalAmount = order.totalAmount - oldSubTotal + item.subTotal;
+
+    await order.save();
+
+    res.json({
+      success: true,
+      data: {
+        orderId: order._id,
+        totalAmount: order.totalAmount,
+        items: order.items,
+      },
     });
   } catch (error) {
     res.status(500).json({

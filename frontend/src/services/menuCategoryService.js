@@ -23,3 +23,12 @@ export const updateCategory = (id, data) => {
 export const deleteCategory = (id) => {
     return api.delete(`/menu-categories/${id}`);
 };
+
+
+export const getChildCategories = async (parentId) => {
+  const res = await api.get("/menu-categories/children", {
+    params: { parentId },
+  });
+
+  return res.data;
+};

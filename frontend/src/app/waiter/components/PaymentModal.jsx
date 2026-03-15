@@ -1,6 +1,6 @@
 "use client";
 
-import { X, Calendar, Clock, MoreVertical, User } from "lucide-react";
+import { Calendar, Clock, MoreVertical, User } from "lucide-react";
 import { useState } from "react";
 
 export default function PaymentModal({
@@ -26,6 +26,20 @@ export default function PaymentModal({
 
   const change = Math.max(0, customerPaid - total);
 
+  // Merge items cùng itemName + unitPrice
+  const mergedItems = items.reduce((acc, item) => {
+    const existing = acc.find(
+      (i) => i.itemName === item.itemName && i.unitPrice === item.unitPrice
+    );
+    if (existing) {
+      existing.quantity += item.quantity;
+      existing.subTotal += item.subTotal;
+    } else {
+      acc.push({ ...item });
+    }
+    return acc;
+  }, []);
+
   const quickAmounts = [
     total,
     Math.ceil(total / 1000) * 1000 + 1000,
@@ -44,7 +58,6 @@ export default function PaymentModal({
         open ? "pointer-events-auto" : "pointer-events-none"
       }`}
     >
-
       {/* Overlay */}
       <div
         onClick={onClose}
@@ -56,15 +69,14 @@ export default function PaymentModal({
       {/* Drawer */}
       <div
         className={`
-        absolute right-0 top-0 h-full
-        w-[66vw] max-w-[1200px]
-        bg-white shadow-2xl
-        flex overflow-hidden
-        transform transition-all duration-500 ease-out
-        ${open ? "translate-x-0" : "translate-x-full"}
+          absolute right-0 top-0 h-full
+          w-[66vw] max-w-[1200px]
+          bg-white shadow-2xl
+          flex overflow-hidden
+          transform transition-all duration-500 ease-out
+          ${open ? "translate-x-0" : "translate-x-full"}
         `}
       >
-
         {/* LEFT PANEL */}
         <div className="flex-1 border-r border-slate-200 flex flex-col min-w-0">
 
@@ -72,9 +84,8 @@ export default function PaymentModal({
           <div className="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-white">
             <div className="flex items-center gap-4">
               <span className="font-semibold text-[14px] text-slate-800">
-                Thanh toán #{orderNumber} — {selTable?.name ?? "Bàn"} / {floorLabel ?? ""}
+                Thanh toán #{orderNumber} — {selTable?.tableName ?? "Bàn"} / {floorLabel ?? ""}
               </span>
-
               <span className="text-slate-500 text-[13px] flex items-center gap-1">
                 {dateStr} {timeStr}
                 <Calendar size={13} className="ml-1 text-slate-400" />
@@ -93,7 +104,7 @@ export default function PaymentModal({
 
           {/* Table header */}
           <div className="px-5 py-2 grid grid-cols-[1fr_60px_110px_110px] text-[12px] font-semibold text-slate-500 uppercase border-b border-slate-100">
-            <span>Khác</span>
+            <span>Món</span>
             <span className="text-center">SL</span>
             <span className="text-right">Đơn giá</span>
             <span className="text-right">Thành tiền</span>
@@ -101,21 +112,25 @@ export default function PaymentModal({
 
           {/* Items */}
           <div className="flex-1 overflow-y-auto px-5">
-
-            {items.map((item, i) => (
-              <div
-                key={i}
-                className="py-3 grid grid-cols-[1fr_60px_110px_110px] text-[13px] text-slate-700 border-b border-slate-50"
-              >
-                <span>{i + 1}. {item.name}</span>
-                <span className="text-center">{item.qty}</span>
-                <span className="text-right text-slate-600">{fmt(item.price)}</span>
-                <span className="text-right font-semibold">
-                  {fmt(item.qty * item.price)}
-                </span>
+            {mergedItems.length === 0 ? (
+              <div className="flex items-center justify-center h-full text-slate-400 text-[13px]">
+                Chưa có món nào
               </div>
-            ))}
-
+            ) : (
+              mergedItems.map((item, i) => (
+                <div
+                  key={item._id || i}
+                  className="py-3 grid grid-cols-[1fr_60px_110px_110px] text-[13px] text-slate-700 border-b border-slate-50"
+                >
+                  <span>{i + 1}. {item.itemName}</span>
+                  <span className="text-center">{item.quantity}</span>
+                  <span className="text-right text-slate-600">{fmt(item.unitPrice)}</span>
+                  <span className="text-right font-semibold">
+                    {fmt(item.quantity * item.unitPrice)}
+                  </span>
+                </div>
+              ))
+            )}
           </div>
 
           {/* Footer total */}
@@ -123,10 +138,9 @@ export default function PaymentModal({
             <div className="flex items-center gap-2">
               <span>Tổng tiền hàng</span>
               <span className="bg-slate-100 text-slate-600 rounded-full text-[11px] px-2 py-0.5 font-normal">
-                1
+                {mergedItems.length}
               </span>
             </div>
-
             <span>{fmt(total)}</span>
           </div>
 
@@ -147,10 +161,9 @@ export default function PaymentModal({
               <span className="flex items-center gap-1">
                 Tổng tiền hàng
                 <span className="bg-slate-100 text-slate-500 rounded-full text-[11px] px-1.5 py-0.5">
-                  1
+                  {mergedItems.length}
                 </span>
               </span>
-
               <span className="font-medium text-slate-800">{fmt(total)}</span>
             </div>
 
@@ -164,12 +177,11 @@ export default function PaymentModal({
               <span className="text-blue-700">{fmt(total)}</span>
             </div>
 
-            {/* Input */}
+            {/* Input khách thanh toán */}
             <div className="pt-1">
               <div className="text-[12px] text-slate-500 mb-1.5">
                 Khách thanh toán
               </div>
-
               <input
                 className="border-2 border-slate-200 rounded w-full px-3 py-2 text-right font-semibold text-[14px] text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 value={customerPaid === 0 ? "" : fmt(customerPaid)}
@@ -187,7 +199,10 @@ export default function PaymentModal({
                 { id: "transfer", label: "Chuyển khoản" },
                 { id: "card", label: "Thẻ" },
               ].map((m) => (
-                <label key={m.id} className="flex items-center gap-1.5 cursor-pointer text-[13px]">
+                <label
+                  key={m.id}
+                  className="flex items-center gap-1.5 cursor-pointer text-[13px]"
+                >
                   <input
                     type="radio"
                     name="payMethod"
@@ -195,13 +210,17 @@ export default function PaymentModal({
                     onChange={() => setPaymentMethod(m.id)}
                     className="accent-blue-700"
                   />
-
-                  <span className={paymentMethod === m.id ? "text-slate-800 font-medium" : "text-slate-500"}>
+                  <span
+                    className={
+                      paymentMethod === m.id
+                        ? "text-slate-800 font-medium"
+                        : "text-slate-500"
+                    }
+                  >
                     {m.label}
                   </span>
                 </label>
               ))}
-
               <button className="ml-auto text-slate-400 hover:text-slate-600">
                 <MoreVertical size={15} />
               </button>
@@ -224,7 +243,7 @@ export default function PaymentModal({
               ))}
             </div>
 
-            {/* Change */}
+            {/* Tiền thừa */}
             <div className="flex justify-between text-slate-600 pt-1">
               <span>Tiền thừa trả khách</span>
               <span className="font-medium text-slate-800">
@@ -234,7 +253,7 @@ export default function PaymentModal({
 
           </div>
 
-          {/* Button */}
+          {/* Button thanh toán */}
           <div className="px-4 py-3 border-t border-slate-200">
             <button
               className="w-full py-3 bg-blue-700 hover:bg-blue-800 active:bg-blue-900 text-white rounded-lg font-semibold text-[14px] transition-colors"
@@ -245,7 +264,6 @@ export default function PaymentModal({
           </div>
 
         </div>
-
       </div>
     </div>
   );

@@ -69,16 +69,14 @@ export default function TableCard({
                 isSelected ? "text-white" : "text-blue-700"
               }`}
             >
-              {tTotal.toLocaleString("vi-VN")}
-              <span className={`text-[10px] font-normal ${subText}`}>
-                {tQty}p
-              </span>
+              {tTotal.toLocaleString("vi-VN")} VNĐ
+              {/* <span className={`text-[10px] font-normal ${subText}`}>
+                {tQty}sp
+              </span> */}
             </div>
 
             <div className={`text-[10px] flex gap-1 ${subText}`}>
-              <span>✦ {tDishes}</span>
-              <span>•</span>
-              <span>👤 1</span>
+              <span>✦ {tDishes} sp</span>
             </div>
 
             <div className={`text-[12px] font-semibold ${text}`}>

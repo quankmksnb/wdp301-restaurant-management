@@ -6,6 +6,7 @@ import {
   updateTable,
   toggleTableStatus,
   deleteTable,
+  getTableByArea,
 } from "../controllers/tableController.js";
 
 import { validate } from "../middlewares/validateMiddleware.js";
@@ -19,6 +20,8 @@ const router = express.Router();
 router.post("/", validate(createTableSchema), createTable);
 
 router.get("/", getTables);
+
+router.get("/by-area", getTableByArea);
 
 router.get("/:id", getTable);
 

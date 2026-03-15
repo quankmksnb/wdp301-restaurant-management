@@ -35,3 +35,15 @@ export const toggleMenuItemStatus = async (id) => {
     const res = await api.patch(`/menu-items/${id}/toggle-status`);
     return res.data;
 };
+
+
+export const getMenuItemsByChildCategory = async ({ category, search }) => {
+    const res = await api.get("/menu-items/by-child-category", {
+        params: {
+            category,
+            search,
+        },
+    });
+
+    return res.data.data;
+};

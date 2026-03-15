@@ -2,6 +2,7 @@
 
 import TooltipIcon from "@/app/components/TooltipIcon";
 import { Search, Plus, Bell, LogOut, Volume2, VolumeX } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function WaiterHeader({
   activeTab,
@@ -9,8 +10,12 @@ export default function WaiterHeader({
   selTable,
   setSelTable,
   soundOn,
-  setSoundOn
+  setSoundOn,
+  searchFood,
+  setSearchFood,
 }) {
+  const router = useRouter();
+
   const TAB_ICONS = {
     phonban: (
       <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
@@ -21,14 +26,7 @@ export default function WaiterHeader({
       </svg>
     ),
     thucdon: (
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="white"
-        strokeWidth="2"
-      >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
         <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
         <rect x="9" y="3" width="6" height="4" rx="1" fill="white" />
         <line x1="9" y1="12" x2="15" y2="12" />
@@ -42,14 +40,13 @@ export default function WaiterHeader({
     { key: "thucdon", label: "Thực đơn" },
   ];
 
-  const handleToggleSound = () => {
-    setSoundOn(prev => !prev);
-  };
+  const handleToggleSound = () => setSoundOn((prev) => !prev);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     router.push("/");
   };
+
   return (
     <div className="h-[46px] flex bg-gradient-to-r from-[#1340b2] via-[#2d6fdc] to-[#3b82f6] text-white">
 
@@ -62,22 +59,19 @@ export default function WaiterHeader({
             key={t.key}
             onClick={() => setActiveTab(t.key)}
             className={`flex items-center gap-1.5 px-3 py-[5px] rounded text-[13px] transition
-            ${
-              activeTab === t.key
-                ? "bg-white/20 font-semibold"
-                : "hover:bg-white/10"
-            }`}
+              ${activeTab === t.key ? "bg-white/20 font-semibold" : "hover:bg-white/10"}`}
           >
             {TAB_ICONS[t.key]}
             {t.label}
           </button>
         ))}
 
-        {/* Search */}
+        {/* Search món */}
         <div className="ml-2 flex items-center gap-2 flex-1 bg-white/20 rounded-full px-3 py-[5px]">
           <Search size={13} className="text-white/70" strokeWidth={2.5} />
-
           <input
+            value={searchFood}
+            onChange={(e) => setSearchFood(e.target.value)}
             placeholder="Tìm món"
             className="bg-transparent outline-none text-[13px] w-full placeholder:text-white/70"
           />
@@ -89,8 +83,7 @@ export default function WaiterHeader({
 
         {/* Selected table */}
         <div className="flex items-center gap-1 bg-white/20 border border-white/30 rounded px-2.5 py-[3px] text-[12px] font-semibold cursor-pointer">
-          {selTable ? `${selTable.id}-${selTable.id + 1}` : "Chọn bàn"}
-
+          {selTable ? selTable.tableName : "Chọn bàn"}
           {selTable && (
             <span
               onClick={(e) => {
@@ -110,22 +103,19 @@ export default function WaiterHeader({
         </div>
 
         <div className="flex-1" />
+
         <div className="ml-auto flex items-center gap-1">
           <TooltipIcon
-            icon={
-              soundOn
-                ? <Volume2 className="w-5 h-5"/>
-                : <VolumeX className="w-5 h-5 opacity-60"/>
-            }
+            icon={soundOn
+              ? <Volume2 className="w-5 h-5" />
+              : <VolumeX className="w-5 h-5 opacity-60" />}
             label={soundOn ? "Tắt âm thanh" : "Bật âm thanh"}
             onClick={handleToggleSound}
           />
-
           <TooltipIcon
             icon={<Bell className="w-5 h-5" />}
             label="Thông báo"
           />
-        
           <TooltipIcon
             icon={<LogOut className="w-5 h-5" />}
             label="Đăng xuất"

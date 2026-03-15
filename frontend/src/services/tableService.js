@@ -29,3 +29,11 @@ export const toggleTableStatus = async (id) => {
   const res = await api.patch(`/tables/${id}/status`);
   return res.data;
 };
+
+export const getTablesByArea = async (area) => {
+  const res = await api.get("/tables/by-area", {
+    params: { area },
+  });
+
+  return res.data.data;
+};

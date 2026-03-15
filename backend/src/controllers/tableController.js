@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Table from "../models/Table.js";
 import Area from "../models/Area.js";
 
@@ -201,15 +202,12 @@ export const getTableByArea = async (req, res) => {
 
     const match = {};
 
-    // nếu có truyền area thì lọc theo area
-    if (area) {
+    if (area && mongoose.Types.ObjectId.isValid(area)) {
       match.area = new mongoose.Types.ObjectId(area);
     }
 
     const tables = await Table.aggregate([
-      {
-        $match: match,
-      },
+      { $match: match },
       {
         $lookup: {
           from: "orders",
@@ -225,21 +223,17 @@ export const getTableByArea = async (req, res) => {
           },
         },
       },
-      {
-        $project: {
-          orders: 0,
-        },
-      },
-      {
-        $sort: { tableNumber: 1 },
-      },
+      { $project: { orders: 0 } },
+      { $sort: { tableNumber: 1 } },
     ]);
 
-    res.status(200).json({
+    res.json({
       success: true,
       data: tables,
     });
   } catch (error) {
+    console.error("TABLE ERROR:", error);
+
     res.status(500).json({
       success: false,
       message: error.message,
