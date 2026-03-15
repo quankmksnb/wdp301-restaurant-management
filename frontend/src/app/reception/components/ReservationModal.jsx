@@ -70,7 +70,7 @@ export default function ReservationModal({
       title={
         <span className="text-base font-bold">Thêm mới đặt bàn</span>
       }
-      destroyOnClose
+      destroyOnHidden
       centered
     >
       <div className="pt-2">
