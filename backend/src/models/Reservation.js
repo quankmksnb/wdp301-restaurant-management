@@ -11,7 +11,7 @@ const reservationSchema = new mongoose.Schema(
     },
 
     // Thời gian khách vào bàn
-    checkIntime: { type: Date },
+    checkInTime: { type: Date },
     // Thời gian khách rời đi
     checkOutTime: { type: Date },
 
