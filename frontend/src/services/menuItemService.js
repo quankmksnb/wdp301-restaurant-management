@@ -32,8 +32,15 @@ export const deleteMenuItem = async (id) => {
 
 
 export const toggleMenuItemStatus = async (id) => {
-    const res = await api.patch(`/menu-items/${id}/toggle-status`);
-    return res.data;
+    try {
+        const res = await api.patch(`/menu-items/${id}/toggle-status`);
+        return res.data;
+    } catch (error) {
+        if (error.response?.data) {
+            return error.response.data;
+        }
+        throw error;
+    }
 };
 
 // Lấy menu item theo category con
