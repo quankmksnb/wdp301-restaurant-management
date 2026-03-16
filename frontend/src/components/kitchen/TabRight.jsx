@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import MeunuPopup from "@/components/kitchen/MeunuPopup";
 import ReadyItem from "@/components/kitchen/items/ReadyItem";
+import toast from "react-hot-toast";
+import { kitchenEvents } from "@/utils/kitchenEvents";
 
 export default function TabRight() {
   const [items, setItems] = useState([]);
@@ -30,11 +32,22 @@ export default function TabRight() {
 
   useEffect(() => {
     fetchData();
+
+    const handler = () => fetchData();
+
+    kitchenEvents.addEventListener("kitchen-updated", handler);
+
+    return () => {
+      kitchenEvents.removeEventListener("kitchen-updated", handler);
+    };
   }, []);
 
-  const handleServe = async (id) => {
+  const handleServe = async (id, quantity = "all") => {
     try {
-      await kitchenService.updateItemStatus(id, "served", "all");
+      await kitchenService.updateItemStatus(id, "served", quantity);
+      toast.success(
+        "Đã cũng ứng " + (quantity === "all" ? "tất cả" : "1") + " món",
+      );
       fetchData();
     } catch (error) {
       console.error(error);
@@ -116,7 +129,8 @@ export default function TabRight() {
             table={item.tableName}
             qty={item.quantity}
             note={item.note}
-            onServe={() => handleServe(item._id)}
+            onServeOne={() => handleServe(item._id, 1)}
+            onServeAll={() => handleServe(item._id, "all")}
           />
         ))}
       </div>

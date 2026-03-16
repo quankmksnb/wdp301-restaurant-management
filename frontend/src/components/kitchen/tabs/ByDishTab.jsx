@@ -2,7 +2,7 @@ import DishItem from "@/components/kitchen/items/DishItem";
 import kitchenService from "@/services/kitchenService";
 import { useEffect, useState } from "react";
 
-export default function ByDishTab({ searchTerm }) {
+export default function ByDishTab({ searchTerm, updateStatus }) {
   const [dishes, setDishes] = useState([]);
   const [loading, setLoading] = useState(false);
   const fetchData = async () => {
@@ -21,6 +21,11 @@ export default function ByDishTab({ searchTerm }) {
   useEffect(() => {
     fetchData();
   }, [searchTerm]);
+
+  useEffect(() => {
+    const interval = setInterval(fetchData, 5000);
+    return () => clearInterval(interval);
+  }, []);
   if (loading)
     return <div className="p-6 text-gray-400 text-center">Đang tải...</div>;
   if (!dishes.length)
@@ -38,7 +43,14 @@ export default function ByDishTab({ searchTerm }) {
   return (
     <div className="flex flex-col">
       {dishes.map((dish) => (
-        <DishItem key={dish._id} name={dish.itemName} qty={dish.totalQty} />
+        <DishItem
+          key={dish._id}
+          name={dish.itemName}
+          qty={dish.totalQty}
+          onDoneOne={() => updateStatus(item._id, "ready", 1)}
+          onDoneAll={() => updateStatus(item._id, "ready", "all")}
+          onOutOfStock={() => updateStatus(item._id, "cancelled", "all")}
+        />
       ))}
     </div>
   );

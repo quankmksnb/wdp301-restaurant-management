@@ -1,16 +1,22 @@
-import { OrderItem } from "@/components/kitchen/items/OrderItem";
-import RoomGroup from "@/components/kitchen/items/RoomGroup";
-import kitchenService from "@/services/kitchenService";
-import { useEffect, useState } from "react";
+"use client";
 
-export default function ByRoomTab({ searchTerm }) {
+import { useEffect, useState } from "react";
+import kitchenService from "@/services/kitchenService";
+import { ChevronsRight } from "lucide-react";
+import { emitKitchenUpdate } from "@/utils/kitchenEvents";
+import RoomOrderItem from "@/components/kitchen/items/RoomOrderItem";
+import toast from "react-hot-toast";
+
+export default function ByRoomTab() {
   const [tables, setTables] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await kitchenService.getOrdersByTable(searchTerm);
+
+      const res = await kitchenService.getOrdersByTable();
+
       setTables(res.data || []);
     } catch (error) {
       console.error(error);
@@ -21,27 +27,72 @@ export default function ByRoomTab({ searchTerm }) {
 
   useEffect(() => {
     fetchData();
-  }, [searchTerm]);
+  }, []);
 
-  if (loading)
-    return <div className="p-6 text-gray-400 text-center">Đang tải...</div>;
+  const updateStatus = async (id, status, quantity = "all") => {
+    try {
+      await kitchenService.updateItemStatus(id, status, quantity);
 
-  if (!tables.length)
-    return (
-      <div className="flex-1 flex flex-col items-center justify-center text-gray-400 h-full">
-        <div className="opacity-20 mb-4">
-          <svg width="100" height="100" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M11 9H9V2H7V9H5V2H3V9C3 11.12 4.66 12.84 6.75 12.97V22H9.25V12.97C11.34 12.84 13 11.12 13 9V2H11V9ZM16 6V14H18.5V22H21V2C18.24 2 16 4.24 16 6Z" />
-          </svg>
-        </div>
+      emitKitchenUpdate();
+      fetchData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-        <p>Chưa có dữ liệu theo phòng/bàn</p>
-      </div>
-    );
+  // serve toàn bộ bàn
+  const serveAllTable = async (items) => {
+    try {
+      await Promise.all(
+        items.map((item) =>
+          kitchenService.updateItemStatus(item.orderItemId, "ready", "all"),
+        ),
+      );
+
+      emitKitchenUpdate();
+      fetchData();
+      toast.success("Đã phục vụ toàn bộ bàn!");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (loading) return <div className="p-6 text-center">Loading...</div>;
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col px-2">
       {tables.map((table) => (
-        <RoomGroup key={table._id} table={table} />
+        <div key={table._id} className="border-b">
+          {/* HEADER TABLE */}
+          <div className="flex items-center justify-between px-4 py-3 bg-gray-50">
+            <div className="font-bold text-blue-700">
+              {table.tableName} ({table.itemCount})
+            </div>
+
+            <button
+              onClick={() => serveAllTable(table.items)}
+              className="flex items-center gap-2 text-white bg-pink-500 px-3 py-1 rounded-md hover:bg-pink-600"
+            >
+              <ChevronsRight size={16} />
+              Tất cả
+            </button>
+          </div>
+
+          {/* ITEMS */}
+          {table.items.map((item) => (
+            <RoomOrderItem
+              key={item.orderItemId}
+              name={item.itemName}
+              qty={item.quantity}
+              note={item.note}
+              onDoneOne={() => updateStatus(item.orderItemId, "ready", 1)}
+              onDoneAll={() => updateStatus(item.orderItemId, "ready", "all")}
+              onOutOfStock={() =>
+                updateStatus(item.orderItemId, "cancelled", "all")
+              }
+            />
+          ))}
+        </div>
       ))}
     </div>
   );

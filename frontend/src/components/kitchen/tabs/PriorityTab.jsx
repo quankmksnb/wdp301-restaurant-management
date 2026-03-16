@@ -25,6 +25,11 @@ export default function PriorityTab({ searchTerm, updateStatus }) {
     fetchData();
   }, [searchTerm]);
 
+  useEffect(() => {
+    const interval = setInterval(fetchData, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   if (loading) {
     return (
       <div className="p-6 text-center text-gray-400">Đang tải dữ liệu...</div>
@@ -55,7 +60,9 @@ export default function PriorityTab({ searchTerm, updateStatus }) {
           note={item.note}
           onDoneOne={() => updateStatus(item._id, "ready", 1, fetchData)}
           onDoneAll={() => updateStatus(item._id, "ready", "all", fetchData)}
-          onOutOfStock={() => updateStatus(item._id, "cancelled", "all", fetchData)}
+          onOutOfStock={() =>
+            updateStatus(item._id, "cancelled", "all", fetchData)
+          }
         />
       ))}
     </div>
