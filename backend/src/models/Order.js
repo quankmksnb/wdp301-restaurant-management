@@ -12,8 +12,23 @@ const orderItemSchema = new mongoose.Schema(
     },
     itemName: String,
     unitPrice: Number,
-    quantity: { type: Number, required: true },
-    subTotal: Number,
+    // Số lượng món
+    quantity: { type: Number, required: true, min: 1 },
+    // Ghi chú món (ví dụ: không cay, ít đường)
+    note: { type: String, default: "" },
+    status: {
+      type: String,
+      enum: [
+        "pending", // Mới đặt, chờ bếp xác nhận
+        "preparing", // Bếp đang làm
+        "ready", // Đã xong, chờ nhân viên bưng ra
+        "served", // Đã phục vụ khách tại bàn
+        "cancelled", // Món bị hủy (hết nguyên liệu, khách đổi ý)
+        "out_of_stock",
+      ],
+      default: "pending",
+    },
+    subTotal: { type: Number, required: true },
   },
   { _id: false },
 );
