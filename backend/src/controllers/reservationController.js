@@ -1,0 +1,275 @@
+import Reservation from "../models/Reservation.js";
+import Order from "../models/Order.js";
+import MenuItem from "../models/MenuItem.js";
+
+import {
+  getAvailableTables,
+  validateTablesForReservation,
+} from "../services/tableService.js";
+
+/**
+ * GET /api/reservations/available-tables
+ */
+export const getAvailableTablesController = async (req, res) => {
+  try {
+    const tables = await getAvailableTables();
+
+    res.json({
+      success: true,
+      total: tables.length,
+      data: tables,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi lấy danh sách bàn trống",
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * POST /api/reservations
+ * Đặt bàn bình thường (không gọi món)
+ */
+export const createReservation = async (req, res) => {
+  try {
+    const { tables } = req.body;
+
+    const validation = await validateTablesForReservation(tables);
+
+    if (!validation.valid) {
+      return res.status(400).json({
+        success: false,
+        message: validation.message,
+        tables: validation.tables,
+      });
+    }
+
+    const reservation = await Reservation.create({
+      ...req.body,
+      user: req.user?.id,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Đặt bàn thành công",
+      data: reservation,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi tạo reservation",
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * POST /api/reservations/pre-order
+ * Đặt bàn + gọi món trước
+ */
+export const createReservationWithOrder = async (req, res) => {
+  try {
+    const {
+      tables,
+      items,
+      orderMode,
+      reservationDateTime,
+      numberOfGuests,
+      customer,
+      note,
+    } = req.body;
+
+    const validation = await validateTablesForReservation(tables);
+
+    if (!validation.valid) {
+      return res.status(400).json({
+        success: false,
+        message: validation.message,
+        tables: validation.tables,
+      });
+    }
+
+    const reservation = await Reservation.create({
+      reservationDateTime,
+      numberOfGuests,
+      tables,
+      customer,
+      note,
+      user: req.user?.id,
+    });
+
+    let subOrders = [];
+
+    let menuItemIds = [];
+
+    if (orderMode === "same") {
+      menuItemIds = items.map((i) => i.menuItem);
+    }
+
+    if (orderMode === "separate") {
+      menuItemIds = items.flatMap((t) => t.items.map((i) => i.menuItem));
+    }
+
+    const menuItems = await MenuItem.find({
+      _id: { $in: menuItemIds },
+    });
+
+    const menuMap = {};
+
+    menuItems.forEach((menu) => {
+      menuMap[menu._id.toString()] = menu;
+    });
+
+    //CASE 1: same
+
+    if (orderMode === "same") {
+      for (const table of tables) {
+        const orderItems = items.map((item) => {
+          const menu = menuMap[item.menuItem];
+
+          if (!menu) {
+            return res.status(400).json({
+              success: false,
+              message: `Menu item không tồn tại: ${item.menuItem}`,
+            });
+          }
+
+          return {
+            menuItem: menu._id,
+            itemName: menu.itemName,
+            unitPrice: menu.price,
+            quantity: item.quantity,
+            note: item.note || "",
+            subTotal: menu.price * item.quantity,
+          };
+        });
+
+        subOrders.push({
+          table,
+          items: orderItems,
+          subTotalAmount: 0,
+        });
+      }
+    }
+
+    // CASE 2: separate
+
+    if (orderMode === "separate") {
+      for (const tableOrder of items) {
+        if (!tables.includes(tableOrder.table)) {
+          return res.status(400).json({
+            success: false,
+            message: "Table không hợp lệ trong order",
+          });
+        }
+
+        const orderItems = tableOrder.items.map((item) => {
+          const menu = menuMap[item.menuItem];
+
+          if (!menu) {
+            return res.status(400).json({
+              success: false,
+              message: `Menu item không tồn tại: ${item.menuItem}`,
+            });
+          }
+
+          return {
+            menuItem: menu._id,
+            itemName: menu.itemName,
+            unitPrice: menu.price,
+            quantity: item.quantity,
+            note: item.note || "",
+            subTotal: menu.price * item.quantity,
+          };
+        });
+
+        subOrders.push({
+          table: tableOrder.table,
+          items: orderItems,
+          subTotalAmount: 0,
+        });
+      }
+    }
+
+    const order = await Order.create({
+      reservation: reservation._id,
+      orderStatus: "pre-order",
+      subOrders,
+      user: req.user?.id,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Đặt bàn và gọi món trước thành công",
+      reservation,
+      order,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi tạo reservation + order",
+      error: error.message,
+    });
+  }
+};
+
+// api update status
+export const updateReservationStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const allowedStatus = [
+      "confirmed",
+      "seated",
+      "no_show",
+      "completed",
+      "cancelled",
+    ];
+
+    if (!allowedStatus.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Trạng thái không hợp lệ",
+      });
+    }
+
+    const reservation = await Reservation.findById(id);
+
+    if (!reservation) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy reservation",
+      });
+    }
+
+    reservation.status = status;
+
+    // nếu khách nhận bàn
+    if (status === "seated") {
+      reservation.checkInTime = new Date();
+    }
+
+    // nếu khách hoàn thành
+    if (status === "completed") {
+      reservation.checkOutTime = new Date();
+    }
+
+    await reservation.save();
+
+    res.json({
+      success: true,
+      message: "Cập nhật trạng thái reservation thành công",
+      data: reservation,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi cập nhật trạng thái reservation",
+      error: error.message,
+    });
+  }
+};
