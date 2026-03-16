@@ -29,6 +29,35 @@ export const getAvailableTablesController = async (req, res) => {
 };
 
 /**
+ * GET /api/reservations/reserved-tables
+ * Lấy danh sách các bàn đã đặt (confirmed / seated)
+ */
+export const getReservedTablesController = async (req, res) => {
+  try {
+    const reservations = await Reservation.find({
+      status: { $in: ["confirmed", "seated"] },
+    })
+      .populate({
+        path: "tables",
+        populate: { path: "area", select: "areaName" },
+      })
+      .sort({ reservationDateTime: 1 });
+
+    res.json({
+      success: true,
+      total: reservations.length,
+      data: reservations,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi lấy danh sách bàn đã đặt",
+      error: error.message,
+    });
+  }
+};
+
+/**
  * POST /api/reservations
  * Đặt bàn bình thường (không gọi món)
  */

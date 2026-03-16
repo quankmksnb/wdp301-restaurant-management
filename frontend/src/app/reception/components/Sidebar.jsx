@@ -2,14 +2,13 @@
 
 import { useState, useMemo } from "react";
 import { Select } from "antd";
-import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from "lucide-react";
 import { DAYS_OF_WEEK, MONTH_NAMES, getDaysInMonth, getFirstDayOfMonth } from "./constants";
 
-export default function Sidebar({ selectedDate, onSelectDate, areas }) {
+export default function Sidebar({ selectedDate, onSelectDate, areas, selectedArea, onSelectArea }) {
     const [curMonth, setCurMonth] = useState(selectedDate.getMonth());
     const [curYear, setCurYear] = useState(selectedDate.getFullYear());
     const [roomOpen, setRoomOpen] = useState(true);
-    const [waitOpen, setWaitOpen] = useState(true);
 
     const today = new Date();
     const daysInMonth = getDaysInMonth(curYear, curMonth);
@@ -102,7 +101,8 @@ export default function Sidebar({ selectedDate, onSelectDate, areas }) {
                             size="middle"
                             showSearch
                             placeholder="Tìm phòng/bàn..."
-                            defaultValue="all"
+                            value={selectedArea || "all"}
+                            onChange={(val) => onSelectArea(val)}
                             popupMatchSelectWidth={false}
                             filterOption={(input, option) =>
                                 (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
@@ -115,28 +115,7 @@ export default function Sidebar({ selectedDate, onSelectDate, areas }) {
                     </div>
                 )}
             </div>
-
-            {/* Chờ xếp bàn */}
-            <div className="border-b border-gray-100">
-                <button onClick={() => setWaitOpen(!waitOpen)} className="flex items-center justify-between w-full px-4 py-3 font-semibold text-sm text-gray-800 hover:bg-gray-50 cursor-pointer">
-                    Chờ xếp bàn
-                    {waitOpen ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
-                </button>
-                {waitOpen && (
-                    <div className="px-4 pb-3">
-                        <div className="relative mb-2">
-                            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                            <input
-                                placeholder="Tìm theo khách đặt"
-                                className="w-full border border-gray-200 rounded-lg text-sm py-2 pl-8 pr-3 outline-none focus:border-blue-400 transition"
-                            />
-                        </div>
-                        <div className="text-xs text-orange-500 border border-orange-300 rounded-lg px-3 py-2 text-center bg-orange-50">
-                            Không có phiếu đặt nào
-                        </div>
-                    </div>
-                )}
-            </div>
         </div>
     );
 }
+
