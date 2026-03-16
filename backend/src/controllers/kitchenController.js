@@ -20,7 +20,7 @@ export const getOrderItemPending = async (req, res) => {
     };
 
     if (itemName) {
-      itemMatch["subOrders.items.itemNamr"] = {
+      itemMatch["subOrders.items.itemName"] = {
         $regex: itemName,
         $options: "i",
       };
@@ -37,7 +37,7 @@ export const getOrderItemPending = async (req, res) => {
       // Thông tin bàn
       {
         $lookup: {
-          form: "tables",
+          from: "tables",
           localField: "subOrders.table",
           foreignField: "_id",
           as: "tableInfo",
@@ -48,7 +48,7 @@ export const getOrderItemPending = async (req, res) => {
       // Thông tin Reservation
       {
         $lookup: {
-          form: "reservations",
+          from: "reservations",
           localField: "reservation",
           foreignField: "_id",
           as: "resInfo",
@@ -93,8 +93,14 @@ export const getOrderItemPending = async (req, res) => {
           note: "$subOrders.items.note",
           status: "$subOrders.items.status",
           orderStatus: "$orderStatus",
-          wattingTime: { $floor: "$waitingTimeMinutes" },
+          waitingTime: { $floor: "$waitingTimeMinutes" },
           priorityScore: 1,
+          table: {
+            _id: "$tableInfo._id",
+            tableName: "$tableInfo.tableName",
+            tableNumber: "$tableInfo.tableNumber",
+            capacity: "$tableInfo.capacity",
+          },
         },
       },
       // Sắp xếp theo điểm ưu tiên giảm dần
@@ -287,13 +293,11 @@ export const getOrderItemsByTable = async (req, res) => {
     });
   } catch (error) {
     console.error("Get orders by table error:", error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Lỗi khi lấy dữ liệu theo bàn",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi lấy dữ liệu theo bàn",
+      error: error.message,
+    });
   }
 };
 
