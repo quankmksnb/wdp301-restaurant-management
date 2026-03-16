@@ -1,6 +1,7 @@
 import KitchenFooter from "@/components/kitchen/KitchenFooter";
 import TabLeft from "@/components/kitchen/TabLeft";
 import TabRight from "@/components/kitchen/TabRight";
+import kitchenService from "@/services/kitchenService";
 import React from "react";
 import toast from "react-hot-toast";
 
