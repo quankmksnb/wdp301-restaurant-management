@@ -4,6 +4,7 @@ import menuItemRoutes from "./menuItemRoutes.js";
 import userRoutes from "./userRoutes.js";
 import areaRoutes from "./areaRoutes.js";
 import tableRoutes from "./tableRoutes.js";
+import kitchenRoutes from "./kitchenRoute.js";
 
 const router = express.Router();
 
@@ -15,5 +16,8 @@ router.use("/users", userRoutes);
 
 router.use("/areas", areaRoutes);
 router.use("/tables", tableRoutes);
+
+// kitchen
+router.use("/kitchen", kitchenRoutes);
 
 export default router;
