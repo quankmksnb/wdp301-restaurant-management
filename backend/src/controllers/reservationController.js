@@ -12,7 +12,16 @@ import {
  */
 export const getAvailableTablesController = async (req, res) => {
   try {
-    const tables = await getAvailableTables();
+    const { dateTime } = req.query;
+
+    if (!dateTime) {
+      return res.status(400).json({
+        success: false,
+        message: "Thiếu dateTime",
+      });
+    }
+
+    const tables = await getAvailableTables(dateTime);
 
     res.json({
       success: true,
