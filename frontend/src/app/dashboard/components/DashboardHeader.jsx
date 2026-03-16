@@ -104,59 +104,6 @@ export default function DashboardHeader() {
           })}
         </nav>
 
-<<<<<<< HEAD
-        {/* Right actions */}
-        <div className="ml-auto flex items-center gap-3">
-          <RoleButton label="Nhà bếp" icon={<Utensils className="w-4 h-4" />} />
-          <RoleButton
-            label="Lễ tân"
-            icon={<ClipboardList className="w-4 h-4" />}
-            onClick={() => router.push("/reception")}
-          />
-          <RoleButton
-            label="Thu ngân"
-            icon={<CreditCard className="w-4 h-4" />}
-          />
-        </div>
-      </div>
-    </header>
-  );
-}
-
-function RoleButton({ label, icon, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className="
-        bg-white text-blue-600
-        text-sm font-medium
-        px-4 py-1.5
-        rounded-full
-        flex items-center gap-2
-        hover:bg-blue-50
-        transition
-        cursor-pointer
-      "
-    >
-      {icon}
-      {label}
-    </button>
-  );
-}
-
-function DropdownItem({ icon, label, danger, onClick }) {
-  return (
-    <div
-      onClick={onClick}
-      className={`px-8 py-1 flex items-center gap-3 cursor-pointer text-sm
-        ${danger ? "hover:bg-red-50 text-red-600" : "hover:bg-gray-100"}
-      `}
-    >
-      {icon}
-      {label}
-    </div>
-  );
-=======
         <div className="ml-auto flex items-center gap-1">
   <TooltipIcon
     icon={<Bell className="w-5 h-5" />}
@@ -177,5 +124,4 @@ function DropdownItem({ icon, label, danger, onClick }) {
       </div>
     </header>
   );
->>>>>>> a7f78b67b3b7b526b26e0ca7abaf5c17e5c2d097
 }
