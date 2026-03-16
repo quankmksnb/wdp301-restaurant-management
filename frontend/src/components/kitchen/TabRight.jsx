@@ -1,10 +1,12 @@
 import MeunuPopup from "@/components/kitchen/MeunuPopup";
+import SearchBox from "@/components/kitchen/SearchBox";
 import { Bell, Menu, Settings, Volume2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function TabRight() {
   const [showMenu, setShowMenu] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const menuRef = useRef(null);
   const router = useRouter();
 
@@ -51,7 +53,9 @@ export default function TabRight() {
           {showMenu && <MeunuPopup handleLogout={handleLogout} />}
         </div>
       </div>
-      <div className="flex-1 flex flex-col items-center justify-center text-gray-400 bg-white rounded-tl-lg rounded-bl-lg">
+      {/* Search */}
+      <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <div className="flex-1 flex flex-col items-center justify-center text-gray-400 bg-white rounded-bl-lg">
         {/* Placeholder Icon */}
         <div className="opacity-20 mb-4">
           <svg width="100" height="100" viewBox="0 0 24 24" fill="currentColor">

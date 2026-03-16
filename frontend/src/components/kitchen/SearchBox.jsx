@@ -13,7 +13,7 @@ export default function SearchBox({ searchTerm, setSearchTerm }) {
 
         <input
           type="text"
-          placeholder="Tìm món ăn, số bàn..."
+          placeholder="Tìm món ăn..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full pl-10 pr-10 py-2 bg-gray-100 border-none rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all"

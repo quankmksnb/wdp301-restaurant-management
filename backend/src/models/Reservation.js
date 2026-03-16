@@ -1,4 +1,4 @@
-import Customer from "./Customer.js";
+import mongoose from "mongoose";
 import Table from "./Table.js";
 import User from "./User.js";
 

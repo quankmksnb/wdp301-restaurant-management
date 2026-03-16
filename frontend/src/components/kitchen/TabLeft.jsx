@@ -44,9 +44,9 @@ export default function TabLeft() {
 
       {/* Content */}
       <div className="flex-1 bg-white overflow-y-auto">
-        {activeTab === "priority" && <PriorityTab />}
-        {activeTab === "by-dish" && <ByDishTab />}
-        {activeTab === "by-room" && <ByRoomTab />}
+        {activeTab === "priority" && <PriorityTab searchTerm={searchTerm} />}
+        {activeTab === "by-dish" && <ByDishTab searchTerm={searchTerm} />}
+        {activeTab === "by-room" && <ByRoomTab searchTerm={searchTerm} />}
       </div>
     </div>
   );
