@@ -84,7 +84,7 @@ const orderSchema = new mongoose.Schema(
 orderSchema.index({ reservation: 1 });
 
 // Middleware tính toán lại tổng tiền trước khi save
-orderSchema.pre("save", function (next) {
+orderSchema.pre("save", function () {
   let total = 0;
   this.subOrders.forEach((sub) => {
     // Tính tổng từng bàn
@@ -96,7 +96,6 @@ orderSchema.pre("save", function (next) {
   });
   this.totalAmount = total;
   this.finalAmount = total + (this.taxAmount || 0);
-  next();
 });
 
 export default mongoose.model("Order", orderSchema);
