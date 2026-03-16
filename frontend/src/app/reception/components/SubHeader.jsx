@@ -6,7 +6,6 @@ export default function SubHeader({ viewMode, setViewMode, statusFilters, onStat
     const filters = [
         { key: "confirmed", label: "Đã xếp bàn", color: "#22c55e" },
         { key: "seated", label: "Đã nhận bàn", color: "#3b82f6" },
-        { key: "no_show", label: "Quá giờ / Không đến", color: "#9ca3af" },
         { key: "cancelled", label: "Đã hủy", color: "#d1d5db" },
     ];
 
