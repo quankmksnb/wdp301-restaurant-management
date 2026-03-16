@@ -4,6 +4,7 @@ import {
   getOrderItemPending,
   getOrderItemsByDish,
   getOrderItemsByTable,
+  getReadyToServeItems,
   updateItemStatus,
 } from "../controllers/kitchenController.js";
 
@@ -13,6 +14,7 @@ router.use(verifyToken);
 router.use(authorizeRoles("kitchenStaff", "admin"));
 
 router.get("/pending", getOrderItemPending);
+router.get("/ready", getReadyToServeItems);
 router.get("/by-dish", getOrderItemsByDish);
 router.get("/by-table", getOrderItemsByTable);
 router.patch("/item/:orderItemId/status", updateItemStatus);

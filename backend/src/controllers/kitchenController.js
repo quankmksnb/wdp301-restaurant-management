@@ -301,6 +301,63 @@ export const getOrderItemsByTable = async (req, res) => {
   }
 };
 
+export const getReadyToServeItems = async (req, res) => {
+  try {
+    const readyItems = await Order.aggregate([
+      {
+        $match: {
+          orderStatus: { $in: ["active", "pre-order"] },
+        },
+      },
+
+      { $unwind: "$subOrders" },
+      { $unwind: "$subOrders.items" },
+
+      {
+        $match: {
+          "subOrders.items.status": "ready",
+        },
+      },
+
+      {
+        $lookup: {
+          from: "tables",
+          localField: "subOrders.table",
+          foreignField: "_id",
+          as: "tableInfo",
+        },
+      },
+      { $unwind: "$tableInfo" },
+
+      {
+        $project: {
+          _id: "$subOrders.items._id",
+          orderId: "$_id",
+          itemName: "$subOrders.items.itemName",
+          quantity: "$subOrders.items.quantity",
+          note: "$subOrders.items.note",
+          tableName: "$tableInfo.tableName",
+          updatedAt: "$subOrders.items.updatedAt",
+        },
+      },
+
+      { $sort: { updatedAt: 1 } },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      count: readyItems.length,
+      data: readyItems,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi lấy danh sách món chờ cung ứng",
+      error: error.message,
+    });
+  }
+};
+
 export const updateItemStatus = async (req, res) => {
   try {
     const { orderItemId } = req.params;
