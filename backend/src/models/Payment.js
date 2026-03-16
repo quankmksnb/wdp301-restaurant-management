@@ -1,5 +1,4 @@
-import Order from "./Order.js";
-import User from "./User.js";
+import mongoose from "mongoose";
 const paymentSchema = new mongoose.Schema(
   {
     // Liên kết với đơn hàng
@@ -66,13 +65,12 @@ paymentSchema.index({ paymentDate: -1, paymentStatus: 1 });
 paymentSchema.post("save", async function (doc) {
   if (doc.paymentStatus === "completed") {
     await mongoose.model("Order").findByIdAndUpdate(doc.order, {
-      orderStatus: "completed"
+      orderStatus: "completed",
     });
-    
-    // Lưu ý: Nếu đơn hàng gắn với Reservation, bạn có thể cần cập nhật 
+
+    // Lưu ý: Nếu đơn hàng gắn với Reservation, bạn có thể cần cập nhật
     // luôn Reservation sang "completed" tại đây thông qua Order.
   }
 });
-
 
 export default mongoose.model("Payment", paymentSchema);

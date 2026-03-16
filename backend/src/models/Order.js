@@ -1,8 +1,4 @@
 import mongoose from "mongoose";
-import MenuItem from "./MenuItem.js";
-import User from "./User.js";
-import Table from "./Table.js";
-import Reservation from "./Reservation.js";
 
 const orderItemSchema = new mongoose.Schema(
   {
