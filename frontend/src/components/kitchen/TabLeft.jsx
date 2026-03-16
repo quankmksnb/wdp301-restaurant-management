@@ -6,7 +6,7 @@ import PriorityTab from "@/components/kitchen/tabs/PriorityTab";
 import ByDishTab from "@/components/kitchen/tabs/ByDishTab";
 import ByRoomTab from "@/components/kitchen/tabs/ByRoomTab";
 
-export default function TabLeft() {
+export default function TabLeft({updateStatus}) {
   const [activeTab, setActiveTab] = useState("priority");
   const [searchTerm, setSearchTerm] = useState("");
 

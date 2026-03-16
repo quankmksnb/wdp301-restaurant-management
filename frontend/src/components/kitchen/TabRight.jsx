@@ -4,7 +4,7 @@ import { Bell, Menu, Settings, Volume2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-export default function TabRight() {
+export default function TabRight({updateStatus}) {
   const [showMenu, setShowMenu] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const menuRef = useRef(null);

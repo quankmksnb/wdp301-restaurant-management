@@ -1,6 +1,7 @@
 import { OrderItem } from "@/components/kitchen/items/OrderItem";
 import kitchenService from "@/services/kitchenService";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function PriorityTab({ searchTerm }) {
   const [items, setItems] = useState([]);
@@ -20,6 +21,7 @@ export default function PriorityTab({ searchTerm }) {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, [searchTerm]);
@@ -52,6 +54,9 @@ export default function PriorityTab({ searchTerm }) {
           time={item.waitingTime}
           qty={item.qty}
           note={item.note}
+          onDoneOne={() => updateStatus(item._id, "ready", 1, fetchData)}
+          onDoneAll={() => updateStatus(item._id, "ready", "all", fetchData)}
+          onOutOfStock={() => updateStatus(item._id, "cancelled", "all", fetchData)}
         />
       ))}
     </div>
