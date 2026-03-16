@@ -93,15 +93,14 @@ orderSchema.pre("save", function (next) {
   this.subOrders.forEach((sub) => {
     // Tính tổng từng bàn
     sub.subTotalAmount = sub.items.reduce(
-      (sum, item) => sum + item.unitPrice * item.quantity,
+      (sum, item) => sum + (item.unitPrice * item.quantity),
       0,
     );
     total += sub.subTotalAmount;
   });
+  
   this.totalAmount = total;
   this.finalAmount = total + (this.taxAmount || 0);
-  next();
 });
 
 export default mongoose.model("Order", orderSchema);
-

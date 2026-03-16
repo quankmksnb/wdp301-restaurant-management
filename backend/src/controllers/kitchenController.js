@@ -1,5 +1,6 @@
 import { success } from "zod";
 import Order from "../models/Order.js";
+import mongoose from "mongoose";
 
 export const getOrderItemPending = async (req, res) => {
   try {
@@ -372,7 +373,7 @@ export const updateItemStatus = async (req, res) => {
       });
     }
 
-    // 2. TÌm Order
+    // 2. Tìm Order
     const order = await Order.findOne({ "subOrders.items._id": orderItemId });
     if (!order) {
       return res
@@ -380,7 +381,7 @@ export const updateItemStatus = async (req, res) => {
         .json({ success: false, message: "Không tìm thấy món ăn" });
     }
 
-    // 3. Tìm vị trí chính xác của subOrder và Item
+    // 3. Tìm vị trí chính xác của subOrder và Item đang thao tác
     let subOrderIndex = -1;
     let itemIndex = -1;
 
@@ -394,39 +395,75 @@ export const updateItemStatus = async (req, res) => {
       }
     });
 
-    const targetItem = order.subOrders[subOrderIndex].items[itemIndex];
+    const targetSubOrder = order.subOrders[subOrderIndex];
+    const targetItem = targetSubOrder.items[itemIndex];
     const currentQty = targetItem.quantity;
 
-    // Số lượng thực thế sẽ cập nhật
     const updateQty =
       quantityToUpdate === "all" || !quantityToUpdate
         ? currentQty
         : parseInt(quantityToUpdate);
 
-    // 4. Tách bản ghi
+    // 4. Logic Xử lý Trạng thái & Cộng dồn
     if (updateQty < currentQty) {
-      // Th1: cập nhật 1 món
-      const newItem = {
-        menuItem: targetItem.menuItem,
-        itemName: targetItem.itemName,
-        unitPrice: targetItem.unitPrice,
-        quantity: updateQty,
-        note: targetItem.note,
-        status: status,
-        subTotal: targetItem.unitPrice * updateQty,
-        _id: new mongoose.Types.ObjectId(),
-      };
+      // Trường hợp tách món: Làm xong một phần
 
+      // Bước A: Tìm xem trong cùng subOrder đã có món này với trạng thái 'status' mục tiêu chưa
+      // Điều kiện: Cùng menuItem AND cùng trạng thái AND cùng ghi chú (nếu cần khắt khe)
+      const existingItem = targetSubOrder.items.find(
+        (item) =>
+          item.menuItem.toString() === targetItem.menuItem.toString() &&
+          item.status === status &&
+          item.note === targetItem.note &&
+          item._id.toString() !== orderItemId, // Không phải chính nó
+      );
+
+      if (existingItem) {
+        // Nếu đã có bản ghi ở trạng thái đó rồi (ví dụ đã có 1 Gà rang 'ready')
+        // Thì cộng dồn số lượng vào bản ghi đó
+        existingItem.quantity += updateQty;
+        existingItem.subTotal = existingItem.unitPrice * existingItem.quantity;
+      } else {
+        // Nếu chưa có, tạo bản ghi mới (như logic cũ của bạn)
+        const newItem = {
+          menuItem: targetItem.menuItem,
+          itemName: targetItem.itemName,
+          unitPrice: targetItem.unitPrice,
+          quantity: updateQty,
+          note: targetItem.note,
+          status: status,
+          subTotal: targetItem.unitPrice * updateQty,
+          _id: new mongoose.Types.ObjectId(),
+        };
+        targetSubOrder.items.push(newItem);
+      }
+
+      // Bước B: Trừ số lượng ở bản ghi gốc (phần chưa làm xong)
       targetItem.quantity = currentQty - updateQty;
       targetItem.subTotal = targetItem.unitPrice * targetItem.quantity;
-
-      order.subOrders[subOrderIndex].items.push(newItem);
     } else {
-      // Th2: cập nhật tất cả
-      targetItem.status = status;
+      // Trường hợp cập nhật tất cả hoặc số lượng bằng hiện tại
+      // Trước khi đổi status, cũng nên kiểm tra xem có bản ghi nào khác cùng status để gộp không
+      const existingItem = targetSubOrder.items.find(
+        (item) =>
+          item.menuItem.toString() === targetItem.menuItem.toString() &&
+          item.status === status &&
+          item.note === targetItem.note &&
+          item._id.toString() !== orderItemId,
+      );
+
+      if (existingItem) {
+        // Gộp vào bản ghi cũ và xóa bản ghi hiện tại
+        existingItem.quantity += updateQty;
+        existingItem.subTotal = existingItem.unitPrice * existingItem.quantity;
+        targetSubOrder.items.splice(itemIndex, 1);
+      } else {
+        // Nếu không có gì để gộp, chỉ đơn giản là đổi trạng thái
+        targetItem.status = status;
+      }
     }
 
-    // 5. Lưu thay đổi
+    // 5. Lưu thay đổi (Middleware pre-save sẽ tính lại tổng tiền cho bạn)
     await order.save();
 
     res.status(200).json({
