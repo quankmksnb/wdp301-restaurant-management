@@ -4,6 +4,7 @@ import menuItemRoutes from "./menuItemRoutes.js";
 import userRoutes from "./userRoutes.js";
 import areaRoutes from "./areaRoutes.js";
 import tableRoutes from "./tableRoutes.js";
+import reservationRoutes from "./reservationRoutes.js";
 
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.use("/users", userRoutes);
 
 router.use("/areas", areaRoutes);
 router.use("/tables", tableRoutes);
+router.use("/reservations", reservationRoutes);
 
 export default router;

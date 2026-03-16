@@ -54,18 +54,6 @@ export default function Dashboard() {
 
         <aside className="col-span-3 space-y-6">
 
-          <div className="bg-white rounded-lg shadow-sm p-4">
-            <div className="flex items-center gap-2">
-              <Truck className="text-green-500 w-5 h-5" />
-              <h3 className="font-semibold text-sm">
-                Giao món siêu tốc
-              </h3>
-            </div>
-            <p className="text-xs text-gray-600 mt-2">
-              Tạo đơn Ahamove, XanhSM, Grab chỉ 30s
-            </p>
-          </div>
-
           <div className="bg-white rounded-lg shadow-sm p-4 h-[520px]">
             <h3 className="font-semibold text-sm mb-3">
               CÁC HOẠT ĐỘNG GẦN ĐÂY

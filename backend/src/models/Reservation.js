@@ -1,6 +1,4 @@
-import Customer from "./Customer.js";
-import Table from "./Table.js";
-import User from "./User.js";
+import mongoose from "mongoose";
 
 const reservationSchema = new mongoose.Schema(
   {
@@ -35,10 +33,10 @@ const reservationSchema = new mongoose.Schema(
       default: "confirmed",
     },
 
-    // Lý do bị hủy: Khách yêu cầu, quá giờ (giả sử 30p)
+    // Lý do bị hủy
     cancellationReason: {
       type: String,
-      enum: ["customer_request", "timeout", "other", null],
+      trim: true,
       default: null,
     },
 
