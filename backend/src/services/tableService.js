@@ -3,9 +3,19 @@ import Table from "../models/Table.js";
 
 //Lấy danh sách tableId đang bị reservation giữ
 
-export const getReservedTableIds = async () => {
+export const getReservedTableIds = async (reservationDateTime) => {
+  const startOfDay = new Date(reservationDateTime);
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const endOfDay = new Date(reservationDateTime);
+  endOfDay.setHours(23, 59, 59, 999);
+
   const reservations = await Reservation.find({
     status: { $in: ["confirmed", "seated"] },
+    reservationDateTime: {
+      $gte: startOfDay,
+      $lte: endOfDay,
+    },
   }).select("tables");
 
   return reservations.flatMap((r) =>
@@ -15,8 +25,8 @@ export const getReservedTableIds = async () => {
 
 // Lấy danh sách bàn đang available
 
-export const getAvailableTables = async () => {
-  const reservedTableIds = await getReservedTableIds();
+export const getAvailableTables = async (reservationDateTime) => {
+  const reservedTableIds = await getReservedTableIds(reservationDateTime);
 
   const tables = await Table.find({
     _id: { $nin: reservedTableIds },
