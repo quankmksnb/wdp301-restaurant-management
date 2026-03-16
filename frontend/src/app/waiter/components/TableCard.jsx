@@ -46,6 +46,9 @@ export default function TableCard({
     shadow = "shadow-sm";
   }
 
+  // Hỗ trợ cả data API (_id, tableNumber) lẫn data cũ (id, name)
+  const tableName = table.tableName ? `${table.tableName}` : table.tableNumber;
+
   return (
     <div
       onClick={onClick}
@@ -69,27 +72,25 @@ export default function TableCard({
                 isSelected ? "text-white" : "text-blue-700"
               }`}
             >
-              {tTotal.toLocaleString("vi-VN")}
+              {tTotal.toLocaleString("vi-VN")} ₫
               <span className={`text-[10px] font-normal ${subText}`}>
-                {tQty}p
+                
               </span>
             </div>
 
             <div className={`text-[10px] flex gap-1 ${subText}`}>
-              <span>✦ {tDishes}</span>
-              <span>•</span>
-              <span>👤 1</span>
+              
             </div>
 
             <div className={`text-[12px] font-semibold ${text}`}>
-              {table.name}
+              {tableName}
             </div>
           </>
         ) : (
           <>
             <Utensils className={`w-5 h-5 ${iconColor}`} />
             <span className={`text-[12px] font-medium mt-[2px] ${text}`}>
-              {table.name}
+              {tableName}
             </span>
           </>
         )}

@@ -1,4 +1,6 @@
+import mongoose from "mongoose";
 import Table from "../models/Table.js";
+import Order from "../models/Order.js";
 import Area from "../models/Area.js";
 
 export const createTable = async (req, res) => {
@@ -199,40 +201,69 @@ export const getTableByArea = async (req, res) => {
   try {
     const { area } = req.query;
 
-    const match = {};
+    const filter = {};
 
-    // nếu có truyền area thì lọc theo area
     if (area) {
-      match.area = new mongoose.Types.ObjectId(area);
+      if (!mongoose.Types.ObjectId.isValid(area)) {
+        return res.status(400).json({
+          success: false,
+          message: "AreaId không hợp lệ",
+        });
+      }
+
+      filter.area = new mongoose.Types.ObjectId(area);
     }
 
     const tables = await Table.aggregate([
-      {
-        $match: match,
-      },
+      { $match: filter },
+
       {
         $lookup: {
           from: "orders",
-          localField: "_id",
-          foreignField: "table",
-          as: "orders",
+          let: { tableId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                orderStatus: { $in: ["pre-order", "active"] },
+              },
+            },
+            { $unwind: "$subOrders" },
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$subOrders.table", "$$tableId"],
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 1,
+                subOrderId: "$subOrders._id",
+                subTotalAmount: "$subOrders.subTotalAmount",
+              },
+            },
+          ],
+          as: "orderData",
         },
       },
+
       {
         $addFields: {
-          totalAmount: {
-            $ifNull: [{ $arrayElemAt: ["$orders.totalAmount", 0] }, 0],
+          orderId: {
+            $ifNull: [{ $arrayElemAt: ["$orderData._id", 0] }, null],
+          },
+          subOrderId: {
+            $ifNull: [{ $arrayElemAt: ["$orderData.subOrderId", 0] }, null],
+          },
+          subTotalAmount: {
+            $ifNull: [{ $arrayElemAt: ["$orderData.subTotalAmount", 0] }, 0],
           },
         },
       },
-      {
-        $project: {
-          orders: 0,
-        },
-      },
-      {
-        $sort: { tableNumber: 1 },
-      },
+
+      { $project: { orderData: 0 } },
+
+      { $sort: { tableNumber: 1 } },
     ]);
 
     res.status(200).json({

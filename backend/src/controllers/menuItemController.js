@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import mongoose from "mongoose";
 import MenuItem from "../models/MenuItem.js";
 import MenuCategory from "../models/MenuCategory.js";
 
@@ -368,37 +369,37 @@ export const toggleAvailabilityStatus = async (req, res) => {
 
 
 // lấy item theo category con
-// export const getMenuItemsByChildCategory = async (req, res) => {
-//     try {
-//         const { category, search } = req.query;
+export const getMenuItemsByChildCategory = async (req, res) => {
+    try {
+        const { category, search } = req.query;
 
-//         const filter = {};
+        const filter = {};
 
-//         // lọc theo category con
-//         if (category) {
-//             filter.category = new mongoose.Types.ObjectId(category);
-//         }
+        // lọc theo category con
+        if (category) {
+            filter.category = new mongoose.Types.ObjectId(category);
+        }
 
-//         // chỉ lấy món đang bán
-//         filter.availabilityStatus = { $ne: "unavailable" };
+        // chỉ lấy món đang bán
+        filter.availabilityStatus = { $ne: "unavailable" };
 
-//         // search theo tên món
-//         if (search) {
-//             filter.itemName = { $regex: search, $options: "i" };
-//         }
+        // search theo tên món
+        if (search) {
+            filter.itemName = { $regex: search, $options: "i" };
+        }
 
-//         const items = await MenuItem.find(filter)
-//             .populate("category", "categoryName")
-//             .sort({ createdAt: -1 });
+        const items = await MenuItem.find(filter)
+            .populate("category", "categoryName")
+            .sort({ createdAt: -1 });
 
-//         res.status(200).json({
-//             success: true,
-//             data: items,
-//         });
-//     } catch (error) {
-//         res.status(500).json({
-//             success: false,
-//             message: error.message,
-//         });
-//     }
-// };
+        res.status(200).json({
+            success: true,
+            data: items,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};

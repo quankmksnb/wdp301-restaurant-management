@@ -35,3 +35,9 @@ export const toggleMenuItemStatus = async (id) => {
     const res = await api.patch(`/menu-items/${id}/toggle-status`);
     return res.data;
 };
+
+// Lấy menu item theo category con
+export const getMenuItemsByChildCategory = async (params = {}) => {
+    const res = await api.get("/menu-items/by-child-category", { params });
+    return res.data;
+};

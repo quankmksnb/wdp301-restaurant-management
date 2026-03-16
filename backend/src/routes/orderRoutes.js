@@ -1,17 +1,26 @@
 import express from "express";
-// import {
-//     orderItems,
-//     cancelOrderItem,
-//     getCurrentOrderByTable,
-//     sendToKitchen
-// } from "../controllers/orderController.js";
+import {
+    addItemToTable,
+    sendItemsToKitchen,
+    cancelItem,
+    getCurrentBillByTable,
+    getOrderBill
+} from "../controllers/orderController.js";
 
 const router = express.Router();
 
+// gọi món theo bàn
+router.post("/:orderId/tables/:tableId/items", addItemToTable);
 
-// router.post("/items", orderItems);
-// router.patch("/cancel-item", cancelOrderItem);
-// router.patch("/send-to-kitchen", sendToKitchen);
-// router.get("/table/:tableId", getCurrentOrderByTable);
+// gửi món xuống bếp
+router.patch("/:orderId/send-to-kitchen", sendItemsToKitchen);
+
+// hủy món
+router.patch("/:orderId/items/:itemId/cancel", cancelItem);
+
+// lấy hóa đơn hiện tại của bàn
+router.get("/table/:tableId/bill", getCurrentBillByTable);
+
+router.get("/:orderId/bill", getOrderBill);
 
 export default router;
