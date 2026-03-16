@@ -6,7 +6,7 @@ import React from "react";
 export default function KitchenClientPage() {
   return (
     <div className="flex flex-col h-screen bg-[#003d7a] text-slate-800 overflow-hidden">
-      <div className="flex flex-1 overflow-hidden p-2 gap-2">
+      <div className="flex flex-1 overflow-hidden gap-2">
         {/* Cột trái: Chờ chế biến */}
         <TabLeft />
 

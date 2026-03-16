@@ -15,7 +15,7 @@ export default function TabLeft() {
   ];
 
   return (
-    <div className="flex-1 bg-[#003d7a] rounded-md flex flex-col overflow-hidden">
+    <div className="flex-1 bg-[#003d7a] rounded-tr-md rounded-br-md flex flex-col overflow-hidden">
       <div className="flex items-center justify-between px-4">
         <h2 className="text-white font-bold">Chờ chế biến</h2>
 
@@ -24,7 +24,7 @@ export default function TabLeft() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-2 transition-all duration-200 font-bold rounded-t-lg text-[14px] ${
+              className={`px-6 py-2 transition-all duration-200 font-medium rounded-t-lg text-[14px] ${
                 activeTab === tab.id
                   ? "bg-white text-blue-800" // Style khi được chọn
                   : "text-white opacity-60 hover:opacity-100" // Style khi chưa chọn
@@ -37,7 +37,7 @@ export default function TabLeft() {
       </div>
 
       {/* Nội dung thay đổi dựa trên tab */}
-      <div className="flex-1 overflow-y-auto bg-white rounded-lg p-2">
+      <div className="flex-1 overflow-y-auto bg-white rounded-tr-lg rounded-br-lg p-2">
         {activeTab === "priority" && (
           <div className="animate-in fade-in duration-300">
             {/* Nội dung Tab Ưu tiên */}
