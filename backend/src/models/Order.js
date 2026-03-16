@@ -27,6 +27,7 @@ const orderItemSchema = new mongoose.Schema(
         "ready", // Đã xong, chờ nhân viên bưng ra
         "served", // Đã phục vụ khách tại bàn
         "cancelled", // Món bị hủy (hết nguyên liệu, khách đổi ý)
+        "out_of_stock",
       ],
       default: "pending",
     },
