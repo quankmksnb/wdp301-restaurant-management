@@ -13,6 +13,7 @@ const orderItemSchema = new mongoose.Schema(
     },
     // Lưu snapshot tên món tại thời điểm đặt (tránh việc menu đổi tên)
     itemName: String,
+    // Snapshot giá món
     unitPrice: Number,
     // Số lượng món
     quantity: { type: Number, required: true, min: 1 },
@@ -32,19 +33,43 @@ const orderItemSchema = new mongoose.Schema(
     },
     subTotal: { type: Number, required: true },
   },
-  { _id: false },
+  { _id: true }, // Để _id để dễ dang cập nhật từng món
 );
 
 const orderSchema = new mongoose.Schema(
   {
-    orderDate: { type: Date, default: Date.now },
+    // Liên kết với Reservation
+    reservation: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Reservation",
+      required: true,
+    },
 
+    // Trạng thái tổng quát của đơn hàng
     orderStatus: {
       type: String,
-      enum: ["pending", "preparing", "served", "completed", "cancelled"],
-      default: "pending",
+      enum: [
+        "pre-order", // Khách đặt trước món khi chưa đến
+        "active", // Khách đã nhận bàn (Reservation seated), đang gọi thêm/ăn uống
+        "completed", // Đã thanh toán xong
+        "cancelled", // Hủy đơn hàng
+      ],
+      default: "pre-order",
     },
-    items: [orderItemSchema],
+
+    // Danh sách đơn con theo từng bàn
+    subOrders: [
+      {
+        table: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Table",
+          required: true,
+        },
+        items: [orderItemSchema],
+        subTotalAmount: { type: Number, default: 0 }, // Tổng tiền riêng cho từng bàn
+      },
+    ],
+    // Tổng tiền
     totalAmount: { type: Number, default: 0 },
 
     orderDate: { type: Date, default: Date.now },

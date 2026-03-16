@@ -198,32 +198,32 @@ export const deleteCategory = async (req, res) => {
 };
 
 // Lấy danh sách category con theo parentId
-export const getChildCategories = async (req, res) => {
-  try {
-    const { parentId } = req.query;
+// export const getChildCategories = async (req, res) => {
+//   try {
+//     const { parentId } = req.query;
 
-    const filter = {
-      parentId: { $ne: null }, // chỉ lấy category con
-      status: "active"
-    };
+//     const filter = {
+//       parentId: { $ne: null }, // chỉ lấy category con
+//       status: "active"
+//     };
 
-    // nếu truyền parentId thì chỉ lấy con của category đó
-    if (parentId) {
-      filter.parentId = parentId;
-    }
+//     // nếu truyền parentId thì chỉ lấy con của category đó
+//     if (parentId) {
+//       filter.parentId = parentId;
+//     }
 
-    const categories = await MenuCategory.find(filter)
-      .populate("parentId", "categoryName")
-      .sort({ createdAt: -1 });
+//     const categories = await MenuCategory.find(filter)
+//       .populate("parentId", "categoryName")
+//       .sort({ createdAt: -1 });
 
-    res.status(200).json({
-      success: true,
-      data: categories,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
+//     res.status(200).json({
+//       success: true,
+//       data: categories,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
