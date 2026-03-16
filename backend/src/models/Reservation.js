@@ -1,6 +1,3 @@
-import Customer from "./Customer.js";
-import Table from "./Table.js";
-import User from "./User.js";
 
 const reservationSchema = new mongoose.Schema(
   {

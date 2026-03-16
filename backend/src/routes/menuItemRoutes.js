@@ -6,7 +6,7 @@ import {
     getMenuItemById,
     updateMenuItem,
     toggleAvailabilityStatus,
-    getMenuItemsByChildCategory,
+    // getMenuItemsByChildCategory,
 } from "../controllers/menuItemController.js";
 import upload from "../middlewares/upload.js";
 
@@ -19,7 +19,7 @@ router.post(
 );
 router.get("/:id", getMenuItemById);
 router.get("/", getAllMenuItems);
-router.get("/by-child-category", getMenuItemsByChildCategory);
+// router.get("/by-child-category", getMenuItemsByChildCategory);
 router.put(
     "/:id",
     upload.array("images", 1),
