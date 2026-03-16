@@ -1,9 +1,8 @@
 import { OrderItem } from "@/components/kitchen/items/OrderItem";
 import kitchenService from "@/services/kitchenService";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
-export default function PriorityTab({ searchTerm }) {
+export default function PriorityTab({ searchTerm, updateStatus }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const fetchData = async () => {

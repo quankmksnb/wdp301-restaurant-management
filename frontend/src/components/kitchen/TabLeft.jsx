@@ -6,7 +6,7 @@ import PriorityTab from "@/components/kitchen/tabs/PriorityTab";
 import ByDishTab from "@/components/kitchen/tabs/ByDishTab";
 import ByRoomTab from "@/components/kitchen/tabs/ByRoomTab";
 
-export default function TabLeft({updateStatus}) {
+export default function TabLeft({ updateStatus }) {
   const [activeTab, setActiveTab] = useState("priority");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -17,9 +17,9 @@ export default function TabLeft({updateStatus}) {
   ];
 
   return (
-    <div className="flex-1 bg-[#003d7a] rounded-tr-md rounded-br-md flex flex-col overflow-hidden">
+    <div className="flex-1 bg-[#003d7a] rounded-tr-md rounded-br-md flex flex-col overflow-hidden ">
       {/* Header */}
-      <div className="flex items-center justify-between px-4">
+      <div className="flex items-center justify-between px-4 h-11.25">
         <h2 className="text-white font-bold">Chờ chế biến</h2>
 
         <div className="flex items-center pt-2">
@@ -44,9 +44,15 @@ export default function TabLeft({updateStatus}) {
 
       {/* Content */}
       <div className="flex-1 bg-white overflow-y-auto">
-        {activeTab === "priority" && <PriorityTab searchTerm={searchTerm} />}
-        {activeTab === "by-dish" && <ByDishTab searchTerm={searchTerm} />}
-        {activeTab === "by-room" && <ByRoomTab searchTerm={searchTerm} />}
+        {activeTab === "priority" && (
+          <PriorityTab searchTerm={searchTerm} updateStatus={updateStatus} />
+        )}
+        {activeTab === "by-dish" && (
+          <ByDishTab searchTerm={searchTerm} updateStatus={updateStatus} />
+        )}
+        {activeTab === "by-room" && (
+          <ByRoomTab searchTerm={searchTerm} updateStatus={updateStatus} />
+        )}
       </div>
     </div>
   );

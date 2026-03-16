@@ -2,6 +2,7 @@ import KitchenFooter from "@/components/kitchen/KitchenFooter";
 import TabLeft from "@/components/kitchen/TabLeft";
 import TabRight from "@/components/kitchen/TabRight";
 import React from "react";
+import toast from "react-hot-toast";
 
 export default function KitchenClientPage() {
   const updateStatus = async (itemId, newStatus, quantity, fetchData) => {
