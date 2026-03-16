@@ -3,9 +3,9 @@
 import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 export default function KitchenPage() {
-  return (
-    <ProtectedRoute role="kitchen">
-      <h1>Kitchen Page</h1>
-    </ProtectedRoute>
-  );
+  return (
+    <ProtectedRoute role="kitchenStaff">
+      <h1>Kitchen Page</h1>
+    </ProtectedRoute>
+  );
 }
