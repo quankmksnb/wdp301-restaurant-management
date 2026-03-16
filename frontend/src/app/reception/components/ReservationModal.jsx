@@ -25,7 +25,7 @@ import { getAllMenuItems } from "@/services/menuItemService";
 import dayjs from "dayjs";
 
 // ─── Available Tables Modal ───
-function AvailableTablesModal({ open, onClose, onSelect, alreadySelected }) {
+function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTime }) {
   const [loading, setLoading] = useState(false);
   const [availableTables, setAvailableTables] = useState([]);
   const [selectedArea, setSelectedArea] = useState(null); // null = all
@@ -33,10 +33,10 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected }) {
 
   // Fetch available tables on open
   useEffect(() => {
-    if (open) {
+    if (open && dateTime) {
       setLoading(true);
       setTempSelected([...alreadySelected]);
-      getAvailableTables()
+      getAvailableTables(dateTime.toISOString())
         .then((res) => {
           setAvailableTables(res.data || []);
         })
@@ -45,7 +45,7 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected }) {
         })
         .finally(() => setLoading(false));
     }
-  }, [open, alreadySelected]);
+  }, [open, alreadySelected, dateTime]);
 
   // Extract unique areas
   const areas = useMemo(() => {
@@ -92,7 +92,11 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected }) {
       destroyOnHidden
       centered
     >
-      {loading ? (
+      {!dateTime ? (
+        <div className="py-6 text-center text-sm text-orange-500">
+          Vui lòng chọn giờ đến trước khi xem bàn trống.
+        </div>
+      ) : loading ? (
         <div className="flex justify-center py-10">
           <Spin />
         </div>
@@ -435,6 +439,7 @@ export default function ReservationModal({
   prefilledHour,
   tables,
   areas,
+  selectedDate,
   onReservationCreated,
 }) {
   const [saving, setSaving] = useState(false);
@@ -495,15 +500,21 @@ export default function ReservationModal({
       setSeparateOrders({});
       setShowPreOrder(false);
 
-      // Set default arrival time
-      const now = dayjs();
+      // Set default arrival time based on selectedDate
+      const baseDate = selectedDate ? dayjs(selectedDate) : dayjs();
       if (prefilledHour !== undefined && prefilledHour !== null) {
-        setArrivalTime(now.hour(prefilledHour).minute(0).second(0));
+        setArrivalTime(baseDate.hour(prefilledHour).minute(0).second(0));
       } else {
-        setArrivalTime(now.add(1, "hour").minute(0).second(0));
+        // If selected date is today, use current time + 1 hour; otherwise use 10:00
+        const isToday = baseDate.isSame(dayjs(), 'day');
+        if (isToday) {
+          setArrivalTime(dayjs().add(1, "hour").minute(0).second(0));
+        } else {
+          setArrivalTime(baseDate.hour(10).minute(0).second(0));
+        }
       }
     }
-  }, [open, prefilledTable, prefilledHour]);
+  }, [open, prefilledTable, prefilledHour, selectedDate]);
 
   // Fetch menu items when pre-order is shown
   useEffect(() => {
@@ -883,6 +894,7 @@ export default function ReservationModal({
         onClose={() => setShowAvailableTables(false)}
         onSelect={(tableIds) => setSelectedTables(tableIds)}
         alreadySelected={selectedTables}
+        dateTime={arrivalTime}
       />
     </Modal>
   );

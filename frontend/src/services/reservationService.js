@@ -1,8 +1,10 @@
 import api from "./api";
 
 // Lấy danh sách bàn trống
-export const getAvailableTables = async () => {
-  const res = await api.get("/reservations/available-tables");
+export const getAvailableTables = async (dateTime) => {
+  const res = await api.get("/reservations/available-tables", {
+    params: { dateTime },
+  });
   return res.data;
 };
 
@@ -25,7 +27,7 @@ export const createReservationWithOrder = async (data) => {
 };
 
 // Cập nhật trạng thái reservation
-export const updateReservationStatus = async (id, status) => {
-  const res = await api.patch(`/reservations/${id}/status`, { status });
+export const updateReservationStatus = async (id, status, extraData = {}) => {
+  const res = await api.patch(`/reservations/${id}/status`, { status, ...extraData });
   return res.data;
 };

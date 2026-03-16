@@ -44,7 +44,7 @@ export const getAvailableTablesController = async (req, res) => {
 export const getReservedTablesController = async (req, res) => {
   try {
     const reservations = await Reservation.find({
-      status: { $in: ["confirmed", "seated"] },
+      status: { $in: ["confirmed", "seated", "cancelled"] },
     })
       .populate({
         path: "tables",
@@ -72,9 +72,9 @@ export const getReservedTablesController = async (req, res) => {
  */
 export const createReservation = async (req, res) => {
   try {
-    const { tables } = req.body;
+    const { tables, reservationDateTime } = req.body;
 
-    const validation = await validateTablesForReservation(tables);
+    const validation = await validateTablesForReservation(tables, reservationDateTime);
 
     if (!validation.valid) {
       return res.status(400).json({
@@ -119,7 +119,7 @@ export const createReservationWithOrder = async (req, res) => {
       note,
     } = req.body;
 
-    const validation = await validateTablesForReservation(tables);
+    const validation = await validateTablesForReservation(tables, reservationDateTime);
 
     if (!validation.valid) {
       return res.status(400).json({
@@ -258,7 +258,7 @@ export const createReservationWithOrder = async (req, res) => {
 export const updateReservationStatus = async (req, res) => {
   try {
     const { id } = req.params;
-    const { status } = req.body;
+    const { status, cancellationReason } = req.body;
 
     const allowedStatus = [
       "confirmed",
@@ -294,6 +294,11 @@ export const updateReservationStatus = async (req, res) => {
     // nếu khách hoàn thành
     if (status === "completed") {
       reservation.checkOutTime = new Date();
+    }
+
+    // nếu hủy bàn
+    if (status === "cancelled" && cancellationReason) {
+      reservation.cancellationReason = cancellationReason;
     }
 
     await reservation.save();

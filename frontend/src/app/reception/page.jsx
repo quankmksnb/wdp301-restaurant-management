@@ -3,7 +3,8 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import useTables from "@/hooks/useTables";
 import useAreas from "@/hooks/useAreas";
-import { getReservedTables } from "@/services/reservationService";
+import { getReservedTables, updateReservationStatus } from "@/services/reservationService";
+import { message, Modal, Input } from "antd";
 
 import TopBar from "./components/TopBar";
 import SubHeader from "./components/SubHeader";
@@ -11,6 +12,7 @@ import Sidebar from "./components/Sidebar";
 import Timeline from "./components/Timeline";
 import WeekView from "./components/WeekView";
 import MonthView from "./components/MonthView";
+import ReservationListView from "./components/ReservationListView";
 import ReservationModal from "@/app/reception/components/ReservationModal";
 
 // ─────────────────────────────────────────────────────────────────
@@ -35,6 +37,7 @@ function transformReservations(apiReservations) {
                 phone: r.customer?.phone || "",
                 tableId,
                 tableName,
+                areaId: typeof table === "object" ? (table.area?._id || table.area) : "",
                 startTime,
                 endTime,
                 guests: {
@@ -128,6 +131,51 @@ export default function ReceptionPage() {
         setStatusFilters((p) => ({ ...p, [key]: val }));
     }, []);
 
+    // Cancel modal state
+    const [cancelModal, setCancelModal] = useState({ open: false, reservationId: null });
+    const [cancelReason, setCancelReason] = useState("");
+
+    // Handle reservation status change (nhận bàn / hủy đặt)
+    const handleStatusChange = useCallback(async (reservationId, newStatus) => {
+        if (newStatus === "cancelled") {
+            // Show cancel reason modal instead of immediate cancel
+            setCancelModal({ open: true, reservationId });
+            setCancelReason("");
+            return;
+        }
+        try {
+            await updateReservationStatus(reservationId, newStatus);
+            message.success("Nhận bàn thành công!");
+            fetchReservations();
+        } catch (error) {
+            console.error("Status change error:", error);
+            message.error(
+                error.response?.data?.message || "Có lỗi xảy ra khi cập nhật trạng thái"
+            );
+        }
+    }, [fetchReservations]);
+
+    // Confirm cancel with reason
+    const handleConfirmCancel = useCallback(async () => {
+        if (!cancelReason.trim()) {
+            message.warning("Vui lòng nhập lý do hủy!");
+            return;
+        }
+        try {
+            await updateReservationStatus(cancelModal.reservationId, "cancelled", {
+                cancellationReason: cancelReason,
+            });
+            message.success("Đã hủy đặt bàn!");
+            setCancelModal({ open: false, reservationId: null });
+            fetchReservations();
+        } catch (error) {
+            console.error("Cancel error:", error);
+            message.error(
+                error.response?.data?.message || "Có lỗi xảy ra khi hủy đặt bàn"
+            );
+        }
+    }, [cancelModal.reservationId, cancelReason, fetchReservations]);
+
     const confirmedCount = reservations.filter((r) => r.status === "confirmed").length;
 
     return (
@@ -145,7 +193,8 @@ export default function ReceptionPage() {
                 onOpenModal={handleOpenModal}
             />
 
-            {/* ══ BODY ══ */}
+            {/* ══ CALENDAR BODY ══ */}
+            {tabMode === "calendar" && (
             <div className="flex flex-1 min-h-0 overflow-hidden">
                 {/* SIDEBAR */}
                 <Sidebar
@@ -165,6 +214,7 @@ export default function ReceptionPage() {
                         reservations={reservations}
                         statusFilters={statusFilters}
                         onCellClick={handleCellClick}
+                        onStatusChange={handleStatusChange}
                         selectedDate={selectedDate}
                         viewMode={viewMode}
                     />
@@ -192,6 +242,21 @@ export default function ReceptionPage() {
                     />
                 )}
             </div>
+            )}
+
+            {/* ══ LIST VIEW ══ */}
+            {tabMode === "list" && (
+                <ReservationListView
+                    reservations={allReservations}
+                    areas={areas}
+                    statusFilters={statusFilters}
+                    onStatusFilterChange={handleStatusFilterChange}
+                    onStatusChange={handleStatusChange}
+                    onOpenModal={handleOpenModal}
+                    selectedDate={selectedDate}
+                    onSelectDate={setSelectedDate}
+                />
+            )}
 
             {/* MODAL */}
             <ReservationModal
@@ -201,8 +266,33 @@ export default function ReceptionPage() {
                 prefilledHour={prefilledHour}
                 tables={tables}
                 areas={areas}
+                selectedDate={selectedDate}
                 onReservationCreated={fetchReservations}
             />
+            {/* CANCEL REASON MODAL */}
+            <Modal
+                open={cancelModal.open}
+                onCancel={() => setCancelModal({ open: false, reservationId: null })}
+                onOk={handleConfirmCancel}
+                title={<span className="text-base font-bold text-red-600">🗑 Xác nhận hủy đặt bàn</span>}
+                okText="Xác nhận hủy"
+                cancelText="Quay lại"
+                okButtonProps={{ danger: true }}
+                centered
+                width={420}
+            >
+                <div className="py-3">
+                    <p className="text-sm text-gray-600 mb-3">Vui lòng nhập lý do hủy:</p>
+                    <Input.TextArea
+                        rows={3}
+                        value={cancelReason}
+                        onChange={(e) => setCancelReason(e.target.value)}
+                        placeholder="Nhập lý do hủy đặt bàn..."
+                        maxLength={200}
+                        showCount
+                    />
+                </div>
+            </Modal>
         </div>
     );
 }

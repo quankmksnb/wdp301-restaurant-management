@@ -40,8 +40,8 @@ export const getAvailableTables = async (reservationDateTime) => {
 
 // Validate danh sách bàn có hợp lệ để đặt không
 
-export const validateTablesForReservation = async (tableIds) => {
-  const reservedTableIds = await getReservedTableIds();
+export const validateTablesForReservation = async (tableIds, reservationDateTime) => {
+  const reservedTableIds = await getReservedTableIds(reservationDateTime);
 
   // check bàn đã bị đặt
   const reserved = tableIds.filter((id) =>
