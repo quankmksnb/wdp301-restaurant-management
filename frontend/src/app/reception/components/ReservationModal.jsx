@@ -746,65 +746,6 @@ export default function ReservationModal({
           </div>
         </div>
 
-        {/* Row 3: Duration + Deposit */}
-        <div className="grid grid-cols-12 gap-4 mb-4">
-          <div className="col-span-6">
-            <label className="text-xs text-gray-600 mb-1 block">
-              Thời lượng
-            </label>
-            <div className="flex gap-2 items-center">
-              <Select
-                value={formData.durationUnit}
-                onChange={(val) =>
-                  setFormData({ ...formData, durationUnit: val })
-                }
-                options={[
-                  { label: "Giờ", value: "Giờ" },
-                  { label: "Phút", value: "Phút" },
-                ]}
-                className="w-24"
-              />
-              <InputNumber
-                min={0.5}
-                max={24}
-                step={0.5}
-                value={formData.duration}
-                onChange={(val) =>
-                  setFormData({ ...formData, duration: val })
-                }
-                className="w-20"
-              />
-            </div>
-          </div>
-          <div className="col-span-6">
-            <label className="text-xs text-gray-600 mb-1 block">
-              Tiền đặt cọc
-            </label>
-            <div className="flex gap-2">
-              <Input
-                placeholder="Nhập số tiền"
-                value={formData.deposit}
-                onChange={(e) =>
-                  setFormData({ ...formData, deposit: e.target.value })
-                }
-                className="flex-1"
-              />
-              <Select
-                value={formData.depositMethod}
-                onChange={(val) =>
-                  setFormData({ ...formData, depositMethod: val })
-                }
-                options={[
-                  { label: "Tiền mặt", value: "Tiền mặt" },
-                  { label: "Chuyển khoản", value: "Chuyển khoản" },
-                  { label: "Thẻ", value: "Thẻ" },
-                ]}
-                className="w-32"
-              />
-            </div>
-          </div>
-        </div>
-
         {/* Row 4: Table selection + Note */}
         <div className="grid grid-cols-12 gap-4 mb-4">
           <div className="col-span-6">
