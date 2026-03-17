@@ -29,3 +29,9 @@ export const toggleTableStatus = async (id) => {
   const res = await api.patch(`/tables/${id}/status`);
   return res.data;
 };
+
+// Lấy danh sách bàn theo khu vực (kèm totalAmount từ order active)
+export const getTableByArea = async (params = {}) => {
+  const res = await api.get("/tables/by-area", { params });
+  return res.data;
+};
