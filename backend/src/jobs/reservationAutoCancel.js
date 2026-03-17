@@ -8,8 +8,8 @@ import Reservation from "../models/Reservation.js";
  * với lý do "Quá giờ 30 phút không nhận bàn"
  */
 export function startReservationAutoCancelJob() {
-  // Chạy mỗi 5 phút: */5 * * * *
-  cron.schedule("*/5 * * * *", async () => {
+  // Chạy mỗi 1 phút: */1 * * * *
+  cron.schedule("*/1 * * * *", async () => {
     try {
       const now = new Date();
       const thirtyMinutesAgo = new Date(now.getTime() - 30 * 60 * 1000);

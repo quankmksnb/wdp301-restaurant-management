@@ -52,7 +52,7 @@ export default function SubHeader({ viewMode, setViewMode, statusFilters, onStat
                     onClick={onOpenModal}
                     className="flex items-center gap-2 px-4 py-1.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 cursor-pointer transition"
                 >
-                    📋 Đặt bàn (F1)
+                    Đặt bàn (F1)
                     {reservationCount > 0 && (
                         <span className="ml-1 bg-white text-blue-700 text-[11px] font-bold px-2 rounded-full">
                             {reservationCount}

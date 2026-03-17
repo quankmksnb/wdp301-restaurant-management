@@ -1,7 +1,7 @@
 // ─── Constants ───────────────────────────────────────────────────
 export const HOURS = Array.from({ length: 24 }, (_, i) => i);
-export const CELL_WIDTH = 100;
-export const ROW_HEIGHT = 28;
+export const CELL_WIDTH = 120;
+export const ROW_HEIGHT = 36;
 export const SIDEBAR_WIDTH = 150;
 export const HEADER_HOURS = [0, 3, 6, 9, 12, 15, 18, 21];
 export const HEADER_CELL_WIDTH = CELL_WIDTH * 3;

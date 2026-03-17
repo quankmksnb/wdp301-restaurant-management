@@ -88,7 +88,7 @@ export default function ReservationListView({
             key: "code",
             width: 130,
             render: (id) => (
-                <span className="text-blue-600 font-medium text-xs">
+                <span className="text-blue-600 font-medium text-sm">
                     {getResCode(id)}
                 </span>
             ),
@@ -177,7 +177,7 @@ export default function ReservationListView({
                             placeholder="Theo mã đặt bàn"
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
-                            className="w-full border border-gray-200 rounded-lg text-xs py-2 pl-8 pr-3 outline-none focus:border-blue-400 transition"
+                            className="w-full border border-gray-200 rounded-lg text-sm py-2 pl-8 pr-3 outline-none focus:border-blue-400 transition"
                         />
                     </div>
                 </SidebarSection>
@@ -190,11 +190,11 @@ export default function ReservationListView({
                             onChange={(e) => setDateMode(e.target.value)}
                             className="flex flex-col gap-1.5"
                         >
-                            <Radio value="all" className="text-xs">
-                                <span className="text-xs text-blue-600">Toàn thời gian</span>
+                            <Radio value="all">
+                                <span className="text-sm text-blue-600">Toàn thời gian</span>
                             </Radio>
-                            <Radio value="custom" className="text-xs">
-                                <span className="text-xs">Lựa chọn khác</span>
+                            <Radio value="custom">
+                                <span className="text-sm">Lựa chọn khác</span>
                             </Radio>
                         </Radio.Group>
                         {dateMode === "custom" && (
@@ -242,13 +242,12 @@ export default function ReservationListView({
                         dataSource={filteredData}
                         columns={columns}
                         rowKey="_id"
-                        size="small"
+                        size="middle"
                         pagination={{
                             pageSize,
                             showTotal: (total) => (
-                                <span className="text-xs text-gray-500">{total}</span>
+                                <span className="text-sm text-gray-500">{total}</span>
                             ),
-                            size: "small",
                         }}
                         className="reception-list-table"
                         scroll={{ x: 1000 }}

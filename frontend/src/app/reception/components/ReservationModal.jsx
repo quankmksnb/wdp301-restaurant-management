@@ -106,11 +106,10 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
           <div className="flex flex-wrap gap-2 mb-5">
             <button
               onClick={() => setSelectedArea(null)}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer transition-colors ${
-                selectedArea === null
-                  ? "bg-[#1e3a5f] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
+              className={`px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer transition-colors ${selectedArea === null
+                ? "bg-[#1e3a5f] text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
             >
               Tất cả
             </button>
@@ -118,11 +117,10 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
               <button
                 key={area._id}
                 onClick={() => setSelectedArea(area._id)}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer transition-colors ${
-                  selectedArea === area._id
-                    ? "bg-[#1e3a5f] text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer transition-colors ${selectedArea === area._id
+                  ? "bg-[#1e3a5f] text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
               >
                 {area.areaName}
               </button>
@@ -140,11 +138,10 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
                   <button
                     key={table._id}
                     onClick={() => toggleTable(table._id)}
-                    className={`px-3 py-1.5 rounded-md text-sm cursor-pointer transition-all border ${
-                      isSelected
-                        ? "bg-[#1e3a5f] text-white border-[#1e3a5f] shadow-sm"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-blue-300 hover:text-blue-600"
-                    }`}
+                    className={`px-3 py-1.5 rounded-md text-sm cursor-pointer transition-all border ${isSelected
+                      ? "bg-[#1e3a5f] text-white border-[#1e3a5f] shadow-sm"
+                      : "bg-white text-gray-700 border-gray-200 hover:border-blue-300 hover:text-blue-600"
+                      }`}
                   >
                     {table.tableName}
                   </button>
@@ -746,65 +743,6 @@ export default function ReservationModal({
           </div>
         </div>
 
-        {/* Row 3: Duration + Deposit */}
-        <div className="grid grid-cols-12 gap-4 mb-4">
-          <div className="col-span-6">
-            <label className="text-xs text-gray-600 mb-1 block">
-              Thời lượng
-            </label>
-            <div className="flex gap-2 items-center">
-              <Select
-                value={formData.durationUnit}
-                onChange={(val) =>
-                  setFormData({ ...formData, durationUnit: val })
-                }
-                options={[
-                  { label: "Giờ", value: "Giờ" },
-                  { label: "Phút", value: "Phút" },
-                ]}
-                className="w-24"
-              />
-              <InputNumber
-                min={0.5}
-                max={24}
-                step={0.5}
-                value={formData.duration}
-                onChange={(val) =>
-                  setFormData({ ...formData, duration: val })
-                }
-                className="w-20"
-              />
-            </div>
-          </div>
-          <div className="col-span-6">
-            <label className="text-xs text-gray-600 mb-1 block">
-              Tiền đặt cọc
-            </label>
-            <div className="flex gap-2">
-              <Input
-                placeholder="Nhập số tiền"
-                value={formData.deposit}
-                onChange={(e) =>
-                  setFormData({ ...formData, deposit: e.target.value })
-                }
-                className="flex-1"
-              />
-              <Select
-                value={formData.depositMethod}
-                onChange={(val) =>
-                  setFormData({ ...formData, depositMethod: val })
-                }
-                options={[
-                  { label: "Tiền mặt", value: "Tiền mặt" },
-                  { label: "Chuyển khoản", value: "Chuyển khoản" },
-                  { label: "Thẻ", value: "Thẻ" },
-                ]}
-                className="w-32"
-              />
-            </div>
-          </div>
-        </div>
-
         {/* Row 4: Table selection + Note */}
         <div className="grid grid-cols-12 gap-4 mb-4">
           <div className="col-span-6">
@@ -880,10 +818,10 @@ export default function ReservationModal({
             loading={saving}
             className="flex items-center gap-1 px-6"
           >
-            💾 Lưu
+            Lưu
           </Button>
           <Button onClick={onClose} className="flex items-center gap-1 px-6">
-            ↩ Bỏ qua
+            Bỏ qua
           </Button>
         </div>
       </div>
