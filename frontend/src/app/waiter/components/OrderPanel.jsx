@@ -34,9 +34,10 @@ export default function OrderPanel({
   const [sendingKitchen, setSendingKitchen] = useState(false);
 
   // ✅ Filter items có id hợp lệ
-const validCart = cart.filter(item => 
-  item?.id && item.qty > 0 && item.status !== "cancelled"
-);
+  const validCart = cart.filter(item => 
+    item?.id && item.qty > 0 && item.status !== "cancelled"
+  );
+
   const sortedCart = [...validCart].sort((a, b) =>
     priceSort === "asc" ? a.price - b.price : b.price - a.price
   );
@@ -55,6 +56,17 @@ const validCart = cart.filter(item =>
     setOpenPay(false);
     onRefreshCart?.();
   };
+
+  // ✅ Status config cho 5 status
+  const statusConfig = {
+    pending: { label: "Mới đặt", bg: "bg-yellow-100", text: "text-yellow-600" },
+    preparing: { label: "Đang chế biến", bg: "bg-blue-100", text: "text-blue-600" },
+    ready: { label: "Đã chế biến xong", bg: "bg-purple-100", text: "text-purple-600" },
+    served: { label: "Đã phục vụ", bg: "bg-green-100", text: "text-green-600" },
+    out_of_stock: { label: "Hết hàng", bg: "bg-gray-100", text: "text-gray-600" },
+  };
+
+  const validStatuses = ["pending", "preparing", "ready", "served", "out_of_stock"];
 
   return (
     <div className="flex-1 bg-white border-l border-slate-200 flex flex-col min-w-0">
@@ -92,14 +104,23 @@ const validCart = cart.filter(item =>
           </div>
         ) : (
           sortedCart.map((item, idx) => {
-            const done = kitchenDone.includes(item.id)
+            // ✅ Chỉ hiển thị 5 status
+            if (!validStatuses.includes(item.status)) {
+              return null;
+            }
+
+            const isDone = kitchenDone.includes(item.id)
               || item.status === "preparing"
-              || item.status === "done";
+              || item.status === "ready"
+              || item.status === "served";
+
+            const status = statusConfig[item.status];
+
             return (
               <div
-                key={item.id}  // ✅ item.id luôn có giá trị vì đã filter
+                key={item.id}
                 className={`flex items-center px-3 py-2 border-b border-slate-100 gap-1
-                  transition hover:bg-slate-50 ${done ? "bg-green-50" : ""}`}
+                  transition hover:bg-slate-50 ${isDone ? "bg-green-50" : ""}`}
               >
                 <span className="text-blue-500 font-semibold min-w-[18px] text-[13px]">
                   {idx + 1}.
@@ -107,45 +128,37 @@ const validCart = cart.filter(item =>
 
                 <div className="flex-1 min-w-0">
                   <div className={`flex items-center gap-1 text-[13px] font-medium
-                    ${done ? "text-green-600" : "text-slate-800"}`}>
-                    {done && <Bell size={13} />}
+                    ${isDone ? "text-green-600" : "text-slate-800"}`}>
+                    {isDone && <Bell size={13} />}
                     <span className="truncate">{item.name}</span>
-                    {item.status && (
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded-full ml-1
-                        ${item.status === "pending" ? "bg-yellow-100 text-yellow-600" : ""}
-                        ${item.status === "preparing" ? "bg-blue-100 text-blue-600" : ""}
-                        ${item.status === "done" ? "bg-green-100 text-green-600" : ""}
-                        ${item.status === "cancelled" ? "bg-red-100 text-red-500" : ""}
-                      `}>
-                        {item.status === "pending" && "Chờ"}
-                        {item.status === "preparing" && "Đang làm"}
-                        {item.status === "done" && "Xong"}
-                        {item.status === "cancelled" && "Đã hủy"}
+                    {item.status && status && (
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded-full ml-1 ${status.bg} ${status.text}`}>
+                        {status.label}
                       </span>
                     )}
                   </div>
                 </div>
 
-                <TooltipIcon label={done ? "Không thể chỉnh" : item.qty === 1 ? "Không thể giảm thêm" : "Giảm số lượng"}>
-                  <QtyBtn onClick={() => !done && dec(item.id)} disabled={done || item.qty === 1}>
+                <TooltipIcon label={isDone ? "Không thể chỉnh" : item.qty === 1 ? "Không thể giảm thêm" : "Giảm số lượng"}>
+                  <QtyBtn onClick={() => !isDone && dec(item.id)} disabled={isDone || item.qty === 1}>
                     <Minus size={11} />
                   </QtyBtn>
                 </TooltipIcon>
 
                 <span className="min-w-[18px] text-center text-[13px] font-medium">{item.qty}</span>
 
-                <TooltipIcon label={done ? "Không thể chỉnh" : "Tăng số lượng"}>
-                  <QtyBtn onClick={() => !done && inc(item.id)} disabled={done}>
+                <TooltipIcon label={isDone ? "Không thể chỉnh" : "Tăng số lượng"}>
+                  <QtyBtn onClick={() => !isDone && inc(item.id)} disabled={isDone}>
                     <Plus size={11} />
                   </QtyBtn>
                 </TooltipIcon>
 
-                <TooltipIcon label={done ? "Không thể xóa" : "Xóa món"}>
+                <TooltipIcon label={isDone ? "Không thể xóa" : "Xóa món"}>
                   <div
-                    onClick={() => !done && removeItem(item.id)}
-                    disabled={done}
+                    onClick={() => !isDone && removeItem(item.id)}
+                    disabled={isDone}
                     className={`w-5 h-5 flex items-center justify-center
-                      ${done ? "text-gray-300 cursor-not-allowed" : "text-red-500 hover:text-red-600"}`}
+                      ${isDone ? "text-gray-300 cursor-not-allowed" : "text-red-500 hover:text-red-600"}`}
                   >
                     <Trash2 size={13} />
                   </div>
