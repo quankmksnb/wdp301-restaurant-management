@@ -106,11 +106,10 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
           <div className="flex flex-wrap gap-2 mb-5">
             <button
               onClick={() => setSelectedArea(null)}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer transition-colors ${
-                selectedArea === null
-                  ? "bg-[#1e3a5f] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
+              className={`px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer transition-colors ${selectedArea === null
+                ? "bg-[#1e3a5f] text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
             >
               Tất cả
             </button>
@@ -118,11 +117,10 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
               <button
                 key={area._id}
                 onClick={() => setSelectedArea(area._id)}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer transition-colors ${
-                  selectedArea === area._id
-                    ? "bg-[#1e3a5f] text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium cursor-pointer transition-colors ${selectedArea === area._id
+                  ? "bg-[#1e3a5f] text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
               >
                 {area.areaName}
               </button>
@@ -140,11 +138,10 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
                   <button
                     key={table._id}
                     onClick={() => toggleTable(table._id)}
-                    className={`px-3 py-1.5 rounded-md text-sm cursor-pointer transition-all border ${
-                      isSelected
-                        ? "bg-[#1e3a5f] text-white border-[#1e3a5f] shadow-sm"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-blue-300 hover:text-blue-600"
-                    }`}
+                    className={`px-3 py-1.5 rounded-md text-sm cursor-pointer transition-all border ${isSelected
+                      ? "bg-[#1e3a5f] text-white border-[#1e3a5f] shadow-sm"
+                      : "bg-white text-gray-700 border-gray-200 hover:border-blue-300 hover:text-blue-600"
+                      }`}
                   >
                     {table.tableName}
                   </button>
@@ -821,10 +818,10 @@ export default function ReservationModal({
             loading={saving}
             className="flex items-center gap-1 px-6"
           >
-            💾 Lưu
+            Lưu
           </Button>
           <Button onClick={onClose} className="flex items-center gap-1 px-6">
-            ↩ Bỏ qua
+            Bỏ qua
           </Button>
         </div>
       </div>
