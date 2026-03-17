@@ -86,14 +86,18 @@ orderSchema.index({ reservation: 1 });
 // Middleware tính toán lại tổng tiền trước khi save
 orderSchema.pre("save", function () {
   let total = 0;
+
   this.subOrders.forEach((sub) => {
-    // Tính tổng từng bàn
-    sub.subTotalAmount = sub.items.reduce(
-      (sum, item) => sum + item.unitPrice * item.quantity,
-      0,
-    );
+    // ✅ Dùng subTotal (đã được tính khi add item)
+    sub.subTotalAmount = sub.items.reduce((sum, item) => {
+      if (item.status === "cancelled" || item.status === "out_of_stock") {
+        return sum;
+      }
+      return sum + (item.subTotal || 0);
+    }, 0);
     total += sub.subTotalAmount;
   });
+
   this.totalAmount = total;
   this.finalAmount = total + (this.taxAmount || 0);
 });

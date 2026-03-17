@@ -13,8 +13,6 @@ import {
 } from '@ant-design/icons';
 import { Button, Dropdown, Space, Typography } from 'antd';
 import { useState } from 'react';
-
-// Import 4 modal components
 import AddProductModal from './modals/AddProductModal';
 import CategoryManagerModal from './modals/CategoryManagerModal';
 
@@ -41,6 +39,7 @@ export default function ProductHeader({
     onColumnVisibilityChange = () => { },
     onDeselectAll = () => { },
     onRefresh = () => { },
+    onCategoryChanged = () => { },
 }) {
     const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
@@ -210,25 +209,9 @@ export default function ProductHeader({
             <CategoryManagerModal
                 open={categoryModalOpen}
                 onClose={() => setCategoryModalOpen(false)}
+                onSuccess={onCategoryChanged}
             />
 
-            {/* <AddProcessedProductModal
-                open={modalStates.processed}
-                onClose={() => closeModal('processed')}
-                onConfirm={() => handleConfirm('processed')}
-            />
-
-            <AddServiceModal
-                open={modalStates.service}
-                onClose={() => closeModal('service')}
-                onConfirm={() => handleConfirm('service')}
-            />
-
-            <AddComboBuffetModal
-                open={modalStates.combo}
-                onClose={() => closeModal('combo')}
-                onConfirm={() => handleConfirm('combo')}
-            /> */}
         </div>
     );
 }

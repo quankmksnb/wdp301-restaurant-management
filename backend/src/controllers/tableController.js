@@ -1,4 +1,6 @@
+import mongoose from "mongoose";
 import Table from "../models/Table.js";
+import Order from "../models/Order.js";
 import Area from "../models/Area.js";
 
 export const createTable = async (req, res) => {
@@ -190,6 +192,88 @@ export const deleteTable = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Lỗi khi xóa bàn",
+    });
+  }
+};
+
+// Lấy danh sách bàn theo khu vực
+export const getTableByArea = async (req, res) => {
+  try {
+    const { area } = req.query;
+
+    const filter = {};
+
+    if (area) {
+      if (!mongoose.Types.ObjectId.isValid(area)) {
+        return res.status(400).json({
+          success: false,
+          message: "AreaId không hợp lệ",
+        });
+      }
+
+      filter.area = new mongoose.Types.ObjectId(area);
+    }
+
+    const tables = await Table.aggregate([
+      { $match: filter },
+
+      {
+        $lookup: {
+          from: "orders",
+          let: { tableId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                orderStatus: { $in: ["pre-order", "active"] },
+              },
+            },
+            { $unwind: "$subOrders" },
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$subOrders.table", "$$tableId"],
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 1,
+                subOrderId: "$subOrders._id",
+                subTotalAmount: "$subOrders.subTotalAmount",
+              },
+            },
+          ],
+          as: "orderData",
+        },
+      },
+
+      {
+        $addFields: {
+          orderId: {
+            $ifNull: [{ $arrayElemAt: ["$orderData._id", 0] }, null],
+          },
+          subOrderId: {
+            $ifNull: [{ $arrayElemAt: ["$orderData.subOrderId", 0] }, null],
+          },
+          subTotalAmount: {
+            $ifNull: [{ $arrayElemAt: ["$orderData.subTotalAmount", 0] }, 0],
+          },
+        },
+      },
+
+      { $project: { orderData: 0 } },
+
+      { $sort: { tableNumber: 1 } },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data: tables,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 };

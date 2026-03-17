@@ -1,6 +1,6 @@
 import MenuCategory from "../models/MenuCategory.js";
 import MenuItem from "../models/MenuItem.js";
-
+import mongoose from "mongoose";
 
 // Tạo danh mục mới
 export const createCategory = async (req, res) => {
@@ -195,4 +195,35 @@ export const deleteCategory = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+};
+
+// Lấy danh sách category con theo parentId
+export const getChildCategories = async (req, res) => {
+  try {
+    const { parentId } = req.query;
+
+    const filter = {
+      parentId: { $ne: null }, // chỉ lấy category con
+      status: "active"
+    };
+
+    // nếu truyền parentId thì chỉ lấy con của category đó
+    if (parentId) {
+      filter.parentId = parentId;
+    }
+
+    const categories = await MenuCategory.find(filter)
+      .populate("parentId", "categoryName")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      data: categories,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };

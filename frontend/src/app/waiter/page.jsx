@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Search } from "lucide-react";
 
 import ProtectedRoute from "@/app/components/ProtectedRoute";
@@ -10,135 +10,288 @@ import TableCard from "./components/TableCard";
 import FoodCard from "./components/FoodCard";
 import WaiterFooter from "./components/WaiterFooter";
 
-const ALL_TABLES = [
-  { id: 1, name: "Bàn 1", floor: "all" },
-  { id: 2, name: "Bàn 2", floor: "all" },
-  { id: 3, name: "Bàn 3", floor: "all" },
-  { id: 4, name: "Bàn 4", floor: "all" },
-  { id: 12, name: "Bàn 12", floor: "all" },
-  { id: 13, name: "Bàn 13", floor: "lau2" },
-  { id: 14, name: "Bàn 14", floor: "lau2" },
-  { id: 15, name: "Bàn 15", floor: "lau3" },
-  { id: 21, name: "Phòng VIP 1", floor: "vip" },
-  { id: 23, name: "Phòng VIP 2", floor: "vip" },
-  { id: 24, name: "Phòng VIP 3", floor: "vip" },
-];
-
-const FLOORS = [
-  { key: "all", label: "Tất cả" },
-  { key: "lau2", label: "Lầu 2" },
-  { key: "lau3", label: "Lầu 3" },
-  { key: "vip", label: "Phòng VIP" },
-];
-
-const CATEGORIES = [
-  { key: "all", label: "Tất cả" },
-  { key: "bia", label: "BIA & THUỐC LÁ" },
-  { key: "cocktail", label: "CLASSIC COCKTAILS" },
-  { key: "khai_vi", label: "MÓN KHAI VỊ" },
-];
-
-const ALL_FOODS = [
-  { id: 1, name: "MILANO", price: 30000, cat: "cocktail", img: "https://images.unsplash.com/photo-1560508180-03f285f67ded?w=300&h=200&fit=crop" },
-  { id: 2, name: "APEROL SPRITZ", price: 30000, cat: "cocktail", img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=300&h=200&fit=crop" },
-  { id: 5, name: "BLOODY MARY", price: 30000, cat: "cocktail", img: "https://images.unsplash.com/photo-1607622750671-6cd9a99eabd1?w=300&h=200&fit=crop" },
-  { id: 6, name: "Bánh mì bò lò đậm bông & phomai", price: 125000, cat: "khai_vi", img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&h=200&fit=crop" },
-  { id: 8, name: "Đĩa thịt nguội Tây Ba Nha hảo hạng", price: 125000, cat: "khai_vi", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=300&h=200&fit=crop" },
-  { id: 9, name: "Phomai dây Nga", price: 125000, cat: "khai_vi", img: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=300&h=200&fit=crop" },
-];
+import { getTableByArea } from "@/services/tableService";
+import { getChildCategories } from "@/services/menuCategoryService";
+import { getMenuItemsByChildCategory } from "@/services/menuItemService";
+import { addItemToTable, sendItemsToKitchen, cancelItem, getOrderBill } from "@/services/orderService";
+import { getAllAreas } from "@/services/areaService";
 
 export default function WaiterPage() {
-
   const [activeTab, setActiveTab] = useState("phonban");
   const [selTable, setSelTable] = useState(null);
-  const [tOrders, setTOrders] = useState({});
-  const [activeFloor, setActiveFloor] = useState("all");
+  const [activeAreaId, setActiveAreaId] = useState("all");
   const [filter, setFilter] = useState("all");
   const [activeCat, setActiveCat] = useState("all");
+  const [soundOn, setSoundOn] = useState(true);
+
+  // API data
+  const [areas, setAreas] = useState([]);
+  const [tables, setTables] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
+  const [loadingTables, setLoadingTables] = useState(false);
+  const [loadingMenu, setLoadingMenu] = useState(false);
+
+  // Cart state: { [tableId]: item[] }
+  // item: { id, itemId, name, price, qty, status }
+  const [tableCarts, setTableCarts] = useState({});
+
+  // Kitchen done items (itemId[])
   const [kitchenDone, setKitchenDone] = useState([]);
 
-  const cart = selTable ? (tOrders[selTable.id] || []) : [];
+  // ─── Fetch areas ──────────────────────────────────────────────────────────
+  useEffect(() => {
+    const fetchAreas = async () => {
+      try {
+        const res = await getAllAreas();
+        setAreas(res.data || []);
+      } catch (err) {
+        console.error("Lỗi fetch areas:", err);
+      }
+    };
+    fetchAreas();
+  }, []);
 
-  const setCart = (c) => {
-    if (selTable) {
-      setTOrders(prev => ({ ...prev, [selTable.id]: c }));
+  // ─── Fetch tables theo khu vực ───────────────────────────────────────────
+  const fetchTables = useCallback(async () => {
+    setLoadingTables(true);
+    try {
+      const params = activeAreaId !== "all" ? { area: activeAreaId } : {};
+      const res = await getTableByArea(params);
+      setTables(res.data || []);
+    } catch (err) {
+      console.error("Lỗi fetch tables:", err);
+    } finally {
+      setLoadingTables(false);
     }
+  }, [activeAreaId]);
+
+  useEffect(() => {
+    fetchTables();
+  }, [fetchTables]);
+
+  // ─── Fetch categories con ────────────────────────────────────────────────
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await getChildCategories();
+        const raw = res.data ?? res;
+        const list = Array.isArray(raw) ? raw : (raw.data ?? []);
+        const all = { _id: "all", categoryName: "Tất cả" };
+        setCategories([all, ...list]);
+      } catch (err) {
+        console.error("Lỗi fetch categories:", err);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  // ─── Fetch menu items theo category ─────────────────────────────────────
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      setLoadingMenu(true);
+      try {
+        const params = activeCat !== "all" ? { category: activeCat } : {};
+        const res = await getMenuItemsByChildCategory(params);
+        setMenuItems(res.data || []);
+      } catch (err) {
+        console.error("Lỗi fetch menu items:", err);
+      } finally {
+        setLoadingMenu(false);
+      }
+    };
+    fetchMenuItems();
+  }, [activeCat]);
+
+  // ─── Refresh cart từ getOrderBill ───────────────────────────────────────
+  const refreshCart = useCallback(async (tableId, oId) => {
+    if (!oId) return;
+    try {
+      const res = await getOrderBill(oId);
+      if (res.success && res.data) {
+        const sub = res.data.tables.find(
+          t => t.table?._id === tableId || t.table === tableId
+        );
+        if (sub) {
+          // ✅ Gộp items cùng _id để tránh duplicate
+          const itemMap = {};
+          sub.items.forEach(item => {
+            const key = item._id;  // ✅ Dùng _id từ API
+            if (itemMap[key]) {
+              itemMap[key].qty += Number(item.quantity) || 0;
+            } else {
+              itemMap[key] = {
+                id: item._id,              // ✅ _id từ API
+                itemId: item.itemId,       // Menu item ID
+                name: item.itemName,       // ✅ Snapshot tên
+                price: Number(item.unitPrice) || 0,  // ✅ Snapshot giá
+                qty: Number(item.quantity) || 0,
+                status: item.status,
+              };
+            }
+          });
+
+          // ✅ Filter items hợp lệ
+          const validItems = Object.values(itemMap).filter(item => item && item.id);
+
+          setTableCarts(prev => ({
+            ...prev,
+            [tableId]: validItems,
+          }));
+        }
+        // Cập nhật lại subTotalAmount trên table
+        setTables(prev => prev.map(t =>
+          t._id === tableId
+            ? { ...t, subTotalAmount: sub?.subTotal ?? t.subTotalAmount }
+            : t
+        ));
+      }
+    } catch (err) {
+      console.error("Lỗi refresh cart:", err);
+    }
+  }, []);
+
+  // ─── Khi chọn bàn ────────────────────────────────────────────────────────
+  const handleSelectTable = useCallback((table) => {
+    setSelTable(table);
+    if (!tableCarts[table._id]) {
+      setTableCarts(prev => ({ ...prev, [table._id]: [] }));
+    }
+    if (table.orderId) {
+      refreshCart(table._id, table.orderId);
+    }
+  }, [tableCarts, refreshCart]);
+
+  // ─── Cart helpers ────────────────────────────────────────────────────────
+  const cart = selTable ? (tableCarts[selTable._id] || []) : [];
+
+  const setCart = (newItems) => {
+    if (!selTable) return;
+    const validItems = newItems.filter(item => item && item.id);
+    setTableCarts(prev => ({ ...prev, [selTable._id]: validItems }));
   };
 
-  const addFood = (food) => {
+  // orderId lấy trực tiếp từ selTable
+  const orderId = selTable?.orderId || null;
+
+  // ─── Thêm món → gọi API addItemToTable ──────────────────────────────────
+  const addFood = async (food) => {
     if (!selTable) {
       alert("Vui lòng chọn bàn trước!");
       return;
     }
-
-    const ex = cart.find(i => i.id === food.id);
-
-    if (ex) {
-      setCart(cart.map(i => i.id === food.id ? { ...i, qty: i.qty + 1 } : i));
-    } else {
-      setCart([...cart, { ...food, qty: 1 }]);
+    if (!orderId) {
+      // Bàn chưa có order → add local cart
+      const ex = cart.find(i => i.id === food._id);
+      if (ex) {
+        setCart(cart.map(i => i.id === food._id ? { ...i, qty: i.qty + 1 } : i));
+      } else {
+        setCart([...cart, {
+          id: food._id,
+          itemId: null,
+          name: food.itemName,
+          price: food.price,
+          qty: 1,
+          status: "pending",
+        }]);
+      }
+      return;
+    }
+    try {
+      const res = await addItemToTable(orderId, selTable._id, {
+        menuItemId: food._id,
+        quantity: 1,
+      });
+      if (res.success) {
+        await refreshCart(selTable._id, orderId);
+      }
+    } catch (err) {
+      console.error("Lỗi thêm món:", err);
     }
   };
 
-  const inc = id =>
-    setCart(cart.map(i => i.id === id ? { ...i, qty: i.qty + 1 } : i));
+  // ─── Tăng/giảm (local only) ──────────────────────────────────────────────
+  const inc = (id) => setCart(cart.map(i => i.id === id ? { ...i, qty: i.qty + 1 } : i));
+  const dec = (id) => setCart(
+    cart.map(i => i.id === id ? { ...i, qty: i.qty - 1 } : i).filter(i => i.qty > 0)
+  );
 
-  const dec = id =>
-    setCart(cart.map(i => i.id === id ? { ...i, qty: i.qty - 1 } : i).filter(i => i.qty > 0));
-
-  const removeItem = id =>
-    setCart(cart.filter(i => i.id !== id));
-
-  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-
-  const usedIds =
-    Object.keys(tOrders)
-      .filter(id => (tOrders[id]?.length || 0) > 0)
-      .map(Number);
-
-  const fmt = n => n.toLocaleString("vi-VN");
-  const floorLabel =
-    FLOORS.find(f => f.key === selTable?.floor)?.label || "Tất cả";
-    const [soundOn, setSoundOn] = useState(true);
-const playSound = () => {
-  if (!soundOn) return;
-
-  const audio = new Audio("/sounds/ting.mp3");
-  audio.play();
-};
-  // demo bếp làm xong món sau 8s kể từ khi thêm
-  useEffect(() => {
-    if (cart.length === 0) return;
-    const t = setTimeout(() => {
-      const notDone = cart.filter(i => !kitchenDone.includes(i.id));
-      if (notDone.length > 0) {
-        const pick = notDone[Math.floor(Math.random() * notDone.length)];
-        setKitchenDone(prev => [...prev, pick.id]);
-        playSound();
+  // ─── Hủy món → gọi API cancelItem ───────────────────────────────────────
+  const removeItem = async (id) => {
+    if (!orderId) {
+      setCart(cart.filter(i => i.id !== id));
+      return;
+    }
+    const item = cart.find(i => i.id === id);
+    if (!item?.id) {
+      setCart(cart.filter(i => i.id !== id));
+      return;
+    }
+    try {
+      const res = await cancelItem(orderId, item.id);
+      if (res.success) {
+        await refreshCart(selTable._id, orderId);
       }
-    }, 8000);
-    return () => clearTimeout(t);
-  }, [cart, kitchenDone, soundOn]);
+    } catch (err) {
+      console.error("Lỗi hủy món:", err);
+    }
+  };
 
-  const visible = ALL_TABLES.filter(t => {
+  // ─── Gửi bếp → gọi API sendItemsToKitchen ───────────────────────────────
+  const handleSendToKitchen = async () => {
+    if (!orderId || !selTable) return;
+    const pendingIds = cart
+      .filter(i => i.status === "pending" && i.id)
+      .map(i => i.id);
+    if (pendingIds.length === 0) return;
+    try {
+      await sendItemsToKitchen(orderId, { itemIds: pendingIds });
 
-  const ok =
-    activeFloor === "all"
-      ? true
-      : t.floor === activeFloor;
+      // ✅ Refresh cart sau khi gửi bếp để lấy status mới
+      await refreshCart(selTable._id, orderId);
 
-  if (filter === "used") return ok && usedIds.includes(t.id);
-  if (filter === "empty") return ok && !usedIds.includes(t.id);
+      if (soundOn) {
+        const audio = new Audio("/sounds/ting.mp3");
+        audio.play();
+      }
+    } catch (err) {
+      console.error("Lỗi gửi bếp:", err);
+    }
+  };
 
-  return ok;
-});
+  // ─── Computed ─────────────────────────────────────────────────────────────
+  // Tính total từ validCart (items đã filter)
+  const validCart = cart.filter(item =>
+    item?.id && item.qty > 0 && item.status !== "cancelled"
+  );
 
-  const menuFoods =
-    ALL_FOODS.filter(f => activeCat === "all" || f.cat === activeCat);
+  const total = validCart.reduce(
+    (s, i) => s + Number(i.price ?? 0) * Number(i.qty ?? 0),
+    0
+  );
+  const fmt = n => Number(n ?? 0).toLocaleString("vi-VN");
+  const floorLabel = areas.find(
+    a => a._id === selTable?.area?._id || a._id === selTable?.area
+  )?.areaName || "";
+
+  // Bàn "đang dùng" = có orderId từ API hoặc có cart local
+  const usedTableIds = tables
+    .filter(t => t.orderId)
+    .map(t => t._id)
+    .concat(
+      Object.keys(tableCarts).filter(id => (tableCarts[id]?.length || 0) > 0)
+    )
+    .filter((v, i, arr) => arr.indexOf(v) === i);
+
+  const visibleTables = tables.filter(t => {
+    const isUsed = usedTableIds.includes(t._id);
+    if (filter === "used") return isUsed;
+    if (filter === "empty") return !isUsed;
+    return true;
+  });
 
   return (
     <ProtectedRoute role="waiter">
-
       <div className="h-screen flex flex-col bg-slate-200 text-[13px] font-sans overflow-hidden">
         <WaiterHeader
           activeTab={activeTab}
@@ -146,7 +299,7 @@ const playSound = () => {
           selTable={selTable}
           setSelTable={setSelTable}
           soundOn={soundOn}
-  setSoundOn={setSoundOn}
+          setSoundOn={setSoundOn}
         />
 
         <div className="flex flex-1 overflow-hidden">
@@ -154,20 +307,27 @@ const playSound = () => {
           {activeTab === "phonban" && (
             <>
               <div className="flex flex-col basis-[67%] bg-slate-200">
-                {/* sub header */}
                 <div className="bg-white border-b border-slate-200 px-4">
                   <div className="flex items-center gap-1 pt-2">
-                    {FLOORS.map(f => (
+                    <button
+                      onClick={() => setActiveAreaId("all")}
+                      className={`px-3 py-1 rounded-full text-sm
+                        ${activeAreaId === "all"
+                          ? "bg-blue-700 text-white font-bold"
+                          : "text-slate-700"}`}
+                    >
+                      Tất cả
+                    </button>
+                    {areas.map(a => (
                       <button
-                        key={f.key}
-                        onClick={() => setActiveFloor(f.key)}
+                        key={a._id}
+                        onClick={() => setActiveAreaId(a._id)}
                         className={`px-3 py-1 rounded-full text-sm
-  ${activeFloor === f.key
+                          ${activeAreaId === a._id
                             ? "bg-blue-700 text-white font-bold"
-                            : "text-slate-700"}
-  `}
+                            : "text-slate-700"}`}
                       >
-                        {f.label}
+                        {a.areaName}
                       </button>
                     ))}
                     <div className="ml-auto flex items-center gap-3">
@@ -175,27 +335,20 @@ const playSound = () => {
                     </div>
                   </div>
 
-                  {/* filter */}
                   <div className="flex gap-5 py-2">
                     {[
-                      { key: "all", label: `Tất cả (${ALL_TABLES.length + 2})` },
-                      { key: "used", label: `Sử dụng (${usedIds.length})` },
-                      { key: "empty", label: `Còn trống (${ALL_TABLES.length + 2 - usedIds.length})` }
+                      { key: "all", label: `Tất cả (${tables.length})` },
+                      { key: "used", label: `Sử dụng (${usedTableIds.length})` },
+                      { key: "empty", label: `Còn trống (${tables.length - usedTableIds.length})` },
                     ].map(s => (
                       <label key={s.key} className="flex items-center gap-1 cursor-pointer">
-
                         <input
                           type="radio"
                           checked={filter === s.key}
                           onChange={() => setFilter(s.key)}
                           className="accent-blue-600"
                         />
-
-                        <span
-                          className={filter === s.key
-                            ? "text-blue-600 font-semibold"
-                            : "text-slate-500"}
-                        >
+                        <span className={filter === s.key ? "text-blue-600 font-semibold" : "text-slate-500"}>
                           {s.label}
                         </span>
                       </label>
@@ -203,32 +356,42 @@ const playSound = () => {
                   </div>
                 </div>
 
-                {/* table grid */}
                 <div className="flex-1 overflow-y-auto p-3">
-                  <div className="grid grid-cols-8 gap-2">
-                    {visible.map(t => {
-                      const tc = tOrders[t.id] || [];
-                      return (
-
-                        <TableCard
-                          key={t.id}
-                          table={t}
-                          isSelected={selTable?.id === t.id}
-                          isUsed={usedIds.includes(t.id) && selTable?.id !== t.id}
-                          tTotal={tc.reduce((s, i) => s + i.price * i.qty, 0)}
-                          tQty={tc.reduce((s, i) => s + i.qty, 0)}
-                          tDishes={tc.length}
-                          onClick={() => setSelTable(t)}
-                        />
-                      );
-                    })}
-                  </div>
+                  {loadingTables ? (
+                    <div className="flex items-center justify-center h-full text-slate-400">
+                      Đang tải bàn...
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-8 gap-2">
+                      {visibleTables.map(t => {
+                        const tItems = tableCarts[t._id] || [];
+                        const tTotal = t.orderId
+                          ? (t.subTotalAmount || 0)
+                          : tItems.reduce((s, i) => s + Number(i.price ?? 0) * Number(i.qty ?? 0), 0);
+                        const tQty = tItems.reduce((s, i) => s + Number(i.qty ?? 0), 0);
+                        return (
+                          <TableCard
+                            key={t._id}
+                            table={t}
+                            isSelected={selTable?._id === t._id}
+                            isUsed={usedTableIds.includes(t._id) && selTable?._id !== t._id}
+                            tTotal={tTotal}
+                            tQty={tQty}
+                            tDishes={tItems.length}
+                            onClick={() => handleSelectTable(t)}
+                          />
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               </div>
+
               <OrderPanel
                 selTable={selTable}
                 floorLabel={floorLabel}
                 cart={cart}
+                orderId={orderId}
                 inc={inc}
                 dec={dec}
                 removeItem={removeItem}
@@ -236,6 +399,8 @@ const playSound = () => {
                 total={total}
                 kitchenDone={kitchenDone}
                 markKitchenDone={setKitchenDone}
+                onSendToKitchen={handleSendToKitchen}
+                onRefreshCart={() => refreshCart(selTable?._id, orderId)}
               />
             </>
           )}
@@ -244,45 +409,49 @@ const playSound = () => {
           {activeTab === "thucdon" && (
             <>
               <div className="flex flex-col basis-[67%] bg-slate-50">
-                {/* categories */}
                 <div className="bg-white border-b border-slate-200 px-4 flex overflow-x-auto">
-                  {CATEGORIES.map(c => (
+                  {categories.map(c => (
                     <button
-                      key={c.key}
-                      onClick={() => setActiveCat(c.key)}
-                      className={`px-4 py-2 whitespace-nowrap
-  border-b-2
-  ${activeCat === c.key
+                      key={c._id}
+                      onClick={() => setActiveCat(c._id)}
+                      className={`px-4 py-2 whitespace-nowrap border-b-2
+                        ${activeCat === c._id
                           ? "border-blue-700 text-blue-700 font-bold"
-                          : "border-transparent text-slate-700"}
-  `}
+                          : "border-transparent text-slate-700"}`}
                     >
-                      {c.label}
+                      {c.categoryName}
                     </button>
                   ))}
                 </div>
 
-                {/* food grid */}
                 <div className="flex-1 overflow-y-auto p-3">
-                  <div className="grid grid-cols-6 gap-3">
-                    {menuFoods.map(f => {
-                      const cartItem = cart.find(i => i.id === f.id);
-                      return (
-                        <FoodCard
-                          key={f.id}
-                          food={f}
-                          onAdd={addFood}
-                          cartQty={cartItem?.qty || 0}
-                        />
-                      );
-                    })}
-                  </div>
+                  {loadingMenu ? (
+                    <div className="flex items-center justify-center h-full text-slate-400">
+                      Đang tải thực đơn...
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-6 gap-3">
+                      {menuItems.map(f => {
+                        const cartItem = cart.find(i => i.id === f._id);
+                        return (
+                          <FoodCard
+                            key={f._id}
+                            food={f}
+                            onAdd={addFood}
+                            cartQty={cartItem?.qty || 0}
+                          />
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               </div>
+
               <OrderPanel
                 selTable={selTable}
                 floorLabel={floorLabel}
                 cart={cart}
+                orderId={orderId}
                 inc={inc}
                 dec={dec}
                 removeItem={removeItem}
@@ -290,6 +459,8 @@ const playSound = () => {
                 total={total}
                 kitchenDone={kitchenDone}
                 markKitchenDone={setKitchenDone}
+                onSendToKitchen={handleSendToKitchen}
+                onRefreshCart={() => refreshCart(selTable?._id, orderId)}
               />
             </>
           )}

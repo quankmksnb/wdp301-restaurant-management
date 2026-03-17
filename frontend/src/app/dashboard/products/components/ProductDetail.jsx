@@ -79,42 +79,79 @@ export default function ProductDetail({ product, onRefresh }) {
 
     // ====== TOGGLE STATUS ======
     const handleToggleStatus = () => {
-        const nextStatus = status === 'available' ? 'Ngừng kinh doanh' : 'Đang kinh doanh';
-        const nextColor = status === 'available' ? '#ff4d4f' : '#52c41a';
+        const isCurrentlyAvailable = status === 'available';
+        const nextLabel = isCurrentlyAvailable ? 'Ngừng kinh doanh' : 'Đang kinh doanh';
+        const nextColor = isCurrentlyAvailable ? '#ff4d4f' : '#52c41a';
+        const nextIcon = isCurrentlyAvailable ? '🔴' : '🟢';
 
         Modal.confirm({
             title: 'Xác nhận thay đổi trạng thái',
             content: (
-                <span>
-                    Bạn có chắc muốn chuyển sang{' '}
-                    <span style={{ color: nextColor, fontWeight: 600 }}>
-                        {nextStatus}
-                    </span>
-                    ?
-                </span>
+                <div style={{ paddingTop: '8px' }}>
+                    <p style={{ marginBottom: '12px', color: '#262626' }}>
+                        Sản phẩm <strong>"{product?.itemName}"</strong>
+                    </p>
+                    <p style={{ marginBottom: '0' }}>
+                        Sẽ chuyển sang trạng thái:{' '}
+                        <span style={{ color: nextColor, fontWeight: 700, fontSize: '14px' }}>
+                            {nextIcon} {nextLabel}
+                        </span>
+                    </p>
+                    {isCurrentlyAvailable && (
+                        <p style={{ marginTop: '8px', fontSize: '12px', color: '#8c8c8c' }}>
+                            ⚠️ Sản phẩm sẽ không hiển thị trên menu
+                        </p>
+                    )}
+                </div>
             ),
             okText: 'Xác nhận',
             cancelText: 'Hủy',
-            okButtonProps: { danger: status === 'available' },
+            okButtonProps: { danger: isCurrentlyAvailable },
             onOk: async () => {
                 try {
                     setToggling(true);
 
                     const res = await toggleMenuItemStatus(product._id);
 
-                    const msg = res?.message || res?.data?.message;
-
-                    // Nếu danh mục bị khóa
-                    if (msg?.includes("khóa")) {
-                        message.warning(msg);
+                    // ✅ Kiểm tra response - có thể là success:false hoặc status 400
+                    if (!res?.success) {
+                        message.warning({
+                            content: res?.message || 'Không thể cập nhật trạng thái',
+                            duration: 4,
+                        });
                         return;
                     }
 
-                    message.success(msg || `Đã chuyển trạng thái sang "${nextStatus}"`);
+                    // ✅ Success notification
+                    message.success({
+                        content: (
+                            <div>
+                                <p style={{ marginBottom: '4px', fontWeight: 600 }}>
+                                    ✓ Cập nhật thành công
+                                </p>
+                                <p style={{ marginBottom: '0', fontSize: '13px', color: 'rgba(255,255,255,0.85)' }}>
+                                    {nextIcon} {nextLabel}
+                                </p>
+                            </div>
+                        ),
+                        duration: 3,
+                    });
 
                     onRefresh?.();
                 } catch (err) {
-                    message.error(err?.message || 'Cập nhật trạng thái thất bại');
+                    message.error({
+                        content: (
+                            <div>
+                                <p style={{ marginBottom: '4px', fontWeight: 600 }}>
+                                    ✗ Lỗi hệ thống
+                                </p>
+                                <p style={{ marginBottom: '0', fontSize: '13px' }}>
+                                    {err?.message || 'Vui lòng thử lại sau'}
+                                </p>
+                            </div>
+                        ),
+                        duration: 4,
+                    });
                 } finally {
                     setToggling(false);
                 }
