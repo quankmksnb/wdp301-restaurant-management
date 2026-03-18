@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import useTables from "@/hooks/useTables";
+import { getAllTables } from "@/services/tableService";
 import useAreas from "@/hooks/useAreas";
 import { getReservedTables, updateReservationStatus } from "@/services/reservationService";
 import { message, Modal, Input } from "antd";
@@ -70,8 +70,21 @@ export default function ReceptionPage() {
         confirmed: true, seated: true, no_show: true, cancelled: false,
     });
 
-    const { tables } = useTables(1, 100);
+    const [tables, setTables] = useState([]);
     const { areas } = useAreas();
+
+    // Fetch all active tables on mount
+    useEffect(() => {
+        const fetchTables = async () => {
+            try {
+                const res = await getAllTables();
+                setTables(res.data || []);
+            } catch (err) {
+                console.error("Failed to fetch tables:", err);
+            }
+        };
+        fetchTables();
+    }, []);
 
     // Filter reservations by selected date
     const reservations = useMemo(() => {
@@ -143,6 +156,24 @@ export default function ReceptionPage() {
             setCancelReason("");
             return;
         }
+
+        // FE check: chỉ cho nhận bàn trong ngày hôm nay
+        if (newStatus === "seated") {
+            const reservation = allReservations.find((r) => r.reservationId === reservationId);
+            if (reservation) {
+                const today = new Date();
+                const resDate = reservation.startTime;
+                if (
+                    resDate.getFullYear() !== today.getFullYear() ||
+                    resDate.getMonth() !== today.getMonth() ||
+                    resDate.getDate() !== today.getDate()
+                ) {
+                    message.warning("Chỉ được nhận bàn cho đặt bàn trong ngày hôm nay!");
+                    return;
+                }
+            }
+        }
+
         try {
             await updateReservationStatus(reservationId, newStatus);
             message.success("Nhận bàn thành công!");
@@ -153,7 +184,7 @@ export default function ReceptionPage() {
                 error.response?.data?.message || "Có lỗi xảy ra khi cập nhật trạng thái"
             );
         }
-    }, [fetchReservations]);
+    }, [fetchReservations, allReservations]);
 
     // Confirm cancel with reason
     const handleConfirmCancel = useCallback(async () => {

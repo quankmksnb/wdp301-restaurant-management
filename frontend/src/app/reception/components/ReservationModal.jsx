@@ -143,7 +143,7 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
                       : "bg-white text-gray-700 border-gray-200 hover:border-blue-300 hover:text-blue-600"
                       }`}
                   >
-                    {table.tableName}
+                    {table.tableName} {table.capacity ? `(${table.capacity} ghế)` : ""}
                   </button>
                 );
               })}
@@ -472,7 +472,7 @@ export default function ReservationModal({
         (t) => (t.area?._id || t.area) === area._id
       );
       return areaTables.map((t) => ({
-        label: `${t.tableName} (${area.areaName})`,
+        label: `${t.tableName}${t.capacity ? ` (${t.capacity} ghế)` : ''} - ${area.areaName}`,
         value: t._id,
       }));
     });
@@ -500,12 +500,17 @@ export default function ReservationModal({
       // Set default arrival time based on selectedDate
       const baseDate = selectedDate ? dayjs(selectedDate) : dayjs();
       if (prefilledHour !== undefined && prefilledHour !== null) {
-        setArrivalTime(baseDate.hour(prefilledHour).minute(0).second(0));
+        const safeHour = prefilledHour < 6 ? 6 : prefilledHour;
+        setArrivalTime(baseDate.hour(safeHour).minute(0).second(0));
       } else {
-        // If selected date is today, use current time + 1 hour; otherwise use 10:00
+        // If selected date is today, use current real time; otherwise use 10:00
         const isToday = baseDate.isSame(dayjs(), 'day');
         if (isToday) {
-          setArrivalTime(dayjs().add(1, "hour").minute(0).second(0));
+          let defaultTime = dayjs();
+          if (defaultTime.hour() < 6) {
+            defaultTime = defaultTime.hour(6).minute(0).second(0);
+          }
+          setArrivalTime(defaultTime);
         } else {
           setArrivalTime(baseDate.hour(10).minute(0).second(0));
         }
@@ -598,6 +603,13 @@ export default function ReservationModal({
     }
     if (!arrivalTime) {
       message.warning("Vui lòng chọn giờ đến");
+      return;
+    }
+
+    // Block booking from 00:00 to 05:59
+    const hour = arrivalTime.hour();
+    if (hour >= 0 && hour < 6) {
+      message.warning("Không thể đặt bàn từ 00:00 đến 06:00!");
       return;
     }
 
@@ -739,6 +751,9 @@ export default function ReservationModal({
               className="w-full"
               value={arrivalTime}
               onChange={(val) => setArrivalTime(val)}
+              disabledTime={() => ({
+                disabledHours: () => [0, 1, 2, 3, 4, 5],
+              })}
             />
           </div>
         </div>
