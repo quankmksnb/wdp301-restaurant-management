@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { X, Calendar, Clock, User, MoreVertical } from "lucide-react";
+import { message } from "antd";
+import { jwtDecode } from "jwt-decode";
 import { getOrderBill } from "@/services/orderService";
+import { payByCash as payByCashAPI } from "@/services/paymentService";
 
 export default function PaymentModal({
   open,
@@ -17,6 +20,34 @@ export default function PaymentModal({
   const [customerPaidRaw, setCustomerPaidRaw] = useState("");
   const [billData, setBillData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [paying, setPaying] = useState(false);
+
+  // ✅ Get userId from JWT token
+  const getUserIdFromToken = () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.warn("Token không tìm thấy");
+        return null;
+      }
+
+      // ✅ Decode JWT
+      const decoded = jwtDecode(token);
+
+      // ✅ Lấy user id (có thể là id, _id, hoặc userId)
+      const userId = decoded.id || decoded._id || decoded.userId;
+
+      if (!userId) {
+        console.warn("User ID không tìm thấy trong token");
+        return null;
+      }
+
+      return userId;
+    } catch (err) {
+      console.error("Lỗi decode JWT:", err);
+      return null;
+    }
+  };
 
   // Fetch bill khi modal mở
   useEffect(() => {
@@ -106,6 +137,102 @@ export default function PaymentModal({
   ]
     .filter((v, i, arr) => arr.indexOf(v) === i && v >= finalTotal)
     .slice(0, 6);
+
+  // ✅ Handle payment
+  const handleConfirmPayment = async () => {
+    // Validate tiền đủ không
+    if (customerPaid < finalTotal) {
+      message.warning("Tiền khách đưa không đủ");
+      return;
+    }
+
+    // Chỉ hỗ trợ tiền mặt
+    if (paymentMethod !== "cash") {
+      message.info("Chỉ hỗ trợ thanh toán tiền mặt tạm thời");
+      return;
+    }
+
+    try {
+      setPaying(true);
+
+      // ✅ Lấy userId từ JWT
+      const userId = getUserIdFromToken();
+
+      if (!userId) {
+        message.error("Không tìm thấy thông tin người dùng");
+        return;
+      }
+
+      const paymentData = {
+        amount: finalTotal,
+        cashReceived: customerPaid,
+        change: change,
+        user: userId,  // ✅ Thêm user id từ JWT
+      };
+
+      const res = await payByCashAPI(orderId, paymentData);
+
+      if (res.success) {
+        message.success({
+          content: (
+            <div>
+              <p style={{ marginBottom: "4px", fontWeight: 600 }}>
+                ✓ Thanh toán thành công
+              </p>
+              <p style={{ marginBottom: "0", fontSize: "13px", color: "rgba(255,255,255,0.85)" }}>
+                Tiền thừa: {fmt(change)}
+              </p>
+            </div>
+          ),
+          duration: 3,
+        });
+
+        // Reset và đóng modal
+        setTimeout(() => {
+          setCustomerPaid(0);
+          setCustomerPaidRaw("");
+          setPaymentMethod("cash");
+          onClose?.();
+
+          // ✅ Reload page sau 1 giây
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }, 500);
+      } else {
+        message.error({
+          content: (
+            <div>
+              <p style={{ marginBottom: "4px", fontWeight: 600 }}>
+                ✗ Thanh toán thất bại
+              </p>
+              <p style={{ marginBottom: "0", fontSize: "13px" }}>
+                {res?.message || "Vui lòng thử lại sau"}
+              </p>
+            </div>
+          ),
+          duration: 4,
+        });
+      }
+    } catch (err) {
+      console.error("Payment error:", err);
+      message.error({
+        content: (
+          <div>
+            <p style={{ marginBottom: "4px", fontWeight: 600 }}>
+              ✗ Thanh toán thất bại
+            </p>
+            <p style={{ marginBottom: "0", fontSize: "13px" }}>
+              {err?.message || "Vui lòng thử lại sau"}
+            </p>
+          </div>
+        ),
+        duration: 4,
+      });
+    } finally {
+      setPaying(false);
+    }
+  };
 
   return (
     <div className={`fixed inset-0 z-50 transition ${open ? "pointer-events-auto" : "pointer-events-none"}`}>
@@ -310,11 +437,11 @@ export default function PaymentModal({
 
           <div className="px-4 py-3 border-t border-slate-200">
             <button
-              disabled={loading || finalTotal === 0}
+              disabled={loading || finalTotal === 0 || paying || customerPaid < finalTotal}
               className="w-full py-3 bg-blue-700 hover:bg-blue-800 active:bg-blue-900 text-white rounded-lg font-semibold text-[14px] transition-colors disabled:opacity-40"
-              onClick={onClose}
+              onClick={handleConfirmPayment}
             >
-              Xác nhận thanh toán
+              {paying ? "Đang xử lý..." : "Xác nhận thanh toán"}
             </button>
           </div>
         </div>
