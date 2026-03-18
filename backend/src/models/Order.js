@@ -18,8 +18,9 @@ const orderItemSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: [
-        "pre-order",
+        "pre-order", // Đặt trước món khi chưa đến
         "pending", // Mới đặt, chờ bếp xác nhận
+        "order_sent", // Đã gửi bếp, chờ bếp nhận
         "preparing", // Bếp đang làm
         "ready", // Đã xong, chờ nhân viên bưng ra
         "served", // Đã phục vụ khách tại bàn
