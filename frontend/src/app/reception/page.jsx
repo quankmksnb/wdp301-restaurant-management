@@ -23,8 +23,8 @@ function transformReservations(apiReservations) {
     const result = [];
     (apiReservations || []).forEach((r) => {
         const startTime = new Date(r.reservationDateTime);
-        // Default duration: 2 hours
-        const endTime = new Date(startTime.getTime() + 2 * 60 * 60 * 1000);
+        // Default duration: 1 hours
+        const endTime = new Date(startTime.getTime() + 1 * 60 * 60 * 1000);
 
         (r.tables || []).forEach((table) => {
             const tableId = typeof table === "object" ? table._id : table;
@@ -295,4 +295,4 @@ export default function ReceptionPage() {
             </Modal>
         </div>
     );
-}
+}
