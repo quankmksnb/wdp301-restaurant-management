@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import useTables from "@/hooks/useTables";
+import { getAllTables } from "@/services/tableService";
 import useAreas from "@/hooks/useAreas";
 import { getReservedTables, updateReservationStatus } from "@/services/reservationService";
 import { message, Modal, Input } from "antd";
@@ -70,8 +70,21 @@ export default function ReceptionPage() {
         confirmed: true, seated: true, no_show: true, cancelled: false,
     });
 
-    const { tables } = useTables(1, 100);
+    const [tables, setTables] = useState([]);
     const { areas } = useAreas();
+
+    // Fetch all active tables on mount
+    useEffect(() => {
+        const fetchTables = async () => {
+            try {
+                const res = await getAllTables();
+                setTables(res.data || []);
+            } catch (err) {
+                console.error("Failed to fetch tables:", err);
+            }
+        };
+        fetchTables();
+    }, []);
 
     // Filter reservations by selected date
     const reservations = useMemo(() => {

@@ -143,7 +143,7 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
                       : "bg-white text-gray-700 border-gray-200 hover:border-blue-300 hover:text-blue-600"
                       }`}
                   >
-                    {table.tableName}
+                    {table.tableName} {table.capacity ? `(${table.capacity} ghế)` : ""}
                   </button>
                 );
               })}
@@ -472,7 +472,7 @@ export default function ReservationModal({
         (t) => (t.area?._id || t.area) === area._id
       );
       return areaTables.map((t) => ({
-        label: `${t.tableName} (${area.areaName})`,
+        label: `${t.tableName}${t.capacity ? ` (${t.capacity} ghế)` : ''} - ${area.areaName}`,
         value: t._id,
       }));
     });

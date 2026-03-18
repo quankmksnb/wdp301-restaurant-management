@@ -2,7 +2,7 @@ import express from "express";
 import {
   createTable,
   deleteTable,
-  getAllTables,
+  getAllActiveTables,
   getTable,
   getTableByArea,
   getTables,
@@ -18,7 +18,8 @@ import {
 
 const router = express.Router();
 
-router.get("/all", getAllTables);
+router.get("/all", getAllActiveTables);
+router.get("/active", getAllActiveTables);
 
 router.post("/", validate(createTableSchema), createTable);
 
