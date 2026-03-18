@@ -1,10 +1,10 @@
 import express from "express";
 import {
   createArea,
-  getAreas,
-  getArea,
-  updateArea,
   deleteArea,
+  getAreaById,
+  getAreas,
+  updateArea,
 } from "../controllers/areaController.js";
 
 import { validate } from "../middlewares/validateMiddleware.js";
@@ -19,7 +19,7 @@ router.post("/", validate(createAreaSchema), createArea);
 
 router.get("/", getAreas);
 
-router.get("/:id", getArea);
+router.get("/:id", getAreaById);
 
 router.put("/:id", validate(updateAreaSchema), updateArea);
 

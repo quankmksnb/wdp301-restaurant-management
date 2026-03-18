@@ -2,12 +2,10 @@
 
 import { useState } from "react";
 import { Button, Space, Typography } from "antd";
-import {
-  PlusOutlined,
-  UploadOutlined,
-  DownloadOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, AppstoreOutlined } from "@ant-design/icons";
+
 import AddTableModal from "./modals/AddTableModal";
+import AreaListModal from "./modals/AreaListModal";
 
 const { Text } = Typography;
 
@@ -18,6 +16,7 @@ export default function TableHeader({
   refreshTables,
 }) {
   const [openAddModal, setOpenAddModal] = useState(false);
+  const [openAreaModal, setOpenAreaModal] = useState(false);
 
   return (
     <div className="p-4 mb-10">
@@ -41,7 +40,7 @@ export default function TableHeader({
             type="primary"
             size="large"
             icon={<PlusOutlined />}
-            className="!bg-secondary !border-secondary hover:!bg-secondary/90"
+            className="!bg-secondary !border-secondary"
             onClick={() => setOpenAddModal(true)}
           >
             Thêm phòng/bàn
@@ -49,20 +48,12 @@ export default function TableHeader({
 
           <Button
             type="primary"
-            icon={<UploadOutlined />}
             size="large"
-            className="!bg-secondary !border-secondary hover:!bg-secondary/90"
+            icon={<AppstoreOutlined />}
+            className="!bg-green-600 hover:!bg-green-700"
+            onClick={() => setOpenAreaModal(true)}
           >
-            Import
-          </Button>
-
-          <Button
-            type="primary"
-            icon={<DownloadOutlined />}
-            size="large"
-            className="!bg-secondary !border-secondary hover:!bg-secondary/90"
-          >
-            Xuất file
+            Danh mục khu vực
           </Button>
         </Space>
       </div>
@@ -74,6 +65,11 @@ export default function TableHeader({
           refreshTables?.();
           setOpenAddModal(false);
         }}
+      />
+
+      <AreaListModal
+        open={openAreaModal}
+        onClose={() => setOpenAreaModal(false)}
       />
     </div>
   );

@@ -2,11 +2,12 @@ import express from "express";
 import {
   createTable,
   deleteTable,
+  getAllTables,
   getTable,
   getTableByArea,
   getTables,
   toggleTableStatus,
-  updateTable
+  updateTable,
 } from "../controllers/tableController.js";
 
 import { validate } from "../middlewares/validateMiddleware.js";
@@ -16,6 +17,8 @@ import {
 } from "../validators/tableValidator.js";
 
 const router = express.Router();
+
+router.get("/all", getAllTables);
 
 router.post("/", validate(createTableSchema), createTable);
 
