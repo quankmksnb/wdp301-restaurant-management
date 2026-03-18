@@ -21,6 +21,7 @@ router.patch("/:orderId/items/:itemId/cancel", cancelItem);
 // lấy hóa đơn hiện tại của bàn
 router.get("/table/:tableId/bill", getCurrentBillByTable);
 
+
 router.get("/:orderId/bill", getOrderBill);
 
 export default router;

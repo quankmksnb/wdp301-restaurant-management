@@ -1,5 +1,7 @@
+import mongoose from "mongoose";
 import Order from "./Order.js";
 import User from "./User.js";
+
 const paymentSchema = new mongoose.Schema(
   {
     // Liên kết với đơn hàng
@@ -9,11 +11,23 @@ const paymentSchema = new mongoose.Schema(
       required: true,
     },
 
-    // Số tiền khách thanh toán (Có thể khác amount của Order nếu thanh toán nhiều đợt)
+    // Số tiền khách cần thanh toán
     amount: {
       type: Number,
       required: [true, "Số tiền thanh toán là bắt buộc"],
       min: [0, "Số tiền không được âm"],
+    },
+
+    // Tiền khách đưa (chỉ dùng cho CASH)
+    cashReceived: {
+      type: Number,
+      min: 0,
+    },
+
+    // Tiền trả lại khách
+    change: {
+      type: Number,
+      min: 0,
     },
 
     // Phương thức thanh toán
@@ -61,18 +75,6 @@ paymentSchema.index({ order: 1 });
 
 // Index phục vụ báo cáo doanh thu theo ngày/tháng
 paymentSchema.index({ paymentDate: -1, paymentStatus: 1 });
-
-// Middleware: Khi thanh toán thành công, tự động cập nhật trạng thái Order
-paymentSchema.post("save", async function (doc) {
-  if (doc.paymentStatus === "completed") {
-    await mongoose.model("Order").findByIdAndUpdate(doc.order, {
-      orderStatus: "completed"
-    });
-    
-    // Lưu ý: Nếu đơn hàng gắn với Reservation, bạn có thể cần cập nhật 
-    // luôn Reservation sang "completed" tại đây thông qua Order.
-  }
-});
 
 
 export default mongoose.model("Payment", paymentSchema);
