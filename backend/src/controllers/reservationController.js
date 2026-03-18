@@ -89,6 +89,20 @@ export const createReservation = async (req, res) => {
       user: req.user?.id,
     });
 
+    // Tự động tạo order rỗng cho reservation
+    const subOrders = tables.map((tableId) => ({
+      table: tableId,
+      items: [],
+      subTotalAmount: 0,
+    }));
+
+    await Order.create({
+      reservation: reservation._id,
+      orderStatus: "pre-order",
+      subOrders,
+      user: req.user?.id,
+    });
+
     res.status(201).json({
       success: true,
       message: "Đặt bàn thành công",
@@ -180,6 +194,7 @@ export const createReservationWithOrder = async (req, res) => {
             unitPrice: menu.price,
             quantity: item.quantity,
             note: item.note || "",
+            status: "pre-order",
             subTotal: menu.price * item.quantity,
           };
         });
@@ -219,6 +234,7 @@ export const createReservationWithOrder = async (req, res) => {
             unitPrice: menu.price,
             quantity: item.quantity,
             note: item.note || "",
+            status: "pre-order",
             subTotal: menu.price * item.quantity,
           };
         });
@@ -301,6 +317,20 @@ export const updateReservationStatus = async (req, res) => {
         });
       }
       reservation.checkInTime = new Date();
+
+      // Khi nhận bàn: cập nhật order → active, items pre-order → pending
+      const order = await Order.findOne({ reservation: id });
+      if (order) {
+        order.orderStatus = "active";
+        order.subOrders.forEach((sub) => {
+          sub.items.forEach((item) => {
+            if (item.status === "pre-order") {
+              item.status = "pending";
+            }
+          });
+        });
+        await order.save();
+      }
     }
 
     // nếu khách hoàn thành

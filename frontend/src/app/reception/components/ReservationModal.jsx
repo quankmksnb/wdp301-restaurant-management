@@ -503,10 +503,10 @@ export default function ReservationModal({
         const safeHour = prefilledHour < 6 ? 6 : prefilledHour;
         setArrivalTime(baseDate.hour(safeHour).minute(0).second(0));
       } else {
-        // If selected date is today, use current time + 1 hour; otherwise use 10:00
+        // If selected date is today, use current real time; otherwise use 10:00
         const isToday = baseDate.isSame(dayjs(), 'day');
         if (isToday) {
-          let defaultTime = dayjs().add(1, "hour").minute(0).second(0);
+          let defaultTime = dayjs();
           if (defaultTime.hour() < 6) {
             defaultTime = defaultTime.hour(6).minute(0).second(0);
           }
