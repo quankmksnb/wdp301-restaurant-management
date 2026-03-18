@@ -30,7 +30,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
     useEffect(() => {
         const tick = () => {
             const n = new Date();
-            setCurrentTimePos((n.getHours() + n.getMinutes() / 60) * CELL_WIDTH);
+            setCurrentTimePos(((n.getHours() - 6) + n.getMinutes() / 60) * CELL_WIDTH);
         };
         tick();
         const iv = setInterval(tick, 60000);
@@ -217,7 +217,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                             {viewMode === "day" && tblRes.map((res) => {
                                                 const sH = res.startTime.getHours() + res.startTime.getMinutes() / 60;
                                                 const eH = res.endTime.getHours() + res.endTime.getMinutes() / 60;
-                                                const left = sH * CELL_WIDTH;
+                                                const left = (sH - 6) * CELL_WIDTH;
                                                 const w = (eH - sH) * CELL_WIDTH;
                                                 const col = STATUS_COLORS[res.status] || STATUS_COLORS.confirmed;
                                                 const isActive = activePopover === res._id;

@@ -286,8 +286,20 @@ export const updateReservationStatus = async (req, res) => {
 
     reservation.status = status;
 
-    // nếu khách nhận bàn
+    // nếu khách nhận bàn → chỉ cho phép nhận bàn trong ngày hôm nay
     if (status === "seated") {
+      const today = new Date();
+      const resDate = new Date(reservation.reservationDateTime);
+      if (
+        resDate.getFullYear() !== today.getFullYear() ||
+        resDate.getMonth() !== today.getMonth() ||
+        resDate.getDate() !== today.getDate()
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Chỉ được nhận bàn cho đặt bàn trong ngày hôm nay",
+        });
+      }
       reservation.checkInTime = new Date();
     }
 

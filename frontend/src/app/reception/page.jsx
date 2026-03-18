@@ -156,6 +156,24 @@ export default function ReceptionPage() {
             setCancelReason("");
             return;
         }
+
+        // FE check: chỉ cho nhận bàn trong ngày hôm nay
+        if (newStatus === "seated") {
+            const reservation = allReservations.find((r) => r.reservationId === reservationId);
+            if (reservation) {
+                const today = new Date();
+                const resDate = reservation.startTime;
+                if (
+                    resDate.getFullYear() !== today.getFullYear() ||
+                    resDate.getMonth() !== today.getMonth() ||
+                    resDate.getDate() !== today.getDate()
+                ) {
+                    message.warning("Chỉ được nhận bàn cho đặt bàn trong ngày hôm nay!");
+                    return;
+                }
+            }
+        }
+
         try {
             await updateReservationStatus(reservationId, newStatus);
             message.success("Nhận bàn thành công!");
@@ -166,7 +184,7 @@ export default function ReceptionPage() {
                 error.response?.data?.message || "Có lỗi xảy ra khi cập nhật trạng thái"
             );
         }
-    }, [fetchReservations]);
+    }, [fetchReservations, allReservations]);
 
     // Confirm cancel with reason
     const handleConfirmCancel = useCallback(async () => {

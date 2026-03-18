@@ -1,9 +1,9 @@
 // ─── Constants ───────────────────────────────────────────────────
-export const HOURS = Array.from({ length: 24 }, (_, i) => i);
+export const HOURS = Array.from({ length: 18 }, (_, i) => i + 6);
 export const CELL_WIDTH = 120;
 export const ROW_HEIGHT = 36;
 export const SIDEBAR_WIDTH = 150;
-export const HEADER_HOURS = [0, 3, 6, 9, 12, 15, 18, 21];
+export const HEADER_HOURS = [6, 9, 12, 15, 18, 21];
 export const HEADER_CELL_WIDTH = CELL_WIDTH * 3;
 export const DAYS_OF_WEEK = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
 export const MONTH_NAMES = [
