@@ -11,7 +11,7 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
     const scrollRef = useRef(null);
     const popoverRef = useRef(null);
 
-    // Get Mon–Sun of the selected week
+    // Lấy Thứ 2–Chủ nhật của tuần đã chọn
     const weekDays = useMemo(() => {
         const d = new Date(selectedDate);
         const day = d.getDay();
@@ -26,7 +26,7 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
         });
     }, [selectedDate]);
 
-    // Current time position
+    // Vị trí thời gian hiện tại
     useEffect(() => {
         const tick = () => {
             const n = new Date();
@@ -37,7 +37,7 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
         return () => clearInterval(iv);
     }, []);
 
-    // Auto-scroll to current time
+    // Tự động cuộn đến thời gian hiện tại
     useEffect(() => {
         if (scrollRef.current && currentTimePos > 0) {
             const today = new Date();
@@ -49,7 +49,7 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
         }
     }, [currentTimePos, weekDays]);
 
-    // Close popover on outside click
+    // Đóng popover khi click bên ngoài
     useEffect(() => {
         const h = (e) => { if (popoverRef.current && !popoverRef.current.contains(e.target)) setActivePopover(null); };
         document.addEventListener("mousedown", h);
@@ -76,10 +76,10 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
 
     return (
         <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-            {/* Scrollable grid */}
+            {/* Lưới có thể cuộn */}
             <div ref={scrollRef} className="flex-1 overflow-x-auto overflow-y-auto">
                 <div style={{ width: TOTAL_DAY_WIDTH * 7 }}>
-                    {/* Day headers */}
+                    {/* Tiêu đề ngày */}
                     <div className="flex sticky top-0 z-[8] bg-white border-b border-gray-200" style={{ height: 40 }}>
                         {weekDays.map((d, i) => {
                             const isToday = d.toDateString() === today.toDateString();
@@ -97,7 +97,7 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
                         })}
                     </div>
 
-                    {/* Hour sub-headers */}
+                    {/* Tiêu đề phụ theo giờ */}
                     <div className="flex sticky top-[40px] z-[7] border-b border-gray-200 bg-blue-50" style={{ height: 36 }}>
                         {weekDays.map((d, di) => (
                             HEADER_HOURS.map(h => (
@@ -112,13 +112,13 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
                         ))}
                     </div>
 
-                    {/* Rows */}
+                    {/* Các hàng */}
                     {grouped.map(area => (
                         <div key={area._id}>
-                            {/* Area row */}
+                            {/* Hàng khu vực */}
                             <div className="bg-gray-100 border-b border-gray-200" style={{ height: ROW_HEIGHT, width: TOTAL_DAY_WIDTH * 7 }} />
 
-                            {/* Table rows */}
+                            {/* Hàng bàn */}
                             {!collapsedAreas[area._id] && area.tables.map(tbl => {
                                 const tblRes = (reservations || []).filter(r => {
                                     const match = r.tableId === tbl._id || r.tableName === tbl.tableName;
@@ -133,7 +133,7 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
                                             );
                                             return (
                                                 <div key={di} className="shrink-0 relative" style={{ width: TOTAL_DAY_WIDTH }}>
-                                                    {/* Hour cells */}
+                                                    {/* Ô giờ */}
                                                     <div className="flex h-full">
                                                         {HOURS.map(h => (
                                                             <div
@@ -144,10 +144,10 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
                                                             />
                                                         ))}
                                                     </div>
-                                                    {/* Day boundary */}
+                                                    {/* Đường phân cách ngày */}
                                                     <div className="absolute top-0 bottom-0 right-0 w-px bg-gray-300" />
 
-                                                    {/* Reservations */}
+                                                    {/* Các đặt bàn */}
                                                     {dayRes.map(res => {
                                                         const sH = res.startTime.getHours() + res.startTime.getMinutes() / 60;
                                                         const eH = res.endTime.getHours() + res.endTime.getMinutes() / 60;
@@ -200,7 +200,7 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
                                                         );
                                                     })}
 
-                                                    {/* Current time indicator for today */}
+                                                    {/* Đường chỉ thời gian hiện tại cho ngày hôm nay */}
                                                     {d.toDateString() === today.toDateString() && (
                                                         <div className="absolute top-0 bottom-0 z-[3] pointer-events-none" style={{ left: currentTimePos }}>
                                                             <div className="w-[2px] h-full bg-red-500 opacity-70" />

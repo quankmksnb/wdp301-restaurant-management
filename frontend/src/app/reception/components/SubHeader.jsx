@@ -11,7 +11,7 @@ export default function SubHeader({ viewMode, setViewMode, statusFilters, onStat
 
     return (
         <div className="h-11 bg-white border-b border-gray-200 flex items-center px-5 text-sm shrink-0">
-            {/* View mode */}
+            {/* Chế độ xem */}
             <div className="flex items-center gap-1.5 mr-8">
                 {["day", "week", "month"].map((m) => (
                     <button
@@ -27,7 +27,7 @@ export default function SubHeader({ viewMode, setViewMode, statusFilters, onStat
                 ))}
             </div>
 
-            {/* Status checkboxes */}
+            {/* Checkbox lọc trạng thái */}
             <div className="flex items-center gap-5">
                 {filters.map(({ key, label, color }) => (
                     <label key={key} className="flex items-center gap-2 cursor-pointer text-sm text-gray-700">
@@ -43,7 +43,7 @@ export default function SubHeader({ viewMode, setViewMode, statusFilters, onStat
                 ))}
             </div>
 
-            {/* Right actions */}
+            {/* Hành động bên phải */}
             <div className="ml-auto flex items-center gap-3">
                 <button className="flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 cursor-pointer transition">
                     <FileDown className="w-4 h-4" /> Xuất file

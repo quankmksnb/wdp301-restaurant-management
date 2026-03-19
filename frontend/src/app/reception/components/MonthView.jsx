@@ -21,10 +21,10 @@ export default function MonthView({ reservations, statusFilters, selectedDate, o
         onSelectDate(d);
     };
 
-    // Build calendar cells (6 weeks × 7 days)
+    // Tạo lưới lịch (6 tuần × 7 ngày)
     const cells = useMemo(() => {
         const firstDay = new Date(year, month, 1).getDay();
-        const startOffset = firstDay === 0 ? 6 : firstDay - 1; // Mon = 0
+        const startOffset = firstDay === 0 ? 6 : firstDay - 1; // Thứ 2 = 0
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const daysInPrevMonth = new Date(year, month, 0).getDate();
         const grid = [];
@@ -52,7 +52,7 @@ export default function MonthView({ reservations, statusFilters, selectedDate, o
 
     return (
         <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-white">
-            {/* Month navigation header */}
+            {/* Điều hướng tháng */}
             <div className="flex items-center gap-3 px-6 py-3 border-b border-gray-200 bg-white">
                 <button onClick={() => goMonth(-1)} className="p-1 rounded hover:bg-gray-100 cursor-pointer">
                     <ChevronLeft className="w-4 h-4 text-gray-600" />
@@ -63,7 +63,7 @@ export default function MonthView({ reservations, statusFilters, selectedDate, o
                 </button>
             </div>
 
-            {/* Day-of-week headers */}
+            {/* Tiêu đề ngày trong tuần */}
             <div className="grid grid-cols-7 border-b border-gray-200">
                 {DOW.map(d => (
                     <div key={d} className="py-2 text-center text-xs font-semibold text-gray-500 border-r last:border-r-0 border-gray-200">
@@ -72,7 +72,7 @@ export default function MonthView({ reservations, statusFilters, selectedDate, o
                 ))}
             </div>
 
-            {/* Calendar grid */}
+            {/* Lưới lịch */}
             <div className="flex-1 grid grid-cols-7 grid-rows-6 overflow-hidden">
                 {cells.map((cell, idx) => {
                     const isToday = cell.date.toDateString() === today.toDateString();
@@ -87,7 +87,7 @@ export default function MonthView({ reservations, statusFilters, selectedDate, o
                             className={`border-r border-b border-gray-200 last:border-r-0 flex flex-col p-1.5 cursor-pointer overflow-hidden transition hover:bg-gray-50/80
                                 ${isOtherMonth ? "bg-gray-50/40" : "bg-white"}`}
                         >
-                            {/* Day number */}
+                            {/* Số ngày */}
                             <div className="flex items-center mb-1">
                                 <span className={`text-xs font-medium w-6 h-6 flex items-center justify-center rounded-full
                                     ${isToday ? "bg-blue-600 text-white font-bold" : isSelected && !isOtherMonth ? "bg-blue-100 text-blue-700 font-semibold" : isOtherMonth ? "text-gray-300" : "text-gray-700"}`}>
@@ -95,7 +95,7 @@ export default function MonthView({ reservations, statusFilters, selectedDate, o
                                 </span>
                             </div>
 
-                            {/* Reservation chips */}
+                            {/* Chip đặt bàn */}
                             <div className="flex flex-col gap-0.5 overflow-hidden">
                                 {dayRes.slice(0, 3).map(res => {
                                     const col = STATUS_COLORS[res.status] || STATUS_COLORS.confirmed;

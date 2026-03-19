@@ -37,7 +37,7 @@ export default function Sidebar({ selectedDate, onSelectDate, areas, selectedAre
 
     return (
         <div className="w-[250px] min-w-[250px] border-r border-gray-200 bg-white flex flex-col text-sm overflow-y-auto shrink-0">
-            {/* Calendar */}
+            {/* Lịch tháng */}
             <div className="p-4 border-b border-gray-100">
                 <div className="flex items-center justify-between mb-3">
                     <span className="font-semibold text-gray-800 text-sm">{MONTH_NAMES[curMonth]}, {curYear}</span>
@@ -51,14 +51,14 @@ export default function Sidebar({ selectedDate, onSelectDate, areas, selectedAre
                     </div>
                 </div>
 
-                {/* Day headers */}
+                {/* Tiêu đề các ngày trong tuần */}
                 <div className="grid grid-cols-7 text-center mb-1">
                     {DAYS_OF_WEEK.map((d) => (
                         <span key={d} className="text-xs text-gray-500 leading-5">{d}</span>
                     ))}
                 </div>
 
-                {/* Grid */}
+                {/* Lưới ngày */}
                 <div className="grid grid-cols-7 text-center">
                     {cells.map((c, i) => (
                         <button
@@ -76,7 +76,7 @@ export default function Sidebar({ selectedDate, onSelectDate, areas, selectedAre
                     ))}
                 </div>
 
-                {/* Today link */}
+                {/* Liên kết hôm nay */}
                 <div className="mt-2 text-xs leading-tight">
                     <button
                         onClick={() => { onSelectDate(new Date()); setCurMonth(today.getMonth()); setCurYear(today.getFullYear()); }}

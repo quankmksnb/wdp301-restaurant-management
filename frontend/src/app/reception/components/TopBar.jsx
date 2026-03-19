@@ -23,7 +23,7 @@ export default function TopBar({ tabMode, setTabMode }) {
         }
     }, []);
 
-    // Close dropdown on outside click
+    // Đóng dropdown khi click bên ngoài
     useEffect(() => {
         const handler = (e) => {
             if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -41,10 +41,10 @@ export default function TopBar({ tabMode, setTabMode }) {
 
     return (
         <div className="h-12 bg-gradient-to-r from-[#1340b2] via-[#2d6fdc] to-[#3b82f6] flex items-center px-5 text-white text-sm shrink-0">
-            {/* Left: Title */}
+            {/* Bên trái: Tiêu đề */}
             <span className="font-bold text-base mr-8 tracking-wide">Đặt bàn</span>
 
-            {/* Tabs */}
+            {/* Các tab chuyển đổi */}
             <div className="flex h-full">
                 {[
                     { key: "calendar", label: "Theo lịch" },
@@ -63,7 +63,7 @@ export default function TopBar({ tabMode, setTabMode }) {
                 ))}
             </div>
 
-            {/* Right side */}
+            {/* Bên phải */}
             <div className="ml-auto flex items-center gap-5">
 
                 <Settings className="w-4 h-4 text-white/70 cursor-pointer hover:text-white" />

@@ -29,19 +29,19 @@ export default function ReservationListView({
     const [customDate, setCustomDate] = useState(null);
     const [pageSize, setPageSize] = useState(15);
 
-    // Sidebar collapse states
+    // Trạng thái co/mở các mục sidebar
     const [searchOpen, setSearchOpen] = useState(true);
     const [dateOpen, setDateOpen] = useState(true);
     const [areaOpen, setAreaOpen] = useState(true);
 
-    // Filter reservations
+    // Lọc danh sách đặt bàn
     const filteredData = useMemo(() => {
         let data = [...reservations];
 
-        // Status filter
+        // Lọc theo trạng thái
         data = data.filter((r) => statusFilters[r.status]);
 
-        // Search
+        // Tìm kiếm
         if (searchText.trim()) {
             const q = searchText.toLowerCase();
             data = data.filter(
@@ -52,7 +52,7 @@ export default function ReservationListView({
             );
         }
 
-        // Area filter
+        // Lọc theo khu vực
         if (selectedArea !== "all") {
             data = data.filter((r) => {
                 // Match by tableId's area
@@ -60,7 +60,7 @@ export default function ReservationListView({
             });
         }
 
-        // Date filter
+        // Lọc theo ngày
         if (dateMode === "custom" && customDate) {
             data = data.filter((r) => {
                 const resDate = r.startTime;
@@ -75,7 +75,7 @@ export default function ReservationListView({
         return data;
     }, [reservations, statusFilters, searchText, selectedArea, dateMode, customDate]);
 
-    // Generate reservation code from ID
+    // Tạo mã đặt bàn từ ID
     const getResCode = (id) => {
         if (!id) return "";
         const clean = id.replace(/_.*$/, ""); // remove table suffix
@@ -213,9 +213,9 @@ export default function ReservationListView({
 
     return (
         <div className="flex flex-1 min-h-0 overflow-hidden">
-            {/* Left Sidebar */}
+            {/* Thanh bên trái */}
             <div className="w-[250px] min-w-[250px] border-r border-gray-200 bg-white flex flex-col text-sm overflow-y-auto shrink-0">
-                {/* Search */}
+                {/* Tìm kiếm */}
                 <SidebarSection title="Tìm kiếm" open={searchOpen} onToggle={() => setSearchOpen(!searchOpen)}>
                     <div className="relative">
                         <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
@@ -229,7 +229,7 @@ export default function ReservationListView({
                     </div>
                 </SidebarSection>
 
-                {/* Date filter */}
+                {/* Lọc theo thời gian */}
                 <SidebarSection title="Thời gian đặt" open={dateOpen} onToggle={() => setDateOpen(!dateOpen)}>
                     <div className="space-y-2">
                         <Radio.Group
@@ -257,7 +257,7 @@ export default function ReservationListView({
                     </div>
                 </SidebarSection>
 
-                {/* Area filter */}
+                {/* Lọc theo khu vực */}
                 <SidebarSection title="Phòng/Bàn" open={areaOpen} onToggle={() => setAreaOpen(!areaOpen)}>
                     <Select
                         className="w-full"
@@ -280,10 +280,10 @@ export default function ReservationListView({
                 </SidebarSection>
             </div>
 
-            {/* Table Content */}
+            {/* Nội dung bảng */}
             <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
 
-                {/* Table */}
+                {/* Bảng dữ liệu */}
                 <div className="flex-1 overflow-auto p-0">
                     <Table
                         dataSource={filteredData}

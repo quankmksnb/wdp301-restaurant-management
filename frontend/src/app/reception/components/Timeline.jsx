@@ -17,7 +17,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
     const scrollRef = useRef(null);
     const popoverRef = useRef(null);
 
-    // Close popover on outside click
+    // Đóng popover khi click bên ngoài
     useEffect(() => {
         const handler = (e) => {
             if (popoverRef.current && !popoverRef.current.contains(e.target)) setActivePopover(null);
@@ -26,7 +26,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
         return () => document.removeEventListener("mousedown", handler);
     }, []);
 
-    // Current time (only for day view)
+    // Vị trí thời gian hiện tại (chỉ cho chế độ xem ngày)
     useEffect(() => {
         const tick = () => {
             const n = new Date();
@@ -37,14 +37,14 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
         return () => clearInterval(iv);
     }, []);
 
-    // Auto-scroll (day view only)
+    // Tự động cuộn (chỉ cho chế độ xem ngày)
     useEffect(() => {
         if (viewMode === "day" && scrollRef.current && currentTimePos > 0) {
             scrollRef.current.scrollLeft = Math.max(0, currentTimePos - 400);
         }
     }, [currentTimePos, viewMode]);
 
-    // Group tables by area
+    // Nhóm bàn theo khu vực
     const grouped = useMemo(() => {
         if (!areas || !tables) return [];
         return areas.map((a) => ({
@@ -64,7 +64,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
 
     const fmtTime = (d) => d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
 
-    // ─── Compute columns based on viewMode ───
+    // ─── Tính cột dựa trên chế độ xem ───
     const columns = useMemo(() => {
         if (viewMode === "day") {
             return HOURS.map((h) => ({
@@ -75,7 +75,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
         }
 
         if (viewMode === "week") {
-            // Get Monday of the selected week
+            // Lấy ngày thứ 2 của tuần đã chọn
             const d = new Date(selectedDate);
             const day = d.getDay();
             const diff = d.getDate() - day + (day === 0 ? -6 : 1);
@@ -118,7 +118,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
 
     const totalWidth = columns.reduce((s, c) => s + c.width, 0);
 
-    // ─── Header columns for 3-hour grouping (day view only) ───
+    // ─── Cột header nhóm 3 giờ (chỉ cho chế độ xem ngày) ───
     const headerColumns = useMemo(() => {
         if (viewMode === "day") {
             return HEADER_HOURS.map((h) => ({
@@ -132,18 +132,18 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
 
     return (
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-            {/* Timeline scrollable area */}
+            {/* Khu vực cuộn Timeline */}
             <div className="flex flex-1 min-h-0">
-                {/* Fixed left column: PHÒNG/BÀN */}
+                {/* Cột cố định bên trái: PHÒNG/BÀN */}
                 <div className="shrink-0 border-r border-gray-200 bg-white z-10" style={{ width: SIDEBAR_WIDTH }}>
-                    {/* Top-left corner */}
+                    {/* Góc trên bên trái */}
                     <div className="border-b border-gray-200">
                         <div className="h-9 px-3 flex items-center font-bold text-sm text-gray-800 uppercase tracking-wide bg-blue-50">
                             PHÒNG/BÀN
                         </div>
                     </div>
 
-                    {/* Area + table rows */}
+                    {/* Hàng khu vực + bàn */}
                     {grouped.map((area) => (
                         <div key={area._id}>
                             <div
@@ -170,10 +170,10 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                     ))}
                 </div>
 
-                {/* Scrollable timeline grid */}
+                {/* Lưới timeline có thể cuộn */}
                 <div ref={scrollRef} className="flex-1 overflow-x-auto overflow-y-auto">
                     <div className="relative" style={{ width: totalWidth }}>
-                        {/* Header row */}
+                        {/* Hàng tiêu đề */}
                         <div className="flex border-b border-gray-200 bg-blue-50 sticky top-0 z-[5] h-9">
                             {headerColumns.map((col) => (
                                 <div
@@ -192,18 +192,18 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                             ))}
                         </div>
 
-                        {/* Area + table rows */}
+                        {/* Hàng khu vực + bàn */}
                         {grouped.map((area) => (
                             <div key={area._id}>
-                                {/* Area header row */}
+                                {/* Hàng tiêu đề khu vực */}
                                 <div className="bg-gray-100 border-b border-gray-200" style={{ height: ROW_HEIGHT }} />
 
-                                {/* Table rows */}
+                                {/* Hàng bàn */}
                                 {!collapsedAreas[area._id] && area.tables.map((tbl) => {
                                     const tblRes = getTableRes(tbl._id, tbl.tableName);
                                     return (
                                         <div key={tbl._id} className="flex border-b border-gray-100 relative" style={{ height: ROW_HEIGHT }}>
-                                            {/* Grid cells */}
+                                            {/* Ô lưới */}
                                             {columns.map((col) => (
                                                 <div
                                                     key={col.key}
@@ -213,7 +213,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                 />
                                             ))}
 
-                                            {/* Reservation blocks (day view) */}
+                                            {/* Khối đặt bàn (chế độ xem ngày) */}
                                             {viewMode === "day" && tblRes.map((res) => {
                                                 const sH = res.startTime.getHours() + res.startTime.getMinutes() / 60;
                                                 const eH = res.endTime.getHours() + res.endTime.getMinutes() / 60;
@@ -238,14 +238,14 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                             {res.customerName}
                                                         </div>
 
-                                                        {/* Popover */}
+                                                        {/* Cửa sổ chi tiết */}
                                                         {isActive && (
                                                             <div
                                                                 ref={popoverRef}
                                                                 className="absolute z-50 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden"
                                                                 style={{ left: left + Math.min(w / 2, 60), top: ROW_HEIGHT + 2, width: 360 }}
                                                             >
-                                                                {/* Header */}
+                                                                {/* Phần đầu */}
                                                                 <div className="flex items-center justify-between px-3 py-2 bg-gray-50 border-b border-gray-100">
                                                                     <div className="flex items-center gap-2">
                                                                         <span className="w-2 h-2 rounded-full" style={{ backgroundColor: col.dot }} />
@@ -258,9 +258,8 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                                         <button onClick={(e) => { e.stopPropagation(); setActivePopover(null); }} className="p-1 rounded hover:bg-gray-200 cursor-pointer"><X className="w-3.5 h-3.5 text-gray-500" /></button>
                                                                     </div>
                                                                 </div>
-                                                                {/* Body */}
+                                                                {/* Nội dung */}
                                                                 <div className="px-3 py-2 space-y-1.5 text-[11px] text-gray-700">
-
                                                                     <div className="grid grid-cols-2 gap-1">
                                                                         <div className="flex items-center gap-1.5"><Clock className="w-3 h-3 text-gray-400" />{fmtTime(res.startTime)} - {fmtTime(res.endTime)}</div>
                                                                         <div className="flex items-center gap-1.5"><UtensilsCrossed className="w-3 h-3 text-gray-400" />Món đặt trước:</div>
@@ -268,7 +267,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                                     <div className="flex items-center gap-1.5"><Users className="w-3 h-3 text-gray-400" />{(res.guests?.adults || 0) + (res.guests?.children || 0)} (🧑{res.guests?.adults || 0} 👶{res.guests?.children || 0})</div>
                                                                     <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3 text-gray-400" />{res.tableName}</div>
                                                                 </div>
-                                                                {/* Actions */}
+                                                                {/* Hành động */}
                                                                 {res.status !== "cancelled" && (
                                                                     <div className="flex items-center justify-center gap-2 px-3 py-2 border-t border-gray-100 bg-gray-50">
                                                                         <button
@@ -297,7 +296,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                 );
                                             })}
 
-                                            {/* Reservation blocks (week/month view) - show as colored dot/bar */}
+                                            {/* Khối đặt bàn (chế độ xem tuần/tháng) - hiển thị dạng thanh màu */}
                                             {viewMode !== "day" && tblRes.map((res) => {
                                                 const resDate = res.startTime;
                                                 const colIdx = columns.findIndex((c) =>
@@ -334,7 +333,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                             </div>
                         ))}
 
-                        {/* Red time indicator (day view only) */}
+                        {/* Đường chỉ thời gian đỏ (chỉ chế độ xem ngày) */}
                         {viewMode === "day" && (
                             <div className="absolute top-0 bottom-0 z-[3] pointer-events-none" style={{ left: currentTimePos }}>
                                 <div className="w-0 h-0 absolute top-0" style={{ borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "5px solid #dc2626", marginLeft: "-4px" }} />
