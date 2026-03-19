@@ -67,6 +67,20 @@ const kitchenService = {
       throw error;
     }
   },
+
+  updateBulkStatus: async (itemIds, status) => {
+    try {
+      // Gọi đến đúng endpoint backend bạn đã tạo (ví dụ: /kitchen/bulk-update)
+      const response = await api.patch("/kitchen/bulk-update", {
+        itemIds,
+        status,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error in updateBulkStatus service:", error);
+      throw error;
+    }
+  },
 };
 
 export default kitchenService;

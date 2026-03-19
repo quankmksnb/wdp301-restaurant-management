@@ -31,7 +31,7 @@ const orderItemSchema = new mongoose.Schema(
     },
     subTotal: { type: Number, required: true },
   },
-  { _id: true }, // Để _id để dễ dang cập nhật từng món
+  { _id: true, timestamps: true }, // Để _id để dễ dang cập nhật từng món
 );
 
 const orderSchema = new mongoose.Schema(

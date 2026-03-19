@@ -5,13 +5,40 @@ import { useEffect, useState } from "react";
 export default function ByDishTab({ searchTerm, updateStatus }) {
   const [dishes, setDishes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const handleAction = async (dish, type) => {
+    const nextStatus =
+      dish.status === "order_sent"
+        ? "preparing"
+        : dish.status === "out_of_stock"
+          ? "out_of_stock"
+          : "ready";
+
+    if (type === "all") {
+      // Nếu xong tất cả: Duyệt mảng details và update từng item
+      // Lưu ý: Để tránh spam API, bạn có thể viết thêm 1 API updateBulk ở backend
+      // Ở đây ta dùng tạm logic hiện tại:
+      for (const detail of dish.details) {
+        await updateStatus(
+          detail.orderItemId,
+          nextStatus,
+          "all",
+          () => {},
+          "Đang cập nhật...",
+        );
+      }
+      fetchData(); // Load lại dữ liệu sau khi xong chuỗi
+    } else {
+      // Nếu chỉ xong 1 món: Lấy item đầu tiên trong mảng details để xử lý
+      const target = dish.details[0];
+      await updateStatus(target.orderItemId, nextStatus, 1, fetchData);
+    }
+  };
   const fetchData = async () => {
     try {
       setLoading(true);
 
       const res = await kitchenService.getOrdersByDish(searchTerm);
       setDishes(res.data || []);
-      console.log(res);
     } catch (error) {
       console.error(error);
     } finally {
@@ -22,10 +49,6 @@ export default function ByDishTab({ searchTerm, updateStatus }) {
     fetchData();
   }, [searchTerm]);
 
-  // useEffect(() => {
-  //   const interval = setInterval(fetchData, 5000);
-  //   return () => clearInterval(interval);
-  // }, []);
   if (loading)
     return <div className="p-6 text-gray-400 text-center">Đang tải...</div>;
   if (!dishes.length)
@@ -42,14 +65,15 @@ export default function ByDishTab({ searchTerm, updateStatus }) {
     );
   return (
     <div className="flex flex-col">
-      {dishes.map((dish) => (
+      {dishes.map((dish, index) => (
         <DishItem
-          key={dish._id}
+          key={index}
           name={dish.itemName}
           qty={dish.totalQty}
-          onDoneOne={() => updateStatus(item._id, "ready", 1)}
-          onDoneAll={() => updateStatus(item._id, "ready", "all")}
-          onOutOfStock={() => updateStatus(item._id, "cancelled", "all")}
+          onActionOne={() => handleAction(dish, "one")}
+          onActionAll={() => handleAction(dish, "all")}
+          onOutOfStock={() => handleAction(dish, "cancel")}
+          status={dish.status}
         />
       ))}
     </div>

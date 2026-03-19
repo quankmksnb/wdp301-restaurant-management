@@ -1,8 +1,7 @@
-import { success } from "zod";
 import Order from "../models/Order.js";
 import mongoose from "mongoose";
 
-export const getOrderItemPending = async (req, res) => {
+export const getOrderItemsByPriority = async (req, res) => {
   try {
     const { itemName, isPreOrder } = req.query;
 
@@ -17,7 +16,7 @@ export const getOrderItemPending = async (req, res) => {
 
     // Filter Item
     let itemMatch = {
-      "subOrders.items.status": { $in: ["pending", "preparing"] },
+      "subOrders.items.status": { $in: ["order_sent", "preparing"] },
     };
 
     if (itemName) {
@@ -27,7 +26,7 @@ export const getOrderItemPending = async (req, res) => {
       };
     }
 
-    const pendingItems = await Order.aggregate([
+    const orderItems = await Order.aggregate([
       // Lọc Order
       { $match: orderMatch },
       { $unwind: "$subOrders" },
@@ -62,7 +61,17 @@ export const getOrderItemPending = async (req, res) => {
         $addFields: {
           // số phút đã qua kể từ lúc đặt món:
           waitingTimeMinutes: {
-            $divide: [{ $subtract: [new Date(), "$createdAt"] }, 60000],
+            $divide: [
+              { $subtract: [new Date(), "$subOrders.items.createdAt"] },
+              60000,
+            ],
+          },
+          statusSortOrder: {
+            $cond: {
+              if: { $eq: ["subOrders.items.status", "preparing"] },
+              then: 1,
+              else: 2,
+            },
           },
           //   Gán trọng số
           statusWeight: {
@@ -86,6 +95,7 @@ export const getOrderItemPending = async (req, res) => {
           },
         },
       },
+      { $sort: { statusSortOrder: 1, priorityScore: -1 } },
       {
         $project: {
           _id: "$subOrders.items._id",
@@ -110,11 +120,11 @@ export const getOrderItemPending = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      count: pendingItems.length,
-      data: pendingItems,
+      count: orderItems.length,
+      data: orderItems,
     });
   } catch (error) {
-    console.error("Fetching pending order items error:", error);
+    console.error("Fetching order items error:", error);
     res.status(500).json({
       success: false,
       message: "Error fetching order items",
@@ -129,7 +139,7 @@ export const getOrderItemsByDish = async (req, res) => {
 
     // 1. Điều kiện lọc cơ bản
     let matchCondition = {
-      "subOrders.items.status": { $in: ["pending", "preparing"] },
+      "subOrders.items.status": { $in: ["order_sent", "preparing"] },
       orderStatus: { $in: ["active", "pre-order"] },
     };
 
@@ -152,8 +162,12 @@ export const getOrderItemsByDish = async (req, res) => {
       // 2. Gộp nhóm theo ID của MenuItem (hoặc tên món)
       {
         $group: {
-          _id: "$subOrders.items.menuItem", // Gộp theo ID món ăn
+          _id: {
+            menuItem: "$subOrders.items.menuItem",
+            status: "$subOrders.items.status",
+          },
           itemName: { $first: "$subOrders.items.itemName" },
+          status: { $first: "$subOrders.items.status" },
           totalQty: { $sum: "$subOrders.items.quantity" }, // Tổng số lượng cần làm
 
           // Tạo mảng chi tiết để bếp biết món này thuộc những bàn nào
@@ -163,24 +177,36 @@ export const getOrderItemsByDish = async (req, res) => {
               table: "$subOrders.table", // Sẽ lookup tên bàn ở bước sau
               qty: "$subOrders.items.quantity",
               note: "$subOrders.items.note",
-              createdAt: "$createdAt",
+              createdAt: "$subOrders.items.createdAt",
             },
           },
           // Lấy thời gian của đơn cũ nhất để ưu tiên nấu trước
-          oldestOrder: { $min: "$createdAt" },
+          oldestOrder: { $min: "$subOrders.items.createdAt" },
         },
       },
-
+      {
+        $addFields: {
+          statusSortOrder: {
+            $cond: { if: { $eq: ["$status", "preparing"] }, then: 1, else: 2 },
+          },
+        },
+      },
+      { $sort: { statusSortOrder: 1, oldestOrder: 1 } },
       // 3. Lookup để lấy thêm thông tin chi tiết (Tên bàn, Ảnh món ăn)
       {
         $lookup: {
           from: "menuItems",
-          localField: "_id",
+          localField: "_id.menuItem",
           foreignField: "_id",
           as: "menuInfo",
         },
       },
-      { $unwind: "$menuInfo" },
+      {
+        $unwind: {
+          path: "$menuInfo",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
 
       // 4. Sắp xếp món nào có đơn đợi lâu nhất lên đầu
       { $sort: { oldestOrder: 1 } },
@@ -194,6 +220,7 @@ export const getOrderItemsByDish = async (req, res) => {
           image: { $arrayElemAt: ["$menuInfo.images", 0] },
           details: 1,
           oldestOrder: 1,
+          status: "$_id.status",
         },
       },
     ]);
@@ -215,7 +242,7 @@ export const getOrderItemsByTable = async (req, res) => {
     // 1. Điều kiện lọc cơ bản: Đơn hàng đang hoạt động và món chưa hoàn thành
     let matchCondition = {
       orderStatus: { $in: ["active", "pre-order"] },
-      "subOrders.items.status": { $in: ["pending", "preparing"] },
+      "subOrders.items.status": { $in: ["order_sent", "preparing"] },
     };
 
     const ordersByTable = await Order.aggregate([
@@ -259,16 +286,33 @@ export const getOrderItemsByTable = async (req, res) => {
           // Gom các món ăn của bàn này vào một mảng
           items: {
             $push: {
+              statusSortOrder: {
+                $cond: {
+                  if: { $eq: ["$subOrders.items.status", "preparing"] },
+                  then: 1,
+                  else: 2,
+                },
+              },
               orderItemId: "$subOrders.items._id",
               itemName: "$subOrders.items.itemName",
               quantity: "$subOrders.items.quantity",
               note: "$subOrders.items.note",
               status: "$subOrders.items.status",
-              createdAt: "$createdAt",
+              createdAt: "$subOrders.items.createdAt",
             },
           },
           // Lấy thời gian đơn hàng đầu tiên của bàn này để sắp xếp
-          minCreatedAt: { $min: "$createdAt" },
+          minCreatedAt: { $min: "$subOrders.items.createdAt" },
+        },
+      },
+      {
+        $addFields: {
+          items: {
+            $sortArray: {
+              input: "$items",
+              sortBy: { statusSortOrder: 1, createdAt: 1 },
+            },
+          },
         },
       },
 
@@ -478,5 +522,42 @@ export const updateItemStatus = async (req, res) => {
       message: "Lỗi hệ thống khi cập nhật trạng thái",
       error: error.message,
     });
+  }
+};
+
+export const updateBulkItemStatus = async (req, res) => {
+  try {
+    const { itemIds, status } = req.body;
+    if (!Array.isArray(itemIds) || itemIds.length === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Danh sách ID không hợp lệ" });
+    }
+
+    await Order.updateMany(
+      {
+        "subOrders.items._id": {
+          $in: itemIds.map((id) => new mongoose.Types.ObjectId(id)),
+        },
+      },
+      { $set: { "subOrders.$[].items.$[item].status": status } },
+      {
+        arrayFilters: [
+          {
+            "item._id": {
+              $in: itemIds.map((id) => new mongoose.Types.ObjectId(id)),
+            },
+          },
+        ],
+        multi: true,
+      },
+    );
+    res.status(200).json({
+      success: true,
+      message: `Đã cập nhật ${itemIds.length} mục sang trạng thái ${status}`,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
   }
 };
