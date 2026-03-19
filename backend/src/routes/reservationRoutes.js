@@ -10,6 +10,7 @@ import {
 } from "../controllers/reservationController.js";
 
 import { validate } from "../middlewares/validateMiddleware.js";
+import { verifyToken } from "../middlewares/authMiddleware.js";
 
 import {
   createReservationSchema,
@@ -18,6 +19,9 @@ import {
 } from "../validators/reservationValidator.js";
 
 const router = express.Router();
+
+// Tất cả các route về reservation đều cần xác thực
+router.use(verifyToken);
 
 router.get("/available-tables", getAvailableTablesController);
 router.get("/reserved-tables", getReservedTablesController);
