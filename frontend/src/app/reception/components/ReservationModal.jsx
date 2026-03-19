@@ -20,18 +20,20 @@ import {
   createReservation,
   createReservationWithOrder,
   getAvailableTables,
+  updateReservation,
+  getOrderByReservation
 } from "@/services/reservationService";
 import { getAllMenuItems } from "@/services/menuItemService";
 import dayjs from "dayjs";
 
-// ─── Available Tables Modal ───
+// ─── Modal danh sách bàn trống ───
 function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTime }) {
   const [loading, setLoading] = useState(false);
   const [availableTables, setAvailableTables] = useState([]);
   const [selectedArea, setSelectedArea] = useState(null); // null = all
   const [tempSelected, setTempSelected] = useState([]);
 
-  // Fetch available tables on open
+  // Lấy danh sách bàn trống khi mở modal
   useEffect(() => {
     if (open && dateTime) {
       setLoading(true);
@@ -47,7 +49,7 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
     }
   }, [open, alreadySelected, dateTime]);
 
-  // Extract unique areas
+  // Lấy danh sách khu vực duy nhất
   const areas = useMemo(() => {
     const areaMap = new Map();
     availableTables.forEach((table) => {
@@ -59,7 +61,7 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
     return Array.from(areaMap.values());
   }, [availableTables]);
 
-  // Filter tables by selected area
+  // Lọc bàn theo khu vực đã chọn
   const filteredTables = useMemo(() => {
     if (!selectedArea) return availableTables;
     return availableTables.filter(
@@ -102,7 +104,7 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
         </div>
       ) : (
         <div className="pt-2">
-          {/* Area tabs */}
+          {/* Tabs khu vực */}
           <div className="flex flex-wrap gap-2 mb-5">
             <button
               onClick={() => setSelectedArea(null)}
@@ -127,7 +129,7 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
             ))}
           </div>
 
-          {/* Table chips */}
+          {/* Chip chọn bàn */}
           {filteredTables.length === 0 ? (
             <Empty description="Không có bàn trống" />
           ) : (
@@ -150,7 +152,7 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
             </div>
           )}
 
-          {/* Action buttons */}
+          {/* Nút hành động */}
           <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
             <Button
               type="primary"
@@ -173,7 +175,7 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
   );
 }
 
-// ─── Menu Item Card ───
+// ─── Thẻ món ăn ───
 function MenuItemCard({ item, quantity, onAdd, onRemove }) {
   const imageUrl = item.images?.[0]
     ? `http://localhost:5000${item.images[0]}`
@@ -181,7 +183,7 @@ function MenuItemCard({ item, quantity, onAdd, onRemove }) {
 
   return (
     <div className="flex items-center gap-3 p-2 border border-gray-100 rounded-lg hover:border-blue-200 transition-colors">
-      {/* Image */}
+      {/* Ảnh món ăn */}
       <div className="w-10 h-10 rounded bg-gray-100 flex-shrink-0 overflow-hidden flex items-center justify-center">
         {imageUrl ? (
           <img
@@ -198,7 +200,7 @@ function MenuItemCard({ item, quantity, onAdd, onRemove }) {
         )}
       </div>
 
-      {/* Info */}
+      {/* Thông tin */}
       <div className="flex-1 min-w-0">
         <div className="text-sm font-medium truncate">{item.itemName}</div>
         <div className="text-xs text-blue-600 font-medium">
@@ -206,7 +208,7 @@ function MenuItemCard({ item, quantity, onAdd, onRemove }) {
         </div>
       </div>
 
-      {/* Quantity controls */}
+      {/* Điều khiển số lượng */}
       <div className="flex items-center gap-1 flex-shrink-0">
         {quantity > 0 ? (
           <>
@@ -239,7 +241,7 @@ function MenuItemCard({ item, quantity, onAdd, onRemove }) {
   );
 }
 
-// ─── Pre-Order Section ───
+// ─── Phần đặt món trước ───
 function PreOrderSection({
   menuItems,
   menuLoading,
@@ -257,7 +259,7 @@ function PreOrderSection({
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // Extract unique categories
+  // Lấy danh mục duy nhất
   const categories = useMemo(() => {
     const cats = [];
     const seen = new Set();
@@ -271,7 +273,7 @@ function PreOrderSection({
     return cats;
   }, [menuItems]);
 
-  // Filter menu items
+  // Lọc danh sách món ăn
   const filteredItems = useMemo(() => {
     return menuItems.filter((item) => {
       if (item.availabilityStatus !== "available") return false;
@@ -286,7 +288,7 @@ function PreOrderSection({
     });
   }, [menuItems, searchText, selectedCategory]);
 
-  // Get total count of selected items
+  // Tính tổng số món đã chọn
   const totalSelected = useMemo(() => {
     if (sameOrderMode) {
       return Object.values(selectedItems).reduce((s, q) => s + q, 0);
@@ -320,7 +322,7 @@ function PreOrderSection({
         </div>
       </div>
 
-      {/* Same order checkbox */}
+      {/* Checkbox gọi cùng món */}
       {selectedTables.length > 1 && (
         <div className="mb-3 px-1">
           <Checkbox
@@ -334,7 +336,7 @@ function PreOrderSection({
         </div>
       )}
 
-      {/* Search & category filter */}
+      {/* Tìm kiếm và lọc danh mục */}
       <div className="flex gap-2 mb-3">
         <Input
           placeholder="Tìm món..."
@@ -358,7 +360,7 @@ function PreOrderSection({
         />
       </div>
 
-      {/* Menu items - SAME mode */}
+      {/* Danh sách món - chế độ CÙNG MÓN */}
       {sameOrderMode ? (
         <div className="max-h-48 overflow-y-auto space-y-1">
           {filteredItems.length === 0 ? (
@@ -376,7 +378,7 @@ function PreOrderSection({
           )}
         </div>
       ) : (
-        /* Menu items - SEPARATE mode per table */
+        /* Danh sách món - chế độ RIÊNG TỪNG BÀN */
         <Tabs
           size="small"
           items={selectedTables.map((tableId) => {
@@ -428,7 +430,7 @@ function PreOrderSection({
   );
 }
 
-// ─── Main Modal ───
+// ─── Modal chính ───
 export default function ReservationModal({
   open,
   onClose,
@@ -438,34 +440,33 @@ export default function ReservationModal({
   areas,
   selectedDate,
   onReservationCreated,
+  editingReservation
 }) {
   const [saving, setSaving] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
   const [menuLoading, setMenuLoading] = useState(false);
   const [showPreOrder, setShowPreOrder] = useState(false);
 
-  // Form state
+  // Trạng thái form
   const [formData, setFormData] = useState({
     customerName: "",
     phone: "",
     numberOfGuests: 1,
     duration: 0.5,
     durationUnit: "Giờ",
-    deposit: "",
-    depositMethod: "Tiền mặt",
     note: "",
   });
 
   const [selectedTables, setSelectedTables] = useState([]);
   const [arrivalTime, setArrivalTime] = useState(null);
 
-  // Pre-order state
+  // Trạng thái đặt món trước
   const [sameOrderMode, setSameOrderMode] = useState(true);
   const [selectedItems, setSelectedItems] = useState({}); // { menuItemId: quantity } (same mode)
   const [separateOrders, setSeparateOrders] = useState({}); // { tableId: { menuItemId: quantity } } (separate mode)
   const [showAvailableTables, setShowAvailableTables] = useState(false);
 
-  // Build table options grouped by area
+  // Tạo danh sách bàn nhóm theo khu vực
   const tableOptions = useMemo(() => {
     return (areas || []).flatMap((area) => {
       const areaTables = (tables || []).filter(
@@ -478,17 +479,89 @@ export default function ReservationModal({
     });
   }, [tables, areas]);
 
-  // Reset form when modal opens
+  // Khởi tạo / reset trạng thái 
   useEffect(() => {
-    if (open) {
+    if (!open) return;
+
+    if (editingReservation) {
+      setFormData({
+        customerName: editingReservation.customer?.customer || editingReservation.customerName || "",
+        phone: editingReservation.customer?.phone || editingReservation.phone || "",
+        numberOfGuests: editingReservation.numberOfGuests || 1,
+        duration: 0.5,
+        durationUnit: "Giờ",
+        note: editingReservation.note || "",
+      });
+      // Xử lý bàn, có thể là Object hoặc string
+      setSelectedTables(editingReservation.tables?.map((table) => table._id || table) || []);
+      
+      const arrival = dayjs(editingReservation.reservationDateTime || editingReservation.startTime);
+      setArrivalTime(arrival);
+      
+      // Tải thông tin gọi món
+      getOrderByReservation(editingReservation._id || editingReservation.reservationId)
+        .then((res) => {
+          if (res.success && res.data) {
+             const order = res.data;
+             let hasItems = false;
+             let sameMode = true;
+             const selItems = {};
+             const sepOrders = {};
+
+             // Cần phân tích subOrders để xác định chế độ cùng món/riêng món
+             // và điền dữ liệu vào state.
+             const subOrders = order.subOrders || [];
+             if (subOrders.length > 0) {
+                // Kiểm tra đơn giản nhất: nếu chỉ có 1 bàn, hoặc nhiều bàn
+                // đặt chế độ riêng món nếu có nhiều bàn để an toàn hơn.
+               if (subOrders.length > 1) {
+                 sameMode = false;
+               }
+
+               subOrders.forEach(sub => {
+                 if (sub.items && sub.items.length > 0) {
+                    hasItems = true;
+                    const tblId = sub.table._id || sub.table;
+                    sepOrders[tblId] = {};
+                    sub.items.forEach(item => {
+                       const itemId = item.menuItem._id || item.menuItem;
+                       if (sameMode) {
+                          selItems[itemId] = (selItems[itemId] || 0) + item.quantity;
+                       }
+                       sepOrders[tblId][itemId] = (sepOrders[tblId][itemId] || 0) + item.quantity;
+                    });
+                 }
+               });
+             }
+
+             if (hasItems) {
+               setShowPreOrder(true);
+                // Vì đã cộng dồn selItems cho tất cả bàn trong chế độ "cùng món" (sẽ nhân lên),
+                // nếu là chế độ cùng món, cần chia cho số bàn để lấy số lượng thực tế mỗi bàn
+               if (sameMode && subOrders.length > 0) {
+                  Object.keys(selItems).forEach(k => selItems[k] = selItems[k] / subOrders.length);
+               }
+               setSameOrderMode(sameMode);
+               setSelectedItems(selItems);
+               setSeparateOrders(sepOrders);
+             } else {
+               setShowPreOrder(false);
+               setSameOrderMode(true);
+               setSelectedItems({});
+               setSeparateOrders({});
+             }
+          }
+        }).catch(() => {
+          message.error("Lỗi khi tải thông tin gọi món");
+        });
+
+    } else {
       setFormData({
         customerName: "",
         phone: "",
         numberOfGuests: 1,
         duration: 0.5,
         durationUnit: "Giờ",
-        deposit: "",
-        depositMethod: "Tiền mặt",
         note: "",
       });
       setSelectedTables(prefilledTable ? [prefilledTable._id] : []);
@@ -503,7 +576,6 @@ export default function ReservationModal({
         const safeHour = prefilledHour < 6 ? 6 : prefilledHour;
         setArrivalTime(baseDate.hour(safeHour).minute(0).second(0));
       } else {
-        // If selected date is today, use current real time; otherwise use 10:00
         const isToday = baseDate.isSame(dayjs(), 'day');
         if (isToday) {
           let defaultTime = dayjs();
@@ -516,9 +588,9 @@ export default function ReservationModal({
         }
       }
     }
-  }, [open, prefilledTable, prefilledHour, selectedDate]);
+  }, [open, prefilledTable, prefilledHour, selectedDate, editingReservation]);
 
-  // Fetch menu items when pre-order is shown
+  // Lấy danh sách món ăn khi hiện phần đặt món trước
   useEffect(() => {
     if (showPreOrder && menuItems.length === 0) {
       setMenuLoading(true);
@@ -533,7 +605,7 @@ export default function ReservationModal({
     }
   }, [showPreOrder]);
 
-  // ── Item handlers (same mode) ──
+  // ── Xử lý thêm món (chế độ cùng món) ──
   const handleItemAdd = (menuItemId) => {
     setSelectedItems((prev) => ({
       ...prev,
@@ -553,7 +625,7 @@ export default function ReservationModal({
     });
   };
 
-  // ── Item handlers (separate mode) ──
+  // ── Xử lý thêm món (chế độ riêng bàn) ──
   const handleSeparateItemAdd = (tableId, menuItemId) => {
     setSeparateOrders((prev) => ({
       ...prev,
@@ -576,7 +648,7 @@ export default function ReservationModal({
     });
   };
 
-  // ── Check if has pre-order items ──
+  // ── Kiểm tra có món đặt trước không ──
   const hasPreOrderItems = useMemo(() => {
     if (sameOrderMode) {
       return Object.keys(selectedItems).length > 0;
@@ -586,9 +658,9 @@ export default function ReservationModal({
     );
   }, [sameOrderMode, selectedItems, separateOrders]);
 
-  // ── Save handler ──
+  // ── Xử lý lưu ──
   const handleSave = async () => {
-    // Validation
+    // Kiểm tra dữ liệu
     if (!formData.customerName.trim()) {
       message.warning("Vui lòng nhập tên khách hàng");
       return;
@@ -606,7 +678,7 @@ export default function ReservationModal({
       return;
     }
 
-    // Block booking from 00:00 to 05:59
+    // Chặn đặt bàn từ 00:00 đến 05:59
     const hour = arrivalTime.hour();
     if (hour >= 0 && hour < 6) {
       message.warning("Không thể đặt bàn từ 00:00 đến 06:00!");
@@ -627,47 +699,75 @@ export default function ReservationModal({
         note: formData.note || "",
       };
 
-      if (hasPreOrderItems) {
-        // Build items payload based on order mode
+      if (editingReservation) {
+        // Chế độ chỉnh sửa
         let items = [];
         let orderMode = "same";
+        if (showPreOrder && hasPreOrderItems) {
+            if (sameOrderMode) {
+                orderMode = "same";
+                items = Object.entries(selectedItems).map(([menuItem, quantity]) => ({
+                    menuItem, quantity
+                }));
+            } else {
+                orderMode = "separate";
+                items = selectedTables.filter(t => separateOrders[t] && Object.keys(separateOrders[t]).length > 0)
+                                     .map(t => ({
+                                         table: t,
+                                         items: Object.entries(separateOrders[t]).map(([menuItem, quantity]) => ({ menuItem, quantity }))
+                                     }));
+            }
+        }
+        await updateReservation(editingReservation._id || editingReservation.reservationId, {
+            ...basePayload,
+            orderMode,
+            items: showPreOrder ? items : []
+        });
+        message.success("Cập nhật đặt bàn thành công!");
+      } else {
+          // Chế độ tạo mới
+          if (hasPreOrderItems) {
+            // Tạo payload dựa trên chế độ gọi món
+            let items = [];
+            let orderMode = "same";
 
-        if (sameOrderMode) {
-          orderMode = "same";
-          items = Object.entries(selectedItems).map(
-            ([menuItemId, quantity]) => ({
-              menuItem: menuItemId,
-              quantity,
-            })
-          );
-        } else {
-          orderMode = "separate";
-          items = selectedTables
-            .filter(
-              (tableId) =>
-                separateOrders[tableId] &&
-                Object.keys(separateOrders[tableId]).length > 0
-            )
-            .map((tableId) => ({
-              table: tableId,
-              items: Object.entries(separateOrders[tableId]).map(
+            if (sameOrderMode) {
+              orderMode = "same";
+              items = Object.entries(selectedItems).map(
                 ([menuItemId, quantity]) => ({
                   menuItem: menuItemId,
                   quantity,
                 })
-              ),
-            }));
-        }
+              );
+            } else {
+              orderMode = "separate";
+              items = selectedTables
+                .filter(
+                  (tableId) =>
+                    separateOrders[tableId] &&
+                    Object.keys(separateOrders[tableId]).length > 0
+                )
+                .map((tableId) => ({
+                  table: tableId,
+                  items: Object.entries(separateOrders[tableId]).map(
+                    ([menuItemId, quantity]) => ({
+                      menuItem: menuItemId,
+                      quantity,
+                    })
+                  ),
+                }));
+            }
 
-        await createReservationWithOrder({
-          ...basePayload,
-          orderMode,
-          items,
-        });
-        message.success("Đặt bàn và gọi món trước thành công!");
-      } else {
-        await createReservation(basePayload);
-        message.success("Đặt bàn thành công!");
+            await createReservationWithOrder({
+              ...basePayload,
+              orderMode,
+              items,
+            });
+            message.success("Đặt bàn và gọi món trước thành công!");
+          } else {
+            await createReservation(basePayload);
+            message.success("Đặt bàn thành công!");
+          }
       }
 
       onReservationCreated?.();
@@ -689,13 +789,13 @@ export default function ReservationModal({
       footer={null}
       width={760}
       title={
-        <span className="text-base font-bold">Thêm mới đặt bàn</span>
+        <span className="text-base font-bold">{editingReservation ? "Cập nhật đặt bàn" : "Thêm mới đặt bàn"}</span>
       }
       destroyOnHidden
       centered
     >
       <div className="pt-2">
-        {/* Row 1: Customer Name + Phone */}
+        {/* Hàng 1: Tên khách hàng + SĐT */}
         <div className="grid grid-cols-12 gap-4 mb-4">
           <div className="col-span-6">
             <label className="text-xs text-gray-600 mb-1 block">
@@ -723,7 +823,7 @@ export default function ReservationModal({
           </div>
         </div>
 
-        {/* Row 2: Guest Count + Arrival Time */}
+        {/* Hàng 2: Số khách + Giờ đến */}
         <div className="grid grid-cols-12 gap-4 mb-4">
           <div className="col-span-6">
             <label className="text-xs text-gray-600 mb-1 block">
@@ -758,7 +858,7 @@ export default function ReservationModal({
           </div>
         </div>
 
-        {/* Row 4: Table selection + Note */}
+        {/* Hàng 4: Chọn bàn + Ghi chú */}
         <div className="grid grid-cols-12 gap-4 mb-4">
           <div className="col-span-6">
             <div className="flex items-center justify-between mb-1">
@@ -797,7 +897,7 @@ export default function ReservationModal({
           </div>
         </div>
 
-        {/* Row 5: Pre-order toggle + section */}
+        {/* Hàng 5: Bật/tắt đặt món trước */}
         <div className="mb-4">
           {!showPreOrder ? (
             <button
@@ -825,7 +925,7 @@ export default function ReservationModal({
           )}
         </div>
 
-        {/* Action buttons */}
+        {/* Nút hành động */}
         <div className="flex justify-center gap-3 pt-4 border-t border-gray-100">
           <Button
             type="primary"
@@ -833,7 +933,7 @@ export default function ReservationModal({
             loading={saving}
             className="flex items-center gap-1 px-6"
           >
-            Lưu
+            {editingReservation ? "Cập nhật" : "Lưu"}
           </Button>
           <Button onClick={onClose} className="flex items-center gap-1 px-6">
             Bỏ qua
@@ -841,7 +941,7 @@ export default function ReservationModal({
         </div>
       </div>
 
-      {/* Available Tables Modal */}
+      {/* Modal danh sách bàn trống */}
       <AvailableTablesModal
         open={showAvailableTables}
         onClose={() => setShowAvailableTables(false)}

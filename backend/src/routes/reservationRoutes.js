@@ -6,6 +6,7 @@ import {
   createReservation,
   createReservationWithOrder,
   updateReservationStatus,
+  updateReservation,
 } from "../controllers/reservationController.js";
 
 import { validate } from "../middlewares/validateMiddleware.js";
@@ -13,6 +14,7 @@ import { validate } from "../middlewares/validateMiddleware.js";
 import {
   createReservationSchema,
   preOrderReservationSchema,
+  updateReservationSchema,
 } from "../validators/reservationValidator.js";
 
 const router = express.Router();
@@ -28,5 +30,6 @@ router.post(
   createReservationWithOrder,
 );
 router.patch("/:id/status", updateReservationStatus);
+router.put("/:id", validate(updateReservationSchema), updateReservation);
 
 export default router;

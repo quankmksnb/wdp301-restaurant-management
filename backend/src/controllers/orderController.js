@@ -282,3 +282,31 @@ export const getOrderBill = async (req, res) => {
     });
   }
 };
+
+// Lấy order theo reservation ID (dùng cho edit reservation)
+export const getOrderByReservation = async (req, res) => {
+  try {
+    const { reservationId } = req.params;
+    
+    const order = await Order.findOne({ reservation: reservationId })
+      .populate('subOrders.table')
+      .populate('subOrders.items.menuItem');
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order không tồn tại",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: order,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
