@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Select, Checkbox, Table, Tag, Input, DatePicker, Radio } from "antd";
-import { ChevronDown, ChevronUp, Search } from "lucide-react";
+import { Select, Checkbox, Table, Tag, Input, DatePicker, Radio, Dropdown, Button } from "antd";
+import { ChevronDown, ChevronUp, Search, MoreHorizontal, Edit, CheckCircle, XCircle } from "lucide-react";
 import dayjs from "dayjs";
 
 const STATUS_MAP = {
@@ -19,6 +19,7 @@ export default function ReservationListView({
     onStatusFilterChange,
     onStatusChange,
     onOpenModal,
+    onEditReservation,
     selectedDate,
     onSelectDate,
 }) {
@@ -144,6 +145,52 @@ export default function ReservationListView({
             dataIndex: "note",
             key: "note",
             ellipsis: true,
+        },
+        {
+            title: "Thao tác",
+            key: "action",
+            width: 80,
+            align: "center",
+            render: (_, record) => {
+                const isSeated = record.status === "seated";
+                const isCancelled = record.status === "cancelled";
+
+                const items = [];
+                if (!isCancelled) {
+                    items.push({
+                        key: "edit",
+                        label: "Cập nhật đặt bàn",
+                        icon: <Edit size={14} />,
+                        onClick: () => onEditReservation(record),
+                    });
+                }
+                if (!isSeated && !isCancelled) {
+                    items.push({
+                        key: "seat",
+                        label: "Nhận bàn",
+                        icon: <CheckCircle size={14} className="text-green-600" />,
+                        onClick: () => onStatusChange(record.reservationId, "seated"),
+                    });
+                }
+                if (!isCancelled) {
+                    items.push({
+                        key: "cancel",
+                        label: "Đã hủy",
+                        icon: <XCircle size={14} className="text-red-500" />,
+                        onClick: () => onStatusChange(record.reservationId, "cancelled"),
+                    });
+                }
+
+                if (items.length === 0) return null;
+
+                return (
+                    <Dropdown menu={{ items }} trigger={["click"]} placement="bottomRight">
+                        <Button type="text" size="small" className="w-8 h-8 flex items-center justify-center p-0">
+                            <MoreHorizontal size={16} className="text-gray-500" />
+                        </Button>
+                    </Dropdown>
+                );
+            },
         },
     ];
 

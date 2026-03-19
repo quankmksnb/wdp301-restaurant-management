@@ -4,7 +4,8 @@ import {
     sendItemsToKitchen,
     cancelItem,
     getCurrentBillByTable,
-    getOrderBill
+    getOrderBill,
+    getOrderByReservation
 } from "../controllers/orderController.js";
 
 const router = express.Router();
@@ -21,7 +22,9 @@ router.patch("/:orderId/items/:itemId/cancel", cancelItem);
 // lấy hóa đơn hiện tại của bàn
 router.get("/table/:tableId/bill", getCurrentBillByTable);
 
-
 router.get("/:orderId/bill", getOrderBill);
+
+// lấy order theo reservation
+router.get("/reservation/:reservationId", getOrderByReservation);
 
 export default router;

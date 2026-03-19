@@ -64,6 +64,8 @@ export default function ReceptionPage() {
     const [modalOpen, setModalOpen] = useState(false);
     const [prefilledTable, setPrefilledTable] = useState(null);
     const [prefilledHour, setPrefilledHour] = useState(null);
+    const [editingReservation, setEditingReservation] = useState(null);
+    const [allRawReservations, setAllRawReservations] = useState([]);
     const [allReservations, setAllReservations] = useState([]);
     const [selectedArea, setSelectedArea] = useState("all");
     const [statusFilters, setStatusFilters] = useState({
@@ -110,6 +112,7 @@ export default function ReceptionPage() {
     const fetchReservations = useCallback(async () => {
         try {
             const res = await getReservedTables();
+            setAllRawReservations(res.data || []);
             const transformed = transformReservations(res.data || []);
             setAllReservations(transformed);
         } catch (error) {
@@ -123,16 +126,24 @@ export default function ReceptionPage() {
     }, [fetchReservations]);
 
     const handleCellClick = useCallback((table, hour) => {
+        setEditingReservation(null);
         setPrefilledTable(table);
         setPrefilledHour(hour);
         setModalOpen(true);
     }, []);
 
     const handleOpenModal = useCallback(() => {
+        setEditingReservation(null);
         setPrefilledTable(null);
         setPrefilledHour(null);
         setModalOpen(true);
     }, []);
+
+    const handleEditReservation = useCallback((reservation) => {
+        const rawRes = allRawReservations.find(r => r._id === (reservation.reservationId || reservation._id));
+        setEditingReservation(rawRes || reservation);
+        setModalOpen(true);
+    }, [allRawReservations]);
 
     useEffect(() => {
         const onKey = (e) => { if (e.key === "F1") { e.preventDefault(); handleOpenModal(); } };
@@ -245,6 +256,7 @@ export default function ReceptionPage() {
                         reservations={reservations}
                         statusFilters={statusFilters}
                         onCellClick={handleCellClick}
+                        onEditReservation={handleEditReservation}
                         onStatusChange={handleStatusChange}
                         selectedDate={selectedDate}
                         viewMode={viewMode}
@@ -259,6 +271,7 @@ export default function ReceptionPage() {
                         reservations={allReservations}
                         statusFilters={statusFilters}
                         onCellClick={handleCellClick}
+                        onEditReservation={handleEditReservation}
                         selectedDate={selectedDate}
                     />
                 )}
@@ -283,6 +296,7 @@ export default function ReceptionPage() {
                     statusFilters={statusFilters}
                     onStatusFilterChange={handleStatusFilterChange}
                     onStatusChange={handleStatusChange}
+                    onEditReservation={handleEditReservation}
                     onOpenModal={handleOpenModal}
                     selectedDate={selectedDate}
                     onSelectDate={setSelectedDate}
@@ -299,6 +313,7 @@ export default function ReceptionPage() {
                 areas={areas}
                 selectedDate={selectedDate}
                 onReservationCreated={fetchReservations}
+                editingReservation={editingReservation}
             />
             {/* CANCEL REASON MODAL */}
             <Modal

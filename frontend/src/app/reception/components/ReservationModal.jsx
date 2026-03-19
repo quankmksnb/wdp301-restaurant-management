@@ -20,6 +20,8 @@ import {
   createReservation,
   createReservationWithOrder,
   getAvailableTables,
+  updateReservation,
+  getOrderByReservation
 } from "@/services/reservationService";
 import { getAllMenuItems } from "@/services/menuItemService";
 import dayjs from "dayjs";
@@ -438,6 +440,7 @@ export default function ReservationModal({
   areas,
   selectedDate,
   onReservationCreated,
+  editingReservation
 }) {
   const [saving, setSaving] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
@@ -451,8 +454,6 @@ export default function ReservationModal({
     numberOfGuests: 1,
     duration: 0.5,
     durationUnit: "Giờ",
-    deposit: "",
-    depositMethod: "Tiền mặt",
     note: "",
   });
 
@@ -478,17 +479,89 @@ export default function ReservationModal({
     });
   }, [tables, areas]);
 
-  // Reset form when modal opens
+  // Initial state / reset 
   useEffect(() => {
-    if (open) {
+    if (!open) return;
+
+    if (editingReservation) {
+      setFormData({
+        customerName: editingReservation.customer?.customer || editingReservation.customerName || "",
+        phone: editingReservation.customer?.phone || editingReservation.phone || "",
+        numberOfGuests: editingReservation.numberOfGuests || 1,
+        duration: 0.5,
+        durationUnit: "Giờ",
+        note: editingReservation.note || "",
+      });
+      // Handle tables, could be Objects or strings
+      setSelectedTables(editingReservation.tables?.map((table) => table._id || table) || []);
+      
+      const arrival = dayjs(editingReservation.reservationDateTime || editingReservation.startTime);
+      setArrivalTime(arrival);
+      
+      // Load order details
+      getOrderByReservation(editingReservation._id || editingReservation.reservationId)
+        .then((res) => {
+          if (res.success && res.data) {
+             const order = res.data;
+             let hasItems = false;
+             let sameMode = true;
+             const selItems = {};
+             const sepOrders = {};
+
+             // We need to parse subOrders to determine whether to use same/separate mode
+             // and to populate state.
+             const subOrders = order.subOrders || [];
+             if (subOrders.length > 0) {
+               // simplest check: if there's only 1 table, or if we have multiple tables 
+               // let's just make it separate mode if there are multiple tables to be safe.
+               if (subOrders.length > 1) {
+                 sameMode = false;
+               }
+
+               subOrders.forEach(sub => {
+                 if (sub.items && sub.items.length > 0) {
+                    hasItems = true;
+                    const tblId = sub.table._id || sub.table;
+                    sepOrders[tblId] = {};
+                    sub.items.forEach(item => {
+                       const itemId = item.menuItem._id || item.menuItem;
+                       if (sameMode) {
+                          selItems[itemId] = (selItems[itemId] || 0) + item.quantity;
+                       }
+                       sepOrders[tblId][itemId] = (sepOrders[tblId][itemId] || 0) + item.quantity;
+                    });
+                 }
+               });
+             }
+
+             if (hasItems) {
+               setShowPreOrder(true);
+               // Because we aggregated selItems for all tables in "same mode" (which would multiply everything),
+               // if it's sameMode, we should divide by number of tables to get the actual per-table quantity
+               if (sameMode && subOrders.length > 0) {
+                  Object.keys(selItems).forEach(k => selItems[k] = selItems[k] / subOrders.length);
+               }
+               setSameOrderMode(sameMode);
+               setSelectedItems(selItems);
+               setSeparateOrders(sepOrders);
+             } else {
+               setShowPreOrder(false);
+               setSameOrderMode(true);
+               setSelectedItems({});
+               setSeparateOrders({});
+             }
+          }
+        }).catch(() => {
+          message.error("Lỗi khi tải thông tin gọi món");
+        });
+
+    } else {
       setFormData({
         customerName: "",
         phone: "",
         numberOfGuests: 1,
         duration: 0.5,
         durationUnit: "Giờ",
-        deposit: "",
-        depositMethod: "Tiền mặt",
         note: "",
       });
       setSelectedTables(prefilledTable ? [prefilledTable._id] : []);
@@ -503,7 +576,6 @@ export default function ReservationModal({
         const safeHour = prefilledHour < 6 ? 6 : prefilledHour;
         setArrivalTime(baseDate.hour(safeHour).minute(0).second(0));
       } else {
-        // If selected date is today, use current real time; otherwise use 10:00
         const isToday = baseDate.isSame(dayjs(), 'day');
         if (isToday) {
           let defaultTime = dayjs();
@@ -516,7 +588,7 @@ export default function ReservationModal({
         }
       }
     }
-  }, [open, prefilledTable, prefilledHour, selectedDate]);
+  }, [open, prefilledTable, prefilledHour, selectedDate, editingReservation]);
 
   // Fetch menu items when pre-order is shown
   useEffect(() => {
@@ -627,47 +699,75 @@ export default function ReservationModal({
         note: formData.note || "",
       };
 
-      if (hasPreOrderItems) {
-        // Build items payload based on order mode
+      if (editingReservation) {
+        // Edit mode
         let items = [];
         let orderMode = "same";
+        if (showPreOrder && hasPreOrderItems) {
+            if (sameOrderMode) {
+                orderMode = "same";
+                items = Object.entries(selectedItems).map(([menuItem, quantity]) => ({
+                    menuItem, quantity
+                }));
+            } else {
+                orderMode = "separate";
+                items = selectedTables.filter(t => separateOrders[t] && Object.keys(separateOrders[t]).length > 0)
+                                     .map(t => ({
+                                         table: t,
+                                         items: Object.entries(separateOrders[t]).map(([menuItem, quantity]) => ({ menuItem, quantity }))
+                                     }));
+            }
+        }
+        await updateReservation(editingReservation._id || editingReservation.reservationId, {
+            ...basePayload,
+            orderMode,
+            items: showPreOrder ? items : []
+        });
+        message.success("Cập nhật đặt bàn thành công!");
+      } else {
+          // Create mode
+          if (hasPreOrderItems) {
+            // Build items payload based on order mode
+            let items = [];
+            let orderMode = "same";
 
-        if (sameOrderMode) {
-          orderMode = "same";
-          items = Object.entries(selectedItems).map(
-            ([menuItemId, quantity]) => ({
-              menuItem: menuItemId,
-              quantity,
-            })
-          );
-        } else {
-          orderMode = "separate";
-          items = selectedTables
-            .filter(
-              (tableId) =>
-                separateOrders[tableId] &&
-                Object.keys(separateOrders[tableId]).length > 0
-            )
-            .map((tableId) => ({
-              table: tableId,
-              items: Object.entries(separateOrders[tableId]).map(
+            if (sameOrderMode) {
+              orderMode = "same";
+              items = Object.entries(selectedItems).map(
                 ([menuItemId, quantity]) => ({
                   menuItem: menuItemId,
                   quantity,
                 })
-              ),
-            }));
-        }
+              );
+            } else {
+              orderMode = "separate";
+              items = selectedTables
+                .filter(
+                  (tableId) =>
+                    separateOrders[tableId] &&
+                    Object.keys(separateOrders[tableId]).length > 0
+                )
+                .map((tableId) => ({
+                  table: tableId,
+                  items: Object.entries(separateOrders[tableId]).map(
+                    ([menuItemId, quantity]) => ({
+                      menuItem: menuItemId,
+                      quantity,
+                    })
+                  ),
+                }));
+            }
 
-        await createReservationWithOrder({
-          ...basePayload,
-          orderMode,
-          items,
-        });
-        message.success("Đặt bàn và gọi món trước thành công!");
-      } else {
-        await createReservation(basePayload);
-        message.success("Đặt bàn thành công!");
+            await createReservationWithOrder({
+              ...basePayload,
+              orderMode,
+              items,
+            });
+            message.success("Đặt bàn và gọi món trước thành công!");
+          } else {
+            await createReservation(basePayload);
+            message.success("Đặt bàn thành công!");
+          }
       }
 
       onReservationCreated?.();
@@ -689,7 +789,7 @@ export default function ReservationModal({
       footer={null}
       width={760}
       title={
-        <span className="text-base font-bold">Thêm mới đặt bàn</span>
+        <span className="text-base font-bold">{editingReservation ? "Cập nhật đặt bàn" : "Thêm mới đặt bàn"}</span>
       }
       destroyOnHidden
       centered
@@ -833,7 +933,7 @@ export default function ReservationModal({
             loading={saving}
             className="flex items-center gap-1 px-6"
           >
-            Lưu
+            {editingReservation ? "Cập nhật" : "Lưu"}
           </Button>
           <Button onClick={onClose} className="flex items-center gap-1 px-6">
             Bỏ qua

@@ -3,20 +3,26 @@ import Table from "../models/Table.js";
 
 //Lấy danh sách tableId đang bị reservation giữ
 
-export const getReservedTableIds = async (reservationDateTime) => {
+export const getReservedTableIds = async (reservationDateTime, excludeReservationId = null) => {
   const startOfDay = new Date(reservationDateTime);
   startOfDay.setHours(0, 0, 0, 0);
 
   const endOfDay = new Date(reservationDateTime);
   endOfDay.setHours(23, 59, 59, 999);
 
-  const reservations = await Reservation.find({
+  const query = {
     status: { $in: ["confirmed", "seated"] },
     reservationDateTime: {
       $gte: startOfDay,
       $lte: endOfDay,
     },
-  }).select("tables");
+  };
+
+  if (excludeReservationId) {
+    query._id = { $ne: excludeReservationId };
+  }
+
+  const reservations = await Reservation.find(query).select("tables");
 
   return reservations.flatMap((r) =>
     r.tables.map((tableId) => tableId.toString()),
@@ -25,8 +31,8 @@ export const getReservedTableIds = async (reservationDateTime) => {
 
 // Lấy danh sách bàn đang available
 
-export const getAvailableTables = async (reservationDateTime) => {
-  const reservedTableIds = await getReservedTableIds(reservationDateTime);
+export const getAvailableTables = async (reservationDateTime, excludeReservationId = null) => {
+  const reservedTableIds = await getReservedTableIds(reservationDateTime, excludeReservationId);
 
   const tables = await Table.find({
     _id: { $nin: reservedTableIds },
@@ -40,8 +46,8 @@ export const getAvailableTables = async (reservationDateTime) => {
 
 // Validate danh sách bàn có hợp lệ để đặt không
 
-export const validateTablesForReservation = async (tableIds, reservationDateTime) => {
-  const reservedTableIds = await getReservedTableIds(reservationDateTime);
+export const validateTablesForReservation = async (tableIds, reservationDateTime, excludeReservationId = null) => {
+  const reservedTableIds = await getReservedTableIds(reservationDateTime, excludeReservationId);
 
   // check bàn đã bị đặt
   const reserved = tableIds.filter((id) =>

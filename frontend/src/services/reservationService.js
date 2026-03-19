@@ -31,3 +31,15 @@ export const updateReservationStatus = async (id, status, extraData = {}) => {
   const res = await api.patch(`/reservations/${id}/status`, { status, ...extraData });
   return res.data;
 };
+
+// Cập nhật chi tiết reservation
+export const updateReservation = async (id, data) => {
+  const res = await api.put(`/reservations/${id}`, data);
+  return res.data;
+};
+
+// Lấy order của reservation (để edit)
+export const getOrderByReservation = async (reservationId) => {
+  const res = await api.get(`/orders/reservation/${reservationId}`);
+  return res.data;
+};
