@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Table from "../models/Table.js";
 import Order from "../models/Order.js";
 import Area from "../models/Area.js";
+import Reservation from "../models/Reservation.js";
 
 export const createTable = async (req, res) => {
   try {
@@ -154,8 +155,23 @@ export const toggleTableStatus = async (req, res) => {
       });
     }
 
-    table.tableStatus = table.tableStatus === "active" ? "inactive" : "active";
+    // ✅ Chỉ chặn khi chuyển từ active → inactive
+    if (table.tableStatus === "active") {
+      const activeReservation = await Reservation.findOne({
+        tables: table._id,
+        status: { $in: ["confirmed", "seated"] },
+      });
 
+      if (activeReservation) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Bàn này đang có đặt chỗ chưa hoàn thành, không thể ngừng hoạt động",
+        });
+      }
+    }
+
+    table.tableStatus = table.tableStatus === "active" ? "inactive" : "active";
     await table.save();
 
     res.json({

@@ -15,9 +15,16 @@ export default function TableDetail({ table, onRefresh }) {
       title: "Xác nhận thay đổi trạng thái",
       content: "Bạn muốn thay đổi trạng thái bàn?",
       onOk: async () => {
-        await toggleTableStatus(table._id);
-        message.success("Cập nhật trạng thái thành công");
-        onRefresh();
+        try {
+          await toggleTableStatus(table._id);
+          message.success("Cập nhật trạng thái thành công");
+          onRefresh();
+        } catch (error) {
+          // ✅ Hiển thị lỗi từ backend (ví dụ: bàn đang có đặt chỗ)
+          const errorMsg =
+            error?.response?.data?.message || "Không thể cập nhật trạng thái";
+          message.error(errorMsg);
+        }
       },
     });
   };
