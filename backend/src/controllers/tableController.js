@@ -155,7 +155,7 @@ export const toggleTableStatus = async (req, res) => {
       });
     }
 
-    // ✅ Chỉ chặn khi chuyển từ active → inactive
+    //  Chỉ chặn khi chuyển từ active → inactive
     if (table.tableStatus === "active") {
       const activeReservation = await Reservation.findOne({
         tables: table._id,
@@ -290,8 +290,7 @@ export const getTableByArea = async (req, res) => {
                 orderStatus: 1,
                 subOrderId: "$subOrders._id",
                 subTotalAmount: "$subOrders.subTotalAmount",
-                reservationDateTime:
-                  "$reservationData.reservationDateTime",
+                reservationDateTime: "$reservationData.reservationDateTime",
               },
             },
           ],
@@ -309,36 +308,24 @@ export const getTableByArea = async (req, res) => {
           },
 
           subOrderId: {
-            $ifNull: [
-              { $arrayElemAt: ["$orderData.subOrderId", 0] },
-              null,
-            ],
+            $ifNull: [{ $arrayElemAt: ["$orderData.subOrderId", 0] }, null],
           },
 
           subTotalAmount: {
-            $ifNull: [
-              { $arrayElemAt: ["$orderData.subTotalAmount", 0] },
-              0,
-            ],
+            $ifNull: [{ $arrayElemAt: ["$orderData.subTotalAmount", 0] }, 0],
           },
 
           reservationDateTime: {
             $ifNull: [
               {
-                $arrayElemAt: [
-                  "$orderData.reservationDateTime",
-                  0,
-                ],
+                $arrayElemAt: ["$orderData.reservationDateTime", 0],
               },
               null,
             ],
           },
 
           orderStatus: {
-            $ifNull: [
-              { $arrayElemAt: ["$orderData.orderStatus", 0] },
-              null,
-            ],
+            $ifNull: [{ $arrayElemAt: ["$orderData.orderStatus", 0] }, null],
           },
         },
       },
