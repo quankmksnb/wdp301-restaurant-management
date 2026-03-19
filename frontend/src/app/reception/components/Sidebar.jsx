@@ -23,7 +23,15 @@ export default function Sidebar({ selectedDate, onSelectDate, areas, selectedAre
         for (let i = 1; i <= rem; i++) c.push({ d: i, t: "next" });
         return c;
     }, [curYear, curMonth, daysInMonth, firstDay, prevDays]);
+    const isPast = (c) => {
+        if (c.t !== "cur") return true;
 
+        const cellDate = new Date(curYear, curMonth, c.d);
+
+        const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+        return cellDate < todayOnly;
+    };
     const isToday = (c) =>
         c.t === "cur" && c.d === today.getDate() && curMonth === today.getMonth() && curYear === today.getFullYear();
     const isSel = (c) =>
@@ -63,10 +71,18 @@ export default function Sidebar({ selectedDate, onSelectDate, areas, selectedAre
                     {cells.map((c, i) => (
                         <button
                             key={i}
-                            onClick={() => c.t === "cur" && onSelectDate(new Date(curYear, curMonth, c.d))}
+                            onClick={() =>
+                                c.t === "cur" &&
+                                !isPast(c) &&
+                                onSelectDate(new Date(curYear, curMonth, c.d))
+                            }
                             className={`
                 w-7 h-7 text-xs rounded-full flex items-center justify-center mx-auto cursor-pointer transition
-                ${c.t !== "cur" ? "text-gray-300" : "text-gray-700 hover:bg-blue-50"}
+                  ${
+                                isPast(c)
+                                    ? "text-gray-300 cursor-not-allowed"
+                                    : "text-gray-700 hover:bg-blue-50 cursor-pointer"
+                            }
                 ${isToday(c) ? "bg-blue-600 text-white font-bold hover:bg-blue-700" : ""}
                 ${isSel(c) && !isToday(c) ? "bg-blue-100 text-blue-700 font-semibold" : ""}
               `}
