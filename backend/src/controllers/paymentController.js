@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Payment from "../models/Payment.js";
 import Order from "../models/Order.js";
+import Reservation from "../models/Reservation.js";
 
 // Thanh toán tiền mặt
 export const payByCash = async (req, res) => {
@@ -8,7 +9,6 @@ export const payByCash = async (req, res) => {
     const { orderId } = req.params;
     const { amount, cashReceived, change, user } = req.body;
 
-    // 0. Check user
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -16,7 +16,6 @@ export const payByCash = async (req, res) => {
       });
     }
 
-    // 1. Check order
     const order = await Order.findById(orderId);
 
     if (!order) {
@@ -26,7 +25,6 @@ export const payByCash = async (req, res) => {
       });
     }
 
-    // 2. Check đã thanh toán chưa
     if (order.orderStatus === "completed") {
       return res.status(400).json({
         success: false,
@@ -34,7 +32,6 @@ export const payByCash = async (req, res) => {
       });
     }
 
-    // 3. Validate tiền
     if (amount < 0 || cashReceived < 0 || change < 0) {
       return res.status(400).json({
         success: false,
@@ -49,7 +46,7 @@ export const payByCash = async (req, res) => {
       });
     }
 
-    // 4. Tạo payment
+    // ✅ tạo payment
     const payment = await Payment.create({
       order: orderId,
       amount,
@@ -60,9 +57,18 @@ export const payByCash = async (req, res) => {
       user: user,
     });
 
-    // 🔥 5. Update orderStatus
+    // ✅ update order
     order.orderStatus = "completed";
     await order.save();
+
+    // 🔥 update reservation
+    const reservation = await Reservation.findById(order.reservation);
+
+    if (reservation) {
+      reservation.status = "completed";
+      reservation.checkOutTime = new Date(); // rất quan trọng
+      await reservation.save();
+    }
 
     return res.status(201).json({
       success: true,
