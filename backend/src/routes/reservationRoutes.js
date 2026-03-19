@@ -2,6 +2,7 @@ import express from "express";
 
 import {
   getAvailableTablesController,
+  getReservedTablesController,
   createReservation,
   createReservationWithOrder,
   updateReservationStatus,
@@ -17,6 +18,7 @@ import {
 const router = express.Router();
 
 router.get("/available-tables", getAvailableTablesController);
+router.get("/reserved-tables", getReservedTablesController);
 
 router.post("/", validate(createReservationSchema), createReservation);
 

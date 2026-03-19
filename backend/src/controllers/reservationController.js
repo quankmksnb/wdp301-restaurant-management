@@ -38,14 +38,43 @@ export const getAvailableTablesController = async (req, res) => {
 };
 
 /**
+ * GET /api/reservations/reserved-tables
+ * Lấy danh sách các bàn đã đặt (confirmed / seated)
+ */
+export const getReservedTablesController = async (req, res) => {
+  try {
+    const reservations = await Reservation.find({
+      status: { $in: ["confirmed", "seated", "cancelled"] },
+    })
+      .populate({
+        path: "tables",
+        populate: { path: "area", select: "areaName" },
+      })
+      .sort({ reservationDateTime: 1 });
+
+    res.json({
+      success: true,
+      total: reservations.length,
+      data: reservations,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi lấy danh sách bàn đã đặt",
+      error: error.message,
+    });
+  }
+};
+
+/**
  * POST /api/reservations
  * Đặt bàn bình thường (không gọi món)
  */
 export const createReservation = async (req, res) => {
   try {
-    const { tables } = req.body;
+    const { tables, reservationDateTime } = req.body;
 
-    const validation = await validateTablesForReservation(tables);
+    const validation = await validateTablesForReservation(tables, reservationDateTime);
 
     if (!validation.valid) {
       return res.status(400).json({
@@ -57,6 +86,20 @@ export const createReservation = async (req, res) => {
 
     const reservation = await Reservation.create({
       ...req.body,
+      user: req.user?.id,
+    });
+
+    // Tự động tạo order rỗng cho reservation
+    const subOrders = tables.map((tableId) => ({
+      table: tableId,
+      items: [],
+      subTotalAmount: 0,
+    }));
+
+    await Order.create({
+      reservation: reservation._id,
+      orderStatus: "pre-order",
+      subOrders,
       user: req.user?.id,
     });
 
@@ -90,7 +133,7 @@ export const createReservationWithOrder = async (req, res) => {
       note,
     } = req.body;
 
-    const validation = await validateTablesForReservation(tables);
+    const validation = await validateTablesForReservation(tables, reservationDateTime);
 
     if (!validation.valid) {
       return res.status(400).json({
@@ -151,6 +194,7 @@ export const createReservationWithOrder = async (req, res) => {
             unitPrice: menu.price,
             quantity: item.quantity,
             note: item.note || "",
+            status: "pre-order",
             subTotal: menu.price * item.quantity,
           };
         });
@@ -190,6 +234,7 @@ export const createReservationWithOrder = async (req, res) => {
             unitPrice: menu.price,
             quantity: item.quantity,
             note: item.note || "",
+            status: "pre-order",
             subTotal: menu.price * item.quantity,
           };
         });
@@ -229,7 +274,7 @@ export const createReservationWithOrder = async (req, res) => {
 export const updateReservationStatus = async (req, res) => {
   try {
     const { id } = req.params;
-    const { status } = req.body;
+    const { status, cancellationReason } = req.body;
 
     const allowedStatus = [
       "confirmed",
@@ -257,14 +302,45 @@ export const updateReservationStatus = async (req, res) => {
 
     reservation.status = status;
 
-    // nếu khách nhận bàn
+    // nếu khách nhận bàn → chỉ cho phép nhận bàn trong ngày hôm nay
     if (status === "seated") {
+      const today = new Date();
+      const resDate = new Date(reservation.reservationDateTime);
+      if (
+        resDate.getFullYear() !== today.getFullYear() ||
+        resDate.getMonth() !== today.getMonth() ||
+        resDate.getDate() !== today.getDate()
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Chỉ được nhận bàn cho đặt bàn trong ngày hôm nay",
+        });
+      }
       reservation.checkInTime = new Date();
+
+      // Khi nhận bàn: cập nhật order → active, items pre-order → pending
+      const order = await Order.findOne({ reservation: id });
+      if (order) {
+        order.orderStatus = "active";
+        order.subOrders.forEach((sub) => {
+          sub.items.forEach((item) => {
+            if (item.status === "pre-order") {
+              item.status = "pending";
+            }
+          });
+        });
+        await order.save();
+      }
     }
 
     // nếu khách hoàn thành
     if (status === "completed") {
       reservation.checkOutTime = new Date();
+    }
+
+    // nếu hủy bàn
+    if (status === "cancelled" && cancellationReason) {
+      reservation.cancellationReason = cancellationReason;
     }
 
     await reservation.save();

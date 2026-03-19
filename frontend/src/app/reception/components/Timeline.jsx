@@ -10,7 +10,7 @@ import {
     HEADER_HOURS, HEADER_CELL_WIDTH, STATUS_COLORS,
 } from "./constants";
 
-export default function Timeline({ areas, tables, reservations, statusFilters, onCellClick, selectedDate, viewMode }) {
+export default function Timeline({ areas, tables, reservations, statusFilters, onCellClick, onStatusChange, selectedDate, viewMode }) {
     const [collapsedAreas, setCollapsedAreas] = useState({});
     const [currentTimePos, setCurrentTimePos] = useState(0);
     const [activePopover, setActivePopover] = useState(null);
@@ -30,7 +30,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
     useEffect(() => {
         const tick = () => {
             const n = new Date();
-            setCurrentTimePos((n.getHours() + n.getMinutes() / 60) * CELL_WIDTH);
+            setCurrentTimePos(((n.getHours() - 6) + n.getMinutes() / 60) * CELL_WIDTH);
         };
         tick();
         const iv = setInterval(tick, 60000);
@@ -138,7 +138,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                 <div className="shrink-0 border-r border-gray-200 bg-white z-10" style={{ width: SIDEBAR_WIDTH }}>
                     {/* Top-left corner */}
                     <div className="border-b border-gray-200">
-                        <div className="h-9 px-3 flex items-center font-bold text-xs text-blue-800 uppercase tracking-wide bg-blue-50">
+                        <div className="h-9 px-3 flex items-center font-bold text-sm text-gray-800 uppercase tracking-wide bg-blue-50">
                             PHÒNG/BÀN
                         </div>
                     </div>
@@ -154,7 +154,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                 {collapsedAreas[area._id]
                                     ? <ChevronRight className="w-3 h-3 text-gray-500" />
                                     : <ChevronDown className="w-3 h-3 text-gray-500" />}
-                                <span className="text-[11px] font-semibold text-blue-700">{area.areaName}</span>
+                                <span className="text-sm font-semibold text-gray-500">{area.areaName}</span>
                             </div>
 
                             {!collapsedAreas[area._id] && area.tables.map((tbl) => (
@@ -163,7 +163,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                     className="flex items-center px-2 pl-5 border-b border-gray-100"
                                     style={{ height: ROW_HEIGHT }}
                                 >
-                                    <span className="text-[11px] text-blue-600 truncate">{tbl.tableName}</span>
+                                    <span className="text-sm text-gray-700 truncate">{tbl.tableName}</span>
                                 </div>
                             ))}
                         </div>
@@ -178,14 +178,13 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                             {headerColumns.map((col) => (
                                 <div
                                     key={col.key}
-                                    className={`shrink-0 border-r border-blue-100 flex items-center justify-center text-xs font-semibold ${
-                                        viewMode !== "day" && col.date &&
-                                        col.date.getDate() === new Date().getDate() &&
-                                        col.date.getMonth() === new Date().getMonth() &&
-                                        col.date.getFullYear() === new Date().getFullYear()
+                                    className={`shrink-0 border-r border-blue-100 flex items-center justify-center text-xs font-semibold ${viewMode !== "day" && col.date &&
+                                            col.date.getDate() === new Date().getDate() &&
+                                            col.date.getMonth() === new Date().getMonth() &&
+                                            col.date.getFullYear() === new Date().getFullYear()
                                             ? "text-white bg-blue-600"
                                             : "text-blue-800"
-                                    }`}
+                                        }`}
                                     style={{ width: col.width }}
                                 >
                                     {col.label}
@@ -218,7 +217,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                             {viewMode === "day" && tblRes.map((res) => {
                                                 const sH = res.startTime.getHours() + res.startTime.getMinutes() / 60;
                                                 const eH = res.endTime.getHours() + res.endTime.getMinutes() / 60;
-                                                const left = sH * CELL_WIDTH;
+                                                const left = (sH - 6) * CELL_WIDTH;
                                                 const w = (eH - sH) * CELL_WIDTH;
                                                 const col = STATUS_COLORS[res.status] || STATUS_COLORS.confirmed;
                                                 const isActive = activePopover === res._id;
@@ -273,11 +272,25 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                                     <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3 text-gray-400" />{res.tableName}</div>
                                                                 </div>
                                                                 {/* Actions */}
-                                                                <div className="flex items-center justify-center gap-2 px-3 py-2 border-t border-gray-100 bg-gray-50">
-                                                                    <button className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-[10px] font-medium rounded cursor-pointer transition">🗑 Hủy đặt</button>
-                                                                    <button className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-medium rounded cursor-pointer transition">📋 Nhận gọi món</button>
-                                                                    <button className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-medium rounded cursor-pointer transition">✅ Nhận bàn</button>
-                                                                </div>
+                                                                {res.status !== "cancelled" && (
+                                                                    <div className="flex items-center justify-center gap-2 px-3 py-2 border-t border-gray-100 bg-gray-50">
+                                                                        <button
+                                                                            onClick={(e) => { e.stopPropagation(); onStatusChange?.(res.reservationId, 'cancelled'); setActivePopover(null); }}
+                                                                            className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-[10px] font-medium rounded cursor-pointer transition"
+                                                                        >
+                                                                            🗑 Hủy đặt
+                                                                        </button>
+                                                                        <button className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-medium rounded cursor-pointer transition">📋 Nhận gọi món</button>
+                                                                        {res.status !== "seated" && (
+                                                                            <button
+                                                                                onClick={(e) => { e.stopPropagation(); onStatusChange?.(res.reservationId, 'seated'); setActivePopover(null); }}
+                                                                                className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-medium rounded cursor-pointer transition"
+                                                                            >
+                                                                                ✅ Nhận bàn
+                                                                            </button>
+                                                                        )}
+                                                                    </div>
+                                                                )}
                                                             </div>
                                                         )}
                                                     </div>

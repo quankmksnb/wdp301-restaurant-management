@@ -277,3 +277,39 @@ export const getTableByArea = async (req, res) => {
     });
   }
 };
+
+export const getAllTables = async (req, res) => {
+  try {
+    const tables = await Table.find()
+      .populate("area", "areaName")
+      .sort({ tableNumber: 1 });
+
+    res.json({
+      success: true,
+      data: tables,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi lấy tất cả bàn",
+    });
+  }
+};
+
+export const getAllActiveTables = async (req, res) => {
+  try {
+    const tables = await Table.find({ tableStatus: "active" })
+      .populate("area", "areaName")
+      .sort({ tableNumber: 1 });
+
+    res.json({
+      success: true,
+      data: tables,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi lấy danh sách bàn active",
+    });
+  }
+};

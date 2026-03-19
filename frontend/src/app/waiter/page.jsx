@@ -260,7 +260,7 @@ export default function WaiterPage() {
   };
 
   // ─── Computed ─────────────────────────────────────────────────────────────
-  // ✅ Tính total từ validCart (items đã filter)
+  // Tính total từ validCart (items đã filter)
   const validCart = cart.filter(item =>
     item?.id && item.qty > 0 && item.status !== "cancelled"
   );

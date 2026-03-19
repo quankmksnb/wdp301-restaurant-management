@@ -65,10 +65,7 @@ export default function TopBar({ tabMode, setTabMode }) {
 
             {/* Right side */}
             <div className="ml-auto flex items-center gap-5">
-                <span className="flex items-center gap-2 text-white/90">
-                    <span className="w-2 h-2 rounded-full bg-green-400" />
-                    Chi nhánh trung tâm
-                </span>
+
                 <Settings className="w-4 h-4 text-white/70 cursor-pointer hover:text-white" />
                 <span className="flex items-center gap-1.5">
                     <span>👤</span> {userPhone || "N/A"}
