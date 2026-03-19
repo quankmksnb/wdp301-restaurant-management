@@ -1,4 +1,4 @@
-// ─── Constants ───────────────────────────────────────────────────
+// ─── Hằng số ─────────────────────────────────────────────────────
 export const HOURS = Array.from({ length: 18 }, (_, i) => i + 6);
 export const CELL_WIDTH = 120;
 export const ROW_HEIGHT = 36;
@@ -19,6 +19,6 @@ export const STATUS_COLORS = {
     cancelled: { bg: "#fee2e2", border: "#fca5a5", text: "#dc2626", dot: "#ef4444" },
 };
 
-// ─── Helper: Calendar ────────────────────────────────────────────
+// ─── Hàm hỗ trợ: Lịch ───────────────────────────────────────────
 export function getDaysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
 export function getFirstDayOfMonth(y, m) { const d = new Date(y, m, 1).getDay(); return d === 0 ? 6 : d - 1; }

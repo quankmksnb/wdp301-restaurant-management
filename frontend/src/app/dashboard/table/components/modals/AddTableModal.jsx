@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Input, Select, InputNumber, Button, message } from "antd";
 import { SaveOutlined, StopOutlined, PlusOutlined } from "@ant-design/icons";
 
@@ -10,7 +10,12 @@ import { createTable } from "@/services/tableService";
 
 const { TextArea } = Input;
 
-export default function AddTableModal({ open, onClose, onConfirm }) {
+export default function AddTableModal({
+  open,
+  onClose,
+  onConfirm,
+  defaultArea,
+}) {
   const { areas, refreshAreas } = useAreas();
 
   const [openAreaModal, setOpenAreaModal] = useState(false);
@@ -22,6 +27,13 @@ export default function AddTableModal({ open, onClose, onConfirm }) {
   const [note, setNote] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+  // Khi modal mở và có defaultArea, chọn sẵn khu vực đó
+  useEffect(() => {
+    if (open && defaultArea) {
+      setSelectedArea(defaultArea._id);
+    }
+  }, [open, defaultArea]);
 
   const resetForm = () => {
     setTableName("");

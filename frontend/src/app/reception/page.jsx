@@ -16,14 +16,14 @@ import ReservationListView from "./components/ReservationListView";
 import ReservationModal from "@/app/reception/components/ReservationModal";
 
 // ─────────────────────────────────────────────────────────────────
-// Transform API reservations to the flat shape Timeline expects
-// Each reservation can have multiple tables → one entry per table
+// Chuyển đổi dữ liệu reservation từ API sang dạng phẳng cho Timeline
+// Mỗi reservation có thể có nhiều bàn → tạo 1 entry cho mỗi bàn
 // ─────────────────────────────────────────────────────────────────
 function transformReservations(apiReservations) {
     const result = [];
     (apiReservations || []).forEach((r) => {
         const startTime = new Date(r.reservationDateTime);
-        // Default duration: 1 hours
+        // Thời lượng mặc định: 1 giờ
         const endTime = new Date(startTime.getTime() + 1 * 60 * 60 * 1000);
 
         (r.tables || []).forEach((table) => {
@@ -55,7 +55,7 @@ function transformReservations(apiReservations) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-// MAIN PAGE
+// TRANG CHÍNH
 // ─────────────────────────────────────────────────────────────────
 export default function ReceptionPage() {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -64,6 +64,8 @@ export default function ReceptionPage() {
     const [modalOpen, setModalOpen] = useState(false);
     const [prefilledTable, setPrefilledTable] = useState(null);
     const [prefilledHour, setPrefilledHour] = useState(null);
+    const [editingReservation, setEditingReservation] = useState(null);
+    const [allRawReservations, setAllRawReservations] = useState([]);
     const [allReservations, setAllReservations] = useState([]);
     const [selectedArea, setSelectedArea] = useState("all");
     const [statusFilters, setStatusFilters] = useState({
@@ -73,7 +75,7 @@ export default function ReceptionPage() {
     const [tables, setTables] = useState([]);
     const { areas } = useAreas();
 
-    // Fetch all active tables on mount
+    // Lấy danh sách tất cả bàn khi component mount
     useEffect(() => {
         const fetchTables = async () => {
             try {
@@ -86,7 +88,7 @@ export default function ReceptionPage() {
         fetchTables();
     }, []);
 
-    // Filter reservations by selected date
+    // Lọc đặt bàn theo ngày đã chọn
     const reservations = useMemo(() => {
         return allReservations.filter((r) => {
             const resDate = r.startTime;
@@ -98,7 +100,7 @@ export default function ReceptionPage() {
         });
     }, [allReservations, selectedDate]);
 
-    // Filter tables by selected area
+    // Lọc bàn theo khu vực đã chọn
     const filteredTables = useMemo(() => {
         if (selectedArea === "all" || !selectedArea) return tables;
         return (tables || []).filter(
@@ -106,10 +108,11 @@ export default function ReceptionPage() {
         );
     }, [tables, selectedArea]);
 
-    // Fetch reservations from API
+    // Lấy danh sách đặt bàn từ API
     const fetchReservations = useCallback(async () => {
         try {
             const res = await getReservedTables();
+            setAllRawReservations(res.data || []);
             const transformed = transformReservations(res.data || []);
             setAllReservations(transformed);
         } catch (error) {
@@ -117,22 +120,30 @@ export default function ReceptionPage() {
         }
     }, []);
 
-    // Load reservations on mount
+    // Tải danh sách đặt bàn khi component mount
     useEffect(() => {
         fetchReservations();
     }, [fetchReservations]);
 
     const handleCellClick = useCallback((table, hour) => {
+        setEditingReservation(null);
         setPrefilledTable(table);
         setPrefilledHour(hour);
         setModalOpen(true);
     }, []);
 
     const handleOpenModal = useCallback(() => {
+        setEditingReservation(null);
         setPrefilledTable(null);
         setPrefilledHour(null);
         setModalOpen(true);
     }, []);
+
+    const handleEditReservation = useCallback((reservation) => {
+        const rawRes = allRawReservations.find(r => r._id === (reservation.reservationId || reservation._id));
+        setEditingReservation(rawRes || reservation);
+        setModalOpen(true);
+    }, [allRawReservations]);
 
     useEffect(() => {
         const onKey = (e) => { if (e.key === "F1") { e.preventDefault(); handleOpenModal(); } };
@@ -144,14 +155,14 @@ export default function ReceptionPage() {
         setStatusFilters((p) => ({ ...p, [key]: val }));
     }, []);
 
-    // Cancel modal state
+    // State cho modal hủy đặt bàn
     const [cancelModal, setCancelModal] = useState({ open: false, reservationId: null });
     const [cancelReason, setCancelReason] = useState("");
 
-    // Handle reservation status change (nhận bàn / hủy đặt)
+    // Xử lý thay đổi trạng thái đặt bàn (nhận bàn / hủy đặt)
     const handleStatusChange = useCallback(async (reservationId, newStatus) => {
         if (newStatus === "cancelled") {
-            // Show cancel reason modal instead of immediate cancel
+            // Hiển thị modal nhập lý do hủy thay vì hủy ngay lập tức
             setCancelModal({ open: true, reservationId });
             setCancelReason("");
             return;
@@ -186,7 +197,7 @@ export default function ReceptionPage() {
         }
     }, [fetchReservations, allReservations]);
 
-    // Confirm cancel with reason
+    // Xác nhận hủy với lý do
     const handleConfirmCancel = useCallback(async () => {
         if (!cancelReason.trim()) {
             message.warning("Vui lòng nhập lý do hủy!");
@@ -211,10 +222,10 @@ export default function ReceptionPage() {
 
     return (
         <div className="flex flex-col h-screen w-screen overflow-hidden bg-white select-none">
-            {/* ══ TOP BAR (dark blue) ══ */}
+            {/* ══ THANH TRÊN CÙNG (xanh đậm) ══ */}
             <TopBar tabMode={tabMode} setTabMode={setTabMode} />
 
-            {/* ══ SUB-HEADER (white) ══ */}
+            {/* ══ THANH CÔNG CỤ PHỤ (trắng) ══ */}
             <SubHeader
                 viewMode={viewMode}
                 setViewMode={setViewMode}
@@ -224,10 +235,10 @@ export default function ReceptionPage() {
                 onOpenModal={handleOpenModal}
             />
 
-            {/* ══ CALENDAR BODY ══ */}
+            {/* ══ NỘI DUNG LỊCH ══ */}
             {tabMode === "calendar" && (
             <div className="flex flex-1 min-h-0 overflow-hidden">
-                {/* SIDEBAR */}
+                {/* THANH BÊN TRÁI */}
                 <Sidebar
                     selectedDate={selectedDate}
                     onSelectDate={setSelectedDate}
@@ -237,7 +248,7 @@ export default function ReceptionPage() {
                     onSelectArea={setSelectedArea}
                 />
 
-                {/* DAY VIEW */}
+                {/* CHẾ ĐỘ XEM NGÀY */}
                 {viewMode === "day" && (
                     <Timeline
                         areas={areas}
@@ -245,13 +256,14 @@ export default function ReceptionPage() {
                         reservations={reservations}
                         statusFilters={statusFilters}
                         onCellClick={handleCellClick}
+                        onEditReservation={handleEditReservation}
                         onStatusChange={handleStatusChange}
                         selectedDate={selectedDate}
                         viewMode={viewMode}
                     />
                 )}
 
-                {/* WEEK VIEW */}
+                {/* CHẾ ĐỘ XEM TUẦN */}
                 {viewMode === "week" && (
                     <WeekView
                         areas={areas}
@@ -259,11 +271,12 @@ export default function ReceptionPage() {
                         reservations={allReservations}
                         statusFilters={statusFilters}
                         onCellClick={handleCellClick}
+                        onEditReservation={handleEditReservation}
                         selectedDate={selectedDate}
                     />
                 )}
 
-                {/* MONTH VIEW */}
+                {/* CHẾ ĐỘ XEM THÁNG */}
                 {viewMode === "month" && (
                     <MonthView
                         reservations={allReservations}
@@ -275,7 +288,7 @@ export default function ReceptionPage() {
             </div>
             )}
 
-            {/* ══ LIST VIEW ══ */}
+            {/* ══ CHẾ ĐỘ XEM DANH SÁCH ══ */}
             {tabMode === "list" && (
                 <ReservationListView
                     reservations={allReservations}
@@ -283,13 +296,14 @@ export default function ReceptionPage() {
                     statusFilters={statusFilters}
                     onStatusFilterChange={handleStatusFilterChange}
                     onStatusChange={handleStatusChange}
+                    onEditReservation={handleEditReservation}
                     onOpenModal={handleOpenModal}
                     selectedDate={selectedDate}
                     onSelectDate={setSelectedDate}
                 />
             )}
 
-            {/* MODAL */}
+            {/* MODAL ĐẶT BÀN */}
             <ReservationModal
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
@@ -299,8 +313,9 @@ export default function ReceptionPage() {
                 areas={areas}
                 selectedDate={selectedDate}
                 onReservationCreated={fetchReservations}
+                editingReservation={editingReservation}
             />
-            {/* CANCEL REASON MODAL */}
+            {/* MODAL LÝ DO HỦY */}
             <Modal
                 open={cancelModal.open}
                 onCancel={() => setCancelModal({ open: false, reservationId: null })}

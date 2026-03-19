@@ -48,3 +48,16 @@ export const preOrderReservationSchema = z.object({
   }),
   note: z.string().optional(),
 });
+
+export const updateReservationSchema = z.object({
+  reservationDateTime: z.string(),
+  numberOfGuests: z.number().min(1),
+  tables: z.array(z.string()).min(1),
+  orderMode: z.enum(["same", "separate"]).optional(),
+  items: z.array(z.union([sameItems, separateItems])).optional(),
+  customer: z.object({
+    customer: z.string(),
+    phone: z.string(),
+  }),
+  note: z.string().max(500).optional(),
+});

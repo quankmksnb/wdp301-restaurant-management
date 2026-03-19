@@ -91,30 +91,47 @@ export const sendItemsToKitchen = async (req, res) => {
       });
     }
 
-    const itemIdStrings = itemIds.map(id => id.toString ? id.toString() : id);
+    const itemIdStrings = itemIds.map((id) =>
+      id.toString ? id.toString() : id
+    );
 
     const updatedItems = [];
+    const invalidItems = [];
 
     order.subOrders.forEach((sub) => {
       sub.items.forEach((item) => {
         const itemIdStr = item._id.toString();
         const isInList = itemIdStrings.includes(itemIdStr);
-        const isPending = item.status === "pending";
 
+        // ✅ cho phép pre-order + pending
+        const isValidStatus = ["pending", "pre-order"].includes(item.status);
 
-        if (isInList && isPending) {
-          item.status = "preparing";
+        if (isInList && isValidStatus) {
+          item.status = "order_sent";
+
           updatedItems.push({
             _id: item._id,
-            itemId: item.itemId,
-            name: item.name,
-            price: item.price,
+            itemName: item.itemName,
+            unitPrice: item.unitPrice,
             quantity: item.quantity,
             status: item.status,
+          });
+        } else if (isInList) {
+          invalidItems.push({
+            _id: item._id,
+            currentStatus: item.status,
           });
         }
       });
     });
+
+    if (updatedItems.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Không có món hợp lệ để gửi bếp",
+        invalidItems,
+      });
+    }
 
     await order.save();
 
@@ -122,6 +139,7 @@ export const sendItemsToKitchen = async (req, res) => {
       success: true,
       message: "Đã gửi món xuống bếp",
       data: updatedItems,
+      invalidItems, // optional: để debug FE
     });
   } catch (error) {
     res.status(500).json({
@@ -256,6 +274,34 @@ export const getOrderBill = async (req, res) => {
     res.json({
       success: true,
       data: billData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Lấy order theo reservation ID (dùng cho edit reservation)
+export const getOrderByReservation = async (req, res) => {
+  try {
+    const { reservationId } = req.params;
+    
+    const order = await Order.findOne({ reservation: reservationId })
+      .populate('subOrders.table')
+      .populate('subOrders.items.menuItem');
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order không tồn tại",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: order,
     });
   } catch (error) {
     res.status(500).json({
