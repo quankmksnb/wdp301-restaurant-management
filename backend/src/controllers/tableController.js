@@ -226,9 +226,15 @@ export const getTableByArea = async (req, res) => {
           message: "AreaId không hợp lệ",
         });
       }
-
       filter.area = new mongoose.Types.ObjectId(area);
     }
+
+    // ✅ khoảng thời gian hôm nay
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
 
     const tables = await Table.aggregate([
       { $match: filter },
@@ -243,6 +249,29 @@ export const getTableByArea = async (req, res) => {
                 orderStatus: { $in: ["pre-order", "active"] },
               },
             },
+
+            // 👉 join reservation
+            {
+              $lookup: {
+                from: "reservations",
+                localField: "reservation",
+                foreignField: "_id",
+                as: "reservationData",
+              },
+            },
+            { $unwind: "$reservationData" },
+
+            // ✅ filter hôm nay
+            {
+              $match: {
+                "reservationData.reservationDateTime": {
+                  $gte: startOfDay,
+                  $lte: endOfDay,
+                },
+              },
+            },
+
+            // 👉 match table
             { $unwind: "$subOrders" },
             {
               $match: {
@@ -251,11 +280,18 @@ export const getTableByArea = async (req, res) => {
                 },
               },
             },
+
+            // 👉 nếu có nhiều order → lấy mới nhất
+            { $sort: { createdAt: -1 } },
+
             {
               $project: {
                 _id: 1,
+                orderStatus: 1,
                 subOrderId: "$subOrders._id",
                 subTotalAmount: "$subOrders.subTotalAmount",
+                reservationDateTime:
+                  "$reservationData.reservationDateTime",
               },
             },
           ],
@@ -263,16 +299,65 @@ export const getTableByArea = async (req, res) => {
         },
       },
 
+      // 👉 xử lý field
       {
         $addFields: {
+          hasActiveOrder: { $gt: [{ $size: "$orderData" }, 0] },
+
           orderId: {
             $ifNull: [{ $arrayElemAt: ["$orderData._id", 0] }, null],
           },
+
           subOrderId: {
-            $ifNull: [{ $arrayElemAt: ["$orderData.subOrderId", 0] }, null],
+            $ifNull: [
+              { $arrayElemAt: ["$orderData.subOrderId", 0] },
+              null,
+            ],
           },
+
           subTotalAmount: {
-            $ifNull: [{ $arrayElemAt: ["$orderData.subTotalAmount", 0] }, 0],
+            $ifNull: [
+              { $arrayElemAt: ["$orderData.subTotalAmount", 0] },
+              0,
+            ],
+          },
+
+          reservationDateTime: {
+            $ifNull: [
+              {
+                $arrayElemAt: [
+                  "$orderData.reservationDateTime",
+                  0,
+                ],
+              },
+              null,
+            ],
+          },
+
+          orderStatus: {
+            $ifNull: [
+              { $arrayElemAt: ["$orderData.orderStatus", 0] },
+              null,
+            ],
+          },
+        },
+      },
+
+      // 👉 phân loại trạng thái bàn
+      {
+        $addFields: {
+          tableStatus: {
+            $cond: [
+              { $eq: ["$hasActiveOrder", false] },
+              "empty",
+              {
+                $cond: [
+                  { $eq: ["$orderStatus", "pre-order"] },
+                  "reserved",
+                  "occupied",
+                ],
+              },
+            ],
           },
         },
       },
