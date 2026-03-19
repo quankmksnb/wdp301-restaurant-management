@@ -270,12 +270,14 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                                 {/* Hành động */}
                                                                 {res.status !== "cancelled" && (
                                                                     <div className="flex items-center justify-center gap-2 px-3 py-2 border-t border-gray-100 bg-gray-50">
-                                                                        <button
-                                                                            onClick={(e) => { e.stopPropagation(); onStatusChange?.(res.reservationId, 'cancelled'); setActivePopover(null); }}
-                                                                            className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-[10px] font-medium rounded cursor-pointer transition"
-                                                                        >
-                                                                            🗑 Hủy đặt
-                                                                        </button>
+                                                                        {res.status !== "seated" && (
+                                                                            <button
+                                                                                onClick={(e) => { e.stopPropagation(); onStatusChange?.(res.reservationId, 'cancelled'); setActivePopover(null); }}
+                                                                                className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-[10px] font-medium rounded cursor-pointer transition"
+                                                                            >
+                                                                                🗑 Hủy đặt
+                                                                            </button>
+                                                                        )}
                                                                         <button
                                                                             onClick={(e) => { e.stopPropagation(); onEditReservation?.(res); setActivePopover(null); }}
                                                                             className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-medium rounded cursor-pointer transition"

@@ -300,6 +300,14 @@ export const updateReservationStatus = async (req, res) => {
       });
     }
 
+    // Không cho phép hủy nếu đã nhận bàn, hoàn thành, hoặc đã hủy
+    if (status === "cancelled" && ["seated", "completed", "cancelled"].includes(reservation.status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Không thể hủy bàn đã nhận, đã hoàn thành hoặc đã hủy",
+      });
+    }
+
     reservation.status = status;
 
     // nếu khách nhận bàn → chỉ cho phép nhận bàn trong ngày hôm nay

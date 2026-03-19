@@ -172,7 +172,7 @@ export default function ReservationListView({
                         onClick: () => onStatusChange(record.reservationId, "seated"),
                     });
                 }
-                if (!isCancelled) {
+                if (!isCancelled && !isSeated) {
                     items.push({
                         key: "cancel",
                         label: "Đã hủy",
