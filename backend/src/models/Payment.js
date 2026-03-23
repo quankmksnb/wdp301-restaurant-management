@@ -76,5 +76,4 @@ paymentSchema.index({ order: 1 });
 // Index phục vụ báo cáo doanh thu theo ngày/tháng
 paymentSchema.index({ paymentDate: -1, paymentStatus: 1 });
 
-
 export default mongoose.model("Payment", paymentSchema);

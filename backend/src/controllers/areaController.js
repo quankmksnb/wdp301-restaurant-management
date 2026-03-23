@@ -50,7 +50,7 @@ export const getAreas = async (req, res) => {
   }
 };
 
-export const getArea = async (req, res) => {
+export const getAreaById = async (req, res) => {
   try {
     const area = await Area.findById(req.params.id).populate(
       "createdBy",

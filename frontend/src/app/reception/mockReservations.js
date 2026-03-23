@@ -1,5 +1,5 @@
-// Mock reservation data for testing timeline display
-// Will be replaced with real backend API calls later
+// Dữ liệu đặt bàn mẫu để test hiển thị timeline
+// Sẽ được thay thế bằng dữ liệu thật từ API backend
 
 const today = new Date();
 const yyyy = today.getFullYear();

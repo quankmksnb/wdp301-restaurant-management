@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Table from "../models/Table.js";
 import Order from "../models/Order.js";
 import Area from "../models/Area.js";
+import Reservation from "../models/Reservation.js";
 
 export const createTable = async (req, res) => {
   try {
@@ -154,8 +155,23 @@ export const toggleTableStatus = async (req, res) => {
       });
     }
 
-    table.tableStatus = table.tableStatus === "active" ? "inactive" : "active";
+    //  Chỉ chặn khi chuyển từ active → inactive
+    if (table.tableStatus === "active") {
+      const activeReservation = await Reservation.findOne({
+        tables: table._id,
+        status: { $in: ["confirmed", "seated"] },
+      });
 
+      if (activeReservation) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Bàn này đang có đặt chỗ chưa hoàn thành, không thể ngừng hoạt động",
+        });
+      }
+    }
+
+    table.tableStatus = table.tableStatus === "active" ? "inactive" : "active";
     await table.save();
 
     res.json({
@@ -274,8 +290,7 @@ export const getTableByArea = async (req, res) => {
                 orderStatus: 1,
                 subOrderId: "$subOrders._id",
                 subTotalAmount: "$subOrders.subTotalAmount",
-                reservationDateTime:
-                  "$reservationData.reservationDateTime",
+                reservationDateTime: "$reservationData.reservationDateTime",
               },
             },
           ],
@@ -293,36 +308,24 @@ export const getTableByArea = async (req, res) => {
           },
 
           subOrderId: {
-            $ifNull: [
-              { $arrayElemAt: ["$orderData.subOrderId", 0] },
-              null,
-            ],
+            $ifNull: [{ $arrayElemAt: ["$orderData.subOrderId", 0] }, null],
           },
 
           subTotalAmount: {
-            $ifNull: [
-              { $arrayElemAt: ["$orderData.subTotalAmount", 0] },
-              0,
-            ],
+            $ifNull: [{ $arrayElemAt: ["$orderData.subTotalAmount", 0] }, 0],
           },
 
           reservationDateTime: {
             $ifNull: [
               {
-                $arrayElemAt: [
-                  "$orderData.reservationDateTime",
-                  0,
-                ],
+                $arrayElemAt: ["$orderData.reservationDateTime", 0],
               },
               null,
             ],
           },
 
           orderStatus: {
-            $ifNull: [
-              { $arrayElemAt: ["$orderData.orderStatus", 0] },
-              null,
-            ],
+            $ifNull: [{ $arrayElemAt: ["$orderData.orderStatus", 0] }, null],
           },
         },
       },
@@ -359,6 +362,42 @@ export const getTableByArea = async (req, res) => {
     res.status(500).json({
       success: false,
       message: error.message,
+    });
+  }
+};
+
+export const getAllTables = async (req, res) => {
+  try {
+    const tables = await Table.find()
+      .populate("area", "areaName")
+      .sort({ tableNumber: 1 });
+
+    res.json({
+      success: true,
+      data: tables,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi lấy tất cả bàn",
+    });
+  }
+};
+
+export const getAllActiveTables = async (req, res) => {
+  try {
+    const tables = await Table.find({ tableStatus: "active" })
+      .populate("area", "areaName")
+      .sort({ tableNumber: 1 });
+
+    res.json({
+      success: true,
+      data: tables,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi lấy danh sách bàn active",
     });
   }
 };

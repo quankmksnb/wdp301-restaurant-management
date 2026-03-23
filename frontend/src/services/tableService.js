@@ -35,3 +35,8 @@ export const getTableByArea = async (params = {}) => {
   const res = await api.get("/tables/by-area", { params });
   return res.data;
 };
+
+export const getAllTables = async () => {
+  const res = await api.get("/tables/all");
+  return res.data;
+};

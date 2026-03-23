@@ -1,8 +1,4 @@
 import mongoose from "mongoose";
-import MenuItem from "./MenuItem.js";
-import User from "./User.js";
-import Table from "./Table.js";
-import Reservation from "./Reservation.js";
 
 const orderItemSchema = new mongoose.Schema(
   {
@@ -35,7 +31,7 @@ const orderItemSchema = new mongoose.Schema(
     },
     subTotal: { type: Number, required: true },
   },
-  { _id: true }, // Để _id để dễ dang cập nhật từng món
+  { _id: true, timestamps: true }, // Để _id để dễ dang cập nhật từng món
 );
 
 const orderSchema = new mongoose.Schema(
