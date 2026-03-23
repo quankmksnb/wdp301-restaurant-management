@@ -107,19 +107,6 @@ export const createReservation = async (req, res) => {
       user: req.user?.id,
     });
 
-    // Tự động tạo order rỗng cho reservation
-    const subOrders = tables.map((tableId) => ({
-      table: tableId,
-      items: [],
-      subTotalAmount: 0,
-    }));
-
-    await Order.create({
-      reservation: reservation._id,
-      orderStatus: "pre-order",
-      subOrders,
-      user: req.user?.id,
-    });
 
     res.status(201).json({
       success: true,
@@ -383,8 +370,16 @@ export const updateReservationStatus = async (req, res) => {
     }
 
     // nếu hủy bàn
-    if (status === "cancelled" && cancellationReason) {
-      reservation.cancellationReason = cancellationReason;
+    if (status === "cancelled") {
+      if (cancellationReason) {
+        reservation.cancellationReason = cancellationReason;
+      }
+      // Hủy order liên quan nếu có
+      const order = await Order.findOne({ reservation: id });
+      if (order) {
+        order.orderStatus = "cancelled";
+        await order.save();
+      }
     }
 
     await reservation.save();
