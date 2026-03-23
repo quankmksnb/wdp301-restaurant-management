@@ -51,7 +51,7 @@ export const getReservedTablesController = async (req, res) => {
         path: "tables",
         populate: { path: "area", select: "areaName" },
       })
-      .sort({ reservationDateTime: 1 });
+      .sort({ reservationDateTime: -1 });
 
     res.json({
       success: true,

@@ -225,7 +225,8 @@ export default function ReceptionPage() {
             {/* ══ THANH TRÊN CÙNG (xanh đậm) ══ */}
             <TopBar tabMode={tabMode} setTabMode={setTabMode} />
 
-            {/* ══ THANH CÔNG CỤ PHỤ (trắng) ══ */}
+            {/* ══ THANH CÔNG CỤ PHỤ (trắng) - chỉ hiện ở chế độ lịch ══ */}
+            {tabMode === "calendar" && (
             <SubHeader
                 viewMode={viewMode}
                 setViewMode={setViewMode}
@@ -234,6 +235,7 @@ export default function ReceptionPage() {
                 reservationCount={confirmedCount}
                 onOpenModal={handleOpenModal}
             />
+            )}
 
             {/* ══ NỘI DUNG LỊCH ══ */}
             {tabMode === "calendar" && (
