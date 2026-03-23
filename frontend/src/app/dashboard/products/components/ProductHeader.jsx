@@ -2,14 +2,10 @@
 
 import {
     CloseOutlined,
-    DeleteOutlined,
     DownloadOutlined,
     EditOutlined,
-    ExportOutlined,
     MenuOutlined,
-    PlusOutlined,
-    PrinterOutlined,
-    TagOutlined
+    PlusOutlined
 } from '@ant-design/icons';
 import { Button, Dropdown, Space, Typography } from 'antd';
 import { useState } from 'react';
@@ -61,16 +57,6 @@ export default function ProductHeader({
         // { key: 'processed', label: 'Thêm hàng chế biến' },
         // { key: 'service', label: 'Thêm dịch vụ' },
         // { key: 'combo', label: 'Thêm combo buffet' },
-    ];
-
-    const batchActionItems = [
-        { key: 'delete', label: 'Xóa các mục đã chọn', icon: <DeleteOutlined /> },
-        { key: 'status', label: 'Thay đổi trạng thái kinh doanh', icon: <TagOutlined /> },
-        { key: 'print', label: 'In mã vạch', icon: <PrinterOutlined /> },
-        { key: 'export', label: 'Xuất file các mục đã chọn', icon: <ExportOutlined /> },
-        { type: 'divider' },
-        { key: 'group', label: 'Chuyển nhóm hàng' },
-        { key: 'price', label: 'Cập nhật giá bán hàng loạt' },
     ];
 
     const mainColumns = [
@@ -153,13 +139,6 @@ export default function ProductHeader({
                 </div>
 
                 <Space>
-                    {hasSelected && (
-                        <Dropdown menu={{ items: batchActionItems }} trigger={['hover']}>
-                            <Button type="primary" size='large' className="!bg-secondary !border-secondary hover:!bg-secondary/90">
-                                Thao tác hàng loạt ▼
-                            </Button>
-                        </Dropdown>
-                    )}
 
                     <Dropdown
                         menu={{ items: addMenuItems, onClick: handleMenuClick }}
@@ -179,10 +158,6 @@ export default function ProductHeader({
                         onClick={() => setCategoryModalOpen(true)}
                     >
                         Danh mục hàng hóa
-                    </Button>
-
-                    <Button type="primary" icon={<DownloadOutlined />} size="large" className="!bg-secondary !border-secondary hover:!bg-secondary/90">
-                        Xuất file
                     </Button>
 
                     <Dropdown

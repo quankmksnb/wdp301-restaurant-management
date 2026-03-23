@@ -1,6 +1,6 @@
 export const formatWaitingTime = (minutes) => {
-  if (!minutes || minutes <= 1) {
-    return "1 phút trước";
+  if (!minutes || minutes < 1) {
+    return "mới đặt";
   }
 
   const hours = Math.floor(minutes / 60);

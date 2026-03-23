@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Table from "../models/Table.js";
 import Order from "../models/Order.js";
 import Area from "../models/Area.js";
+import Reservation from "../models/Reservation.js";
 
 export const createTable = async (req, res) => {
   try {
@@ -154,8 +155,23 @@ export const toggleTableStatus = async (req, res) => {
       });
     }
 
-    table.tableStatus = table.tableStatus === "active" ? "inactive" : "active";
+    //  Chỉ chặn khi chuyển từ active → inactive
+    if (table.tableStatus === "active") {
+      const activeReservation = await Reservation.findOne({
+        tables: table._id,
+        status: { $in: ["confirmed", "seated"] },
+      });
 
+      if (activeReservation) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Bàn này đang có đặt chỗ chưa hoàn thành, không thể ngừng hoạt động",
+        });
+      }
+    }
+
+    table.tableStatus = table.tableStatus === "active" ? "inactive" : "active";
     await table.save();
 
     res.json({
@@ -210,13 +226,20 @@ export const getTableByArea = async (req, res) => {
           message: "AreaId không hợp lệ",
         });
       }
-
       filter.area = new mongoose.Types.ObjectId(area);
     }
+
+    // 👉 hôm nay
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
 
     const tables = await Table.aggregate([
       { $match: filter },
 
+      // ================== ORDER ==================
       {
         $lookup: {
           from: "orders",
@@ -227,6 +250,21 @@ export const getTableByArea = async (req, res) => {
                 orderStatus: { $in: ["pre-order", "active"] },
               },
             },
+            {
+              $lookup: {
+                from: "reservations",
+                localField: "reservation",
+                foreignField: "_id",
+                as: "reservationData",
+              },
+            },
+            {
+              $unwind: {
+                path: "$reservationData",
+                preserveNullAndEmptyArrays: true,
+              },
+            },
+
             { $unwind: "$subOrders" },
             {
               $match: {
@@ -235,11 +273,33 @@ export const getTableByArea = async (req, res) => {
                 },
               },
             },
+
+            // 👉 logic đúng:
+            {
+              $match: {
+                $or: [
+                  { orderStatus: "active" },
+                  {
+                    orderStatus: "pre-order",
+                    "reservationData.reservationDateTime": {
+                      $gte: startOfDay,
+                      $lte: endOfDay,
+                    },
+                  },
+                ],
+              },
+            },
+
+            { $sort: { createdAt: -1 } },
+
             {
               $project: {
                 _id: 1,
+                orderStatus: 1,
                 subOrderId: "$subOrders._id",
                 subTotalAmount: "$subOrders.subTotalAmount",
+                reservationDateTime:
+                  "$reservationData.reservationDateTime",
               },
             },
           ],
@@ -247,21 +307,111 @@ export const getTableByArea = async (req, res) => {
         },
       },
 
+      // ================== RESERVATION ONLY ==================
+      {
+        $lookup: {
+          from: "reservations",
+          let: { tableId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                reservationDateTime: {
+                  $gte: startOfDay,
+                  $lte: endOfDay,
+                },
+                status: { $in: ["confirmed", "seated"] }, // 🔥 rất quan trọng
+              },
+            },
+            {
+              $match: {
+                $expr: {
+                  $in: ["$$tableId", "$tables"], // ✅ FIX CHUẨN
+                },
+              },
+            },
+            { $sort: { reservationDateTime: 1 } },
+          ],
+          as: "reservationOnly",
+        },
+      },
+
+      // ================== MAP ==================
       {
         $addFields: {
+          hasOrder: { $gt: [{ $size: "$orderData" }, 0] },
+          hasReservationOnly: {
+            $gt: [{ $size: "$reservationOnly" }, 0],
+          },
+
           orderId: {
             $ifNull: [{ $arrayElemAt: ["$orderData._id", 0] }, null],
           },
           subOrderId: {
-            $ifNull: [{ $arrayElemAt: ["$orderData.subOrderId", 0] }, null],
+            $ifNull: [
+              { $arrayElemAt: ["$orderData.subOrderId", 0] },
+              null,
+            ],
           },
           subTotalAmount: {
-            $ifNull: [{ $arrayElemAt: ["$orderData.subTotalAmount", 0] }, 0],
+            $ifNull: [
+              { $arrayElemAt: ["$orderData.subTotalAmount", 0] },
+              0,
+            ],
+          },
+
+          // 👉 lấy từ order trước, fallback reservation-only
+          reservationDateTime: {
+            $ifNull: [
+              { $arrayElemAt: ["$orderData.reservationDateTime", 0] },
+              {
+                $arrayElemAt: [
+                  "$reservationOnly.reservationDateTime",
+                  0,
+                ],
+              },
+            ],
+          },
+
+          orderStatus: {
+            $ifNull: [
+              { $arrayElemAt: ["$orderData.orderStatus", 0] },
+              null,
+            ],
           },
         },
       },
 
-      { $project: { orderData: 0 } },
+      // ================== STATUS ==================
+      {
+        $addFields: {
+          tableStatus: {
+            $cond: [
+              "$hasOrder",
+              {
+                $cond: [
+                  { $eq: ["$orderStatus", "pre-order"] },
+                  "reserved",
+                  "occupied",
+                ],
+              },
+              {
+                $cond: [
+                  "$hasReservationOnly",
+                  "reserved",
+                  "empty",
+                ],
+              },
+            ],
+          },
+        },
+      },
+
+      {
+        $project: {
+          orderData: 0,
+          reservationOnly: 0,
+        },
+      },
 
       { $sort: { tableNumber: 1 } },
     ]);

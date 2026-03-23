@@ -4,6 +4,10 @@ export const createCategory = (data) => {
     return api.post("/menu-categories", data);
 };
 
+export const createParentCategory = (data) => {
+    return api.post("/menu-categories/parent", data);
+}
+
 
 export const getAllCategories = (params) => {
     return api.get("/menu-categories", { params });

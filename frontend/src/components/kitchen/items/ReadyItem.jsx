@@ -12,7 +12,12 @@ export default function ReadyItem({
     <div className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50">
       <div>
         <h3 className="font-bold text-lg">{name}</h3>
-        {note && <p className="text-sm text-gray-400">{note}</p>}
+        {!note && (
+          <p className="text-sm text-gray-500">
+            Ghi chú: <span className="italic">Không có ghi chú</span>
+          </p>
+        )}
+        {note && <p className="text-sm text-gray-500">Ghi chú: {note}</p>}
       </div>
 
       <div className="flex items-center gap-6">

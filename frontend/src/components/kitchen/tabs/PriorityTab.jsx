@@ -2,6 +2,8 @@ import { OrderItem } from "@/components/kitchen/items/OrderItem";
 import kitchenService from "@/services/kitchenService";
 import { useEffect, useState } from "react";
 
+const tagStatus = () => {};
+
 export default function PriorityTab({ searchTerm, updateStatus }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -12,7 +14,6 @@ export default function PriorityTab({ searchTerm, updateStatus }) {
       const res = await kitchenService.getPendingOrders({
         itemName: searchTerm,
       });
-
       setItems(res.data || []);
     } catch (error) {
       console.error("Fetch priority items error:", error);
@@ -24,11 +25,6 @@ export default function PriorityTab({ searchTerm, updateStatus }) {
   useEffect(() => {
     fetchData();
   }, [searchTerm]);
-
-  // useEffect(() => {
-  //   const interval = setInterval(fetchData, 5000);
-  //   return () => clearInterval(interval);
-  // }, []);
 
   if (loading) {
     return (
@@ -50,21 +46,43 @@ export default function PriorityTab({ searchTerm, updateStatus }) {
   }
   return (
     <div className="flex flex-col">
-      {items.map((item) => (
-        <OrderItem
-          key={item._id}
-          name={item.name}
-          table={item.table?.tableName}
-          time={item.waitingTime}
-          qty={item.qty}
-          note={item.note}
-          onDoneOne={() => updateStatus(item._id, "ready", 1, fetchData)}
-          onDoneAll={() => updateStatus(item._id, "ready", "all", fetchData)}
-          onOutOfStock={() =>
-            updateStatus(item._id, "cancelled", "all", fetchData)
-          }
-        />
-      ))}
+      {items.map((item) => {
+        const nextStatus = item.status === "order_sent" ? "preparing" : "ready";
+        const actionLabel =
+          item.status === "order_sent" ? "chế biến" : "hoàn thành";
+        return (
+          <OrderItem
+            key={item._id}
+            name={item.name}
+            table={item.table?.tableName}
+            time={item.waitingTime}
+            qty={item.qty}
+            note={item.note}
+            onActionOne={() =>
+              updateStatus(
+                item._id,
+                nextStatus,
+                1,
+                fetchData,
+                `Đã bắt đầu ${actionLabel} 1 món`,
+              )
+            }
+            onActionAll={() =>
+              updateStatus(
+                item._id,
+                nextStatus,
+                "all",
+                fetchData,
+                `Đã ${actionLabel} tất cả món`,
+              )
+            }
+            onOutOfStock={() =>
+              updateStatus(item._id, "out_of_stock", "all", fetchData)
+            }
+            status={item.status}
+          />
+        );
+      })}
     </div>
   );
 }

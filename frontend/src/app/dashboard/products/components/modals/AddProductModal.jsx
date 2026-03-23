@@ -150,7 +150,6 @@ function ProductInfoTab({ parentOptions, childOptions, selectedParentId, onParen
                     label="Giá bán"
                     rules={[
                         { required: true, message: 'Vui lòng nhập giá bán' },
-                        // ← bỏ type: 'number', dùng validator thủ công
                         {
                             validator: (_, value) => {
                                 if (!value || value <= 0) {
@@ -159,6 +158,15 @@ function ProductInfoTab({ parentOptions, childOptions, selectedParentId, onParen
                                 return Promise.resolve();
                             }
                         },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                const cost = getFieldValue('cost');
+                                if (value && cost && value < cost) {
+                                    return Promise.reject('Giá bán không thể nhỏ hơn giá vốn');
+                                }
+                                return Promise.resolve();
+                            }
+                        })
                     ]}
                 >
                     <PriceInput />

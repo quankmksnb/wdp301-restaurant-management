@@ -24,6 +24,7 @@ export default function RoomGroup({ table }) {
             name={item.itemName}
             qty={item.quantity}
             note={item.note}
+            status={item.status}
           />
         ))}
       </div>

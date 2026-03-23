@@ -23,7 +23,7 @@ const STATUS_MAP = {
     out_of_stock: { label: 'Hết hàng', color: 'error' },
 };
 
-const tabItems = [{ key: 'info', label: 'Thông tin chi tiết sản phẩm' }];
+const tabItems = [{ key: 'info', label: 'Chi tiết sản phẩm' }];
 
 function InfoRow({ label, value, bold = false }) {
     return (
@@ -259,11 +259,7 @@ export default function ProductDetail({ product, onRefresh }) {
                         icon={<EditOutlined />}
                         onClick={() => setModalOpen(true)}
                     >
-                        Cập nhật
-                    </Button>
-
-                    <Button icon={<BarcodeOutlined />}>
-                        In mã vạch
+                        Cập nhật thông tin
                     </Button>
 
                     <Button
