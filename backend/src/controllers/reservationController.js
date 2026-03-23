@@ -75,7 +75,11 @@ export const createReservation = async (req, res) => {
     const { tables, reservationDateTime } = req.body;
 
     const validation = await validateTablesForReservation(tables, reservationDateTime);
-
+    if (new Date(reservationDateTime) < new Date()) {
+        return res.status(400).json({
+            message: "Khong duoc dat bàn ở quá khứ",
+        });
+    }
     if (!validation.valid) {
       return res.status(400).json({
         success: false,
