@@ -3,7 +3,7 @@
 import { DeleteOutlined, EditOutlined, FolderOutlined, PlusOutlined, TagOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Modal, Popconfirm, Radio, Select, Spin, Tag, message } from 'antd';
 import { useEffect, useState } from 'react';
-import { createCategory, deleteCategory, getCategoryTree, updateCategory } from '@/services/menuCategoryService';
+import { createCategory, createParentCategory, deleteCategory, getCategoryTree, updateCategory } from '@/services/menuCategoryService';
 
 // ========================= ADD/EDIT MODAL =========================
 function CategoryFormModal({ open, onClose, onSuccess, editData, parentOptions, defaultParentId = null }) {
@@ -19,22 +19,23 @@ function CategoryFormModal({ open, onClose, onSuccess, editData, parentOptions, 
         if (isEdit) {
             form.setFieldsValue({
                 categoryName: editData.categoryName,
-                parentId:     editData.parentId ?? undefined,
-                status:       editData.status ?? 'active',
+                parentId: editData.parentId ?? undefined,
+                status: editData.status ?? 'active',
             });
         } else {
             form.setFieldsValue({
                 categoryName: '',
-                parentId:     defaultParentId ?? undefined,
-                status:       'active',
+                parentId: defaultParentId ?? undefined,
+                status: 'active',
             });
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);
 
     const handleSubmit = async () => {
         try {
             const values = await form.validateFields();
+            values.categoryName = values.categoryName.trim().toLowerCase();
             setLoading(true);
             if (isEdit) {
                 await updateCategory(editData._id, values);
@@ -169,20 +170,18 @@ function ChildRow({ node, onEdit, onDelete }) {
 // ========================= PARENT ROW =========================
 function ParentRow({ node, onEdit, onDelete, onAddChild }) {
     const hasChildren = node.children?.length > 0;
-    const isInactive  = node.status === 'inactive';
+    const isInactive = node.status === 'inactive';
 
     return (
-        <div className={`rounded-xl border overflow-hidden transition-all ${
-            isInactive
-                ? 'border-gray-200 opacity-60'
-                : 'border-gray-200 hover:border-green-200 hover:shadow-sm'
-        }`}>
+        <div className={`rounded-xl border overflow-hidden transition-all ${isInactive
+            ? 'border-gray-200 opacity-60'
+            : 'border-gray-200 hover:border-green-200 hover:shadow-sm'
+            }`}>
             {/* Parent header */}
             <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-gray-50 to-white group">
                 <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                        isInactive ? 'bg-gray-100' : 'bg-green-100'
-                    }`}>
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isInactive ? 'bg-gray-100' : 'bg-green-100'
+                        }`}>
                         <FolderOutlined className={`text-sm ${isInactive ? 'text-gray-400' : 'text-green-600'}`} />
                     </div>
                     <div className="flex items-center gap-2">
@@ -253,12 +252,70 @@ function ParentRow({ node, onEdit, onDelete, onAddChild }) {
     );
 }
 
+// ========================= PARENT CATEGORY MODAL =========================
+function ParentCategoryModal({ open, onClose, onSuccess }) {
+    const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async () => {
+        try {
+            const values = await form.validateFields();
+
+            // normalize
+            values.categoryName = values.categoryName.trim().toLowerCase();
+
+            setLoading(true);
+            await createParentCategory(values);
+
+            message.success('Thêm danh mục cha thành công');
+            form.resetFields();
+            onSuccess?.();
+        } catch (err) {
+            message.error(err?.response?.data?.message || 'Thêm thất bại');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <Modal
+            title="Thêm danh mục cha"
+            open={open}
+            onCancel={onClose}
+            destroyOnHidden
+            footer={
+                <div className="flex justify-end gap-2">
+                    <Button onClick={onClose}>Hủy</Button>
+                    <Button type="primary" loading={loading} onClick={handleSubmit}>
+                        Thêm
+                    </Button>
+                </div>
+            }
+        >
+            <Form form={form} layout="vertical">
+                <Form.Item
+                    name="categoryName"
+                    label="Tên danh mục cha"
+                    rules={[{ required: true, message: 'Vui lòng nhập tên' }]}
+                >
+                    <Input placeholder="VD: Đồ uống, Thức ăn..." />
+                </Form.Item>
+
+                <Form.Item name="description" label="Mô tả">
+                    <Input.TextArea rows={3} />
+                </Form.Item>
+            </Form>
+        </Modal>
+    );
+}
+
 // ========================= MAIN MODAL =========================
 export default function CategoryManagerModal({ open, onClose, onSuccess }) {
+    const [parentModalOpen, setParentModalOpen] = useState(false);
     const [categoryTree, setCategoryTree] = useState([]);
-    const [loading, setLoading]           = useState(false);
+    const [loading, setLoading] = useState(false);
     const [formModalOpen, setFormModalOpen] = useState(false);
-    const [editData, setEditData]         = useState(null);
+    const [editData, setEditData] = useState(null);
     const [defaultParentId, setDefaultParentId] = useState(null);
 
     const loadTree = async () => {
@@ -282,7 +339,7 @@ export default function CategoryManagerModal({ open, onClose, onSuccess }) {
             await deleteCategory(id, false);
             message.success('Xóa thành công');
             loadTree();
-            onSuccess?.(); 
+            onSuccess?.();
         } catch (err) {
             message.error(err?.response?.data?.message || 'Xóa thất bại');
         }
@@ -290,10 +347,10 @@ export default function CategoryManagerModal({ open, onClose, onSuccess }) {
 
     const handleEdit = (node) => {
         setEditData({
-            _id:          node._id,
+            _id: node._id,
             categoryName: node.categoryName,
-            parentId:     node.parentId ?? null,
-            status:       node.status   ?? 'active',
+            parentId: node.parentId ?? null,
+            status: node.status ?? 'active',
         });
         setDefaultParentId(null);
         setFormModalOpen(true);
@@ -346,9 +403,9 @@ export default function CategoryManagerModal({ open, onClose, onSuccess }) {
                             type="primary"
                             icon={<PlusOutlined />}
                             className="!bg-green-600 hover:!bg-green-700 !rounded-lg"
-                            onClick={handleAdd}
+                            onClick={() => setParentModalOpen(true)}
                         >
-                            Thêm danh mục
+                            Thêm danh mục cha
                         </Button>
                     </div>
                 }
@@ -398,6 +455,16 @@ export default function CategoryManagerModal({ open, onClose, onSuccess }) {
                 defaultParentId={defaultParentId}
                 onSuccess={() => {
                     setFormModalOpen(false);
+                    loadTree();
+                    onSuccess?.();
+                }}
+            />
+
+            <ParentCategoryModal
+                open={parentModalOpen}
+                onClose={() => setParentModalOpen(false)}
+                onSuccess={() => {
+                    setParentModalOpen(false);
                     loadTree();
                     onSuccess?.();
                 }}
