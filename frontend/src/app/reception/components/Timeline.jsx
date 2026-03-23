@@ -229,11 +229,18 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                             {/* Khối đặt bàn (chế độ xem ngày) */}
                                             {viewMode === "day" && tblRes.map((res) => {
                                                 const sH = res.startTime.getHours() + res.startTime.getMinutes() / 60;
-                                                const eH = res.endTime.getHours() + res.endTime.getMinutes() / 60;
-                                                const left = (sH - 6) * CELL_WIDTH;
-                                                const w = (eH - sH) * CELL_WIDTH;
+                                                let eH = res.endTime.getHours() + res.endTime.getMinutes() / 60;
+                                                // Nếu endTime qua ngày hôm sau (VD: 23:15 - 0:15), clamp tới cuối grid (24h)
+                                                if (eH <= sH) eH = 24;
+                                                const left = Math.max((sH - 6) * CELL_WIDTH, 0);
+                                                const maxRight = (24 - 6) * CELL_WIDTH;
+                                                const rawRight = (eH - 6) * CELL_WIDTH;
+                                                const w = Math.min(rawRight, maxRight) - left;
                                                 const col = STATUS_COLORS[res.status] || STATUS_COLORS.confirmed;
                                                 const isActive = activePopover === res._id;
+
+                                                // Clamp popup position so it doesn't overflow container
+                                                const popoverLeft = Math.min(left + 20, maxRight - 370);
 
                                                 return (
                                                     <div key={res._id}>
@@ -256,7 +263,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                             <div
                                                                 ref={popoverRef}
                                                                 className="absolute z-50 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden"
-                                                                style={{ left: left + Math.min(w / 2, 60), top: ROW_HEIGHT + 2, width: 360 }}
+                                                                style={{ left: Math.max(popoverLeft, 0), top: ROW_HEIGHT + 2, width: 360 }}
                                                             >
                                                                 {/* Phần đầu */}
                                                                 <div className="flex items-center justify-between px-3 py-2 bg-gray-50 border-b border-gray-100">
