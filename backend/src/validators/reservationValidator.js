@@ -19,7 +19,7 @@ export const createReservationSchema = z.object({
     }),
     phone: z.string({
       required_error: "Số điện thoại là bắt buộc",
-    }),
+    }).regex(/^(0[3|5|7|8|9])\d{7,8}$/, "Số điện thoại không hợp lệ (10-11 số)"),
   }),
 
   note: z.string().max(500).optional(),
@@ -44,7 +44,7 @@ export const preOrderReservationSchema = z.object({
   items: z.array(z.union([sameItems, separateItems])).min(1),
   customer: z.object({
     customer: z.string(),
-    phone: z.string(),
+    phone: z.string().regex(/^(0[3|5|7|8|9])\d{7,8}$/, "Số điện thoại không hợp lệ (10-11 số)"),
   }),
   note: z.string().optional(),
 });
@@ -57,7 +57,7 @@ export const updateReservationSchema = z.object({
   items: z.array(z.union([sameItems, separateItems])).optional(),
   customer: z.object({
     customer: z.string(),
-    phone: z.string(),
+    phone: z.string().regex(/^(0[3|5|7|8|9])\d{7,8}$/, "Số điện thoại không hợp lệ (10-11 số)"),
   }),
   note: z.string().max(500).optional(),
 });

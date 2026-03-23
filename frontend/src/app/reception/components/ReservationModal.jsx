@@ -466,6 +466,14 @@ export default function ReservationModal({
   const [separateOrders, setSeparateOrders] = useState({}); // { tableId: { menuItemId: quantity } } (separate mode)
   const [showAvailableTables, setShowAvailableTables] = useState(false);
 
+  // Tính tổng số ghế tối đa của các bàn đã chọn
+  const maxGuests = useMemo(() => {
+    if (selectedTables.length === 0) return 100; // Chưa chọn bàn thì không giới hạn
+    return (tables || [])
+      .filter((t) => selectedTables.includes(t._id))
+      .reduce((sum, t) => sum + (t.capacity || 0), 0);
+  }, [selectedTables, tables]);
+
   // Tạo danh sách bàn nhóm theo khu vực
   const tableOptions = useMemo(() => {
     return (areas || []).flatMap((area) => {
@@ -494,62 +502,62 @@ export default function ReservationModal({
       });
       // Xử lý bàn, có thể là Object hoặc string
       setSelectedTables(editingReservation.tables?.map((table) => table._id || table) || []);
-      
+
       const arrival = dayjs(editingReservation.reservationDateTime || editingReservation.startTime);
       setArrivalTime(arrival);
-      
+
       // Tải thông tin gọi món
       getOrderByReservation(editingReservation._id || editingReservation.reservationId)
         .then((res) => {
           if (res.success && res.data) {
-             const order = res.data;
-             let hasItems = false;
-             let sameMode = true;
-             const selItems = {};
-             const sepOrders = {};
+            const order = res.data;
+            let hasItems = false;
+            let sameMode = true;
+            const selItems = {};
+            const sepOrders = {};
 
-             // Cần phân tích subOrders để xác định chế độ cùng món/riêng món
-             // và điền dữ liệu vào state.
-             const subOrders = order.subOrders || [];
-             if (subOrders.length > 0) {
-                // Kiểm tra đơn giản nhất: nếu chỉ có 1 bàn, hoặc nhiều bàn
-                // đặt chế độ riêng món nếu có nhiều bàn để an toàn hơn.
-               if (subOrders.length > 1) {
-                 sameMode = false;
-               }
+            // Cần phân tích subOrders để xác định chế độ cùng món/riêng món
+            // và điền dữ liệu vào state.
+            const subOrders = order.subOrders || [];
+            if (subOrders.length > 0) {
+              // Kiểm tra đơn giản nhất: nếu chỉ có 1 bàn, hoặc nhiều bàn
+              // đặt chế độ riêng món nếu có nhiều bàn để an toàn hơn.
+              if (subOrders.length > 1) {
+                sameMode = false;
+              }
 
-               subOrders.forEach(sub => {
-                 if (sub.items && sub.items.length > 0) {
-                    hasItems = true;
-                    const tblId = sub.table._id || sub.table;
-                    sepOrders[tblId] = {};
-                    sub.items.forEach(item => {
-                       const itemId = item.menuItem._id || item.menuItem;
-                       if (sameMode) {
-                          selItems[itemId] = (selItems[itemId] || 0) + item.quantity;
-                       }
-                       sepOrders[tblId][itemId] = (sepOrders[tblId][itemId] || 0) + item.quantity;
-                    });
-                 }
-               });
-             }
+              subOrders.forEach(sub => {
+                if (sub.items && sub.items.length > 0) {
+                  hasItems = true;
+                  const tblId = sub.table._id || sub.table;
+                  sepOrders[tblId] = {};
+                  sub.items.forEach(item => {
+                    const itemId = item.menuItem._id || item.menuItem;
+                    if (sameMode) {
+                      selItems[itemId] = (selItems[itemId] || 0) + item.quantity;
+                    }
+                    sepOrders[tblId][itemId] = (sepOrders[tblId][itemId] || 0) + item.quantity;
+                  });
+                }
+              });
+            }
 
-             if (hasItems) {
-               setShowPreOrder(true);
-                // Vì đã cộng dồn selItems cho tất cả bàn trong chế độ "cùng món" (sẽ nhân lên),
-                // nếu là chế độ cùng món, cần chia cho số bàn để lấy số lượng thực tế mỗi bàn
-               if (sameMode && subOrders.length > 0) {
-                  Object.keys(selItems).forEach(k => selItems[k] = selItems[k] / subOrders.length);
-               }
-               setSameOrderMode(sameMode);
-               setSelectedItems(selItems);
-               setSeparateOrders(sepOrders);
-             } else {
-               setShowPreOrder(false);
-               setSameOrderMode(true);
-               setSelectedItems({});
-               setSeparateOrders({});
-             }
+            if (hasItems) {
+              setShowPreOrder(true);
+              // Vì đã cộng dồn selItems cho tất cả bàn trong chế độ "cùng món" (sẽ nhân lên),
+              // nếu là chế độ cùng món, cần chia cho số bàn để lấy số lượng thực tế mỗi bàn
+              if (sameMode && subOrders.length > 0) {
+                Object.keys(selItems).forEach(k => selItems[k] = selItems[k] / subOrders.length);
+              }
+              setSameOrderMode(sameMode);
+              setSelectedItems(selItems);
+              setSeparateOrders(sepOrders);
+            } else {
+              setShowPreOrder(false);
+              setSameOrderMode(true);
+              setSelectedItems({});
+              setSeparateOrders({});
+            }
           }
         }).catch(() => {
           message.error("Lỗi khi tải thông tin gọi món");
@@ -669,6 +677,11 @@ export default function ReservationModal({
       message.warning("Vui lòng nhập số điện thoại");
       return;
     }
+    const phoneRegex = /^(0[3|5|7|8|9])\d{7,8}$/;
+    if (!phoneRegex.test(formData.phone.trim())) {
+      message.warning("Số điện thoại không hợp lệ (10-11 số, VD: 0912345678)");
+      return;
+    }
     if (selectedTables.length === 0) {
       message.warning("Vui lòng chọn ít nhất một bàn");
       return;
@@ -704,70 +717,70 @@ export default function ReservationModal({
         let items = [];
         let orderMode = "same";
         if (showPreOrder && hasPreOrderItems) {
-            if (sameOrderMode) {
-                orderMode = "same";
-                items = Object.entries(selectedItems).map(([menuItem, quantity]) => ({
-                    menuItem, quantity
-                }));
-            } else {
-                orderMode = "separate";
-                items = selectedTables.filter(t => separateOrders[t] && Object.keys(separateOrders[t]).length > 0)
-                                     .map(t => ({
-                                         table: t,
-                                         items: Object.entries(separateOrders[t]).map(([menuItem, quantity]) => ({ menuItem, quantity }))
-                                     }));
-            }
+          if (sameOrderMode) {
+            orderMode = "same";
+            items = Object.entries(selectedItems).map(([menuItem, quantity]) => ({
+              menuItem, quantity
+            }));
+          } else {
+            orderMode = "separate";
+            items = selectedTables.filter(t => separateOrders[t] && Object.keys(separateOrders[t]).length > 0)
+              .map(t => ({
+                table: t,
+                items: Object.entries(separateOrders[t]).map(([menuItem, quantity]) => ({ menuItem, quantity }))
+              }));
+          }
         }
         await updateReservation(editingReservation._id || editingReservation.reservationId, {
-            ...basePayload,
-            orderMode,
-            items: showPreOrder ? items : []
+          ...basePayload,
+          orderMode,
+          items: showPreOrder ? items : []
         });
         message.success("Cập nhật đặt bàn thành công!");
       } else {
-          // Chế độ tạo mới
-          if (hasPreOrderItems) {
-            // Tạo payload dựa trên chế độ gọi món
-            let items = [];
-            let orderMode = "same";
+        // Chế độ tạo mới
+        if (hasPreOrderItems) {
+          // Tạo payload dựa trên chế độ gọi món
+          let items = [];
+          let orderMode = "same";
 
-            if (sameOrderMode) {
-              orderMode = "same";
-              items = Object.entries(selectedItems).map(
-                ([menuItemId, quantity]) => ({
-                  menuItem: menuItemId,
-                  quantity,
-                })
-              );
-            } else {
-              orderMode = "separate";
-              items = selectedTables
-                .filter(
-                  (tableId) =>
-                    separateOrders[tableId] &&
-                    Object.keys(separateOrders[tableId]).length > 0
-                )
-                .map((tableId) => ({
-                  table: tableId,
-                  items: Object.entries(separateOrders[tableId]).map(
-                    ([menuItemId, quantity]) => ({
-                      menuItem: menuItemId,
-                      quantity,
-                    })
-                  ),
-                }));
-            }
-
-            await createReservationWithOrder({
-              ...basePayload,
-              orderMode,
-              items,
-            });
-            message.success("Đặt bàn và gọi món trước thành công!");
+          if (sameOrderMode) {
+            orderMode = "same";
+            items = Object.entries(selectedItems).map(
+              ([menuItemId, quantity]) => ({
+                menuItem: menuItemId,
+                quantity,
+              })
+            );
           } else {
-            await createReservation(basePayload);
-            message.success("Đặt bàn thành công!");
+            orderMode = "separate";
+            items = selectedTables
+              .filter(
+                (tableId) =>
+                  separateOrders[tableId] &&
+                  Object.keys(separateOrders[tableId]).length > 0
+              )
+              .map((tableId) => ({
+                table: tableId,
+                items: Object.entries(separateOrders[tableId]).map(
+                  ([menuItemId, quantity]) => ({
+                    menuItem: menuItemId,
+                    quantity,
+                  })
+                ),
+              }));
           }
+
+          await createReservationWithOrder({
+            ...basePayload,
+            orderMode,
+            items,
+          });
+          message.success("Đặt bàn và gọi món trước thành công!");
+        } else {
+          await createReservation(basePayload);
+          message.success("Đặt bàn thành công!");
+        }
       }
 
       onReservationCreated?.();
@@ -816,9 +829,11 @@ export default function ReservationModal({
             <Input
               placeholder="Nhập số điện thoại khách hàng"
               value={formData.phone}
-              onChange={(e) =>
-                setFormData({ ...formData, phone: e.target.value })
-              }
+              maxLength={11}
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, "");
+                setFormData({ ...formData, phone: value });
+              }}
             />
           </div>
         </div>
@@ -831,7 +846,7 @@ export default function ReservationModal({
             </label>
             <InputNumber
               min={1}
-              max={100}
+              max={selectedTables.length > 0 ? maxGuests : 100}
               value={formData.numberOfGuests}
               onChange={(val) =>
                 setFormData({ ...formData, numberOfGuests: val })
@@ -839,6 +854,11 @@ export default function ReservationModal({
               className="w-full"
               addonAfter="người"
             />
+            {selectedTables.length > 0 && (
+              <span className="text-red-500 text-xs mt-1 block">
+                Số lượng người tối đa là {maxGuests}
+              </span>
+            )}
           </div>
           <div className="col-span-6">
             <label className="text-xs text-gray-600 mb-1 block">
@@ -851,9 +871,36 @@ export default function ReservationModal({
               className="w-full"
               value={arrivalTime}
               onChange={(val) => setArrivalTime(val)}
-              disabledTime={() => ({
-                disabledHours: () => [0, 1, 2, 3, 4, 5],
-              })}
+              disabledDate={(current) => {
+                // Không cho chọn ngày trước hôm nay
+                return current && current.startOf('day').isBefore(dayjs().startOf('day'));
+              }}
+              disabledTime={(current) => {
+                const now = dayjs();
+                // Luôn chặn giờ 0-5 (nhà hàng đóng cửa)
+                const blockedHours = [0, 1, 2, 3, 4, 5];
+                // Nếu ngày được chọn là hôm nay → chặn thêm các giờ/phút đã qua
+                if (current && current.isSame(now, 'day')) {
+                  return {
+                    disabledHours: () => {
+                      const pastHours = [];
+                      for (let i = 6; i < now.hour(); i++) pastHours.push(i);
+                      return [...blockedHours, ...pastHours];
+                    },
+                    disabledMinutes: (selectedHour) => {
+                      if (selectedHour === now.hour()) {
+                        const mins = [];
+                        for (let i = 0; i <= now.minute(); i++) mins.push(i);
+                        return mins;
+                      }
+                      return [];
+                    },
+                  };
+                }
+                return {
+                  disabledHours: () => blockedHours,
+                };
+              }}
             />
           </div>
         </div>
@@ -877,7 +924,16 @@ export default function ReservationModal({
               placeholder="Chọn phòng/bàn"
               options={tableOptions}
               value={selectedTables}
-              onChange={(val) => setSelectedTables(val)}
+              onChange={(val) => {
+                setSelectedTables(val);
+                // Tự động giảm số khách nếu vượt quá tổng ghế
+                const newMax = (tables || [])
+                  .filter((t) => val.includes(t._id))
+                  .reduce((sum, t) => sum + (t.capacity || 0), 0);
+                if (val.length > 0 && formData.numberOfGuests > newMax) {
+                  setFormData((prev) => ({ ...prev, numberOfGuests: newMax }));
+                }
+              }}
               className="w-full"
             />
           </div>

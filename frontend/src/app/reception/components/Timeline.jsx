@@ -204,14 +204,27 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                     return (
                                         <div key={tbl._id} className="flex border-b border-gray-100 relative" style={{ height: ROW_HEIGHT }}>
                                             {/* Ô lưới */}
-                                            {columns.map((col) => (
-                                                <div
-                                                    key={col.key}
-                                                    onClick={() => onCellClick(tbl, viewMode === "day" ? parseInt(col.label) : null)}
-                                                    className="shrink-0 border-r border-gray-100 cursor-pointer hover:bg-blue-50/40 transition"
-                                                    style={{ width: col.width }}
-                                                />
-                                            ))}
+                                            {columns.map((col) => {
+                                                // Kiểm tra ô có phải giờ quá khứ không (chỉ cho chế độ xem ngày + hôm nay)
+                                                const now = new Date();
+                                                const isToday = viewMode === "day" && selectedDate &&
+                                                    selectedDate.getDate() === now.getDate() &&
+                                                    selectedDate.getMonth() === now.getMonth() &&
+                                                    selectedDate.getFullYear() === now.getFullYear();
+                                                const isPastDate = viewMode === "day" && selectedDate &&
+                                                    selectedDate < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                                                const cellHour = viewMode === "day" ? parseInt(col.label) : null;
+                                                const isPast = isPastDate || (isToday && cellHour !== null && cellHour < now.getHours());
+
+                                                return (
+                                                    <div
+                                                        key={col.key}
+                                                        onClick={() => !isPast && onCellClick(tbl, viewMode === "day" ? parseInt(col.label) : null)}
+                                                        className={`shrink-0 border-r border-gray-100 transition ${isPast ? "bg-gray-200/60 cursor-not-allowed" : "cursor-pointer hover:bg-blue-50/40"}`}
+                                                        style={{ width: col.width }}
+                                                    />
+                                                );
+                                            })}
 
                                             {/* Khối đặt bàn (chế độ xem ngày) */}
                                             {viewMode === "day" && tblRes.map((res) => {
