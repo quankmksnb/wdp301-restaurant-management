@@ -122,9 +122,27 @@ function ProductInfoTab({
             <Form.Item
               name="price"
               noStyle
+              dependencies={["costPrice"]}
               rules={[
                 { required: true, message: "Vui lòng nhập giá bán" },
                 { type: "number", min: 1, message: "Giá bán phải lớn hơn 0" },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    const cost = getFieldValue("costPrice");
+
+                    if (value == null || cost == null) {
+                      return Promise.resolve();
+                    }
+
+                    if (value < cost) {
+                      return Promise.reject(
+                        new Error("Giá bán không được nhỏ hơn giá vốn")
+                      );
+                    }
+
+                    return Promise.resolve();
+                  },
+                }),
               ]}
             >
               <InputNumber

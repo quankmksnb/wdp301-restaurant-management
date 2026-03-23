@@ -98,7 +98,7 @@ function CategoryFormModal({ open, onClose, onSuccess, editData, parentOptions, 
 
                 <Form.Item
                     name="categoryName"
-                    label="Tên danh mục"
+                    label="Tên danh mục con"
                     rules={[{ required: true, message: 'Vui lòng nhập tên danh mục' }]}
                 >
                     <Input placeholder="VD: Đồ uống, Bia, Nước ngọt..." className="rounded-lg" />
