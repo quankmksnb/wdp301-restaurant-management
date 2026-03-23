@@ -229,7 +229,6 @@ export const getTableByArea = async (req, res) => {
       filter.area = new mongoose.Types.ObjectId(area);
     }
 
-    // 👉 hôm nay
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
 
@@ -250,6 +249,7 @@ export const getTableByArea = async (req, res) => {
                 orderStatus: { $in: ["pre-order", "active"] },
               },
             },
+
             {
               $lookup: {
                 from: "reservations",
@@ -274,13 +274,18 @@ export const getTableByArea = async (req, res) => {
               },
             },
 
-            // 👉 logic đúng:
             {
               $match: {
                 $or: [
-                  { orderStatus: "active" },
+                  {
+                    orderStatus: "active",
+                  },
+
                   {
                     orderStatus: "pre-order",
+                    "reservationData.status": {
+                      $in: ["confirmed", "seated"],
+                    },
                     "reservationData.reservationDateTime": {
                       $gte: startOfDay,
                       $lte: endOfDay,
@@ -319,13 +324,13 @@ export const getTableByArea = async (req, res) => {
                   $gte: startOfDay,
                   $lte: endOfDay,
                 },
-                status: { $in: ["confirmed", "seated"] }, // 🔥 rất quan trọng
+                status: { $in: ["confirmed", "seated"] },
               },
             },
             {
               $match: {
                 $expr: {
-                  $in: ["$$tableId", "$tables"], // ✅ FIX CHUẨN
+                  $in: ["$$tableId", "$tables"],
                 },
               },
             },
@@ -359,7 +364,6 @@ export const getTableByArea = async (req, res) => {
             ],
           },
 
-          // 👉 lấy từ order trước, fallback reservation-only
           reservationDateTime: {
             $ifNull: [
               { $arrayElemAt: ["$orderData.reservationDateTime", 0] },
@@ -381,7 +385,7 @@ export const getTableByArea = async (req, res) => {
         },
       },
 
-      // ================== STATUS ==================
+      // ================== TABLE STATUS ==================
       {
         $addFields: {
           tableStatus: {
