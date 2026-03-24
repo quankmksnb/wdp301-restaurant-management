@@ -4,17 +4,17 @@ import Table from "../models/Table.js";
 //Lấy danh sách tableId đang bị reservation giữ
 
 export const getReservedTableIds = async (reservationDateTime, excludeReservationId = null) => {
-  const startOfDay = new Date(reservationDateTime);
-  startOfDay.setHours(0, 0, 0, 0);
-
-  const endOfDay = new Date(reservationDateTime);
-  endOfDay.setHours(23, 59, 59, 999);
+  // Kiểm tra trong khoảng ±2 tiếng so với giờ đặt
+  const TWO_HOURS = 2 * 60 * 60 * 1000; // 2 tiếng (ms)
+  const requestedTime = new Date(reservationDateTime);
+  const windowStart = new Date(requestedTime.getTime() - TWO_HOURS);
+  const windowEnd = new Date(requestedTime.getTime() + TWO_HOURS);
 
   const query = {
     status: { $in: ["confirmed", "seated"] },
     reservationDateTime: {
-      $gte: startOfDay,
-      $lte: endOfDay,
+      $gte: windowStart,
+      $lte: windowEnd,
     },
   };
 
