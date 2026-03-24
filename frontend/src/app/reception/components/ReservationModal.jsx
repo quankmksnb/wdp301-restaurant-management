@@ -177,9 +177,7 @@ function AvailableTablesModal({ open, onClose, onSelect, alreadySelected, dateTi
 
 // ─── Thẻ món ăn ───
 function MenuItemCard({ item, quantity, onAdd, onRemove }) {
-  const imageUrl = item.images?.[0]
-    ? `http://localhost:5000${item.images[0]}`
-    : null;
+  const imageUrl = item.images?.[0] || null;
 
   return (
     <div className="flex items-center gap-3 p-2 border border-gray-100 rounded-lg hover:border-blue-200 transition-colors">

@@ -40,7 +40,7 @@ function ExpandedInfoPanel({ employee }) {
                 <div className="w-24 h-24 bg-gray-200 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
                     {employee.photo ? (
                         <img
-                            src={employee.photo}
+                            src={`http://localhost:5000${employee.photo}`}
                             alt={employee.name}
                             className="w-full h-full object-cover"
                             onError={(e) => {
@@ -265,7 +265,7 @@ export default function EmployeeList({
                 <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-gray-200">
                     {record.photo ? (
                         <img
-                            src={{ record.photo }}
+                            src={record.photo}
                             alt={record.name}
                             className="w-full h-full object-cover"
                             onError={(e) => {
