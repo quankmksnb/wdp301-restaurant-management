@@ -5,8 +5,6 @@ import { Plus } from "lucide-react";
 
 export default function FoodCard({ food, onAdd, cartQty }) {
   const [hover, setHover] = useState(false);
-  const BASE_URL = "http://localhost:5000";
-
 
   return (
     <div
@@ -21,7 +19,7 @@ export default function FoodCard({ food, onAdd, cartQty }) {
       {/* Image */}
       <div className="relative pt-[68%] bg-slate-100 overflow-hidden">
         <img
-          src={`${BASE_URL}${food.images || food.img || "/placeholder-food.png"}`}
+          src={food.images || food.img || "/placeholder-food.png"}
           alt={food.itemName || food.name}
           className={`absolute inset-0 w-full h-full object-cover transition
             ${hover ? "scale-105" : ""}`}
