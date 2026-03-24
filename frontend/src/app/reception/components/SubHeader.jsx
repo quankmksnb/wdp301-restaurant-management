@@ -1,6 +1,6 @@
 "use client";
 
-import { FileDown } from "lucide-react";
+
 
 export default function SubHeader({ viewMode, setViewMode, statusFilters, onStatusFilterChange, reservationCount, onOpenModal }) {
     const filters = [
@@ -45,9 +45,7 @@ export default function SubHeader({ viewMode, setViewMode, statusFilters, onStat
 
             {/* Hành động bên phải */}
             <div className="ml-auto flex items-center gap-3">
-                <button className="flex items-center gap-2 px-4 py-1.5 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 cursor-pointer transition">
-                    <FileDown className="w-4 h-4" /> Xuất file
-                </button>
+
                 <button
                     onClick={onOpenModal}
                     className="flex items-center gap-2 px-4 py-1.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 cursor-pointer transition"

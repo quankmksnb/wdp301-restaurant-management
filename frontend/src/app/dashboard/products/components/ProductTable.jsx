@@ -202,7 +202,6 @@ export default function ProductTable({ filters = {} }) {
             />
 
             <Table
-                rowSelection={{ selectedRowKeys, onChange: setSelectedRowKeys }}
                 columns={allColumns}
                 dataSource={data}
                 loading={loading}

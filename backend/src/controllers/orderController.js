@@ -173,10 +173,10 @@ export const cancelItem = async (req, res) => {
       });
     }
 
-    if (foundItem.status !== "pending") {
+    if (foundItem.status !== "pending" && foundItem.status !== "pre-order" && foundItem.status !== "order_sent") {
       return res.status(400).json({
         success: false,
-        message: "Không thể hủy món đã gửi xuống bếp",
+        message: "Không thể hủy, món đã gửi xuống bếp",
       });
     }
 

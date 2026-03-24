@@ -48,7 +48,7 @@ export default function TopBar({ tabMode, setTabMode }) {
             <div className="flex h-full">
                 {[
                     { key: "calendar", label: "Theo lịch" },
-                    { key: "list", label: "Theo danh sách" },
+                    { key: "list", label: "Lịch sử đặt bàn" },
                 ].map((t) => (
                     <button
                         key={t.key}

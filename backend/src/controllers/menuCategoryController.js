@@ -2,41 +2,126 @@ import MenuCategory from "../models/MenuCategory.js";
 import MenuItem from "../models/MenuItem.js";
 import mongoose from "mongoose";
 
-// Tạo danh mục mới
+// Tạo danh mục con mới
 export const createCategory = async (req, res) => {
     try {
-        const { categoryName, description, parentId, status } = req.body;
+        let { categoryName, description, parentId, status } = req.body;
+
+        // 1. Validate input
+        if (!categoryName || !categoryName.trim()) {
+            return res.status(400).json({
+                success: false,
+                message: "Tên danh mục là bắt buộc",
+            });
+        }
 
         if (!parentId) {
             return res.status(400).json({
+                success: false,
                 message: "Chỉ được tạo danh mục con",
             });
         }
 
-        const parent = await MenuCategory.findById(parentId);
+        // normalize
+        categoryName = categoryName.trim();
+        description = description?.trim() || "";
+
+        // 2. Check parent tồn tại + chỉ 2 cấp
+        const parent = await MenuCategory.findById(parentId).lean();
 
         if (!parent) {
             return res.status(400).json({
+                success: false,
                 message: "Danh mục cha không tồn tại",
             });
         }
 
         if (parent.parentId) {
             return res.status(400).json({
+                success: false,
                 message: "Chỉ cho phép 2 cấp danh mục",
             });
         }
 
-        const category = await MenuCategory.create({
+        // 3. Check trùng tên trong cùng parent
+        const existing = await MenuCategory.findOne({
+            parentId,
+            categoryName: {
+                $regex: new RegExp(`^${categoryName}$`, "i"),
+            },
+        }).lean();
+
+        if (existing) {
+            return res.status(400).json({
+                success: false,
+                message: "Danh mục đã tồn tại trong nhóm này",
+            });
+        }
+
+        // 4. Create
+        const newCategory = await MenuCategory.create({
             categoryName,
             description,
             parentId,
-            status,
+            status: status || "active",
         });
 
-        res.status(201).json(category);
+        return res.status(201).json({
+            success: true,
+            data: newCategory,
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("Create category error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Lỗi server",
+        });
+    }
+};
+
+// Tạo danh mục cha mới
+export const createParentCategory = async (req, res) => {
+    try {
+        const { categoryName, description } = req.body;
+
+        // 1. Validate
+        if (!categoryName) {
+            return res.status(400).json({
+                success: false,
+                message: "Tên danh mục là bắt buộc",
+            });
+        }
+
+        // 2. Check trùng tên 
+        const existing = await MenuCategory.findOne({
+            categoryName,
+            parentId: null,
+        });
+
+        if (existing) {
+            return res.status(400).json({
+                success: false,
+                message: "Danh mục cha đã tồn tại",
+            });
+        }
+
+        const newCategory = await MenuCategory.create({
+            categoryName,
+            description,
+            parentId: null,
+        });
+
+        return res.status(201).json({
+            success: true,
+            data: newCategory,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Lỗi server",
+        });
     }
 };
 
@@ -100,40 +185,87 @@ export const getCategoryTree = async (req, res) => {
 export const updateCategory = async (req, res) => {
     try {
         const { id } = req.params;
-        const { categoryName, description, status, parentId } = req.body;
+        let { categoryName, description, status, parentId } = req.body;
 
         const category = await MenuCategory.findById(id);
 
         if (!category) {
-            return res.status(404).json({ message: "Không tìm thấy danh mục" });
+            return res.status(404).json({
+                success: false,
+                message: "Không tìm thấy danh mục",
+            });
         }
 
-        // update thông tin cơ bản
-        category.categoryName = categoryName ?? category.categoryName;
-        category.description = description ?? category.description;
-        category.parentId =
+        // normalize
+        if (categoryName) categoryName = categoryName.trim();
+        if (description) description = description.trim();
+
+        // xác định parent mới (nếu có thay đổi)
+        const newParentId =
             parentId !== undefined ? (parentId || null) : category.parentId;
+
+        // Nếu có đổi parent → validate
+        if (parentId !== undefined) {
+            if (newParentId) {
+                const parent = await MenuCategory.findById(newParentId).lean();
+
+                if (!parent) {
+                    return res.status(400).json({
+                        success: false,
+                        message: "Danh mục cha không tồn tại",
+                    });
+                }
+
+                if (parent.parentId) {
+                    return res.status(400).json({
+                        success: false,
+                        message: "Chỉ cho phép 2 cấp danh mục",
+                    });
+                }
+            }
+        }
+
+        // Check trùng tên trong cùng parent
+        if (categoryName) {
+            const existing = await MenuCategory.findOne({
+                _id: { $ne: id }, // 👈 loại trừ chính nó
+                parentId: newParentId,
+                categoryName: {
+                    $regex: new RegExp(`^${escapeRegex(categoryName)}$`, "i"),
+                },
+            }).lean();
+
+            if (existing) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Danh mục đã tồn tại trong nhóm này",
+                });
+            }
+        }
+
+        // Update thông tin 
+        if (categoryName) category.categoryName = categoryName;
+        if (description !== undefined) category.description = description;
+        if (parentId !== undefined) category.parentId = newParentId;
 
         let categoryIdsToUpdate = [];
 
-        // Nếu status thay đổi
+        // Nếu status thay đổi → cascade
         if (status && status !== category.status) {
             category.status = status;
 
-            // luôn thêm chính nó
             categoryIdsToUpdate.push(category._id);
 
-            // Nếu là category CHA → lấy tất cả con
+            // Nếu là category CHA → update tất cả con
             if (!category.parentId) {
                 const childCategories = await MenuCategory.find(
                     { parentId: category._id },
                     { _id: 1 }
-                );
+                ).lean();
 
-                const childIds = childCategories.map(c => c._id);
+                const childIds = childCategories.map((c) => c._id);
 
                 if (childIds.length) {
-                    // update status category con
                     await MenuCategory.updateMany(
                         { _id: { $in: childIds } },
                         { $set: { status } }
@@ -155,10 +287,17 @@ export const updateCategory = async (req, res) => {
 
         await category.save();
 
-        res.json(category);
-
+        return res.json({
+            success: true,
+            data: category,
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("Update category error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Lỗi server",
+        });
     }
 };
 
@@ -199,31 +338,34 @@ export const deleteCategory = async (req, res) => {
 
 // Lấy danh sách category con theo parentId
 export const getChildCategories = async (req, res) => {
-  try {
-    const { parentId } = req.query;
+    try {
+        const { parentId } = req.query;
 
-    const filter = {
-      parentId: { $ne: null }, // chỉ lấy category con
-      status: "active"
-    };
+        const filter = {
+            parentId: { $ne: null }, // chỉ lấy category con
+            status: "active"
+        };
 
-    // nếu truyền parentId thì chỉ lấy con của category đó
-    if (parentId) {
-      filter.parentId = parentId;
+        // nếu truyền parentId thì chỉ lấy con của category đó
+        if (parentId) {
+            filter.parentId = parentId;
+        }
+
+        const categories = await MenuCategory.find(filter)
+            .populate("parentId", "categoryName")
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            data: categories,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
     }
-
-    const categories = await MenuCategory.find(filter)
-      .populate("parentId", "categoryName")
-      .sort({ createdAt: -1 });
-
-    res.status(200).json({
-      success: true,
-      data: categories,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
 };
+
+const escapeRegex = (text) =>
+    text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

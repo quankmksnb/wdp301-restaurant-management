@@ -274,9 +274,10 @@ export default function WaiterPage() {
     a => a._id === selTable?.area?._id || a._id === selTable?.area
   )?.areaName || "";
 
-  // Bàn "đang dùng" = có orderId từ API hoặc có cart local
+  // ✅ FIX: Check cả hasOrder và hasReservationOnly từ API
+  // Bàn "đang dùng" = có order từ API hoặc có reservation hoặc có cart local
   const usedTableIds = tables
-    .filter(t => t.orderId)
+    .filter(t => t.hasOrder || t.hasReservationOnly)
     .map(t => t._id)
     .concat(
       Object.keys(tableCarts).filter(id => (tableCarts[id]?.length || 0) > 0)
