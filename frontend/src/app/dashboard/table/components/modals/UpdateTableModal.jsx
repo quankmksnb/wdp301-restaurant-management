@@ -1,7 +1,7 @@
 "use client";
 
 import { Modal, Input, Select, InputNumber, Button, message } from "antd";
-import { SaveOutlined, StopOutlined } from "@ant-design/icons";
+import { SaveOutlined, CloseOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
 import useAreas from "@/hooks/useAreas";
@@ -14,7 +14,6 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
 
   const [tableName, setTableName] = useState("");
   const [selectedArea, setSelectedArea] = useState(null);
-  const [order, setOrder] = useState(1);
   const [capacity, setCapacity] = useState(2);
   const [note, setNote] = useState("");
 
@@ -24,7 +23,6 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
     if (open && table) {
       setTableName(table.tableName || "");
       setSelectedArea(table.area?._id || table.area || null);
-      setOrder(table.tableNumber || 1);
       setCapacity(table.capacity || 2);
       setNote(table.note || "");
     }
@@ -33,7 +31,6 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
   const resetForm = () => {
     setTableName("");
     setSelectedArea(null);
-    setOrder(1);
     setCapacity(2);
     setNote("");
   };
@@ -59,20 +56,16 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
 
       await updateTable(table._id, {
         tableName,
-        tableNumber: order,
         capacity,
         area: selectedArea,
         note,
       });
 
       message.success("Cập nhật bàn thành công");
-
       onConfirm?.();
-
       handleClose();
     } catch (error) {
       const errMsg = error.response?.data?.message || "Không thể cập nhật bàn";
-
       message.error(errMsg);
     } finally {
       setLoading(false);
@@ -81,12 +74,16 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
 
   return (
     <Modal
-      title="Sửa thông tin phòng/bàn"
+      title="Sửa thông tin phòng / bàn"
       open={open}
       onCancel={handleClose}
-      width={600}
+      width={520}
       footer={
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-2 pt-1">
+          <Button icon={<CloseOutlined />} onClick={handleClose}>
+            Hủy
+          </Button>
+
           <Button
             type="primary"
             icon={<SaveOutlined />}
@@ -94,36 +91,34 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
             className="!bg-green-600 hover:!bg-green-700"
             onClick={handleUpdateTable}
           >
-            Lưu
-          </Button>
-
-          <Button icon={<StopOutlined />} onClick={handleClose}>
-            Bỏ qua
+            Lưu thay đổi
           </Button>
         </div>
       }
     >
-      <div className="space-y-4">
+      <div className="space-y-5 py-2">
+        {/* Tên bàn */}
         <div>
-          <label className="mb-2 block">
-            Tên phòng/bàn <span className="text-red-500">*</span>
+          <label className="mb-1.5 block text-sm font-medium text-gray-700">
+            Tên phòng / bàn <span className="text-red-500">*</span>
           </label>
-
           <Input
-            placeholder="Ví dụ: Bàn 01"
+            size="large"
+            placeholder="Ví dụ: Bàn 01, Phòng VIP..."
             value={tableName}
             onChange={(e) => setTableName(e.target.value)}
           />
         </div>
 
+        {/* Khu vực */}
         <div>
-          <label className="mb-2 block">
+          <label className="mb-1.5 block text-sm font-medium text-gray-700">
             Khu vực <span className="text-red-500">*</span>
           </label>
-
           <Select
+            size="large"
             className="w-full"
-            placeholder="--Lựa chọn khu vực--"
+            placeholder="-- Chọn khu vực --"
             value={selectedArea}
             onChange={(value) => setSelectedArea(value)}
             options={areas.map((area) => ({
@@ -133,36 +128,29 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="mb-2 block">Số thứ tự</label>
-
-            <InputNumber
-              style={{ width: "100%" }}
-              value={order}
-              min={1}
-              onChange={(value) => setOrder(value)}
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block">Số ghế</label>
-
-            <InputNumber
-              style={{ width: "100%" }}
-              value={capacity}
-              min={1}
-              onChange={(value) => setCapacity(value)}
-            />
-          </div>
+        {/* Số ghế */}
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-gray-700">
+            Số ghế
+          </label>
+          <InputNumber
+            size="large"
+            style={{ width: "100%" }}
+            value={capacity}
+            min={1}
+            addonAfter="ghế"
+            onChange={(value) => setCapacity(value)}
+          />
         </div>
 
+        {/* Ghi chú */}
         <div>
-          <label className="mb-2 block">Ghi chú</label>
-
+          <label className="mb-1.5 block text-sm font-medium text-gray-700">
+            Ghi chú
+          </label>
           <TextArea
             rows={3}
-            placeholder="Nhập ghi chú..."
+            placeholder="Mô tả vị trí, đặc điểm bàn..."
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />

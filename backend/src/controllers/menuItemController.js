@@ -6,6 +6,7 @@ import MenuCategory from "../models/MenuCategory.js";
 import Order from "../models/Order.js";
 import { url } from "inspector";
 import { getPublicIdFromUrl, uploadMultipleToCloudinary } from "../utils/cloudinaryUpload.js";
+import cloudinary from "../configs/cloudinary.js";
 
 // CREATE MENU ITEM
 export const createMenuItem = async (req, res) => {
