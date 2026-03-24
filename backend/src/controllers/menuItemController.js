@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import MenuItem from "../models/MenuItem.js";
 import MenuCategory from "../models/MenuCategory.js";
 import Order from "../models/Order.js";
+import { url } from "inspector";
+import { getPublicIdFromUrl, uploadMultipleToCloudinary } from "../utils/cloudinaryUpload.js";
 
 // CREATE MENU ITEM
 export const createMenuItem = async (req, res) => {
@@ -76,13 +78,27 @@ export const createMenuItem = async (req, res) => {
 
         /* ================= HANDLE IMAGE UPLOAD ================= */
 
-        let imagePaths = [];
+        // let imagePaths = [];
 
+        // if (req.files && req.files.length > 0) {
+        //     imagePaths = req.files.map(
+        //         (file) => `/uploads/${file.filename}`
+        //     );
+        // }
+
+         // By cloundinary
+        let images = [];
+       
         if (req.files && req.files.length > 0) {
-            imagePaths = req.files.map(
-                (file) => `/uploads/${file.filename}`
+            const uploadResults = await uploadMultipleToCloudinary(
+              req.files,
+              "rms/menu-items"
             );
+
+            images = uploadResults.map(item => item.secure_url)
         }
+
+
 
         /* ================= CREATE ITEM ================= */
 
@@ -93,7 +109,7 @@ export const createMenuItem = async (req, res) => {
             costPrice,
             description,
             availabilityStatus,
-            images: imagePaths,
+            images: images,
             category,
         });
 
@@ -255,25 +271,52 @@ export const updateMenuItem = async (req, res) => {
 
         /* ================= HANDLE IMAGE UPDATE ================= */
 
-        if (req.files && req.files.length > 0) {
-            // XÓA ẢNH CŨ
-            if (item.images && item.images.length > 0) {
-                item.images.forEach((imgPath) => {
-                    const fullPath = path.join(
-                        process.cwd(),
-                        imgPath
-                    );
+        // if (req.files && req.files.length > 0) {
+        //     // XÓA ẢNH CŨ
+        //     if (item.images && item.images.length > 0) {
+        //         item.images.forEach((imgPath) => {
+        //             const fullPath = path.join(
+        //                 process.cwd(),
+        //                 imgPath
+        //             );
 
-                    if (fs.existsSync(fullPath)) {
-                        fs.unlinkSync(fullPath);
-                    }
+        //             if (fs.existsSync(fullPath)) {
+        //                 fs.unlinkSync(fullPath);
+        //             }
+        //         });
+        //     }
+
+        //     // LƯU ẢNH MỚI
+        //     item.images = req.files.map(
+        //         (file) => `/uploads/${file.filename}`
+        //     );
+        // }
+        
+        // Cloudinay
+        if (req.files && req.files.length > 0) {
+          try {
+            // A. Xóa ảnh cũ trên Cloudinary (nếu có)
+            if (item.images && item.images.length > 0) {
+                const deletePromises = item.images.map((url) => {
+                const publicId = getPublicIdFromUrl(url, "rms/menu-items");
+                return cloudinary.uploader.destroy(publicId);
                 });
+                await Promise.all(deletePromises);
             }
 
-            // LƯU ẢNH MỚI
-            item.images = req.files.map(
-                (file) => `/uploads/${file.filename}`
+            // B. Tải ảnh mới lên Cloudinary
+            const uploadResults = await uploadMultipleToCloudinary(
+              req.files,
+              "rms/menu-items"
             );
+
+            // C. Cập nhật mảng images mới vào object item
+            item.images = uploadResults.map((result) => result.secure_url);
+          } catch (uploadError) {
+            return res.status(500).json({ 
+              message: "Lỗi khi xử lý hình ảnh: " + uploadError.message 
+            });
+          }
         }
 
         /* ================= UPDATE OTHER FIELDS ================= */
@@ -304,17 +347,27 @@ export const deleteMenuItem = async (req, res) => {
         }
 
         // XÓA FILE ẢNH
-        if (item.images && item.images.length > 0) {
-            item.images.forEach((imgPath) => {
-                const fullPath = path.join(
-                    process.cwd(),
-                    imgPath
-                );
+        // if (item.images && item.images.length > 0) {
+        //     item.images.forEach((imgPath) => {
+        //         const fullPath = path.join(
+        //             process.cwd(),
+        //             imgPath
+        //         );
 
-                if (fs.existsSync(fullPath)) {
-                    fs.unlinkSync(fullPath);
-                }
+        //         if (fs.existsSync(fullPath)) {
+        //             fs.unlinkSync(fullPath);
+        //         }
+        //     });
+        // }
+
+        /* ================= XÓA ẢNH TRÊN CLOUDINARY ================= */
+        // Kiểm tra nếu sản phẩm có mảng images và mảng không rỗng
+        if (item.images && item.images.length > 0) {
+            const deletePromises = item.images.map((url) => {
+                const publicId = getPublicIdFromUrl(url, "rms/menu-items");
+                return cloudinary.uploader.destroy(publicId);
             });
+            await Promise.all(deletePromises);
         }
 
         await item.deleteOne();

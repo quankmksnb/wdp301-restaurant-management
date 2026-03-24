@@ -119,7 +119,7 @@ export default function ProductTable({ filters = {} }) {
 
                 return src ? (
                     <Image
-                        src={`http://localhost:5000${src}`}
+                        src={src}
                         width={50}
                         height={50}
                         className="rounded object-cover"
