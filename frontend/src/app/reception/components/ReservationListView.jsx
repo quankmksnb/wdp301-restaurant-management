@@ -234,9 +234,6 @@ export default function ReservationListView({
                     <div className="flex items-center gap-2">
                         <History className="w-5 h-5 text-blue-600" />
                         <h2 className="text-lg font-bold text-gray-800">Lịch sử đặt bàn</h2>
-                        <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
-                            {filteredData.length} kết quả
-                        </span>
                     </div>
                 </div>
 
