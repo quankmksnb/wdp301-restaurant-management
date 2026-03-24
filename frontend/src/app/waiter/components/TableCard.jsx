@@ -14,8 +14,8 @@ export default function TableCard({
 }) {
   const [hover, setHover] = useState(false);
 
-  // ✅ Check order status
-  const isPreOrder = table.orderStatus === "pre-order";
+  // ✅ Check pre-order: hasReservationOnly hoặc orderStatus === "pre-order"
+  const isPreOrder = table.hasReservationOnly || table.orderStatus === "pre-order";
   const reservationTime = table.reservationDateTime
     ? new Date(table.reservationDateTime).toLocaleTimeString("vi-VN", {
         hour: "2-digit",

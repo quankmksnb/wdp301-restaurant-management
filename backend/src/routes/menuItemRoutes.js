@@ -8,7 +8,7 @@ import {
     toggleAvailabilityStatus,
     getMenuItemsByChildCategory,
 } from "../controllers/menuItemController.js";
-import upload from "../middlewares/upload.js";
+import upload from "../middlewares/uploadMiddleware.js";
 
 const router = express.Router();
 
