@@ -67,7 +67,6 @@ export const validateTablesForReservation = async (tableIds, reservationDateTime
     _id: { $in: tableIds },
     tableStatus: "active",
   });
-
   if (tables.length !== tableIds.length) {
     return {
       valid: false,

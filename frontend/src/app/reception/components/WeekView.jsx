@@ -70,7 +70,7 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
     today.setHours(0, 0, 0, 0);
 
     const DAY_FULL = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
-    const TOTAL_DAY_WIDTH = CELL_WIDTH * 24;
+    const TOTAL_DAY_WIDTH = CELL_WIDTH * HOURS.length;
 
     const fmtTime = (d) => d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
 
@@ -135,14 +135,20 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
                                                 <div key={di} className="shrink-0 relative" style={{ width: TOTAL_DAY_WIDTH }}>
                                                     {/* Ô giờ */}
                                                     <div className="flex h-full">
-                                                        {HOURS.map(h => (
-                                                            <div
-                                                                key={h}
-                                                                onClick={() => onCellClick(tbl, h)}
-                                                                className="shrink-0 border-r border-gray-100 cursor-pointer hover:bg-blue-50/40 h-full transition"
-                                                                style={{ width: CELL_WIDTH }}
-                                                            />
-                                                        ))}
+                                                        {HOURS.map(h => {
+                                                            const now = new Date();
+                                                            const isToday = d.toDateString() === now.toDateString();
+                                                            const isPastDay = d < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                                                            const isPast = isPastDay || (isToday && h < now.getHours());
+                                                            return (
+                                                                <div
+                                                                    key={h}
+                                                                    onClick={() => !isPast && onCellClick(tbl, h)}
+                                                                    className={`shrink-0 border-r border-gray-100 h-full transition ${isPast ? "bg-gray-200/60 cursor-not-allowed" : "cursor-pointer hover:bg-blue-50/40"}`}
+                                                                    style={{ width: CELL_WIDTH }}
+                                                                />
+                                                            );
+                                                        })}
                                                     </div>
                                                     {/* Đường phân cách ngày */}
                                                     <div className="absolute top-0 bottom-0 right-0 w-px bg-gray-300" />
@@ -151,7 +157,7 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
                                                     {dayRes.map(res => {
                                                         const sH = res.startTime.getHours() + res.startTime.getMinutes() / 60;
                                                         const eH = res.endTime.getHours() + res.endTime.getMinutes() / 60;
-                                                        const left = sH * CELL_WIDTH;
+                                                        const left = (sH - 6) * CELL_WIDTH;
                                                         const w = Math.max((eH - sH) * CELL_WIDTH, 30);
                                                         const col = STATUS_COLORS[res.status] || STATUS_COLORS.confirmed;
                                                         const isActive = activePopover === res._id;

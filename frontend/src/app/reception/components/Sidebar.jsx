@@ -5,7 +5,7 @@ import { Select } from "antd";
 import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from "lucide-react";
 import { DAYS_OF_WEEK, MONTH_NAMES, getDaysInMonth, getFirstDayOfMonth } from "./constants";
 
-export default function Sidebar({ selectedDate, onSelectDate, areas, selectedArea, onSelectArea }) {
+export default function Sidebar({ selectedDate, onSelectDate, areas, selectedArea, onSelectArea, viewMode }) {
     const [curMonth, setCurMonth] = useState(selectedDate.getMonth());
     const [curYear, setCurYear] = useState(selectedDate.getFullYear());
     const [roomOpen, setRoomOpen] = useState(true);
@@ -43,40 +43,92 @@ export default function Sidebar({ selectedDate, onSelectDate, areas, selectedAre
     const todayDayOfWeek = today.toLocaleDateString("vi-VN", { weekday: "long" });
     const todayFmtDate = today.toLocaleDateString("vi-VN", { day: "numeric", month: "long", year: "numeric" });
 
+    const MONTH_SHORT = ["Th1", "Th2", "Th3", "Th4", "Th5", "Th6", "Th7", "Th8", "Th9", "Th10", "Th11", "Th12"];
+
     return (
         <div className="w-[250px] min-w-[250px] border-r border-gray-200 bg-white flex flex-col text-sm overflow-y-auto shrink-0">
-            {/* Lịch tháng */}
+            {/* Lịch tháng hoặc chọn tháng */}
             <div className="p-4 border-b border-gray-100">
-                <div className="flex items-center justify-between mb-3">
-                    <span className="font-semibold text-gray-800 text-sm">{MONTH_NAMES[curMonth]}, {curYear}</span>
-                    <div className="flex gap-1">
-                        <button onClick={prevM} className="p-1 rounded-lg hover:bg-gray-100 cursor-pointer">
-                            <ChevronLeft className="w-4 h-4 text-gray-500" />
-                        </button>
-                        <button onClick={nextM} className="p-1 rounded-lg hover:bg-gray-100 cursor-pointer">
-                            <ChevronRight className="w-4 h-4 text-gray-500" />
-                        </button>
-                    </div>
-                </div>
+                {viewMode === "month" ? (
+                    <>
+                        {/* Chọn tháng */}
+                        <div className="flex items-center justify-between mb-3">
+                            <span className="font-semibold text-gray-800 text-sm">Năm {curYear}</span>
+                            <div className="flex gap-1">
+                                <button onClick={() => setCurYear(curYear - 1)} className="p-1 rounded-lg hover:bg-gray-100 cursor-pointer">
+                                    <ChevronLeft className="w-4 h-4 text-gray-500" />
+                                </button>
+                                <button onClick={() => setCurYear(curYear + 1)} className="p-1 rounded-lg hover:bg-gray-100 cursor-pointer">
+                                    <ChevronRight className="w-4 h-4 text-gray-500" />
+                                </button>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-3 gap-2">
+                            {MONTH_SHORT.map((m, i) => {
+                                const isCurrentMonth = i === today.getMonth() && curYear === today.getFullYear();
+                                const isSelectedMonth = i === selectedDate.getMonth() && curYear === selectedDate.getFullYear();
+                                return (
+                                    <button
+                                        key={i}
+                                        onClick={() => {
+                                            setCurMonth(i);
+                                            onSelectDate(new Date(curYear, i, 1));
+                                        }}
+                                        className={`py-2 text-xs rounded-lg transition cursor-pointer
+                                            ${isCurrentMonth ? "bg-blue-600 text-white font-bold hover:bg-blue-700" : ""}
+                                            ${isSelectedMonth && !isCurrentMonth ? "bg-blue-100 text-blue-700 font-semibold" : ""}
+                                            ${!isCurrentMonth && !isSelectedMonth ? "text-gray-700 hover:bg-blue-50" : ""}
+                                        `}
+                                    >
+                                        {m}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        {/* Liên kết tháng hiện tại */}
+                        <div className="mt-2 text-xs leading-tight">
+                            <button
+                                onClick={() => { onSelectDate(new Date()); setCurMonth(today.getMonth()); setCurYear(today.getFullYear()); }}
+                                className="text-blue-600 hover:underline cursor-pointer"
+                            >
+                                Tháng hiện tại
+                            </button>
+                            <span className="text-gray-400 ml-1">{MONTH_NAMES[today.getMonth()]}, {today.getFullYear()}</span>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        {/* Lịch ngày bình thường */}
+                        <div className="flex items-center justify-between mb-3">
+                            <span className="font-semibold text-gray-800 text-sm">{MONTH_NAMES[curMonth]}, {curYear}</span>
+                            <div className="flex gap-1">
+                                <button onClick={prevM} className="p-1 rounded-lg hover:bg-gray-100 cursor-pointer">
+                                    <ChevronLeft className="w-4 h-4 text-gray-500" />
+                                </button>
+                                <button onClick={nextM} className="p-1 rounded-lg hover:bg-gray-100 cursor-pointer">
+                                    <ChevronRight className="w-4 h-4 text-gray-500" />
+                                </button>
+                            </div>
+                        </div>
 
-                {/* Tiêu đề các ngày trong tuần */}
-                <div className="grid grid-cols-7 text-center mb-1">
-                    {DAYS_OF_WEEK.map((d) => (
-                        <span key={d} className="text-xs text-gray-500 leading-5">{d}</span>
-                    ))}
-                </div>
+                        {/* Tiêu đề các ngày trong tuần */}
+                        <div className="grid grid-cols-7 text-center mb-1">
+                            {DAYS_OF_WEEK.map((d) => (
+                                <span key={d} className="text-xs text-gray-500 leading-5">{d}</span>
+                            ))}
+                        </div>
 
-                {/* Lưới ngày */}
-                <div className="grid grid-cols-7 text-center">
-                    {cells.map((c, i) => (
-                        <button
-                            key={i}
-                            onClick={() =>
-                                c.t === "cur" &&
-                                !isPast(c) &&
-                                onSelectDate(new Date(curYear, curMonth, c.d))
-                            }
-                            className={`
+                        {/* Lưới ngày */}
+                        <div className="grid grid-cols-7 text-center">
+                            {cells.map((c, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() =>
+                                        c.t === "cur" &&
+                                        !isPast(c) &&
+                                        onSelectDate(new Date(curYear, curMonth, c.d))
+                                    }
+                                    className={`
                 w-7 h-7 text-xs rounded-full flex items-center justify-center mx-auto cursor-pointer transition
                   ${
                                 isPast(c)
@@ -86,22 +138,24 @@ export default function Sidebar({ selectedDate, onSelectDate, areas, selectedAre
                 ${isToday(c) ? "bg-blue-600 text-white font-bold hover:bg-blue-700" : ""}
                 ${isSel(c) && !isToday(c) ? "bg-blue-100 text-blue-700 font-semibold" : ""}
               `}
-                        >
-                            {c.d}
-                        </button>
-                    ))}
-                </div>
+                                >
+                                    {c.d}
+                                </button>
+                            ))}
+                        </div>
 
-                {/* Liên kết hôm nay */}
-                <div className="mt-2 text-xs leading-tight">
-                    <button
-                        onClick={() => { onSelectDate(new Date()); setCurMonth(today.getMonth()); setCurYear(today.getFullYear()); }}
-                        className="text-blue-600 hover:underline cursor-pointer"
-                    >
-                        Hôm nay
-                    </button>
-                    <span className="text-gray-400 ml-1 capitalize">{todayDayOfWeek}, {todayFmtDate}</span>
-                </div>
+                        {/* Liên kết hôm nay */}
+                        <div className="mt-2 text-xs leading-tight">
+                            <button
+                                onClick={() => { onSelectDate(new Date()); setCurMonth(today.getMonth()); setCurYear(today.getFullYear()); }}
+                                className="text-blue-600 hover:underline cursor-pointer"
+                            >
+                                Hôm nay
+                            </button>
+                            <span className="text-gray-400 ml-1 capitalize">{todayDayOfWeek}, {todayFmtDate}</span>
+                        </div>
+                    </>
+                )}
             </div>
 
             {/* Phòng/Bàn */}
