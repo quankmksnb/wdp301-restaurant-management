@@ -468,7 +468,8 @@ export default function ReservationModal({
 
   // Tính tổng số ghế tối đa của các bàn đã chọn
   const maxGuests = useMemo(() => {
-    if (selectedTables.length === 0) return 100; // Chưa chọn bàn thì không giới hạn
+    const allCapacity = (tables || []).reduce((sum, t) => sum + (t.capacity || 0), 0);
+    if (selectedTables.length === 0) return allCapacity || 1;
     return (tables || [])
       .filter((t) => selectedTables.includes(t._id))
       .reduce((sum, t) => sum + (t.capacity || 0), 0);
@@ -846,7 +847,7 @@ export default function ReservationModal({
             </label>
             <InputNumber
               min={1}
-              max={selectedTables.length > 0 ? maxGuests : 100}
+              max={maxGuests}
               value={formData.numberOfGuests}
               onChange={(val) =>
                 setFormData({ ...formData, numberOfGuests: val })

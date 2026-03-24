@@ -133,9 +133,26 @@ export default function EmployeeInfoTab({ form, isEdit = false, imageFile, onIma
                         <Form.Item
                             name="phone"
                             label="Số điện thoại"
-                            rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]}
+                            rules={[
+                                { required: true, message: 'Vui lòng nhập số điện thoại' },
+                                { pattern: /^0[0-9]{9}$/, message: 'Số điện thoại phải gồm 10 chữ số, bắt đầu bằng 0' },
+                            ]}
                         >
-                            <Input placeholder="Nhập số điện thoại" />
+                            <Input
+                                placeholder="Nhập số điện thoại"
+                                maxLength={10}
+                                onKeyPress={(e) => {
+                                    if (!/[0-9]/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                onPaste={(e) => {
+                                    const pasted = e.clipboardData.getData('text');
+                                    if (!/^\d+$/.test(pasted)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                            />
                         </Form.Item>
                         <Form.Item
                             name="password"

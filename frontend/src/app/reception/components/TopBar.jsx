@@ -66,7 +66,6 @@ export default function TopBar({ tabMode, setTabMode }) {
             {/* Bên phải */}
             <div className="ml-auto flex items-center gap-5">
 
-                <Settings className="w-4 h-4 text-white/70 cursor-pointer hover:text-white" />
                 <span className="flex items-center gap-1.5">
                     <span>👤</span> {userPhone || "N/A"}
                 </span>
