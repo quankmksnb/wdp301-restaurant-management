@@ -19,7 +19,7 @@ export default function FoodCard({ food, onAdd, cartQty }) {
       {/* Image */}
       <div className="relative pt-[68%] bg-slate-100 overflow-hidden">
         <img
-          src={food.images || food.img || "/placeholder-food.png"}
+          src={`${food.images || food.img || "/placeholder-food.png"}`}
           alt={food.itemName || food.name}
           className={`absolute inset-0 w-full h-full object-cover transition
             ${hover ? "scale-105" : ""}`}
