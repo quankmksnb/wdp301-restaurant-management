@@ -3,18 +3,23 @@
 import { useState, useEffect, useCallback } from "react";
 import { Search } from "lucide-react";
 
-import ProtectedRoute from "@/app/components/ProtectedRoute";
-import WaiterHeader from "./components/WaiterHeader";
-import OrderPanel from "./components/OrderPanel";
-import TableCard from "./components/TableCard";
-import FoodCard from "./components/FoodCard";
-import WaiterFooter from "./components/WaiterFooter";
-import { ScrollableTabs } from "./components/Scrollabletabs";
+import ProtectedRoute from "@/services/protectedRoute";
+import WaiterHeader from "../../components/waiter/WaiterHeader";
+import OrderPanel from "../../components/waiter/OrderPanel";
+import TableCard from "../../components/waiter/TableCard";
+import FoodCard from "../../components/waiter/FoodCard";
+import WaiterFooter from "../../components/waiter/WaiterFooter";
+import { ScrollableTabs } from "../../components/waiter/Scrollabletabs";
 
 import { getTableByArea } from "@/services/tableService";
 import { getChildCategories } from "@/services/menuCategoryService";
 import { getMenuItemsByChildCategory } from "@/services/menuItemService";
-import { addItemToTable, sendItemsToKitchen, cancelItem, getOrderBill } from "@/services/orderService";
+import {
+  addItemToTable,
+  sendItemsToKitchen,
+  cancelItem,
+  getOrderBill,
+} from "@/services/orderService";
 import { getAllAreas } from "@/services/areaService";
 
 export default function WaiterPage() {
@@ -69,7 +74,9 @@ export default function WaiterPage() {
     }
   }, [activeAreaId]);
 
-  useEffect(() => { fetchTables(); }, [fetchTables]);
+  useEffect(() => {
+    fetchTables();
+  }, [fetchTables]);
 
   // ─── Fetch categories ─────────────────────────────────────────────────────
   useEffect(() => {
@@ -110,11 +117,11 @@ export default function WaiterPage() {
       const res = await getOrderBill(oId);
       if (res.success && res.data) {
         const sub = res.data.tables.find(
-          t => t.table?._id === tableId || t.table === tableId
+          (t) => t.table?._id === tableId || t.table === tableId,
         );
         if (sub) {
           const itemMap = {};
-          sub.items.forEach(item => {
+          sub.items.forEach((item) => {
             const key = item._id;
             if (itemMap[key]) {
               itemMap[key].qty += Number(item.quantity) || 0;
@@ -129,14 +136,18 @@ export default function WaiterPage() {
               };
             }
           });
-          const validItems = Object.values(itemMap).filter(item => item && item.id);
-          setTableCarts(prev => ({ ...prev, [tableId]: validItems }));
+          const validItems = Object.values(itemMap).filter(
+            (item) => item && item.id,
+          );
+          setTableCarts((prev) => ({ ...prev, [tableId]: validItems }));
         }
-        setTables(prev => prev.map(t =>
-          t._id === tableId
-            ? { ...t, subTotalAmount: sub?.subTotal ?? t.subTotalAmount }
-            : t
-        ));
+        setTables((prev) =>
+          prev.map((t) =>
+            t._id === tableId
+              ? { ...t, subTotalAmount: sub?.subTotal ?? t.subTotalAmount }
+              : t,
+          ),
+        );
       }
     } catch (err) {
       console.error("Lỗi refresh cart:", err);
@@ -144,50 +155,86 @@ export default function WaiterPage() {
   }, []);
 
   // ─── Chọn bàn ─────────────────────────────────────────────────────────────
-  const handleSelectTable = useCallback((table) => {
-    setSelTable(table);
-    if (!tableCarts[table._id]) {
-      setTableCarts(prev => ({ ...prev, [table._id]: [] }));
-    }
-    if (table.orderId) {
-      refreshCart(table._id, table.orderId);
-    }
-  }, [tableCarts, refreshCart]);
+  const handleSelectTable = useCallback(
+    (table) => {
+      setSelTable(table);
+      if (!tableCarts[table._id]) {
+        setTableCarts((prev) => ({ ...prev, [table._id]: [] }));
+      }
+      if (table.orderId) {
+        refreshCart(table._id, table.orderId);
+      }
+    },
+    [tableCarts, refreshCart],
+  );
 
-  const cart = selTable ? (tableCarts[selTable._id] || []) : [];
+  const cart = selTable ? tableCarts[selTable._id] || [] : [];
   const setCart = (newItems) => {
     if (!selTable) return;
-    setTableCarts(prev => ({ ...prev, [selTable._id]: newItems.filter(i => i && i.id) }));
+    setTableCarts((prev) => ({
+      ...prev,
+      [selTable._id]: newItems.filter((i) => i && i.id),
+    }));
   };
   const orderId = selTable?.orderId || null;
 
   // ─── Thêm món ─────────────────────────────────────────────────────────────
   const addFood = async (food) => {
-    if (!selTable) { alert("Vui lòng chọn bàn trước!"); return; }
+    if (!selTable) {
+      alert("Vui lòng chọn bàn trước!");
+      return;
+    }
     if (!orderId) {
-      const ex = cart.find(i => i.id === food._id);
+      const ex = cart.find((i) => i.id === food._id);
       if (ex) {
-        setCart(cart.map(i => i.id === food._id ? { ...i, qty: i.qty + 1 } : i));
+        setCart(
+          cart.map((i) => (i.id === food._id ? { ...i, qty: i.qty + 1 } : i)),
+        );
       } else {
-        setCart([...cart, { id: food._id, itemId: null, name: food.itemName, price: food.price, qty: 1, status: "pending" }]);
+        setCart([
+          ...cart,
+          {
+            id: food._id,
+            itemId: null,
+            name: food.itemName,
+            price: food.price,
+            qty: 1,
+            status: "pending",
+          },
+        ]);
       }
       return;
     }
     try {
-      const res = await addItemToTable(orderId, selTable._id, { menuItemId: food._id, quantity: 1 });
+      const res = await addItemToTable(orderId, selTable._id, {
+        menuItemId: food._id,
+        quantity: 1,
+      });
       if (res.success) await refreshCart(selTable._id, orderId);
     } catch (err) {
       console.error("Lỗi thêm món:", err);
     }
   };
 
-  const inc = (id) => setCart(cart.map(i => i.id === id ? { ...i, qty: i.qty + 1 } : i));
-  const dec = (id) => setCart(cart.map(i => i.id === id ? { ...i, qty: i.qty - 1 } : i).filter(i => i.qty > 0));
+  const inc = (id) =>
+    setCart(cart.map((i) => (i.id === id ? { ...i, qty: i.qty + 1 } : i)));
+  const dec = (id) =>
+    setCart(
+      cart
+        .map((i) => (i.id === id ? { ...i, qty: i.qty - 1 } : i))
+        .filter((i) => i.qty > 0),
+    );
 
   const removeItem = async (id) => {
-    if (!orderId) { setCart(cart.filter(i => i.id !== id)); return; }
-    const item = cart.find(i => i.id === id);
-    if (!item?.id) { setCart(cart.filter(i => i.id !== id)); return; }
+    if (!orderId) {
+      setCart(cart.filter((i) => i.id !== id));
+      return;
+    }
+    const item = cart.find((i) => i.id === id);
+    if (!item?.id) {
+      setCart(cart.filter((i) => i.id !== id));
+      return;
+    }
     try {
       const res = await cancelItem(orderId, item.id);
       if (res.success) await refreshCart(selTable._id, orderId);
@@ -198,12 +245,19 @@ export default function WaiterPage() {
 
   const handleSendToKitchen = async () => {
     if (!orderId || !selTable) return;
-    const pendingIds = cart.filter(i => (i.status === "pending" || i.status === "pre-order") && i.id).map(i => i.id);
+    const pendingIds = cart
+      .filter(
+        (i) => (i.status === "pending" || i.status === "pre-order") && i.id,
+      )
+      .map((i) => i.id);
     if (!pendingIds.length) return;
     try {
       await sendItemsToKitchen(orderId, { itemIds: pendingIds });
       await refreshCart(selTable._id, orderId);
-      if (soundOn) { const a = new Audio("/sounds/ting.mp3"); a.play(); }
+      if (soundOn) {
+        const a = new Audio("/sounds/ting.mp3");
+        a.play();
+      }
     } catch (err) {
       console.error("Lỗi gửi bếp:", err);
     }
@@ -211,24 +265,34 @@ export default function WaiterPage() {
 
   // ─── Filter món ăn theo search ───────────────────────────────────────────
   const filteredMenuItems = searchQuery.trim()
-    ? menuItems.filter(f =>
-        f.itemName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        f.description?.toLowerCase().includes(searchQuery.toLowerCase())
+    ? menuItems.filter(
+        (f) =>
+          f.itemName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          f.description?.toLowerCase().includes(searchQuery.toLowerCase()),
       )
     : menuItems;
 
-  const validCart = cart.filter(i => i?.id && i.qty > 0 && i.status !== "cancelled");
-  const total = validCart.reduce((s, i) => s + Number(i.price ?? 0) * Number(i.qty ?? 0), 0);
-  const fmt = n => Number(n ?? 0).toLocaleString("vi-VN");
-  const floorLabel = areas.find(a => a._id === selTable?.area?._id || a._id === selTable?.area)?.areaName || "";
+  const validCart = cart.filter(
+    (i) => i?.id && i.qty > 0 && i.status !== "cancelled",
+  );
+  const total = validCart.reduce(
+    (s, i) => s + Number(i.price ?? 0) * Number(i.qty ?? 0),
+    0,
+  );
+  const fmt = (n) => Number(n ?? 0).toLocaleString("vi-VN");
+  const floorLabel =
+    areas.find((a) => a._id === selTable?.area?._id || a._id === selTable?.area)
+      ?.areaName || "";
 
   const usedTableIds = tables
-    .filter(t => t.hasOrder || t.hasReservationOnly)
-    .map(t => t._id)
-    .concat(Object.keys(tableCarts).filter(id => (tableCarts[id]?.length || 0) > 0))
+    .filter((t) => t.hasOrder || t.hasReservationOnly)
+    .map((t) => t._id)
+    .concat(
+      Object.keys(tableCarts).filter((id) => (tableCarts[id]?.length || 0) > 0),
+    )
     .filter((v, i, arr) => arr.indexOf(v) === i);
 
-  const visibleTables = tables.filter(t => {
+  const visibleTables = tables.filter((t) => {
     const isUsed = usedTableIds.includes(t._id);
     if (filter === "used") return isUsed;
     if (filter === "empty") return !isUsed;
@@ -255,51 +319,72 @@ export default function WaiterPage() {
             <>
               <div className="flex flex-col basis-[67%] bg-slate-200">
                 <div className="bg-white border-b border-slate-200 px-4">
-
                   {/* ── Area tabs với scroll + mũi tên ── */}
                   <ScrollableTabs className="pt-2 pb-1" scrollAmount={180}>
                     <button
                       onClick={() => setActiveAreaId("all")}
                       className={`flex-shrink-0 px-3 py-1 rounded-full text-sm mr-1
-                        ${activeAreaId === "all"
-                          ? "bg-blue-700 text-white font-bold"
-                          : "text-slate-700 hover:bg-slate-100"}`}
+                        ${
+                          activeAreaId === "all"
+                            ? "bg-blue-700 text-white font-bold"
+                            : "text-slate-700 hover:bg-slate-100"
+                        }`}
                     >
                       Tất cả
                     </button>
-                    {areas.map(a => (
+                    {areas.map((a) => (
                       <button
                         key={a._id}
                         onClick={() => setActiveAreaId(a._id)}
                         className={`flex-shrink-0 px-3 py-1 rounded-full text-sm mr-1
-                          ${activeAreaId === a._id
-                            ? "bg-blue-700 text-white font-bold"
-                            : "text-slate-700 hover:bg-slate-100"}`}
+                          ${
+                            activeAreaId === a._id
+                              ? "bg-blue-700 text-white font-bold"
+                              : "text-slate-700 hover:bg-slate-100"
+                          }`}
                       >
                         {a.areaName}
                       </button>
                     ))}
                     {/* khoảng trống cuối + icon search */}
                     <div className="flex-shrink-0 ml-2 flex items-center">
-                      <Search size={16} className="text-slate-500 cursor-pointer" />
+                      <Search
+                        size={16}
+                        className="text-slate-500 cursor-pointer"
+                      />
                     </div>
                   </ScrollableTabs>
 
                   {/* ── Filter radio ── */}
                   <div className="flex gap-5 py-2">
                     {[
-                      { key: "all",   label: `Tất cả (${tables.length})` },
-                      { key: "used",  label: `Sử dụng (${usedTableIds.length})` },
-                      { key: "empty", label: `Còn trống (${tables.length - usedTableIds.length})` },
-                    ].map(s => (
-                      <label key={s.key} className="flex items-center gap-1 cursor-pointer">
+                      { key: "all", label: `Tất cả (${tables.length})` },
+                      {
+                        key: "used",
+                        label: `Sử dụng (${usedTableIds.length})`,
+                      },
+                      {
+                        key: "empty",
+                        label: `Còn trống (${tables.length - usedTableIds.length})`,
+                      },
+                    ].map((s) => (
+                      <label
+                        key={s.key}
+                        className="flex items-center gap-1 cursor-pointer"
+                      >
                         <input
                           type="radio"
                           checked={filter === s.key}
                           onChange={() => setFilter(s.key)}
                           className="accent-blue-600"
                         />
-                        <span className={filter === s.key ? "text-blue-600 font-semibold" : "text-slate-500"}>
+                        <span
+                          className={
+                            filter === s.key
+                              ? "text-blue-600 font-semibold"
+                              : "text-slate-500"
+                          }
+                        >
                           {s.label}
                         </span>
                       </label>
@@ -309,21 +394,33 @@ export default function WaiterPage() {
 
                 <div className="flex-1 overflow-y-auto p-3">
                   {loadingTables ? (
-                    <div className="flex items-center justify-center h-full text-slate-400">Đang tải bàn...</div>
+                    <div className="flex items-center justify-center h-full text-slate-400">
+                      Đang tải bàn...
+                    </div>
                   ) : (
                     <div className="grid grid-cols-8 gap-2">
-                      {visibleTables.map(t => {
+                      {visibleTables.map((t) => {
                         const tItems = tableCarts[t._id] || [];
                         const tTotal = t.orderId
-                          ? (t.subTotalAmount || 0)
-                          : tItems.reduce((s, i) => s + Number(i.price ?? 0) * Number(i.qty ?? 0), 0);
-                        const tQty   = tItems.reduce((s, i) => s + Number(i.qty ?? 0), 0);
+                          ? t.subTotalAmount || 0
+                          : tItems.reduce(
+                              (s, i) =>
+                                s + Number(i.price ?? 0) * Number(i.qty ?? 0),
+                              0,
+                            );
+                        const tQty = tItems.reduce(
+                          (s, i) => s + Number(i.qty ?? 0),
+                          0,
+                        );
                         return (
                           <TableCard
                             key={t._id}
                             table={t}
                             isSelected={selTable?._id === t._id}
-                            isUsed={usedTableIds.includes(t._id) && selTable?._id !== t._id}
+                            isUsed={
+                              usedTableIds.includes(t._id) &&
+                              selTable?._id !== t._id
+                            }
                             tTotal={tTotal}
                             tQty={tQty}
                             tDishes={tItems.length}
@@ -358,18 +455,19 @@ export default function WaiterPage() {
           {activeTab === "thucdon" && (
             <>
               <div className="flex flex-col basis-[67%] bg-slate-50">
-
                 {/* ── Category tabs với scroll + mũi tên ── */}
                 <div className="bg-white border-b border-slate-200 px-2">
                   <ScrollableTabs scrollAmount={200}>
-                    {categories.map(c => (
+                    {categories.map((c) => (
                       <button
                         key={c._id}
                         onClick={() => setActiveCat(c._id)}
                         className={`flex-shrink-0 px-4 py-2 whitespace-nowrap border-b-2 transition-colors
-                          ${activeCat === c._id
-                            ? "border-blue-700 text-blue-700 font-bold"
-                            : "border-transparent text-slate-700 hover:text-blue-600"}`}
+                          ${
+                            activeCat === c._id
+                              ? "border-blue-700 text-blue-700 font-bold"
+                              : "border-transparent text-slate-700 hover:text-blue-600"
+                          }`}
                       >
                         {c.categoryName}
                       </button>
@@ -379,22 +477,33 @@ export default function WaiterPage() {
 
                 <div className="flex-1 overflow-y-auto p-3">
                   {loadingMenu ? (
-                    <div className="flex items-center justify-center h-full text-slate-400">Đang tải thực đơn...</div>
+                    <div className="flex items-center justify-center h-full text-slate-400">
+                      Đang tải thực đơn...
+                    </div>
                   ) : filteredMenuItems.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full gap-2 text-slate-400">
                       <Search size={32} className="opacity-30" />
-                      <p className="text-sm">Không tìm thấy món <span className="font-semibold text-slate-600">"{searchQuery}"</span></p>
+                      <p className="text-sm">
+                        Không tìm thấy món{" "}
+                        <span className="font-semibold text-slate-600">
+                          "{searchQuery}"
+                        </span>
+                      </p>
                     </div>
                   ) : (
                     <>
                       {searchQuery.trim() && (
                         <p className="text-xs text-slate-400 mb-2 px-1">
-                          Tìm thấy <span className="font-semibold text-blue-600">{filteredMenuItems.length}</span> món cho &quot;{searchQuery}&quot;
+                          Tìm thấy{" "}
+                          <span className="font-semibold text-blue-600">
+                            {filteredMenuItems.length}
+                          </span>{" "}
+                          món cho &quot;{searchQuery}&quot;
                         </p>
                       )}
                       <div className="grid grid-cols-6 gap-3">
-                        {filteredMenuItems.map(f => {
-                          const cartItem = cart.find(i => i.id === f._id);
+                        {filteredMenuItems.map((f) => {
+                          const cartItem = cart.find((i) => i.id === f._id);
                           return (
                             <FoodCard
                               key={f._id}

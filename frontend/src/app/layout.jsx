@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import BackToTop from "./dashboard/components/BackToTop";
+import BackToTop from "../components/dashboard/BackToTop";
 import { Toaster } from "react-hot-toast";
 
 const inter = Inter({

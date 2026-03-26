@@ -1,17 +1,13 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import {
-  Bell,
-  Settings,
-  LogOut,
-} from "lucide-react";
+import { Bell, Settings, LogOut } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import EmployeeDropdown from "./EmployeeDropdown";
-import TooltipIcon from "../../components/TooltipIcon";
+import TooltipIcon from "../../../components/auth/TooltipIcon";
 
 export default function DashboardHeader() {
   const router = useRouter();
@@ -20,7 +16,11 @@ export default function DashboardHeader() {
     { label: "Tổng quan", path: "/dashboard" },
     { label: "Hàng hóa", path: "/dashboard/products" },
     { label: "Phòng/Bàn", path: "/dashboard/table" },
-    { label: "employee-dropdown", path: "/dashboard/employee", component: <EmployeeDropdown /> },
+    {
+      label: "employee-dropdown",
+      path: "/dashboard/employee",
+      component: <EmployeeDropdown />,
+    },
     { label: "Báo cáo", path: "/dashboard/reports" },
   ];
 
@@ -47,14 +47,13 @@ export default function DashboardHeader() {
 
   return (
     <header className="w-full text-white shadow-sm">
-
       <div
-  className="h-14 flex items-center px-6"
-  style={{
-    background:
-      "linear-gradient(90deg,#1340b2 0%,#2d6fdc 55%,#3b82f6 100%)",
-  }}
->
+        className="h-14 flex items-center px-6"
+        style={{
+          background:
+            "linear-gradient(90deg,#1340b2 0%,#2d6fdc 55%,#3b82f6 100%)",
+        }}
+      >
         {/* Logo */}
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 relative">
@@ -80,7 +79,11 @@ export default function DashboardHeader() {
 
             if (item.component) {
               const isActive = pathname.startsWith(item.path);
-              return <React.Fragment key={item.path}>{React.cloneElement(item.component, { isActive })}</React.Fragment>;
+              return (
+                <React.Fragment key={item.path}>
+                  {React.cloneElement(item.component, { isActive })}
+                </React.Fragment>
+              );
             }
 
             return (
@@ -105,22 +108,19 @@ export default function DashboardHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-1">
-  <TooltipIcon
-    icon={<Bell className="w-5 h-5" />}
-    label="Thông báo"
-  />
+          <TooltipIcon icon={<Bell className="w-5 h-5" />} label="Thông báo" />
 
-  <TooltipIcon
-    icon={<Settings className="w-5 h-5" />}
-    label="Cài đặt"
-  />
+          <TooltipIcon
+            icon={<Settings className="w-5 h-5" />}
+            label="Cài đặt"
+          />
 
-  <TooltipIcon
-    icon={<LogOut className="w-5 h-5" />}
-    label="Đăng xuất"
-    onClick={handleLogout}
-  />
-</div>
+          <TooltipIcon
+            icon={<LogOut className="w-5 h-5" />}
+            label="Đăng xuất"
+            onClick={handleLogout}
+          />
+        </div>
       </div>
     </header>
   );

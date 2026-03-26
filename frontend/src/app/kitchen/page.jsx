@@ -1,7 +1,7 @@
 "use client";
 
-import ProtectedRoute from "@/app/components/ProtectedRoute";
-import KitchenClientPage from "@/pages/KitchenClientPage";
+import ProtectedRoute from "@/services/protectedRoute";
+import KitchenClientPage from "@/components/kitchen/KitchenClientPage";
 
 export default function KitchenPage() {
   return (
