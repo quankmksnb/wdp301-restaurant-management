@@ -1,0 +1,192 @@
+[{
+  "_id": {
+    "$oid": "69a8e496758bb0947f29ec22"
+  },
+  "itemName": "Gà rang muối",
+  "productCode": "GRM001",
+  "price": 80000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316338/rms/menu-items/zqvf2gpeihmtnrfn7nqc.jpg"
+  ],
+  "costPrice": 60000,
+  "category": {
+    "$oid": "69a718daf2b0010546dad6d7"
+  },
+  "createdAt": {
+    "$date": "2026-03-05T02:04:06.327Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T01:38:59.687Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "69a8e65a758bb0947f29ec61"
+  },
+  "itemName": "Trà sữa trân châu đường đen",
+  "productCode": "TS001",
+  "price": 35000,
+  "description": "trà sữa trân châu đường đen",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316382/rms/menu-items/qg4ilrhmfxy3etfqb8f6.jpg"
+  ],
+  "costPrice": 14000,
+  "category": {
+    "$oid": "69a63c3d0ebe5960a93dce06"
+  },
+  "createdAt": {
+    "$date": "2026-03-05T02:11:38.169Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T01:39:44.137Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "69af6d547952f66912fbb2b1"
+  },
+  "itemName": "Bia 333 (lon)",
+  "productCode": "BIA002",
+  "price": 15000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316404/rms/menu-items/obrkjmlw8pltfriqcf46.jpg"
+  ],
+  "costPrice": 9000,
+  "category": {
+    "$oid": "69af6d447952f66912fbb2ac"
+  },
+  "createdAt": {
+    "$date": "2026-03-10T01:01:08.304Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T01:40:05.969Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "69af6ec07952f66912fbb2de"
+  },
+  "itemName": "Kem cốc vani",
+  "productCode": "KEM001",
+  "price": 25000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316435/rms/menu-items/ute7bjwfggsqdcbhumip.png"
+  ],
+  "costPrice": 8000,
+  "category": {
+    "$oid": "69a8f52d812bac6f0040d747"
+  },
+  "createdAt": {
+    "$date": "2026-03-10T01:07:12.755Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T01:40:37.105Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "69af81016c36d57c64879b47"
+  },
+  "itemName": "Heineiken",
+  "productCode": "BIA003",
+  "price": 25000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316445/rms/menu-items/dnmqgxjsrtb2gvrlgqot.jpg"
+  ],
+  "costPrice": 10000,
+  "category": {
+    "$oid": "69af6d447952f66912fbb2ac"
+  },
+  "createdAt": {
+    "$date": "2026-03-10T02:25:05.430Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T01:40:47.033Z"
+  },
+  "__v": 2
+},
+{
+  "_id": {
+    "$oid": "69bb6f5b787e71713e0999ab"
+  },
+  "itemName": "Cháo vịt",
+  "productCode": "CV001",
+  "price": 25000,
+  "description": "cháo vịt ngoăn lắm",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316348/rms/menu-items/tw0pu3lwtqc7c8zuibql.jpg"
+  ],
+  "costPrice": 16000,
+  "category": {
+    "$oid": "69bb6f24787e71713e0999a6"
+  },
+  "createdAt": {
+    "$date": "2026-03-19T03:36:59.968Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T01:39:07.661Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "69be4e2c437d965a16c2b760"
+  },
+  "itemName": "Cơm chiên dương châu",
+  "productCode": "COM2",
+  "price": 16000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316329/rms/menu-items/dkqggq9ka48stonx0s0l.jpg"
+  ],
+  "costPrice": 14000,
+  "category": {
+    "$oid": "69be4d80437d965a16c2b74b"
+  },
+  "createdAt": {
+    "$date": "2026-03-21T07:52:12.182Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T01:38:50.157Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "69c1688031b6a9301547c8ae"
+  },
+  "itemName": "Viên Kim Cương",
+  "productCode": "CC001",
+  "price": 500000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316271/rms/menu-items/mu2lx1gc4bw3ex7stuyb.jpg"
+  ],
+  "costPrice": 50000,
+  "category": {
+    "$oid": "69c1672f6848d13f4460e388"
+  },
+  "createdAt": {
+    "$date": "2026-03-23T16:21:20.233Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T01:37:52.850Z"
+  },
+  "__v": 3
+}]
