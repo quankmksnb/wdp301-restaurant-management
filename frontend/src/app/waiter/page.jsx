@@ -198,7 +198,7 @@ export default function WaiterPage() {
 
   const handleSendToKitchen = async () => {
     if (!orderId || !selTable) return;
-    const pendingIds = cart.filter(i => i.status === "pending" && i.id).map(i => i.id);
+    const pendingIds = cart.filter(i => (i.status === "pending" || i.status === "pre-order") && i.id).map(i => i.id);
     if (!pendingIds.length) return;
     try {
       await sendItemsToKitchen(orderId, { itemIds: pendingIds });
