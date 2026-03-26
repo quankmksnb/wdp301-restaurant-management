@@ -1,0 +1,1934 @@
+[{
+  "_id": {
+    "$oid": "69b812ca9f4f0d3b2c3274b4"
+  },
+  "reservation": {
+    "$oid": "69b812439f4f0d3b2c3274ae"
+  },
+  "orderStatus": "completed",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69af1103397f8c353331df0f"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69b815cd6c7d2e342a7e9398"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 4,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 140000,
+          "_id": {
+            "$oid": "69b817556c7d2e342a7e93aa"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 6,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 480000,
+          "_id": {
+            "$oid": "69b817596c7d2e342a7e93b7"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69b818206c7d2e342a7e93dc"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 35000,
+          "_id": {
+            "$oid": "69b81c032447de972c44ab00"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 35000,
+          "_id": {
+            "$oid": "69b81c042447de972c44ab13"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af6d547952f66912fbb2b1"
+          },
+          "itemName": "Bia 333 (lon)",
+          "unitPrice": 15000,
+          "quantity": 4,
+          "note": "",
+          "status": "served",
+          "subTotal": 60000,
+          "_id": {
+            "$oid": "69b81d142447de972c44ab72"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 2,
+          "note": "",
+          "status": "served",
+          "subTotal": 50000,
+          "_id": {
+            "$oid": "69b822ce7a02168cab8ac612"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69b822cf7a02168cab8ac62b"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af6d547952f66912fbb2b1"
+          },
+          "itemName": "Bia 333 (lon)",
+          "unitPrice": 15000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 15000,
+          "_id": {
+            "$oid": "69b822d07a02168cab8ac646"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 35000,
+          "_id": {
+            "$oid": "69b822d07a02168cab8ac663"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 3,
+          "note": "",
+          "status": "served",
+          "subTotal": 105000,
+          "_id": {
+            "$oid": "69b828e78535bf1d2fa6bca2"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 2,
+          "note": "",
+          "status": "served",
+          "subTotal": 160000,
+          "_id": {
+            "$oid": "69b828ee8535bf1d2fa6bcc7"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af6d547952f66912fbb2b1"
+          },
+          "itemName": "Bia 333 (lon)",
+          "unitPrice": 15000,
+          "quantity": 2,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 30000,
+          "_id": {
+            "$oid": "69b829188535bf1d2fa6bd30"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 35000,
+          "_id": {
+            "$oid": "69b82bb68535bf1d2fa6bfc1"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 35000,
+          "_id": {
+            "$oid": "69b82bc08535bf1d2fa6c015"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69b8abbdee6c2ef05a05f4a9"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 35000,
+          "_id": {
+            "$oid": "69b8abeeee6c2ef05a05f5ad"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69b8abefee6c2ef05a05f5de"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "pending",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69ba6a0ce79ccf081735de36"
+          }
+        }
+      ],
+      "subTotalAmount": 455000
+    }
+  ],
+  "orderDate": {
+    "$date": "2026-03-16T10:00:00.000Z"
+  },
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "taxAmount": 0,
+  "totalAmount": 455000,
+  "finalAmount": 455000,
+  "__v": 30,
+  "updatedAt": {
+    "$date": "2026-03-18T09:56:23.704Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69b826a9c98ac89ec33d88d5"
+  },
+  "reservation": {
+    "$oid": "69b826a8c98ac89ec33d88d2"
+  },
+  "orderStatus": "completed",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69af17cdcab23cdf69f57eab"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 2,
+          "note": "",
+          "status": "served",
+          "subTotal": 160000,
+          "_id": {
+            "$oid": "69b826a9c98ac89ec33d88d7"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 35000,
+          "_id": {
+            "$oid": "69b82b468535bf1d2fa6bf4c"
+          }
+        }
+      ],
+      "subTotalAmount": 160000,
+      "_id": {
+        "$oid": "69b826a9c98ac89ec33d88d6"
+      }
+    },
+    {
+      "table": {
+        "$oid": "69b22fe51720730ba651cd4e"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 3,
+          "note": "",
+          "status": "served",
+          "subTotal": 105000,
+          "_id": {
+            "$oid": "69b8278bac7b94c913db99ee"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 2,
+          "note": "",
+          "status": "served",
+          "subTotal": 160000,
+          "_id": {
+            "$oid": "69b82790ac7b94c913db9a01"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 7,
+          "note": "",
+          "status": "served",
+          "subTotal": 175000,
+          "_id": {
+            "$oid": "69b884b038b028f2728d28e2"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af6d547952f66912fbb2b1"
+          },
+          "itemName": "Bia 333 (lon)",
+          "unitPrice": 15000,
+          "quantity": 3,
+          "note": "",
+          "status": "served",
+          "subTotal": 45000,
+          "_id": {
+            "$oid": "69b886bb38b028f2728d292c"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69b8b2e0ee6c2ef05a05f86b"
+          }
+        }
+      ],
+      "subTotalAmount": 485000,
+      "_id": {
+        "$oid": "69b826a9c98ac89ec33d88d8"
+      }
+    }
+  ],
+  "totalAmount": 645000,
+  "taxAmount": 0,
+  "finalAmount": 645000,
+  "orderDate": {
+    "$date": "2026-03-16T15:50:01.093Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-16T15:50:01.096Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T00:12:03.856Z"
+  },
+  "__v": 14
+},
+{
+  "_id": {
+    "$oid": "69bad53b9ab2b3e13b8078ce"
+  },
+  "reservation": {
+    "$oid": "69bad53b9ab2b3e13b8078cb"
+  },
+  "orderStatus": "pre-order",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69ba69be923a44096684a855"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "pre-order",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69bad53b9ab2b3e13b8078d0"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "pre-order",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69bad53b9ab2b3e13b8078d1"
+          }
+        }
+      ],
+      "subTotalAmount": 105000,
+      "_id": {
+        "$oid": "69bad53b9ab2b3e13b8078cf"
+      }
+    }
+  ],
+  "totalAmount": 105000,
+  "taxAmount": 0,
+  "finalAmount": 105000,
+  "orderDate": {
+    "$date": "2026-03-18T16:39:23.776Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-18T16:39:23.779Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-18T16:39:23.779Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bad9f9d7e2292c14a5017c"
+  },
+  "reservation": {
+    "$oid": "69bad9f9d7e2292c14a50179"
+  },
+  "orderStatus": "pre-order",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69ba69be923a44096684a855"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "pre-order",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69bad9f9d7e2292c14a5017e"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af6d547952f66912fbb2b1"
+          },
+          "itemName": "Bia 333 (lon)",
+          "unitPrice": 15000,
+          "quantity": 1,
+          "note": "",
+          "status": "pre-order",
+          "subTotal": 15000,
+          "_id": {
+            "$oid": "69bad9f9d7e2292c14a5017f"
+          }
+        }
+      ],
+      "subTotalAmount": 40000,
+      "_id": {
+        "$oid": "69bad9f9d7e2292c14a5017d"
+      }
+    }
+  ],
+  "totalAmount": 40000,
+  "taxAmount": 0,
+  "finalAmount": 40000,
+  "orderDate": {
+    "$date": "2026-03-18T16:59:37.903Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-18T16:59:37.906Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-18T16:59:37.906Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69badfaab267f686e4f928b8"
+  },
+  "reservation": {
+    "$oid": "69badfaab267f686e4f928b6"
+  },
+  "orderStatus": "completed",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69ba69cf923a44096684aaea"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69bae1df6923fe5d1480da07"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "ready",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69bae1e16923fe5d1480da12"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 5,
+          "note": "",
+          "status": "ready",
+          "subTotal": 175000,
+          "_id": {
+            "$oid": "69bae2b06923fe5d1480daa3"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69bae7f588c42100c5d46e26"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "pending",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69bae80288c42100c5d46e66"
+          }
+        }
+      ],
+      "subTotalAmount": 280000,
+      "_id": {
+        "$oid": "69badfaab267f686e4f928b9"
+      }
+    }
+  ],
+  "totalAmount": 280000,
+  "taxAmount": 0,
+  "finalAmount": 280000,
+  "orderDate": {
+    "$date": "2026-03-18T17:23:54.704Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-18T17:23:54.705Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-18T18:00:54.706Z"
+  },
+  "__v": 7
+},
+{
+  "_id": {
+    "$oid": "69bae63488c42100c5d46d75"
+  },
+  "reservation": {
+    "$oid": "69bae63488c42100c5d46d73"
+  },
+  "orderStatus": "pre-order",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69ba69cf923a44096684aaea"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69af6d547952f66912fbb2b1"
+          },
+          "itemName": "Bia 333 (lon)",
+          "unitPrice": 15000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 15000,
+          "_id": {
+            "$oid": "69bb3d2d8662dce687c5234b"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69bb3d2e8662dce687c52356"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 35000,
+          "_id": {
+            "$oid": "69bb3d2f8662dce687c52363"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69bb3d308662dce687c52372"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af6d547952f66912fbb2b1"
+          },
+          "itemName": "Bia 333 (lon)",
+          "unitPrice": 15000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 15000,
+          "_id": {
+            "$oid": "69bb47ade295eebf998fd854"
+          }
+        }
+      ],
+      "subTotalAmount": 0,
+      "_id": {
+        "$oid": "69bae63488c42100c5d46d76"
+      }
+    }
+  ],
+  "totalAmount": 0,
+  "taxAmount": 0,
+  "finalAmount": 0,
+  "orderDate": {
+    "$date": "2026-03-18T17:51:48.416Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-18T17:51:48.417Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T00:47:45.805Z"
+  },
+  "__v": 5
+},
+{
+  "_id": {
+    "$oid": "69bae72b88c42100c5d46db6"
+  },
+  "reservation": {
+    "$oid": "69bae72b88c42100c5d46db4"
+  },
+  "orderStatus": "pre-order",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69af1727cab23cdf69f57e90"
+      },
+      "items": [],
+      "subTotalAmount": 0,
+      "_id": {
+        "$oid": "69bae72b88c42100c5d46db7"
+      }
+    },
+    {
+      "table": {
+        "$oid": "69ba6ba0923a440966853a0e"
+      },
+      "items": [],
+      "subTotalAmount": 0,
+      "_id": {
+        "$oid": "69bae72b88c42100c5d46db8"
+      }
+    }
+  ],
+  "totalAmount": 0,
+  "taxAmount": 0,
+  "finalAmount": 0,
+  "orderDate": {
+    "$date": "2026-03-18T17:55:55.610Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-18T17:55:55.612Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-18T17:55:55.612Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb402b8662dce687c524d2"
+  },
+  "reservation": {
+    "$oid": "69bb402b8662dce687c524d0"
+  },
+  "orderStatus": "completed",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69ba6a1b923a44096684b84b"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 2,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 70000,
+          "_id": {
+            "$oid": "69bb404f8662dce687c524f5"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T00:40:26.218Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T00:40:27.949Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 2,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 160000,
+          "_id": {
+            "$oid": "69bb40508662dce687c52500"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T00:40:26.219Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T00:40:27.481Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af6d547952f66912fbb2b1"
+          },
+          "itemName": "Bia 333 (lon)",
+          "unitPrice": 15000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 15000,
+          "_id": {
+            "$oid": "69bb40518662dce687c5250d"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T00:40:26.219Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T00:40:26.565Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 5,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 125000,
+          "_id": {
+            "$oid": "69bb44478662dce687c52590"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T00:40:26.220Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T00:40:28.654Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af6d547952f66912fbb2b1"
+          },
+          "itemName": "Bia 333 (lon)",
+          "unitPrice": 15000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 15000,
+          "_id": {
+            "$oid": "69bb4605887e32ba5176aebf"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T00:40:37.313Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T01:06:33.196Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 35000,
+          "_id": {
+            "$oid": "69bb4605887e32ba5176aed2"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T00:40:37.951Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T01:06:42.909Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69bb4607887e32ba5176aee7"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T00:40:39.040Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T01:06:50.467Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69bb46951fa89bfd388b8c2d"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T00:43:01.177Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T01:06:50.735Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af6d547952f66912fbb2b1"
+          },
+          "itemName": "Bia 333 (lon)",
+          "unitPrice": 15000,
+          "quantity": 3,
+          "note": "",
+          "status": "preparing",
+          "subTotal": 45000,
+          "_id": {
+            "$oid": "69bb4c3c752772822da903e1"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T01:07:08.755Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T01:07:12.609Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 2,
+          "note": "",
+          "status": "preparing",
+          "subTotal": 70000,
+          "_id": {
+            "$oid": "69bb4c3e752772822da90430"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T01:07:10.497Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T01:07:12.609Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 2,
+          "note": "",
+          "status": "ready",
+          "subTotal": 70000,
+          "_id": {
+            "$oid": "69bb50662e811e6a226ba51e"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T01:24:54.513Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T01:35:31.385Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "preparing",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69bb50682e811e6a226ba55b"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T01:24:56.020Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T01:24:57.126Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 3,
+          "note": "",
+          "status": "preparing",
+          "subTotal": 105000,
+          "_id": {
+            "$oid": "69bb52d4ffa369950a2b0dcc"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T01:35:16.402Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T01:35:17.765Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 2,
+          "note": "",
+          "status": "order_sent",
+          "subTotal": 70000,
+          "_id": {
+            "$oid": "69bb52f1ffa369950a2b0e70"
+          },
+          "createdAt": {
+            "$date": "2026-03-19T01:35:45.520Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-19T01:35:46.903Z"
+          }
+        }
+      ],
+      "subTotalAmount": 595000,
+      "_id": {
+        "$oid": "69bb402b8662dce687c524d3"
+      }
+    }
+  ],
+  "totalAmount": 595000,
+  "taxAmount": 0,
+  "finalAmount": 595000,
+  "orderDate": {
+    "$date": "2026-03-19T00:15:39.360Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-19T00:15:39.360Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T01:51:38.107Z"
+  },
+  "__v": 22
+},
+{
+  "_id": {
+    "$oid": "69bb6ab92eba6600590c3c63"
+  },
+  "reservation": {
+    "$oid": "69bb6ab82eba6600590c3c61"
+  },
+  "orderStatus": "pre-order",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69b22fe51720730ba651cd4e"
+      },
+      "items": [],
+      "subTotalAmount": 0,
+      "_id": {
+        "$oid": "69bb6ab92eba6600590c3c64"
+      }
+    }
+  ],
+  "totalAmount": 0,
+  "taxAmount": 0,
+  "finalAmount": 0,
+  "orderDate": {
+    "$date": "2026-03-19T03:17:13.167Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-19T03:17:13.168Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T03:17:13.168Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb74f5203e30a4d3fba78e"
+  },
+  "reservation": {
+    "$oid": "69bb74f5203e30a4d3fba78c"
+  },
+  "orderStatus": "pre-order",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69ba697b923a440966849866"
+      },
+      "items": [],
+      "subTotalAmount": 0,
+      "_id": {
+        "$oid": "69bb74f5203e30a4d3fba78f"
+      }
+    }
+  ],
+  "totalAmount": 0,
+  "taxAmount": 0,
+  "finalAmount": 0,
+  "orderDate": {
+    "$date": "2026-03-19T04:00:53.225Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-19T04:00:53.227Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T04:00:53.227Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb7651d8f4b4b328192955"
+  },
+  "reservation": {
+    "$oid": "69bb7651d8f4b4b328192953"
+  },
+  "orderStatus": "pre-order",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69af1103397f8c353331df0f"
+      },
+      "items": [],
+      "subTotalAmount": 0,
+      "_id": {
+        "$oid": "69bb7651d8f4b4b328192956"
+      }
+    }
+  ],
+  "totalAmount": 0,
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "taxAmount": 0,
+  "finalAmount": 0,
+  "orderDate": {
+    "$date": "2026-03-19T04:06:41.279Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-19T04:06:41.280Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T04:06:41.280Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb7e3e08c3f7587fe6cfc5"
+  },
+  "reservation": {
+    "$oid": "69bb7e3d08c3f7587fe6cfc3"
+  },
+  "orderStatus": "pre-order",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69ba6ba0923a440966853a0e"
+      },
+      "items": [],
+      "subTotalAmount": 0,
+      "_id": {
+        "$oid": "69bb7e3e08c3f7587fe6cfc6"
+      }
+    }
+  ],
+  "totalAmount": 0,
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "taxAmount": 0,
+  "finalAmount": 0,
+  "orderDate": {
+    "$date": "2026-03-19T04:40:30.334Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-19T04:40:30.335Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T04:40:30.335Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c166f5ee0b49c1a94bd4d3"
+  },
+  "reservation": {
+    "$oid": "69c166f5ee0b49c1a94bd4d0"
+  },
+  "orderStatus": "completed",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69af17cdcab23cdf69f57eab"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69be4e2c437d965a16c2b760"
+          },
+          "itemName": "Cơm chiên dương châu",
+          "unitPrice": 16000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 16000,
+          "_id": {
+            "$oid": "69c166f5ee0b49c1a94bd4d5"
+          },
+          "createdAt": {
+            "$date": "2026-03-23T16:14:45.741Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-23T16:51:46.248Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 1,
+          "note": "",
+          "status": "out_of_stock",
+          "subTotal": 35000,
+          "_id": {
+            "$oid": "69c166f5ee0b49c1a94bd4d6"
+          },
+          "createdAt": {
+            "$date": "2026-03-23T16:14:45.741Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-23T16:45:26.725Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "ready",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69c166f5ee0b49c1a94bd4d7"
+          },
+          "createdAt": {
+            "$date": "2026-03-23T16:14:45.741Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-23T16:45:41.204Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af6ec07952f66912fbb2de"
+          },
+          "itemName": "Kem cốc vani",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "ready",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69c1670bee0b49c1a94bd517"
+          },
+          "createdAt": {
+            "$date": "2026-03-23T16:15:07.047Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-23T16:46:12.454Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af6d547952f66912fbb2b1"
+          },
+          "itemName": "Bia 333 (lon)",
+          "unitPrice": 15000,
+          "quantity": 1,
+          "note": "",
+          "status": "ready",
+          "subTotal": 15000,
+          "_id": {
+            "$oid": "69c16e46027c7f5d394c104a"
+          },
+          "createdAt": {
+            "$date": "2026-03-23T16:45:58.149Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-23T16:46:12.454Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c1688031b6a9301547c8ae"
+          },
+          "itemName": "Viên Kim Cương",
+          "unitPrice": 500000,
+          "quantity": 1,
+          "note": "",
+          "status": "preparing",
+          "subTotal": 500000,
+          "_id": {
+            "$oid": "69c16f8e027c7f5d394c1115"
+          },
+          "createdAt": {
+            "$date": "2026-03-23T16:51:26.931Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-23T16:53:03.295Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "pending",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69c16ffb027c7f5d394c11ce"
+          },
+          "createdAt": {
+            "$date": "2026-03-23T16:53:15.823Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-23T16:53:15.823Z"
+          }
+        }
+      ],
+      "subTotalAmount": 716000,
+      "_id": {
+        "$oid": "69c166f5ee0b49c1a94bd4d4"
+      }
+    },
+    {
+      "table": {
+        "$oid": "69af1727cab23cdf69f57e90"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69be4e2c437d965a16c2b760"
+          },
+          "itemName": "Cơm chiên dương châu",
+          "unitPrice": 16000,
+          "quantity": 1,
+          "note": "",
+          "status": "pending",
+          "subTotal": 16000,
+          "_id": {
+            "$oid": "69c166f5ee0b49c1a94bd4d9"
+          },
+          "createdAt": {
+            "$date": "2026-03-23T16:14:45.741Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-23T16:14:53.564Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e65a758bb0947f29ec61"
+          },
+          "itemName": "Trà sữa trân châu đường đen",
+          "unitPrice": 35000,
+          "quantity": 1,
+          "note": "",
+          "status": "pending",
+          "subTotal": 35000,
+          "_id": {
+            "$oid": "69c166f5ee0b49c1a94bd4da"
+          },
+          "createdAt": {
+            "$date": "2026-03-23T16:14:45.741Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-23T16:14:53.564Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69a8e496758bb0947f29ec22"
+          },
+          "itemName": "Gà rang muối",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "pending",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69c166f5ee0b49c1a94bd4db"
+          },
+          "createdAt": {
+            "$date": "2026-03-23T16:14:45.741Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-23T16:14:53.564Z"
+          }
+        }
+      ],
+      "subTotalAmount": 131000,
+      "_id": {
+        "$oid": "69c166f5ee0b49c1a94bd4d8"
+      }
+    }
+  ],
+  "totalAmount": 847000,
+  "user": {
+    "$oid": "69b68d38a66964e926fc78e7"
+  },
+  "taxAmount": 0,
+  "finalAmount": 847000,
+  "orderDate": {
+    "$date": "2026-03-23T16:14:45.739Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-23T16:14:45.742Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T17:00:41.021Z"
+  },
+  "__v": 4
+},
+{
+  "_id": {
+    "$oid": "69c1e538a2544aa16afa3266"
+  },
+  "reservation": {
+    "$oid": "69c1e538a2544aa16afa3263"
+  },
+  "orderStatus": "cancelled",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69af1103397f8c353331df0f"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69c1688031b6a9301547c8ae"
+          },
+          "itemName": "Viên Kim Cương",
+          "unitPrice": 500000,
+          "quantity": 1,
+          "note": "",
+          "status": "pre-order",
+          "subTotal": 500000,
+          "_id": {
+            "$oid": "69c1e538a2544aa16afa3268"
+          },
+          "createdAt": {
+            "$date": "2026-03-24T01:13:28.976Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-24T01:13:28.976Z"
+          }
+        }
+      ],
+      "subTotalAmount": 500000,
+      "_id": {
+        "$oid": "69c1e538a2544aa16afa3267"
+      }
+    }
+  ],
+  "totalAmount": 500000,
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "taxAmount": 0,
+  "finalAmount": 500000,
+  "orderDate": {
+    "$date": "2026-03-24T01:13:28.974Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-24T01:13:28.976Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T01:13:45.064Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c1f7653a9ab94cc0841bcb"
+  },
+  "reservation": {
+    "$oid": "69c1f7643a9ab94cc0841bc8"
+  },
+  "orderStatus": "pre-order",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69ba697b923a440966849866"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69be4e2c437d965a16c2b760"
+          },
+          "itemName": "Cơm chiên dương châu",
+          "unitPrice": 16000,
+          "quantity": 1,
+          "note": "",
+          "status": "pre-order",
+          "subTotal": 16000,
+          "_id": {
+            "$oid": "69c1f7653a9ab94cc0841bcd"
+          },
+          "createdAt": {
+            "$date": "2026-03-24T02:31:01.252Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-24T02:31:01.252Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69bb6f5b787e71713e0999ab"
+          },
+          "itemName": "Cháo vịt",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "pre-order",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69c1f7653a9ab94cc0841bce"
+          },
+          "createdAt": {
+            "$date": "2026-03-24T02:31:01.252Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-24T02:31:01.252Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "pre-order",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69c1f7653a9ab94cc0841bcf"
+          },
+          "createdAt": {
+            "$date": "2026-03-24T02:31:01.253Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-24T02:31:01.253Z"
+          }
+        }
+      ],
+      "subTotalAmount": 66000,
+      "_id": {
+        "$oid": "69c1f7653a9ab94cc0841bcc"
+      }
+    }
+  ],
+  "totalAmount": 66000,
+  "user": {
+    "$oid": "69b68d38a66964e926fc78e7"
+  },
+  "taxAmount": 0,
+  "finalAmount": 66000,
+  "orderDate": {
+    "$date": "2026-03-24T02:31:01.250Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-24T02:31:01.253Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T02:31:01.253Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c483e69f82be60b93918ad"
+  },
+  "reservation": {
+    "$oid": "69c483ab9f82be60b9391893"
+  },
+  "orderStatus": "active",
+  "totalAmount": 689000,
+  "user": {
+    "$oid": "69bb3ea28662dce687c523e0"
+  },
+  "taxAmount": 0,
+  "finalAmount": 689000,
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69b22fe51720730ba651cd4e"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69c1688031b6a9301547c8ae"
+          },
+          "itemName": "Viên Kim Cương",
+          "unitPrice": 500000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 500000,
+          "_id": {
+            "$oid": "69c483fe9f82be60b93918d2"
+          },
+          "createdAt": {
+            "$date": "2026-03-26T00:55:26.501Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-26T01:27:31.143Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69be4e2c437d965a16c2b760"
+          },
+          "itemName": "Cơm chiên dương châu",
+          "unitPrice": 16000,
+          "quantity": 2,
+          "note": "",
+          "status": "order_sent",
+          "subTotal": 32000,
+          "_id": {
+            "$oid": "69c485839f82be60b9391959"
+          },
+          "createdAt": {
+            "$date": "2026-03-26T01:01:55.280Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-26T01:06:40.656Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69bb6f5b787e71713e0999ab"
+          },
+          "itemName": "Cháo vịt",
+          "unitPrice": 25000,
+          "quantity": 4,
+          "note": "",
+          "status": "order_sent",
+          "subTotal": 100000,
+          "_id": {
+            "$oid": "69c485849f82be60b9391984"
+          },
+          "createdAt": {
+            "$date": "2026-03-26T01:01:56.358Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-26T01:02:00.576Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69be4e2c437d965a16c2b760"
+          },
+          "itemName": "Cơm chiên dương châu",
+          "unitPrice": 16000,
+          "quantity": 2,
+          "note": "",
+          "status": "ready",
+          "subTotal": 32000,
+          "_id": {
+            "$oid": "69c486a09f82be60b9391aa0"
+          },
+          "createdAt": {
+            "$date": "2026-03-26T01:06:40.657Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-26T01:28:18.469Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69af81016c36d57c64879b47"
+          },
+          "itemName": "Heineiken",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "order_sent",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69c48faefdd6bce9ec134299"
+          },
+          "createdAt": {
+            "$date": "2026-03-26T01:45:18.428Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-26T01:45:20.251Z"
+          }
+        }
+      ],
+      "subTotalAmount": 689000,
+      "_id": {
+        "$oid": "69c483fe9f82be60b93918d1"
+      }
+    }
+  ],
+  "orderDate": {
+    "$date": "2026-03-26T00:55:02.747Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-26T00:55:02.749Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-26T01:45:20.252Z"
+  },
+  "__v": 6
+},
+{
+  "_id": {
+    "$oid": "69c485ff9f82be60b93919fc"
+  },
+  "reservation": {
+    "$oid": "69c485f69f82be60b93919ea"
+  },
+  "orderStatus": "pre-order",
+  "totalAmount": 1660000,
+  "user": {
+    "$oid": "69b7c57bc5af50448e228a8a"
+  },
+  "taxAmount": 0,
+  "finalAmount": 1660000,
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69b22fec1720730ba651cd53"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69c1688031b6a9301547c8ae"
+          },
+          "itemName": "Viên Kim Cương",
+          "unitPrice": 500000,
+          "quantity": 3,
+          "note": "",
+          "status": "order_sent",
+          "subTotal": 1500000,
+          "_id": {
+            "$oid": "69c485ff9f82be60b93919ff"
+          },
+          "createdAt": {
+            "$date": "2026-03-26T01:03:59.691Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-26T01:48:38.932Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69be4e2c437d965a16c2b760"
+          },
+          "itemName": "Cơm chiên dương châu",
+          "unitPrice": 16000,
+          "quantity": 2,
+          "note": "",
+          "status": "order_sent",
+          "subTotal": 32000,
+          "_id": {
+            "$oid": "69c485ff9f82be60b9391a00"
+          },
+          "createdAt": {
+            "$date": "2026-03-26T01:03:59.691Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-26T01:48:38.932Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69be4e2c437d965a16c2b760"
+          },
+          "itemName": "Cơm chiên dương châu",
+          "unitPrice": 16000,
+          "quantity": 8,
+          "note": "",
+          "status": "order_sent",
+          "subTotal": 128000,
+          "_id": {
+            "$oid": "69c486149f82be60b9391a20"
+          },
+          "createdAt": {
+            "$date": "2026-03-26T01:04:20.056Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-26T01:04:22.955Z"
+          }
+        }
+      ],
+      "subTotalAmount": 1660000,
+      "_id": {
+        "$oid": "69c485ff9f82be60b93919fe"
+      }
+    }
+  ],
+  "orderDate": {
+    "$date": "2026-03-26T01:03:59.652Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-26T01:03:59.691Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-26T01:48:38.932Z"
+  },
+  "__v": 1
+}]

@@ -1,11 +1,11 @@
 import { Router } from "express";
 import {
-    createEmployee,
-    getEmployees,
-    getEmployeeById,
-    updateEmployee,
-    deleteEmployee,
-} from "../controllers/employee.controller.js";
+  createEmployee,
+  getEmployees,
+  getEmployeeById,
+  updateEmployee,
+  deleteEmployee,
+} from "../controllers/employeeController.js";
 import upload from "../middlewares/upload.js";
 
 const router = Router();

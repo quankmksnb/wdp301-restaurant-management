@@ -3,8 +3,8 @@
 import { Row, Col } from "antd";
 import { useState } from "react";
 
-import TableFilterPanel from "./components/TableFilterPanel";
-import TableManagement from "./components/TableManagement";
+import TableFilterPanel from "../../../components/dashboard/table/TableFilterPanel";
+import TableManagement from "../../../components/dashboard/table/TableManagement";
 
 export default function Page() {
   const [filters, setFilters] = useState({
