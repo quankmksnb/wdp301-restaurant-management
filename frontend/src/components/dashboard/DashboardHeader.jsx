@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import EmployeeDropdown from "./EmployeeDropdown";
-import TooltipIcon from "../../../components/auth/TooltipIcon";
+import TooltipIcon from "../auth/TooltipIcon";
 
 export default function DashboardHeader() {
   const router = useRouter();

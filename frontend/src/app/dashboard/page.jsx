@@ -1,8 +1,6 @@
-import { DollarSign, Users, ClipboardList, Truck } from "lucide-react";
+import { ClipboardList, DollarSign, Users } from "lucide-react";
 
-import DashboardHeader from "./components/DashboardHeader";
 import DashboardBox from "../../components/dashboard/DashboardBox";
-import TopProductBox from "../../components/dashboard/TopProductBox";
 import ResultItem from "../../components/dashboard/ResultItem";
 
 export default function Dashboard() {

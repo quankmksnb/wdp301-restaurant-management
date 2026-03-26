@@ -9,9 +9,9 @@ import {
   deleteEmployee,
 } from "@/services/employeeService";
 import useExportFile from "@/hooks/useExportFile";
-import EmployeeFilters from "../../../components/dashboard/products/EmployeeFilters";
-import EmployeeList from "../../../components/dashboard/products/EmployeeList";
-import EmployeeFormModal from "../../../components/dashboard/products/AddEmployeeModal";
+import EmployeeList from "@/components/dashboard/employee/EmployeeList";
+import EmployeeFormModal from "@/components/dashboard/employee/AddEmployeeModal";
+import EmployeeFilters from "@/components/dashboard/employee/EmployeeFilters";
 
 export default function EmployeePage() {
   const [employees, setEmployees] = useState([]);

@@ -1,5 +1,5 @@
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import ProtectedRoute from "@/services/protectedRoute";
-import DashboardHeader from "@/app/dashboard/components/DashboardHeader";
 
 export default function DashboardLayout({ children }) {
   return (
