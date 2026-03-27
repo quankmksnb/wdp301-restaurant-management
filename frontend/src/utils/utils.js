@@ -34,3 +34,13 @@ export const getYesterDayISOString = () => {
   yesterday.setDate(today.getDate() - 1);
   return yesterday.toISOString().split("T")[0];
 };
+
+export const formatDate = (dateStr) => {
+  if (!dateStr) return "";
+
+  const parts = dateStr.split("-");
+  if (parts.length !== 3) return dateStr;
+
+  const [year, month, day] = parts;
+  return `${day}-${month}-${year}`;
+};

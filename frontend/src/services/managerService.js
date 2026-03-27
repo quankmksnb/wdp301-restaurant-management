@@ -9,7 +9,7 @@ const managerService = {
 
       return response.data;
     } catch (error) {
-      console.error("Error in getPendingOrders:", error);
+      console.error("Error in getRevenueSumary:", error);
       throw error;
     }
   },
@@ -24,7 +24,19 @@ const managerService = {
       });
       return response.data;
     } catch (error) {
-      console.error("Error in getPendingOrders:", error);
+      console.error("Error in getTodayRevenue:", error);
+      throw error;
+    }
+  },
+
+  getRevenueChartData: async (type) => {
+    try {
+      const response = await api.get("/manager/revenue-chart", {
+        params: { type },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error in getRevenueChartData:", error);
       throw error;
     }
   },

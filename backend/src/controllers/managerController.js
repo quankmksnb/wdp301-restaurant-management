@@ -97,15 +97,15 @@ export const getRevenueSummary = async (req, res) => {
 export const getRevenueChartData = async (req, res) => {
   try {
     const { type } = req.query;
-    let groupBy = {};
+    let groupBy = "";
     let dateFilter = new Date();
 
     if (type === "week") {
       dateFilter.setDate(dateFilter.getDate() - 7);
-      groupBy = { $dateToString: { format: "%y-%m-%d", date: "$paymentDate" } };
+      groupBy = { $dateToString: { format: "%Y-%m-%d", date: "$paymentDate" } };
     } else if (type === "month") {
-      dateFilter = new Date(dateFilter.getFullYear, dateFilter.getMonth(), 1);
-      groupBy = { $dateToString: { format: "%y-%m-%d", date: "$paymentDate" } };
+      dateFilter = new Date(dateFilter.getFullYear(), dateFilter.getMonth(), 1);
+      groupBy = { $dateToString: { format: "%Y-%m-%d", date: "$paymentDate" } };
     } else if (type === "year") {
       dateFilter = new Date(dateFilter.getFullYear(), 0, 1);
       groupBy = { $dateToString: { format: "%Y-%m", date: "$paymentDate" } };
@@ -126,9 +126,13 @@ export const getRevenueChartData = async (req, res) => {
       },
       { $sort: { _id: 1 } },
     ]);
+
     res.status(200).json(chartData);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Lỗi khi lấy dữ liệu cho biêu đồ", error });
+    res.status(500).json({
+      message: "Lỗi khi lấy dữ liệu cho biểu đồ",
+      error: error.message,
+    });
   }
 };
