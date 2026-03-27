@@ -1,0 +1,68 @@
+[{
+  "_id": {
+    "$oid": "69c69d09fc4887eed6dbda27"
+  },
+  "user": {
+    "$oid": "69c68a43625349ac50b57755"
+  },
+  "content": "vừa thanh toán tiền mặt cho đơn - 130,000đ",
+  "type": "payment",
+  "createdAt": {
+    "$date": "2026-03-27T15:06:49.732Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T15:06:49.732Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69d5ffc4887eed6dbdbb5"
+  },
+  "user": {
+    "$oid": "69c68a43625349ac50b57755"
+  },
+  "content": "vừa thanh toán tiền mặt cho đơn - 836,000đ",
+  "type": "payment",
+  "createdAt": {
+    "$date": "2026-03-27T15:08:15.891Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T15:08:15.891Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6a05eb2b934ea01d78bf5"
+  },
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "content": "vừa tạo đặt bàn mới cho khách [Khách 06] tại bàn [Bàn C-01]",
+  "type": "reservation",
+  "createdAt": {
+    "$date": "2026-03-27T15:21:02.689Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T15:21:02.689Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6a066b2b934ea01d78bfe"
+  },
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "content": "vừa hủy đặt bàn của khách [Khách 06] - Lý do: khách hủy",
+  "type": "reservation",
+  "createdAt": {
+    "$date": "2026-03-27T15:21:10.373Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T15:21:10.373Z"
+  },
+  "__v": 0
+}]

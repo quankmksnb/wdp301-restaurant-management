@@ -1,234 +1,108 @@
 [{
   "_id": {
-    "$oid": "65f000000000000000000010"
+    "$oid": "69c68c1d625349ac50b577ff"
   },
-  "areaName": "Tầng 1",
-  "description": "Khu vực gần cửa ra vào",
+  "areaName": "Sảnh Chính",
+  "description": "Khu vực trung tâm, thoáng đãng",
+  "areaStatus": "active",
   "createdBy": {
-    "$oid": "65f000000000000000000001"
-  }
-},
-{
-  "_id": {
-    "$oid": "69ac59f2eaa77d0a00061390"
+    "$oid": "69a907ba16da283576823ca5"
   },
-  "areaName": "Khu VIP",
-  "description": "Khu vực dành cho khách VIP",
   "createdAt": {
-    "$date": "2026-03-07T17:01:38.299Z"
+    "$date": "2026-03-27T13:54:37.366Z"
   },
   "updatedAt": {
-    "$date": "2026-03-07T17:01:38.299Z"
+    "$date": "2026-03-27T13:54:37.366Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "69af171ccab23cdf69f57e8b"
+    "$oid": "69c68c3a625349ac50b57805"
+  },
+  "areaName": "VIP 1",
+  "description": "Phòng riêng biệt, yên tĩnh",
+  "areaStatus": "active",
+  "createdBy": {
+    "$oid": "69a907ba16da283576823ca5"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T13:55:06.828Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:07:00.990Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68c42625349ac50b5780a"
+  },
+  "areaName": "Phòng VIP 2",
+  "description": "Phòng riêng biệt, yên tĩnh",
+  "areaStatus": "active",
+  "createdBy": {
+    "$oid": "69a907ba16da283576823ca5"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T13:55:14.681Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T13:55:14.681Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68c78625349ac50b57810"
+  },
+  "areaName": "Ngoài Trời",
+  "description": "Khu vực thoáng khí, view đẹp, phù hợp buổi tối",
+  "areaStatus": "active",
+  "createdBy": {
+    "$oid": "69a907ba16da283576823ca5"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T13:56:08.404Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T13:56:08.404Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68c92625349ac50b57815"
   },
   "areaName": "Tầng 2",
   "description": "",
+  "areaStatus": "active",
+  "createdBy": {
+    "$oid": "69a907ba16da283576823ca5"
+  },
   "createdAt": {
-    "$date": "2026-03-09T18:53:16.038Z"
+    "$date": "2026-03-27T13:56:34.879Z"
   },
   "updatedAt": {
-    "$date": "2026-03-19T02:14:53.081Z"
+    "$date": "2026-03-27T13:56:34.879Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "69c15219eabcb0c4599290b7"
+    "$oid": "69c6995c625349ac50b57ba6"
   },
-  "areaName": "Tầng 4",
+  "areaName": "Tầng 3",
   "description": "",
+  "areaStatus": "active",
+  "createdBy": {
+    "$oid": "69a907ba16da283576823ca5"
+  },
   "createdAt": {
-    "$date": "2026-03-23T14:45:45.998Z"
+    "$date": "2026-03-27T14:51:08.636Z"
   },
   "updatedAt": {
-    "$date": "2026-03-23T14:47:26.970Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c15241eabcb0c4599290be"
-  },
-  "areaName": "Tầng 5",
-  "description": "",
-  "createdAt": {
-    "$date": "2026-03-23T14:46:25.341Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-23T14:46:25.341Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c2a7a1884337136840c4d9"
-  },
-  "areaName": "Phòng KTV VIP",
-  "description": "",
-  "createdAt": {
-    "$date": "2026-03-24T15:02:57.066Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T15:02:57.066Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c2a7a9884337136840c4df"
-  },
-  "areaName": "Phòng Khách",
-  "description": "",
-  "createdAt": {
-    "$date": "2026-03-24T15:03:05.352Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T15:03:05.352Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c2a7b1884337136840c4e4"
-  },
-  "areaName": "Phòng Tắm",
-  "description": "",
-  "createdAt": {
-    "$date": "2026-03-24T15:03:13.953Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T15:03:13.953Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c2a7ba884337136840c4e9"
-  },
-  "areaName": "Phòng Ngủ",
-  "description": "",
-  "createdAt": {
-    "$date": "2026-03-24T15:03:22.351Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T15:03:22.351Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c2a7bf884337136840c4ee"
-  },
-  "areaName": "Phòng Thờ",
-  "description": "",
-  "createdAt": {
-    "$date": "2026-03-24T15:03:27.262Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T15:03:27.262Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c2a7d4884337136840c4fa"
-  },
-  "areaName": "Phòng Bị",
-  "description": "",
-  "createdAt": {
-    "$date": "2026-03-24T15:03:48.770Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T15:03:48.770Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c2a7e6884337136840c507"
-  },
-  "areaName": "Phòng Ngừa",
-  "description": "",
-  "createdAt": {
-    "$date": "2026-03-24T15:04:06.788Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T15:04:06.788Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c2a7ff884337136840c51a"
-  },
-  "areaName": "Phòng Trọ",
-  "description": "",
-  "createdAt": {
-    "$date": "2026-03-24T15:04:31.981Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T15:04:31.981Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c2a807884337136840c51f"
-  },
-  "areaName": "Phòng Phòng",
-  "description": "",
-  "createdAt": {
-    "$date": "2026-03-24T15:04:39.864Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T15:04:39.864Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c2a81e884337136840c531"
-  },
-  "areaName": "Lầu 1",
-  "description": "",
-  "createdAt": {
-    "$date": "2026-03-24T15:05:02.388Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T15:05:02.388Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c2a825884337136840c536"
-  },
-  "areaName": "Lầu 4",
-  "description": "",
-  "createdAt": {
-    "$date": "2026-03-24T15:05:09.249Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T15:05:09.249Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c2a829884337136840c53b"
-  },
-  "areaName": "Lầu 100",
-  "description": "",
-  "createdAt": {
-    "$date": "2026-03-24T15:05:13.550Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T15:05:13.550Z"
+    "$date": "2026-03-27T14:51:08.636Z"
   },
   "__v": 0
 }]

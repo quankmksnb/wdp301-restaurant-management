@@ -1,280 +1,209 @@
 [{
   "_id": {
-    "$oid": "69af1103397f8c353331df0f"
+    "$oid": "69c68dd6625349ac50b5784b"
   },
-  "tableName": "Bàn VIP 2 update",
-  "tableNumber": 1,
-  "capacity": 15,
-  "note": "không còn ghi chú",
+  "tableName": "Bàn C-01",
+  "capacity": 6,
+  "note": "Bàn thứ nhất, bên trái từ cửa ra vào",
   "tableStatus": "active",
   "area": {
-    "$oid": "69ac59f2eaa77d0a00061390"
+    "$oid": "69c68c1d625349ac50b577ff"
   },
   "createdAt": {
-    "$date": "2026-03-09T18:27:15.531Z"
+    "$date": "2026-03-27T14:01:58.544Z"
   },
   "updatedAt": {
-    "$date": "2026-03-19T02:49:15.744Z"
+    "$date": "2026-03-27T14:01:58.544Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "69af1727cab23cdf69f57e90"
+    "$oid": "69c68dfb625349ac50b57856"
   },
-  "tableName": "Bàn 12",
-  "tableNumber": 2,
-  "capacity": 9,
-  "note": "Hello",
+  "tableName": "Bàn C-02",
+  "capacity": 6,
+  "note": "Bàn thứ 2 bên trái, từ cửa ra vào",
   "tableStatus": "active",
   "area": {
-    "$oid": "69af171ccab23cdf69f57e8b"
+    "$oid": "69c68c1d625349ac50b577ff"
   },
   "createdAt": {
-    "$date": "2026-03-09T18:53:27.707Z"
+    "$date": "2026-03-27T14:02:35.568Z"
   },
   "updatedAt": {
-    "$date": "2026-03-09T18:53:27.707Z"
+    "$date": "2026-03-27T14:02:35.568Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "69af17cdcab23cdf69f57eab"
+    "$oid": "69c68e1f625349ac50b5785d"
   },
-  "tableName": "Bàn 3",
-  "tableNumber": 1,
-  "capacity": 2,
-  "note": "test nghen bro",
+  "tableName": "Bàn C-03",
+  "capacity": 6,
+  "note": "Bàn thứ 3 bên trái, từ cửa ra vào",
   "tableStatus": "active",
   "area": {
-    "$oid": "69af171ccab23cdf69f57e8b"
+    "$oid": "69c68c1d625349ac50b577ff"
   },
   "createdAt": {
-    "$date": "2026-03-09T18:56:13.462Z"
+    "$date": "2026-03-27T14:03:11.702Z"
   },
   "updatedAt": {
-    "$date": "2026-03-16T17:04:32.255Z"
+    "$date": "2026-03-27T14:03:11.702Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "69b22fe51720730ba651cd4e"
+    "$oid": "69c68e4b625349ac50b57863"
   },
-  "tableName": "Bàn 01",
-  "tableNumber": 1,
+  "tableName": "Bàn C-04",
+  "capacity": 4,
+  "note": "Bàn thứ 4, bên trái từ cửa ra vào",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c1d625349ac50b577ff"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:03:55.590Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:06:36.576Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68e6e625349ac50b5786a"
+  },
+  "tableName": "Bàn C-06",
+  "capacity": 6,
+  "note": "Bàn đầu tiên bên phải",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c1d625349ac50b577ff"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:04:30.665Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:05:31.084Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68e83625349ac50b57870"
+  },
+  "tableName": "Bàn C-07",
+  "capacity": 6,
+  "note": "Bàn thứ 2 bên phải",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c1d625349ac50b577ff"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:04:51.122Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:04:51.122Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68ebf625349ac50b578a0"
+  },
+  "tableName": "Bàn C-08",
+  "capacity": 6,
+  "note": "Bàn thứ 4 bên phải",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c1d625349ac50b577ff"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:05:51.460Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:05:51.460Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68f1c625349ac50b578eb"
+  },
+  "tableName": "Phòng VIP 1",
+  "capacity": 12,
+  "note": "",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c3a625349ac50b57805"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:07:24.659Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:07:24.659Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68f32625349ac50b578f0"
+  },
+  "tableName": "Bàn NT-01",
   "capacity": 2,
   "note": "",
   "tableStatus": "active",
   "area": {
-    "$oid": "65f000000000000000000010"
+    "$oid": "69c68c78625349ac50b57810"
   },
   "createdAt": {
-    "$date": "2026-03-12T03:15:49.151Z"
+    "$date": "2026-03-27T14:07:46.794Z"
   },
   "updatedAt": {
-    "$date": "2026-03-16T13:44:52.916Z"
+    "$date": "2026-03-27T14:07:46.794Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "69b22fec1720730ba651cd53"
+    "$oid": "69c68f3b625349ac50b578f5"
   },
-  "tableName": "Bàn 02",
-  "tableNumber": 1,
+  "tableName": "Bàn NT-02",
   "capacity": 2,
   "note": "",
   "tableStatus": "active",
   "area": {
-    "$oid": "65f000000000000000000010"
+    "$oid": "69c68c78625349ac50b57810"
   },
   "createdAt": {
-    "$date": "2026-03-12T03:15:56.440Z"
+    "$date": "2026-03-27T14:07:55.267Z"
   },
   "updatedAt": {
-    "$date": "2026-03-12T03:15:56.440Z"
+    "$date": "2026-03-27T14:07:55.267Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "69ba691d923a4409668475b5"
+    "$oid": "69c68f96625349ac50b57997"
   },
-  "tableName": "Bàn 11111",
-  "tableNumber": 1,
-  "capacity": 10,
-  "note": "",
-  "tableStatus": "active",
-  "area": {
-    "$oid": "65f000000000000000000010"
-  },
-  "createdAt": {
-    "$date": "2026-03-18T08:58:05.969Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-18T08:58:05.969Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69ba697b923a440966849866"
-  },
-  "tableName": "Bàn 03",
-  "tableNumber": 1,
-  "capacity": 2,
-  "note": "",
-  "tableStatus": "active",
-  "area": {
-    "$oid": "65f000000000000000000010"
-  },
-  "createdAt": {
-    "$date": "2026-03-18T08:59:39.274Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-18T08:59:39.274Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69ba69a5923a44096684a63e"
-  },
-  "tableName": "Bàn 04",
-  "tableNumber": 1,
-  "capacity": 2,
-  "note": "",
-  "tableStatus": "active",
-  "area": {
-    "$oid": "65f000000000000000000010"
-  },
-  "createdAt": {
-    "$date": "2026-03-18T09:00:21.782Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-18T09:00:21.782Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69ba69ab923a44096684a6b9"
-  },
-  "tableName": "Bàn 05",
-  "tableNumber": 1,
+  "tableName": "Bàn NT-03",
   "capacity": 2,
   "note": "",
   "tableStatus": "inactive",
   "area": {
-    "$oid": "65f000000000000000000010"
+    "$oid": "69c68c78625349ac50b57810"
   },
   "createdAt": {
-    "$date": "2026-03-18T09:00:27.390Z"
+    "$date": "2026-03-27T14:09:26.015Z"
   },
   "updatedAt": {
-    "$date": "2026-03-18T10:04:05.574Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69ba69b3923a44096684a76f"
-  },
-  "tableName": "Bàn 06",
-  "tableNumber": 1,
-  "capacity": 2,
-  "note": "",
-  "tableStatus": "inactive",
-  "area": {
-    "$oid": "65f000000000000000000010"
-  },
-  "createdAt": {
-    "$date": "2026-03-18T09:00:35.712Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-18T16:36:28.315Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69ba69be923a44096684a855"
-  },
-  "tableName": "Bàn 07",
-  "tableNumber": 1,
-  "capacity": 2,
-  "note": "",
-  "tableStatus": "active",
-  "area": {
-    "$oid": "65f000000000000000000010"
-  },
-  "createdAt": {
-    "$date": "2026-03-18T09:00:46.255Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-18T09:00:46.255Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69ba69cf923a44096684aaea"
-  },
-  "tableName": "Bàn 08",
-  "tableNumber": 2,
-  "capacity": 2,
-  "note": "",
-  "tableStatus": "active",
-  "area": {
-    "$oid": "65f000000000000000000010"
-  },
-  "createdAt": {
-    "$date": "2026-03-18T09:01:03.353Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-18T09:01:03.353Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69ba6a1b923a44096684b84b"
-  },
-  "tableName": "Bàn 10",
-  "tableNumber": 1,
-  "capacity": 2,
-  "note": "",
-  "tableStatus": "active",
-  "area": {
-    "$oid": "65f000000000000000000010"
-  },
-  "createdAt": {
-    "$date": "2026-03-18T09:02:19.504Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-18T09:02:19.504Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69ba6ba0923a440966853a0e"
-  },
-  "tableName": "Bàn 11",
-  "tableNumber": 1,
-  "capacity": 2,
-  "note": "",
-  "tableStatus": "active",
-  "area": {
-    "$oid": "65f000000000000000000010"
-  },
-  "createdAt": {
-    "$date": "2026-03-18T09:08:48.047Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-18T09:08:48.047Z"
+    "$date": "2026-03-27T14:09:31.081Z"
   },
   "__v": 0
 }]
