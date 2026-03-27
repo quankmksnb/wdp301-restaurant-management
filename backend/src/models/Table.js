@@ -7,7 +7,7 @@ const tableSchema = new mongoose.Schema(
       required: [true, "Tên bàn là bắt buộc"],
       trim: true,
     },
-    tableNumber: { type: Number, required: true },
+    tableNumber: { type: Number },
     capacity: { type: Number, required: true },
     note: {
       type: String,
@@ -27,7 +27,5 @@ const tableSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-
-tableSchema.index({ tableName: 1, area: 1 }, { unique: true });
 
 export default mongoose.model("Table", tableSchema, "tables");

@@ -8,7 +8,7 @@ import {
   PlusOutlined,
   DownOutlined,
   EditOutlined,
-  DeleteOutlined,
+  PoweroffOutlined,
 } from "@ant-design/icons";
 
 import useAreas from "@/hooks/useAreas";
@@ -16,7 +16,7 @@ import useAllTables from "@/hooks/useAllTables";
 import AddAreaModal from "./AddAreaModal";
 import UpdateAreaModal from "./UpdateAreaModal";
 import AddTableModal from "./AddTableModal";
-import { deleteArea } from "@/services/areaService";
+import { toggleAreaStatus } from "@/services/areaService";
 
 export default function AreaListModal({ open, onClose }) {
   const { areas, refreshAreas } = useAreas();
@@ -28,30 +28,34 @@ export default function AreaListModal({ open, onClose }) {
   const [openAddTable, setOpenAddTable] = useState(false);
   const [selectedAreaForTable, setSelectedAreaForTable] = useState(null);
 
-  // Only track which areas are explicitly expanded; default = collapsed
   const [expanded, setExpanded] = useState({});
 
   const toggleCollapse = (areaId) => {
     setExpanded((prev) => ({ ...prev, [areaId]: !prev[areaId] }));
   };
 
-  const handleDeleteArea = (e, area) => {
+  const handleToggleAreaStatus = (e, area) => {
     e.stopPropagation();
+    const isActive = area.areaStatus === "active";
     Modal.confirm({
-      title: "Xác nhận xóa khu vực",
-      content: `Bạn có chắc muốn xóa khu vực "${area.areaName}"?`,
-      okButtonProps: { danger: true },
-      okText: "Xóa",
+      title: isActive ? "Ngừng hoạt động khu vực?" : "Kích hoạt lại khu vực?",
+      content: isActive
+        ? "Toàn bộ bàn trong khu vực sẽ bị ngừng hoạt động."
+        : "Khu vực sẽ được kích hoạt lại.",
+      okButtonProps: { danger: isActive },
+      okText: "Xác nhận",
       cancelText: "Hủy",
       onOk: async () => {
         try {
-          await deleteArea(area._id);
-          message.success("Xóa khu vực thành công");
+          await toggleAreaStatus(area._id);
+          message.success("Cập nhật thành công");
           refreshAreas();
+          refreshTables();
         } catch (error) {
-          const errMsg =
-            error.response?.data?.message || "Không thể xóa khu vực";
-          message.error(errMsg);
+          console.log(error);
+          message.error(
+            error.response?.data?.message || "Không thể thay đổi trạng thái",
+          );
         }
       },
     });
@@ -158,19 +162,27 @@ export default function AreaListModal({ open, onClose }) {
                     <Button
                       size="small"
                       type="text"
+                      icon={<PoweroffOutlined />}
+                      className={
+                        area.areaStatus === "active"
+                          ? "!text-orange-500 hover:!bg-orange-50 !rounded-lg"
+                          : "!text-green-600 hover:!bg-green-50 !rounded-lg"
+                      }
+                      onClick={(e) => handleToggleAreaStatus(e, area)}
+                      title={
+                        area.areaStatus === "active"
+                          ? "Ngừng hoạt động"
+                          : "Kích hoạt lại"
+                      }
+                    />
+
+                    <Button
+                      size="small"
+                      type="text"
                       icon={<EditOutlined />}
                       className="!text-blue-500 hover:!bg-blue-50 !rounded-lg"
                       onClick={(e) => handleOpenUpdateArea(e, area)}
                     />
-
-                    {/* <Button
-                      size="small"
-                      type="text"
-                      danger
-                      icon={<DeleteOutlined />}
-                      className="hover:!bg-red-50 !rounded-lg"
-                      onClick={(e) => handleDeleteArea(e, area)}
-                    /> */}
 
                     {/* Chevron icon rotates when collapsed */}
                     <DownOutlined

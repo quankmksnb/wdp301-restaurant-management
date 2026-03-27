@@ -4,6 +4,7 @@ import {
   deleteArea,
   getAreaById,
   getAreas,
+  toggleAreaStatus,
   updateArea,
 } from "../controllers/areaController.js";
 
@@ -24,5 +25,7 @@ router.get("/:id", getAreaById);
 router.put("/:id", validate(updateAreaSchema), updateArea);
 
 router.delete("/:id", deleteArea);
+
+router.patch("/:id/status", toggleAreaStatus);
 
 export default router;

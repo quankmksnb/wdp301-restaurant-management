@@ -1,14 +1,26 @@
 "use client";
 
-import { Button, Space, Modal, message } from "antd";
+import { Button, Space, Modal, message, Tabs, Tag } from "antd";
 import { EditOutlined, DeleteOutlined, LockOutlined } from "@ant-design/icons";
-
 import { toggleTableStatus, deleteTable } from "@/services/tableService";
 import { useState } from "react";
 import UpdateTableModal from "./modals/UpdateTableModal";
 
+const tabItems = [{ key: "info", label: "Chi tiết phòng/bàn" }];
+
+function InfoRow({ label, value }) {
+  return (
+    <div className="flex flex-col gap-1">
+      <span className="text-gray-500 text-sm">{label}</span>
+      <span className="font-semibold">{value ?? "—"}</span>
+    </div>
+  );
+}
+
 export default function TableDetail({ table, onRefresh }) {
   const [openUpdate, setOpenUpdate] = useState(false);
+
+  const isActive = table.tableStatus === "active";
 
   const handleToggleStatus = () => {
     Modal.confirm({
@@ -20,7 +32,6 @@ export default function TableDetail({ table, onRefresh }) {
           message.success("Cập nhật trạng thái thành công");
           onRefresh();
         } catch (error) {
-          // ✅ Hiển thị lỗi từ backend (ví dụ: bàn đang có đặt chỗ)
           const errorMsg =
             error?.response?.data?.message || "Không thể cập nhật trạng thái";
           message.error(errorMsg);
@@ -43,25 +54,27 @@ export default function TableDetail({ table, onRefresh }) {
   };
 
   return (
-    <div className="p-4 bg-white rounded">
-      <div className="grid grid-cols-2 gap-4 text-sm mb-6">
-        <div>
-          <b>Tên phòng/bàn:</b> {table.tableName}
-        </div>
+    <div className="p-4 bg-white rounded-lg">
+      <Tabs defaultActiveKey="info" items={tabItems} />
 
-        <div>
-          <b>Số ghế:</b> {table.capacity}
-        </div>
-
-        <div>
-          <b>Ghi chú:</b> {table.note || "-"}
-        </div>
-
-        <div>
-          <b>Khu vực:</b> {table.area?.areaName}
-        </div>
+      {/* HEADER */}
+      <div className="mb-4">
+        <h2 className="text-xl font-bold text-green-700 mb-2">
+          {table.tableName}
+        </h2>
+        <Tag color={isActive ? "success" : "default"}>
+          {isActive ? "Đang hoạt động" : "Ngừng hoạt động"}
+        </Tag>
       </div>
 
+      {/* THÔNG TIN */}
+      <div className="grid grid-cols-3 gap-x-8 gap-y-4 text-sm mb-6">
+        <InfoRow label="Khu vực" value={table.area?.areaName} />
+        <InfoRow label="Số ghế" value={`${table.capacity} ghế`} />
+        <InfoRow label="Ghi chú" value={table.note || "—"} />
+      </div>
+
+      {/* ACTIONS — giữ nguyên như cũ */}
       <div className="flex justify-end">
         <Space>
           <Button
@@ -73,19 +86,13 @@ export default function TableDetail({ table, onRefresh }) {
           </Button>
 
           <Button
-            type={table.tableStatus === "inactive" ? "primary" : "default"}
-            danger={table.tableStatus === "active"}
+            type={!isActive ? "primary" : "default"}
+            danger={isActive}
             icon={<LockOutlined />}
             onClick={handleToggleStatus}
-            className={
-              table.tableStatus === "inactive"
-                ? "!bg-green-600 hover:!bg-green-700"
-                : ""
-            }
+            className={!isActive ? "!bg-green-600 hover:!bg-green-700" : ""}
           >
-            {table.tableStatus === "active"
-              ? "Ngừng hoạt động"
-              : "Hoạt động lại"}
+            {isActive ? "Ngừng hoạt động" : "Hoạt động lại"}
           </Button>
 
           <Button danger icon={<DeleteOutlined />} onClick={handleDelete}>

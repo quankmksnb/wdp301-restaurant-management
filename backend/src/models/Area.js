@@ -11,6 +11,11 @@ const areaSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    areaStatus: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "active",
+    },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true },
