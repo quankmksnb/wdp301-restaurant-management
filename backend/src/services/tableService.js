@@ -3,12 +3,15 @@ import Table from "../models/Table.js";
 
 //Lấy danh sách tableId đang bị reservation giữ
 
-export const getReservedTableIds = async (reservationDateTime, excludeReservationId = null) => {
-  // Kiểm tra trong khoảng ±2 tiếng so với giờ đặt
-  const TWO_HOURS = 2 * 60 * 60 * 1000; // 2 tiếng (ms)
+export const getReservedTableIds = async (
+  reservationDateTime,
+  excludeReservationId = null,
+) => {
+  // Kiểm tra trong khoảng ±3 tiếng so với giờ đặt
+  const THREE_HOURS = 3 * 60 * 60 * 1000; // 3 tiếng (ms)
   const requestedTime = new Date(reservationDateTime);
-  const windowStart = new Date(requestedTime.getTime() - TWO_HOURS);
-  const windowEnd = new Date(requestedTime.getTime() + TWO_HOURS);
+  const windowStart = new Date(requestedTime.getTime() - THREE_HOURS);
+  const windowEnd = new Date(requestedTime.getTime() + THREE_HOURS);
 
   const query = {
     status: { $in: ["confirmed", "seated"] },
@@ -31,8 +34,14 @@ export const getReservedTableIds = async (reservationDateTime, excludeReservatio
 
 // Lấy danh sách bàn đang available
 
-export const getAvailableTables = async (reservationDateTime, excludeReservationId = null) => {
-  const reservedTableIds = await getReservedTableIds(reservationDateTime, excludeReservationId);
+export const getAvailableTables = async (
+  reservationDateTime,
+  excludeReservationId = null,
+) => {
+  const reservedTableIds = await getReservedTableIds(
+    reservationDateTime,
+    excludeReservationId,
+  );
 
   const tables = await Table.find({
     _id: { $nin: reservedTableIds },
@@ -46,8 +55,15 @@ export const getAvailableTables = async (reservationDateTime, excludeReservation
 
 // Validate danh sách bàn có hợp lệ để đặt không
 
-export const validateTablesForReservation = async (tableIds, reservationDateTime, excludeReservationId = null) => {
-  const reservedTableIds = await getReservedTableIds(reservationDateTime, excludeReservationId);
+export const validateTablesForReservation = async (
+  tableIds,
+  reservationDateTime,
+  excludeReservationId = null,
+) => {
+  const reservedTableIds = await getReservedTableIds(
+    reservationDateTime,
+    excludeReservationId,
+  );
 
   // check bàn đã bị đặt
   const reserved = tableIds.filter((id) =>

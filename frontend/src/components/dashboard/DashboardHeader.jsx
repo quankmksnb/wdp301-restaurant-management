@@ -16,7 +16,6 @@ export default function DashboardHeader() {
     { label: "Hàng hóa", path: "/dashboard/products" },
     { label: "Phòng/Bàn", path: "/dashboard/table" },
     { label: "Nhân viên", path: "/dashboard/employee" },
-    { label: "Báo cáo", path: "/dashboard/reports" },
   ];
 
   const langRef = useRef(null);
