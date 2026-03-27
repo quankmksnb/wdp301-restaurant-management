@@ -14,6 +14,7 @@ import managerService from "@/services/managerService";
 import { formatCurrency, getYesterDayISOString } from "@/utils/utils";
 import { message } from "antd";
 import RevenueLineChart from "@/components/dashboard/charts/RevenueLineChart";
+import TopSellingChart from "@/components/dashboard/charts/TopSellingChart";
 
 // Map label hiển thị sang key API
 const typeMap = {
@@ -46,6 +47,12 @@ export default function Dashboard() {
   const [loadingRevenue, setLoadingRevenue] = useState(true);
   const [loadingChart, setLoadingChart] = useState(false);
   const [filterLabel, setFilterLabel] = useState("7 ngày qua");
+
+  // State cho Top Món ăn
+  const [topSellingData, setTopSellingData] = useState([]);
+  const [loadingTopSelling, setLoadingTopSelling] = useState(true);
+  const [topSellingFilterLabel, setTopSellingFilterLabel] =
+    useState("Tháng này");
 
   // --- LOGIC XỬ LÝ DỮ LIỆU BIỂU ĐỒ (Điền ngày trống & xử lý tương lai) ---
   const fillMissingDates = useCallback((apiData, type) => {
@@ -153,14 +160,34 @@ export default function Dashboard() {
     [fillMissingDates],
   );
 
-  useEffect(() => {
-    fetchSummaryRevenue();
+  const fetchTopSellingData = useCallback(async (label) => {
+    setLoadingTopSelling(true);
+    try {
+      const period = typeMap[label] || "month";
+      // Gọi API top-selling
+      const res = await managerService.getTopSellingItems(period);
+      // Giả sử API trả về { success: true, data: [...] }
+      setTopSellingData(res.data || []);
+    } catch (error) {
+      console.error("Fetch top selling error:", error);
+      message.error("Không thể lấy dữ liệu top món ăn");
+    } finally {
+      setLoadingTopSelling(false);
+    }
   }, []);
 
   useEffect(() => {
     fetchChartData(filterLabel);
   }, [filterLabel, fetchChartData]);
 
+  useEffect(() => {
+    fetchSummaryRevenue();
+    fetchTopSellingData(topSellingFilterLabel);
+  }, [fetchTopSellingData, topSellingFilterLabel]);
+
+  useEffect(() => {
+    fetchTopSellingData(topSellingFilterLabel);
+  }, [topSellingFilterLabel, fetchTopSellingData]);
   return (
     <main className="flex-1 p-6 bg-gray-50 overflow-y-auto">
       <div className="max-w-7xl mx-auto grid grid-cols-12 gap-6">
@@ -222,12 +249,15 @@ export default function Dashboard() {
           </DashboardBox>
 
           <DashboardBox
-            title="DOANH THU"
-            loading={loadingChart}
-            currentLabel={filterLabel}
-            onFilterChange={setFilterLabel}
+            title="10 MÓN BÁN CHẠY"
+            loading={loadingTopSelling}
+            currentLabel={topSellingFilterLabel}
+            onFilterChange={setTopSellingFilterLabel}
           >
-            <RevenueLineChart data={revenueData} type={typeMap[filterLabel]} />
+            <TopSellingChart
+              data={topSellingData}
+              loading={loadingTopSelling}
+            />
           </DashboardBox>
 
           <DashboardBox

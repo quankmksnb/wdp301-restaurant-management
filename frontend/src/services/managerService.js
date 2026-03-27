@@ -51,6 +51,18 @@ const managerService = {
       throw error;
     }
   },
+
+  getTopSellingItems: async (period) => {
+    try {
+      const response = await api.get("/manager/top-selling", {
+        params: { period },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error in getTopSellingItems:", error);
+      throw error;
+    }
+  },
 };
 
 export default managerService;

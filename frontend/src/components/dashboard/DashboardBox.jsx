@@ -19,9 +19,8 @@ export default function DashboardBox({
 
   return (
     <div
-      className={`relative bg-white rounded-lg shadow-sm p-5 ${
-        small ? "h-65" : "h-100"
-      }`}
+      className={`relative bg-white rounded-lg shadow-sm p-3 ${
+        small ? "h-65" : "h-100"      }`}
     >
       <div className="flex justify-between items-center mb-6">
         <h3 className="font-semibold text-sm text-gray-700">{title}</h3>

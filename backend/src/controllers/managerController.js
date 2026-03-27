@@ -202,4 +202,72 @@ export const getLiveOperationsStatus = async (req, res) => {
   }
 };
 
+export const getTopSellingItems = async (req, res) => {
+  const { period } = req.query;
 
+  let startDate = new Date();
+  const endDate = new Date();
+
+  // 1. Xử lý thời gian
+  if (period === "week") {
+    startDate.setDate(startDate.getDate() - 7);
+  } else if (period === "month") {
+    startDate = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+  } else if (period === "year") {
+    startDate = new Date(startDate.getFullYear(), 0, 1);
+  }
+  startDate.setHours(0, 0, 0, 0);
+
+  try {
+    const topItems = await Order.aggregate([
+      {
+        $match: {
+          orderStatus: "completed",
+          orderDate: { $gte: startDate, $lte: endDate },
+        },
+      },
+      // Phẳng hóa mảng subOrders
+      { $unwind: "$subOrders" },
+      // Phẳng hóa mảng items bên trong mỗi subOrder
+      { $unwind: "$subOrders.items" },
+      {
+        $match: {
+          // LƯU Ý: Trong database của bạn có nhiều món bị "cancelled"
+          // Chúng ta chỉ lọc những món đã phục vụ thành công
+          "subOrders.items.status": "served",
+        },
+      },
+      {
+        $group: {
+          // Nhóm theo ID món ăn để đảm bảo tính riêng biệt
+          _id: "$subOrders.items.menuItem",
+          // Lấy tên món từ snapshot trong đơn hàng
+          name: { $first: "$subOrders.items.itemName" },
+          // Tổng số lượng bán ra
+          value: { $sum: "$subOrders.items.quantity" },
+          // Tổng doanh thu của món đó
+          revenue: { $sum: "$subOrders.items.subTotal" },
+        },
+      },
+      // Sắp xếp theo số lượng bán nhiều nhất
+      { $sort: { value: -1 } },
+      // Lấy Top 10
+      { $limit: 10 },
+      {
+        $project: {
+          _id: 0,
+          name: 1,
+          value: 1,
+          revenue: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data: topItems,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi server", error: error.message });
+  }
+};
