@@ -277,26 +277,28 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                                     <div className="flex items-center gap-1.5"><Users className="w-3 h-3 text-gray-400" />{(res.guests?.adults || 0) + (res.guests?.children || 0)} (🧑{res.guests?.adults || 0} 👶{res.guests?.children || 0})</div>
                                                                     <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3 text-gray-400" />{res.tableName}</div>
                                                                 </div>
-                                                                {res.status !== "cancelled" && (
+                                                                {res.status !== "cancelled" && res.status !== "completed" && (
                                                                     <div className="flex items-center justify-center gap-2 px-3 py-2 border-t border-gray-100 bg-gray-50">
                                                                         {res.status !== "seated" && (
                                                                             <button
                                                                                 onClick={(e) => { e.stopPropagation(); onStatusChange?.(res.reservationId, 'cancelled'); setActivePopover(null); }}
                                                                                 className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-[10px] font-medium rounded cursor-pointer transition"
                                                                             >
-                                                                                🗑 Hủy đặt
+                                                                                Hủy đặt
                                                                             </button>
                                                                         )}
+                                                                        {res.status !== "seated" && (
                                                                         <button
                                                                             onClick={(e) => { e.stopPropagation(); onEditReservation?.(res); setActivePopover(null); }}
                                                                             className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-medium rounded cursor-pointer transition"
                                                                         >Cập nhật đặt bàn</button>
+                                                                        )}
                                                                         {res.status !== "seated" && (
                                                                             <button
                                                                                 onClick={(e) => { e.stopPropagation(); onStatusChange?.(res.reservationId, 'seated'); setActivePopover(null); }}
                                                                                 className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-medium rounded cursor-pointer transition"
                                                                             >
-                                                                                ✅ Nhận bàn
+                                                                                Nhận bàn
                                                                             </button>
                                                                         )}
                                                                     </div>

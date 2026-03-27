@@ -185,9 +185,10 @@ export default function ReservationListView({
             render: (_, record) => {
                 const isSeated = record.status === "seated";
                 const isCancelled = record.status === "cancelled";
+                const isCompleted = record.status === "completed";
 
                 const items = [];
-                if (!isCancelled) {
+                if (!isCancelled && !isCompleted && !isSeated) {
                     items.push({
                         key: "edit",
                         label: "Cập nhật đặt bàn",

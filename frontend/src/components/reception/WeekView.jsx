@@ -191,14 +191,12 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
                                                                             <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3 text-gray-400" />{res.tableName}</div>
                                                                         </div>
                                                                         <div className="flex items-center justify-center gap-2 px-3 py-2 border-t border-gray-100 bg-gray-50">
-                                                                            {res.status !== "seated" && (
-                                                                                <button onClick={(e) => { e.stopPropagation(); onStatusChange?.(res.reservationId, "cancelled"); setActivePopover(null); }} className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-[10px] font-medium rounded cursor-pointer transition">🗑 Hủy đặt</button>
-                                                                            )}
-                                                                            {res.status !== "cancelled" && (
-                                                                                <button onClick={(e) => { e.stopPropagation(); onEditReservation(res); setActivePopover(null); }} className="px-3 py-1 bg-green-500 hover:bg-green-600 text-white text-[10px] font-medium rounded cursor-pointer transition">📝 Cập nhật</button>
-                                                                            )}
-                                                                            {res.status !== "seated" && res.status !== "cancelled" && (
-                                                                                <button onClick={(e) => { e.stopPropagation(); onStatusChange(res.reservationId, "seated"); setActivePopover(null); }} className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-medium rounded cursor-pointer transition">✅ Nhận bàn</button>
+                                                                            {res.status === "confirmed" && (
+                                                                                <>
+                                                                                    <button onClick={(e) => { e.stopPropagation(); onStatusChange?.(res.reservationId, "cancelled"); setActivePopover(null); }} className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-[10px] font-medium rounded cursor-pointer transition">🗑 Hủy đặt</button>
+                                                                                    <button onClick={(e) => { e.stopPropagation(); onEditReservation(res); setActivePopover(null); }} className="px-3 py-1 bg-green-500 hover:bg-green-600 text-white text-[10px] font-medium rounded cursor-pointer transition">📝 Cập nhật</button>
+                                                                                    <button onClick={(e) => { e.stopPropagation(); onStatusChange(res.reservationId, "seated"); setActivePopover(null); }} className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-medium rounded cursor-pointer transition">✅ Nhận bàn</button>
+                                                                                </>
                                                                             )}
                                                                         </div>
                                                                     </div>
