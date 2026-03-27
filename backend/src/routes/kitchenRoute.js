@@ -12,7 +12,7 @@ import {
 const router = express.Router();
 
 router.use(verifyToken);
-router.use(authorizeRoles("kitchenStaff", "admin"));
+router.use(authorizeRoles("kitchenStaff"));
 
 router.get("/pending", getOrderItemsByPriority);
 router.get("/ready", getReadyToServeItems);
