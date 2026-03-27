@@ -16,7 +16,7 @@ import {
   createTableSchema,
   updateTableSchema,
 } from "../validators/tableValidator.js";
-import { verifyToken } from "../middlewares/authMiddleware.js";
+import { authorizeRoles, verifyToken } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
