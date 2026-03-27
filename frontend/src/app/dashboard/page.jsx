@@ -273,6 +273,15 @@ export default function Dashboard() {
           </DashboardBox>
 
           <DashboardBox
+            title="DOANH THU THEO KHU VỰC"
+            loading={loadingArea}
+            currentLabel={areaFilterLabel}
+            onFilterChange={setAreaFilterLabel}
+          >
+            <AreaRevenueChart data={areaRevenueData} loading={loadingArea} />
+          </DashboardBox>
+
+          <DashboardBox
             title="10 MÓN BÁN CHẠY"
             loading={loadingTopSelling}
             currentLabel={topSellingFilterLabel}
@@ -282,15 +291,6 @@ export default function Dashboard() {
               data={topSellingData}
               loading={loadingTopSelling}
             />
-          </DashboardBox>
-
-          <DashboardBox
-            title="DOANH THU THEO KHU VỰC"
-            loading={loadingArea}
-            currentLabel={areaFilterLabel}
-            onFilterChange={setAreaFilterLabel}
-          >
-            <AreaRevenueChart data={areaRevenueData} loading={loadingArea} />
           </DashboardBox>
         </section>
 
