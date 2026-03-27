@@ -15,6 +15,11 @@ export const updateArea = async (id, data) => {
   return res.data;
 };
 
+export const toggleAreaStatus = async (id) => {
+  const res = await api.patch(`/areas/${id}/status`);
+  return res.data;
+};
+
 export const deleteArea = async (id) => {
   const res = await api.delete(`/areas/${id}`);
   return res.data;

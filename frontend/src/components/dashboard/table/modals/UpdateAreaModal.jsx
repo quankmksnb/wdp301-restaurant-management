@@ -1,9 +1,13 @@
 "use client";
 
-import { Modal, Input, Button, message } from "antd";
-import { SaveOutlined, StopOutlined } from "@ant-design/icons";
+import { Modal, Input, Button, message, Tag } from "antd";
+import {
+  SaveOutlined,
+  StopOutlined,
+  PoweroffOutlined,
+} from "@ant-design/icons";
 import { useState, useEffect } from "react";
-import { updateArea } from "@/services/areaService";
+import { updateArea, toggleAreaStatus } from "@/services/areaService";
 
 const { TextArea } = Input;
 
@@ -11,6 +15,7 @@ export default function UpdateAreaModal({ open, onClose, onConfirm, area }) {
   const [areaName, setAreaName] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
+  const [toggling, setToggling] = useState(false);
 
   useEffect(() => {
     if (open && area) {
@@ -37,16 +42,9 @@ export default function UpdateAreaModal({ open, onClose, onConfirm, area }) {
 
     try {
       setLoading(true);
-
-      await updateArea(area._id, {
-        areaName,
-        description,
-      });
-
+      await updateArea(area._id, { areaName, description });
       message.success("Cập nhật khu vực thành công");
-
       onConfirm?.();
-
       handleClose();
     } catch (error) {
       const errMsg =
@@ -57,6 +55,39 @@ export default function UpdateAreaModal({ open, onClose, onConfirm, area }) {
     }
   };
 
+  const handleToggleStatus = () => {
+    const isActive = area?.areaStatus === "active";
+
+    Modal.confirm({
+      title: isActive ? "Ngừng hoạt động khu vực?" : "Kích hoạt lại khu vực?",
+      content: isActive
+        ? "Toàn bộ bàn trong khu vực này sẽ bị ngừng hoạt động."
+        : "Khu vực sẽ được kích hoạt lại. Các bàn cần mở lại thủ công.",
+      okButtonProps: { danger: isActive },
+      okText: "Xác nhận",
+      cancelText: "Hủy",
+      onOk: async () => {
+        try {
+          setToggling(true);
+          await toggleAreaStatus(area._id);
+          message.success(
+            isActive
+              ? "Đã ngừng hoạt động khu vực"
+              : "Đã kích hoạt lại khu vực",
+          );
+          onConfirm?.();
+          handleClose();
+        } catch (error) {
+          const errMsg =
+            error.response?.data?.message || "Không thể thay đổi trạng thái";
+          message.error(errMsg);
+        } finally {
+          setToggling(false);
+        }
+      },
+    });
+  };
+
   return (
     <Modal
       title="Cập nhật khu vực"
@@ -64,29 +95,57 @@ export default function UpdateAreaModal({ open, onClose, onConfirm, area }) {
       onCancel={handleClose}
       width={500}
       footer={
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-between items-center">
+          {/* Nút toggle bên trái */}
           <Button
-            type="primary"
-            icon={<SaveOutlined />}
-            className="!bg-green-600 hover:!bg-green-700"
-            loading={loading}
-            onClick={handleUpdateArea}
+            icon={<PoweroffOutlined />}
+            loading={toggling}
+            danger={area?.areaStatus === "active"}
+            className={
+              area?.areaStatus !== "active"
+                ? "!bg-green-600 hover:!bg-green-700 !text-white !border-green-600"
+                : ""
+            }
+            onClick={handleToggleStatus}
           >
-            Lưu
+            {area?.areaStatus === "active"
+              ? "Ngừng hoạt động"
+              : "Kích hoạt lại"}
           </Button>
 
-          <Button icon={<StopOutlined />} onClick={handleClose}>
-            Bỏ qua
-          </Button>
+          {/* Nút lưu / bỏ qua bên phải */}
+          <div className="flex gap-2">
+            <Button
+              type="primary"
+              icon={<SaveOutlined />}
+              className="!bg-green-600 hover:!bg-green-700"
+              loading={loading}
+              onClick={handleUpdateArea}
+            >
+              Lưu
+            </Button>
+            <Button icon={<StopOutlined />} onClick={handleClose}>
+              Bỏ qua
+            </Button>
+          </div>
         </div>
       }
     >
       <div className="space-y-4">
+        {/* Badge trạng thái */}
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-500">Trạng thái:</span>
+          <Tag color={area?.areaStatus === "active" ? "success" : "default"}>
+            {area?.areaStatus === "active"
+              ? "Đang hoạt động"
+              : "Ngừng hoạt động"}
+          </Tag>
+        </div>
+
         <div>
           <label className="mb-2 block">
             Tên khu vực <span className="text-red-500">*</span>
           </label>
-
           <Input
             placeholder="Ví dụ: Lầu 1"
             value={areaName}
@@ -96,7 +155,6 @@ export default function UpdateAreaModal({ open, onClose, onConfirm, area }) {
 
         <div>
           <label className="mb-2 block">Ghi chú</label>
-
           <TextArea
             rows={3}
             placeholder="Nhập ghi chú..."

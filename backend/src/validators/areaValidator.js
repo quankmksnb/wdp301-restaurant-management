@@ -10,6 +10,7 @@ export const createAreaSchema = z.object({
     .max(100, "Tên khu vực tối đa 100 ký tự"),
 
   description: z.string().max(500, "Mô tả tối đa 500 ký tự").optional(),
+  areaStatus: z.enum(["active", "inactive"]).optional(),
 });
 
 export const updateAreaSchema = z.object({
@@ -20,4 +21,5 @@ export const updateAreaSchema = z.object({
     .optional(),
 
   description: z.string().max(500, "Mô tả tối đa 500 ký tự").optional(),
+  areaStatus: z.enum(["active", "inactive"]).optional(),
 });

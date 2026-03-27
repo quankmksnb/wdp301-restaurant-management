@@ -9,7 +9,7 @@ export const createTable = async (req, res) => {
     const { tableName, tableNumber, capacity, area, note } = req.body;
 
     const existed = await Table.findOne({
-      tableName,
+      tableName: { $regex: `^${tableName.trim()}$`, $options: "i" },
       area,
     });
 
@@ -21,7 +21,7 @@ export const createTable = async (req, res) => {
     }
 
     const table = await Table.create({
-      tableName,
+      tableName: tableName.trim(),
       tableNumber,
       capacity,
       area,
@@ -119,10 +119,8 @@ export const getTable = async (req, res) => {
 
 export const updateTable = async (req, res) => {
   try {
-    const table = await Table.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const { tableName, area, ...rest } = req.body;
+    const table = await Table.findById(req.params.id);
 
     if (!table) {
       return res.status(404).json({
@@ -130,6 +128,36 @@ export const updateTable = async (req, res) => {
         message: "Không tìm thấy bàn",
       });
     }
+
+    // Nếu có update tableName → check trùng trong cùng khu vực
+    if (tableName !== undefined) {
+      const targetArea = area ?? table.area;
+
+      const existed = await Table.findOne({
+        tableName: { $regex: `^${tableName.trim()}$`, $options: "i" },
+        area: targetArea,
+        _id: { $ne: table._id },
+      });
+
+      if (existed) {
+        return res.status(400).json({
+          success: false,
+          message: "Tên bàn đã tồn tại trong khu vực này",
+        });
+      }
+
+      table.tableName = tableName.trim();
+    }
+
+    if (area !== undefined) table.area = area;
+
+    // Gán các field còn lại
+    const allowedFields = ["tableNumber", "capacity", "note"];
+    allowedFields.forEach((field) => {
+      if (rest[field] !== undefined) table[field] = rest[field];
+    });
+
+    await table.save();
 
     res.json({
       success: true,
@@ -140,18 +168,29 @@ export const updateTable = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Lỗi khi cập nhật bàn",
+      error: error.message,
     });
   }
 };
 
 export const toggleTableStatus = async (req, res) => {
   try {
-    const table = await Table.findById(req.params.id);
+    const table = await Table.findById(req.params.id).populate("area");
 
     if (!table) {
       return res.status(404).json({
         success: false,
         message: "Không tìm thấy bàn",
+      });
+    }
+
+    if (
+      table.tableStatus === "inactive" &&
+      table.area?.areaStatus === "inactive"
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: `Khu vực "${table.area.areaName}" đang ngừng hoạt động, không thể kích hoạt lại bàn này`,
       });
     }
 
@@ -303,8 +342,7 @@ export const getTableByArea = async (req, res) => {
                 orderStatus: 1,
                 subOrderId: "$subOrders._id",
                 subTotalAmount: "$subOrders.subTotalAmount",
-                reservationDateTime:
-                  "$reservationData.reservationDateTime",
+                reservationDateTime: "$reservationData.reservationDateTime",
               },
             },
           ],
@@ -352,35 +390,23 @@ export const getTableByArea = async (req, res) => {
             $ifNull: [{ $arrayElemAt: ["$orderData._id", 0] }, null],
           },
           subOrderId: {
-            $ifNull: [
-              { $arrayElemAt: ["$orderData.subOrderId", 0] },
-              null,
-            ],
+            $ifNull: [{ $arrayElemAt: ["$orderData.subOrderId", 0] }, null],
           },
           subTotalAmount: {
-            $ifNull: [
-              { $arrayElemAt: ["$orderData.subTotalAmount", 0] },
-              0,
-            ],
+            $ifNull: [{ $arrayElemAt: ["$orderData.subTotalAmount", 0] }, 0],
           },
 
           reservationDateTime: {
             $ifNull: [
               { $arrayElemAt: ["$orderData.reservationDateTime", 0] },
               {
-                $arrayElemAt: [
-                  "$reservationOnly.reservationDateTime",
-                  0,
-                ],
+                $arrayElemAt: ["$reservationOnly.reservationDateTime", 0],
               },
             ],
           },
 
           orderStatus: {
-            $ifNull: [
-              { $arrayElemAt: ["$orderData.orderStatus", 0] },
-              null,
-            ],
+            $ifNull: [{ $arrayElemAt: ["$orderData.orderStatus", 0] }, null],
           },
         },
       },
@@ -399,11 +425,7 @@ export const getTableByArea = async (req, res) => {
                 ],
               },
               {
-                $cond: [
-                  "$hasReservationOnly",
-                  "reserved",
-                  "empty",
-                ],
+                $cond: ["$hasReservationOnly", "reserved", "empty"],
               },
             ],
           },
