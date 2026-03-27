@@ -17,6 +17,7 @@ import WeekView from "../../components/reception/WeekView";
 import MonthView from "../../components/reception/MonthView";
 import ReservationListView from "../../components/reception/ReservationListView";
 import ReservationModal from "@/components/reception/ReservationModal";
+import ProtectedRoute from "@/services/protectedRoute";
 
 // ─────────────────────────────────────────────────────────────────
 // Chuyển đổi dữ liệu reservation từ API sang dạng phẳng cho Timeline
@@ -250,130 +251,132 @@ export default function ReceptionPage() {
   ).length;
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden bg-white select-none">
-      {/* ══ THANH TRÊN CÙNG (xanh đậm) ══ */}
-      <TopBar tabMode={tabMode} setTabMode={setTabMode} />
+      <ProtectedRoute role="receptionist">
+        <div className="flex flex-col h-screen w-screen overflow-hidden bg-white select-none">
+          {/* ══ THANH TRÊN CÙNG (xanh đậm) ══ */}
+          <TopBar tabMode={tabMode} setTabMode={setTabMode} />
 
-      {/* ══ THANH CÔNG CỤ PHỤ (trắng) - chỉ hiện ở chế độ lịch ══ */}
-      {tabMode === "calendar" && (
-        <SubHeader
-          viewMode={viewMode}
-          setViewMode={setViewMode}
-          statusFilters={statusFilters}
-          onStatusFilterChange={handleStatusFilterChange}
-          reservationCount={confirmedCount}
-          onOpenModal={handleOpenModal}
-        />
-      )}
-
-      {/* ══ NỘI DUNG LỊCH ══ */}
-      {tabMode === "calendar" && (
-        <div className="flex flex-1 min-h-0 overflow-hidden">
-          {/* THANH BÊN TRÁI */}
-          <Sidebar
-            selectedDate={selectedDate}
-            onSelectDate={setSelectedDate}
-            areas={areas}
-            viewMode={viewMode}
-            selectedArea={selectedArea}
-            onSelectArea={setSelectedArea}
-          />
-
-          {/* CHẾ ĐỘ XEM NGÀY */}
-          {viewMode === "day" && (
-            <Timeline
-              areas={areas}
-              tables={filteredTables}
-              reservations={reservations}
-              statusFilters={statusFilters}
-              onCellClick={handleCellClick}
-              onEditReservation={handleEditReservation}
-              onStatusChange={handleStatusChange}
-              selectedDate={selectedDate}
+          {/* ══ THANH CÔNG CỤ PHỤ (trắng) - chỉ hiện ở chế độ lịch ══ */}
+          {tabMode === "calendar" && (
+            <SubHeader
               viewMode={viewMode}
+              setViewMode={setViewMode}
+              statusFilters={statusFilters}
+              onStatusFilterChange={handleStatusFilterChange}
+              reservationCount={confirmedCount}
+              onOpenModal={handleOpenModal}
             />
           )}
 
-          {/* CHẾ ĐỘ XEM TUẦN */}
-          {viewMode === "week" && (
-            <WeekView
+          {/* ══ NỘI DUNG LỊCH ══ */}
+          {tabMode === "calendar" && (
+            <div className="flex flex-1 min-h-0 overflow-hidden">
+              {/* THANH BÊN TRÁI */}
+              <Sidebar
+                selectedDate={selectedDate}
+                onSelectDate={setSelectedDate}
+                areas={areas}
+                viewMode={viewMode}
+                selectedArea={selectedArea}
+                onSelectArea={setSelectedArea}
+              />
+
+              {/* CHẾ ĐỘ XEM NGÀY */}
+              {viewMode === "day" && (
+                <Timeline
+                  areas={areas}
+                  tables={filteredTables}
+                  reservations={reservations}
+                  statusFilters={statusFilters}
+                  onCellClick={handleCellClick}
+                  onEditReservation={handleEditReservation}
+                  onStatusChange={handleStatusChange}
+                  selectedDate={selectedDate}
+                  viewMode={viewMode}
+                />
+              )}
+
+              {/* CHẾ ĐỘ XEM TUẦN */}
+              {viewMode === "week" && (
+                <WeekView
+                  areas={areas}
+                  tables={filteredTables}
+                  reservations={allReservations}
+                  statusFilters={statusFilters}
+                  onCellClick={handleCellClick}
+                  onEditReservation={handleEditReservation}
+                  selectedDate={selectedDate}
+                />
+              )}
+
+              {/* CHẾ ĐỘ XEM THÁNG */}
+              {viewMode === "month" && (
+                <MonthView
+                  reservations={allReservations}
+                  statusFilters={statusFilters}
+                  selectedDate={selectedDate}
+                  onSelectDate={setSelectedDate}
+                />
+              )}
+            </div>
+          )}
+
+          {/* ══ CHẾ ĐỘ XEM DANH SÁCH ══ */}
+          {tabMode === "list" && (
+            <ReservationListView
+              reservations={allReservations}
               areas={areas}
-              tables={filteredTables}
-              reservations={allReservations}
               statusFilters={statusFilters}
-              onCellClick={handleCellClick}
+              onStatusFilterChange={handleStatusFilterChange}
+              onStatusChange={handleStatusChange}
               onEditReservation={handleEditReservation}
-              selectedDate={selectedDate}
-            />
-          )}
-
-          {/* CHẾ ĐỘ XEM THÁNG */}
-          {viewMode === "month" && (
-            <MonthView
-              reservations={allReservations}
-              statusFilters={statusFilters}
+              onOpenModal={handleOpenModal}
               selectedDate={selectedDate}
               onSelectDate={setSelectedDate}
             />
           )}
-        </div>
-      )}
 
-      {/* ══ CHẾ ĐỘ XEM DANH SÁCH ══ */}
-      {tabMode === "list" && (
-        <ReservationListView
-          reservations={allReservations}
-          areas={areas}
-          statusFilters={statusFilters}
-          onStatusFilterChange={handleStatusFilterChange}
-          onStatusChange={handleStatusChange}
-          onEditReservation={handleEditReservation}
-          onOpenModal={handleOpenModal}
-          selectedDate={selectedDate}
-          onSelectDate={setSelectedDate}
-        />
-      )}
-
-      {/* MODAL ĐẶT BÀN */}
-      <ReservationModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        prefilledTable={prefilledTable}
-        prefilledHour={prefilledHour}
-        tables={tables}
-        areas={areas}
-        selectedDate={selectedDate}
-        onReservationCreated={fetchReservations}
-        editingReservation={editingReservation}
-      />
-      {/* MODAL LÝ DO HỦY */}
-      <Modal
-        open={cancelModal.open}
-        onCancel={() => setCancelModal({ open: false, reservationId: null })}
-        onOk={handleConfirmCancel}
-        title={
-          <span className="text-base font-bold text-red-600">
-            🗑 Xác nhận hủy đặt bàn
-          </span>
-        }
-        okText="Xác nhận hủy"
-        cancelText="Quay lại"
-        okButtonProps={{ danger: true }}
-        centered
-        width={420}
-      >
-        <div className="py-3">
-          <p className="text-sm text-gray-600 mb-3">Vui lòng nhập lý do hủy:</p>
-          <Input.TextArea
-            rows={3}
-            value={cancelReason}
-            onChange={(e) => setCancelReason(e.target.value)}
-            placeholder="Nhập lý do hủy đặt bàn..."
-            maxLength={200}
-            showCount
+          {/* MODAL ĐẶT BÀN */}
+          <ReservationModal
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            prefilledTable={prefilledTable}
+            prefilledHour={prefilledHour}
+            tables={tables}
+            areas={areas}
+            selectedDate={selectedDate}
+            onReservationCreated={fetchReservations}
+            editingReservation={editingReservation}
           />
+          {/* MODAL LÝ DO HỦY */}
+          <Modal
+            open={cancelModal.open}
+            onCancel={() => setCancelModal({ open: false, reservationId: null })}
+            onOk={handleConfirmCancel}
+            title={
+              <span className="text-base font-bold text-red-600">
+                🗑 Xác nhận hủy đặt bàn
+              </span>
+            }
+            okText="Xác nhận hủy"
+            cancelText="Quay lại"
+            okButtonProps={{ danger: true }}
+            centered
+            width={420}
+          >
+            <div className="py-3">
+              <p className="text-sm text-gray-600 mb-3">Vui lòng nhập lý do hủy:</p>
+              <Input.TextArea
+                rows={3}
+                value={cancelReason}
+                onChange={(e) => setCancelReason(e.target.value)}
+                placeholder="Nhập lý do hủy đặt bàn..."
+                maxLength={200}
+                showCount
+              />
+            </div>
+          </Modal>
         </div>
-      </Modal>
-    </div>
+      </ProtectedRoute>
   );
 }
