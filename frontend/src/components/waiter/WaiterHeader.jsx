@@ -1,8 +1,8 @@
 "use client";
 
+import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import TooltipIcon from "@/app/components/TooltipIcon";
-import { Search, Plus, Bell, LogOut, Volume2, VolumeX } from "lucide-react";
+import { Search, Plus, Bell, LogOut, Volume2, VolumeX, X } from "lucide-react";
 
 export default function WaiterHeader({
   activeTab,
@@ -10,9 +10,12 @@ export default function WaiterHeader({
   selTable,
   setSelTable,
   soundOn,
-  setSoundOn
+  setSoundOn,
+  searchQuery = "",
+  onSearchChange,
 }) {
   const router = useRouter();
+  const inputRef = useRef(null);
 
   const TAB_ICONS = {
     phonban: (
@@ -24,14 +27,7 @@ export default function WaiterHeader({
       </svg>
     ),
     thucdon: (
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="white"
-        strokeWidth="2"
-      >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
         <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
         <rect x="9" y="3" width="6" height="4" rx="1" fill="white" />
         <line x1="9" y1="12" x2="15" y2="12" />
@@ -45,19 +41,20 @@ export default function WaiterHeader({
     { key: "thucdon", label: "Thực đơn" },
   ];
 
-  const handleToggleSound = () => {
-    setSoundOn(prev => !prev);
-  };
-
   const handleLogout = () => {
     localStorage.removeItem("token");
     router.push("/");
   };
 
+  const handleClearSearch = () => {
+    onSearchChange?.("");
+    inputRef.current?.focus();
+  };
+
   return (
     <div className="h-14 flex bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 text-white shadow-lg border-b border-blue-600">
 
-      {/* LEFT - TABS & SEARCH */}
+      {/* LEFT */}
       <div className="flex-[0_0_67%] flex items-center px-4 gap-4">
 
         {/* Tabs */}
@@ -67,11 +64,7 @@ export default function WaiterHeader({
               key={t.key}
               onClick={() => setActiveTab(t.key)}
               className={`flex items-center gap-2 px-4 py-2 rounded-md text-[13px] font-semibold transition-all duration-200
-              ${
-                activeTab === t.key
-                  ? "bg-white/20 shadow-md"
-                  : "hover:bg-white/10"
-              }`}
+              ${activeTab === t.key ? "bg-white/20 shadow-md" : "hover:bg-white/10"}`}
             >
               {TAB_ICONS[t.key]}
               {t.label}
@@ -80,17 +73,37 @@ export default function WaiterHeader({
         </div>
 
         {/* Search */}
-        <div className="flex items-center gap-2.5 flex-1 bg-white/15 backdrop-blur-sm rounded-lg px-4 py-2 border border-white/20 hover:bg-white/20 hover:border-white/30 transition-all">
+        <div
+          className={`flex items-center gap-2.5 flex-1 backdrop-blur-sm rounded-lg px-4 py-2 border transition-all
+            ${searchQuery
+              ? "bg-white/25 border-white/50 shadow-inner"
+              : "bg-white/15 border-white/20 hover:bg-white/20 hover:border-white/30"
+            }`}
+        >
           <Search size={15} className="text-white/70 flex-shrink-0" strokeWidth={2.5} />
 
           <input
-            placeholder="Tìm món, bàn..."
+            ref={inputRef}
+            value={searchQuery}
+            onChange={e => onSearchChange?.(e.target.value)}
+            placeholder="Tìm món ăn..."
             className="bg-transparent outline-none text-[13px] w-full placeholder:text-white/50 text-white font-medium"
           />
+
+          {/* Nút xoá khi có text */}
+          {searchQuery && (
+            <button
+              onClick={handleClearSearch}
+              className="flex-shrink-0 w-4 h-4 flex items-center justify-center rounded-full bg-white/30 hover:bg-white/50 transition-colors"
+              title="Xoá tìm kiếm"
+            >
+              <X size={10} strokeWidth={3} />
+            </button>
+          )}
         </div>
       </div>
 
-      {/* RIGHT - ACTIONS */}
+      {/* RIGHT */}
       <div className="flex-1 flex items-center px-4 gap-4">
 
         {/* Selected table pill */}
@@ -103,10 +116,7 @@ export default function WaiterHeader({
               </span>
             </div>
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelTable(null);
-              }}
+              onClick={(e) => { e.stopPropagation(); setSelTable(null); }}
               className="ml-1 w-5 h-5 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 text-[12px] cursor-pointer transition-colors flex-shrink-0"
             >
               ✕
@@ -120,10 +130,9 @@ export default function WaiterHeader({
 
         <div className="flex-1" />
 
-        {/* Right toolbar */}
+        {/* Toolbar */}
         <div className="flex items-center gap-1.5">
-          
-          {/* Add button */}
+
           <button
             className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/15 hover:bg-white/25 border border-white/25 hover:border-white/40 transition-all cursor-pointer group"
             title="Thêm bàn"
@@ -131,9 +140,8 @@ export default function WaiterHeader({
             <Plus size={18} className="text-white group-hover:scale-110 transition-transform" />
           </button>
 
-          {/* Sound toggle */}
           <button
-            onClick={handleToggleSound}
+            onClick={() => setSoundOn(prev => !prev)}
             className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/15 hover:bg-white/25 border border-white/25 hover:border-white/40 transition-all cursor-pointer group"
             title={soundOn ? "Tắt âm thanh" : "Bật âm thanh"}
           >
@@ -144,7 +152,6 @@ export default function WaiterHeader({
             )}
           </button>
 
-          {/* Notifications */}
           <button
             className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/15 hover:bg-white/25 border border-white/25 hover:border-white/40 transition-all cursor-pointer group relative"
             title="Thông báo"
@@ -153,7 +160,6 @@ export default function WaiterHeader({
             <span className="absolute top-1 right-1 w-2 h-2 bg-red-400 rounded-full animate-pulse" />
           </button>
 
-          {/* Logout */}
           <button
             onClick={handleLogout}
             className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/15 hover:bg-red-500/30 border border-white/25 hover:border-red-400/50 transition-all cursor-pointer group"

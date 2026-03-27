@@ -410,7 +410,7 @@ export const updateItemStatus = async (req, res) => {
     const user = req.user;
 
     // 1. Kiểm tra quyền
-    if (user.role !== "kitchenStaff" && user.role !== "admin") {
+    if (user.role !== "kitchenStaff") {
       return res.status(403).json({
         success: false,
         message: "Bạn không có quyền thực hiện hành động này",

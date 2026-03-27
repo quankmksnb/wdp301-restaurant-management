@@ -1,21 +1,12 @@
-import {
-  DollarSign,
-  Users,
-  ClipboardList,
-  Truck,
-} from "lucide-react";
+import { ClipboardList, DollarSign, Users } from "lucide-react";
 
-import DashboardHeader from "./components/DashboardHeader";
-import DashboardBox from "./components/DashboardBox";
-import TopProductBox from "./components/TopProductBox";
-import ResultItem from "./components/ResultItem";
-
+import DashboardBox from "../../components/dashboard/DashboardBox";
+import ResultItem from "../../components/dashboard/ResultItem";
 
 export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-100">
       <main className="p-6 grid grid-cols-12 gap-6">
-
         <section className="col-span-9 space-y-6">
           <div className="bg-white rounded-lg shadow-sm p-5">
             <h2 className="font-semibold text-sm mb-4">
@@ -53,7 +44,6 @@ export default function Dashboard() {
         </section>
 
         <aside className="col-span-3 space-y-6">
-
           <div className="bg-white rounded-lg shadow-sm p-4 h-[520px]">
             <h3 className="font-semibold text-sm mb-3">
               CÁC HOẠT ĐỘNG GẦN ĐÂY
@@ -63,7 +53,6 @@ export default function Dashboard() {
               Không có dữ liệu
             </div>
           </div>
-
         </aside>
       </main>
     </div>

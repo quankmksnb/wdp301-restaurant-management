@@ -5,8 +5,6 @@ import { Plus } from "lucide-react";
 
 export default function FoodCard({ food, onAdd, cartQty }) {
   const [hover, setHover] = useState(false);
-  const BASE_URL = "http://localhost:5000";
-
 
   return (
     <div

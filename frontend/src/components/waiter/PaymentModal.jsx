@@ -5,7 +5,7 @@ import { X, Calendar, Clock, User, MoreVertical } from "lucide-react";
 import { message } from "antd";
 import { jwtDecode } from "jwt-decode";
 import { getOrderBill } from "@/services/orderService";
-import { payByCash as payByCashAPI } from "@/services/paymentService";
+import { payByCash as payByCashAPI, createVNPayPayment } from "@/services/paymentService";
 
 export default function PaymentModal({
   open,
@@ -138,24 +138,17 @@ export default function PaymentModal({
     .filter((v, i, arr) => arr.indexOf(v) === i && v >= finalTotal)
     .slice(0, 6);
 
-  // ✅ Handle payment
+  // Handle payment
   const handleConfirmPayment = async () => {
-    // Validate tiền đủ không
-    if (customerPaid < finalTotal) {
+    // tiền không đủ
+    if (paymentMethod === "cash" && customerPaid < finalTotal) {
       message.warning("Tiền khách đưa không đủ");
-      return;
-    }
-
-    // Chỉ hỗ trợ tiền mặt
-    if (paymentMethod !== "cash") {
-      message.info("Chỉ hỗ trợ thanh toán tiền mặt tạm thời");
       return;
     }
 
     try {
       setPaying(true);
 
-      // ✅ Lấy userId từ JWT
       const userId = getUserIdFromToken();
 
       if (!userId) {
@@ -163,59 +156,66 @@ export default function PaymentModal({
         return;
       }
 
-      const paymentData = {
-        amount: finalTotal,
-        cashReceived: customerPaid,
-        change: change,
-        user: userId,  // ✅ Thêm user id từ JWT
-      };
+      // ======================= 💵 CASH =======================
+      if (paymentMethod === "cash") {
+        const paymentData = {
+          amount: finalTotal,
+          cashReceived: customerPaid,
+          change: change,
+          user: userId,
+        };
 
-      const res = await payByCashAPI(orderId, paymentData);
+        const res = await payByCashAPI(orderId, paymentData);
 
-      if (res.success) {
-        message.success({
-          content: (
-            <div>
-              <p style={{ marginBottom: "4px", fontWeight: 600 }}>
-                ✓ Thanh toán thành công
-              </p>
-              <p style={{ marginBottom: "0", fontSize: "13px", color: "rgba(255,255,255,0.85)" }}>
-                Tiền thừa: {fmt(change)}
-              </p>
-            </div>
-          ),
-          duration: 3,
-        });
+        if (res.success) {
+          message.success({
+            content: (
+              <div>
+                <p style={{ marginBottom: "4px", fontWeight: 600 }}>
+                  ✓ Thanh toán thành công
+                </p>
+                <p style={{ marginBottom: "0", fontSize: "13px" }}>
+                  Tiền thừa: {fmt(change)}
+                </p>
+              </div>
+            ),
+            duration: 3,
+          });
 
-        // Reset và đóng modal
-        setTimeout(() => {
-          setCustomerPaid(0);
-          setCustomerPaidRaw("");
-          setPaymentMethod("cash");
-          onClose?.();
-
-          // ✅ Reload page sau 1 giây
           setTimeout(() => {
+            onClose?.();
             window.location.reload();
-          }, 1000);
-        }, 500);
-      } else {
-        message.error({
-          content: (
-            <div>
-              <p style={{ marginBottom: "4px", fontWeight: 600 }}>
-                ✗ Thanh toán thất bại
-              </p>
-              <p style={{ marginBottom: "0", fontSize: "13px" }}>
-                {res?.message || "Vui lòng thử lại sau"}
-              </p>
-            </div>
-          ),
-          duration: 4,
-        });
+          }, 800);
+        } else {
+          throw new Error(res.message);
+        }
       }
+
+      // ======================= 💳 VNPAY =======================
+      else if (paymentMethod === "transfer") {
+        const res = await createVNPayPayment({
+          orderId,
+          amount: finalTotal,
+          user: userId,
+        });
+
+        if (res?.paymentUrl) {
+          // redirect sang VNPay
+          window.location.href = res.paymentUrl;
+          return;
+        } else {
+          throw new Error("Không tạo được link thanh toán");
+        }
+      }
+
+      // ======================= 💳 CARD (chưa support) =======================
+      else {
+        message.info("Chưa hỗ trợ phương thức này");
+      }
+
     } catch (err) {
       console.error("Payment error:", err);
+
       message.error({
         content: (
           <div>
@@ -437,8 +437,12 @@ export default function PaymentModal({
 
           <div className="px-4 py-3 border-t border-slate-200">
             <button
-              disabled={loading || finalTotal === 0 || paying || customerPaid < finalTotal}
-              className="w-full py-3 bg-blue-700 hover:bg-blue-800 active:bg-blue-900 text-white rounded-lg font-semibold text-[14px] transition-colors disabled:opacity-40"
+              disabled={
+                loading ||
+                finalTotal === 0 ||
+                paying ||
+                (paymentMethod === "cash" && customerPaid < finalTotal)
+              } className="w-full py-3 bg-blue-700 hover:bg-blue-800 active:bg-blue-900 text-white rounded-lg font-semibold text-[14px] transition-colors disabled:opacity-40"
               onClick={handleConfirmPayment}
             >
               {paying ? "Đang xử lý..." : "Xác nhận thanh toán"}
