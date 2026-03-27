@@ -10,6 +10,7 @@ import {
 
 /**
  * GET /api/reservations/available-tables
+ * Lấy danh sách các bàn trống
  */
 export const getAvailableTablesController = async (req, res) => {
   try {
@@ -44,9 +45,7 @@ export const getAvailableTablesController = async (req, res) => {
  */
 export const getReservedTablesController = async (req, res) => {
   try {
-    const reservations = await Reservation.find({
-      status: { $in: ["confirmed", "seated", "cancelled"] },
-    })
+    const reservations = await Reservation.find()
       .populate({
         path: "tables",
         populate: { path: "area", select: "areaName" },
@@ -76,8 +75,8 @@ export const createReservation = async (req, res) => {
     const { tables, reservationDateTime, numberOfGuests } = req.body;
 
     const validation = await validateTablesForReservation(tables, reservationDateTime);
-      const nowMinute = new Date();
-      nowMinute.setSeconds(0, 0);
+    const nowMinute = new Date();
+    nowMinute.setSeconds(0, 0);
     // So sánh theo phút (bỏ qua giây + mili-giây)
     const reservationMinute = new Date(reservationDateTime);
     reservationMinute.setSeconds(0, 0);
