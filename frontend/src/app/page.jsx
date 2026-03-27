@@ -3,7 +3,7 @@
 import { loginUser } from "@/services/userService";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import { Mail, Lock, Phone } from "lucide-react";
@@ -16,44 +16,104 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setError("");
+  // countdown lock login
+  const [lockTime, setLockTime] = useState(0);
 
-  try {
-    const res = await loginUser({ email, password });
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    const data = res.data;
+  // countdown
+  useEffect(() => {
+    if (lockTime <= 0) return;
 
-    localStorage.setItem("token", data.token);
-
-    const decoded = jwtDecode(data.token);
-    const role = decoded.role;
-
-    toast.success("Đăng nhập thành công!");
-
-    setTimeout(() => {
-      if (role === "manager") {
-        router.push("/dashboard");
-      } else if (role === "waiter") {
-        router.push("/waiter");
-      } else if (role === "receptionist") {
-        router.push("/reception");
-      } else if (role === "kitchenStaff") {
-        router.push("/kitchen");
-      }
+    const timer = setInterval(() => {
+      setLockTime((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
     }, 1000);
-  } catch (err) {
-    if (err.response) {
-      setError(err.response.data.message);
-    } else {
-      setError("Không thể kết nối server");
-    }
-  }
 
-  setLoading(false);
-};
+    return () => clearInterval(timer);
+  }, [lockTime]);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    // validate
+    if (!trimmedEmail || !trimmedPassword) {
+      toast.error("Vui lòng nhập đầy đủ thông tin");
+      return;
+    }
+
+    if (!emailRegex.test(trimmedEmail)) {
+      toast.error("Email không hợp lệ");
+      return;
+    }
+
+    if (lockTime > 0) {
+      toast.error(`Bạn đang bị khóa. Thử lại sau ${lockTime}s`);
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await loginUser({
+        email: trimmedEmail,
+        password: trimmedPassword,
+      });
+
+      const data = res.data;
+
+      localStorage.setItem("token", data.token);
+
+      const decoded = jwtDecode(data.token);
+      const role = decoded.role;
+
+      toast.success("Đăng nhập thành công!");
+
+      setTimeout(() => {
+        if (role === "manager") router.push("/dashboard");
+        else if (role === "waiter") router.push("/waiter");
+        else if (role === "receptionist") router.push("/reception");
+        else if (role === "kitchenStaff") router.push("/kitchen");
+      }, 1000);
+    } catch (err) {
+      if (err.response) {
+        const message = err.response.data.message;
+
+        setError(message);
+        toast.error(message);
+
+        // nếu bị khóa login
+        if (err.response.status === 429) {
+          const match = message.match(/\d+/);
+          if (match) {
+            const seconds = parseInt(match[0]);
+            setLockTime(seconds);
+          }
+        }
+      } else {
+        setError("Không thể kết nối server");
+        toast.error("Không thể kết nối server");
+      }
+    }
+
+    setLoading(false);
+  };
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+
+    return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  };
 
   return (
     <div className="relative min-h-screen">
@@ -104,7 +164,6 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-11 pr-4 py-2.5 border rounded-lg text-sm
                              focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
                 />
               </div>
             </div>
@@ -123,12 +182,16 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-11 pr-4 py-2.5 border rounded-lg text-sm
                              focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
                 />
               </div>
             </div>
 
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+            {/* countdown hiển thị */}
+            {lockTime > 0 && (
+              <p className="text-red-500 text-sm text-center">
+                Thử lại sau {formatTime(lockTime)}
+              </p>
+            )}
 
             {/* Forgot password */}
             <div className="text-right">
@@ -143,11 +206,15 @@ export default function LoginPage() {
             {/* Login Button */}
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || lockTime > 0}
               className="block w-full text-center bg-blue-600 hover:bg-blue-700
-                         transition text-white py-2.5 rounded-lg font-semibold"
+                         transition text-white py-2.5 rounded-lg font-semibold disabled:bg-gray-400"
             >
-              {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+              {lockTime > 0
+                ? `Thử lại sau ${formatTime(lockTime)}`
+                : loading
+                  ? "Đang đăng nhập..."
+                  : "Đăng nhập"}
             </button>
           </form>
 

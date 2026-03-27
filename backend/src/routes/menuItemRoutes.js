@@ -6,8 +6,9 @@ import {
     getMenuItemById,
     updateMenuItem,
     toggleAvailabilityStatus,
+    getMenuItemsByChildCategory,
 } from "../controllers/menuItemController.js";
-import upload from "../middlewares/upload.js";
+import upload from "../middlewares/uploadMiddleware.js";
 
 const router = express.Router();
 
@@ -16,8 +17,10 @@ router.post(
     upload.array("images", 1),
     createMenuItem
 );
+router.get("/by-child-category", getMenuItemsByChildCategory);
 router.get("/:id", getMenuItemById);
 router.get("/", getAllMenuItems);
+
 router.put(
     "/:id",
     upload.array("images", 1),

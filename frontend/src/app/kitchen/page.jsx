@@ -1,11 +1,12 @@
 "use client";
 
-import ProtectedRoute from "@/app/components/ProtectedRoute";
+import ProtectedRoute from "@/services/protectedRoute";
+import KitchenClientPage from "@/components/kitchen/KitchenClientPage";
 
 export default function KitchenPage() {
-  return (
-    <ProtectedRoute role="kitchen">
-      <h1>Kitchen Page</h1>
-    </ProtectedRoute>
-  );
+  return (
+    <ProtectedRoute role="kitchenStaff">
+      <KitchenClientPage />
+    </ProtectedRoute>
+  );
 }

@@ -1,7 +1,12 @@
 import fs from "fs";
 import path from "path";
+import mongoose from "mongoose";
 import MenuItem from "../models/MenuItem.js";
 import MenuCategory from "../models/MenuCategory.js";
+import Order from "../models/Order.js";
+import { url } from "inspector";
+import { getPublicIdFromUrl, uploadMultipleToCloudinary } from "../utils/cloudinaryUpload.js";
+import cloudinary from "../configs/cloudinary.js";
 
 // CREATE MENU ITEM
 export const createMenuItem = async (req, res) => {
@@ -74,13 +79,27 @@ export const createMenuItem = async (req, res) => {
 
         /* ================= HANDLE IMAGE UPLOAD ================= */
 
-        let imagePaths = [];
+        // let imagePaths = [];
 
+        // if (req.files && req.files.length > 0) {
+        //     imagePaths = req.files.map(
+        //         (file) => `/uploads/${file.filename}`
+        //     );
+        // }
+
+         // By cloundinary
+        let images = [];
+       
         if (req.files && req.files.length > 0) {
-            imagePaths = req.files.map(
-                (file) => `/uploads/${file.filename}`
+            const uploadResults = await uploadMultipleToCloudinary(
+              req.files,
+              "rms/menu-items"
             );
+
+            images = uploadResults.map(item => item.secure_url)
         }
+
+
 
         /* ================= CREATE ITEM ================= */
 
@@ -91,7 +110,7 @@ export const createMenuItem = async (req, res) => {
             costPrice,
             description,
             availabilityStatus,
-            images: imagePaths,
+            images: images,
             category,
         });
 
@@ -253,25 +272,52 @@ export const updateMenuItem = async (req, res) => {
 
         /* ================= HANDLE IMAGE UPDATE ================= */
 
-        if (req.files && req.files.length > 0) {
-            // XÓA ẢNH CŨ
-            if (item.images && item.images.length > 0) {
-                item.images.forEach((imgPath) => {
-                    const fullPath = path.join(
-                        process.cwd(),
-                        imgPath
-                    );
+        // if (req.files && req.files.length > 0) {
+        //     // XÓA ẢNH CŨ
+        //     if (item.images && item.images.length > 0) {
+        //         item.images.forEach((imgPath) => {
+        //             const fullPath = path.join(
+        //                 process.cwd(),
+        //                 imgPath
+        //             );
 
-                    if (fs.existsSync(fullPath)) {
-                        fs.unlinkSync(fullPath);
-                    }
+        //             if (fs.existsSync(fullPath)) {
+        //                 fs.unlinkSync(fullPath);
+        //             }
+        //         });
+        //     }
+
+        //     // LƯU ẢNH MỚI
+        //     item.images = req.files.map(
+        //         (file) => `/uploads/${file.filename}`
+        //     );
+        // }
+        
+        // Cloudinay
+        if (req.files && req.files.length > 0) {
+          try {
+            // A. Xóa ảnh cũ trên Cloudinary (nếu có)
+            if (item.images && item.images.length > 0) {
+                const deletePromises = item.images.map((url) => {
+                const publicId = getPublicIdFromUrl(url, "rms/menu-items");
+                return cloudinary.uploader.destroy(publicId);
                 });
+                await Promise.all(deletePromises);
             }
 
-            // LƯU ẢNH MỚI
-            item.images = req.files.map(
-                (file) => `/uploads/${file.filename}`
+            // B. Tải ảnh mới lên Cloudinary
+            const uploadResults = await uploadMultipleToCloudinary(
+              req.files,
+              "rms/menu-items"
             );
+
+            // C. Cập nhật mảng images mới vào object item
+            item.images = uploadResults.map((result) => result.secure_url);
+          } catch (uploadError) {
+            return res.status(500).json({ 
+              message: "Lỗi khi xử lý hình ảnh: " + uploadError.message 
+            });
+          }
         }
 
         /* ================= UPDATE OTHER FIELDS ================= */
@@ -302,17 +348,27 @@ export const deleteMenuItem = async (req, res) => {
         }
 
         // XÓA FILE ẢNH
-        if (item.images && item.images.length > 0) {
-            item.images.forEach((imgPath) => {
-                const fullPath = path.join(
-                    process.cwd(),
-                    imgPath
-                );
+        // if (item.images && item.images.length > 0) {
+        //     item.images.forEach((imgPath) => {
+        //         const fullPath = path.join(
+        //             process.cwd(),
+        //             imgPath
+        //         );
 
-                if (fs.existsSync(fullPath)) {
-                    fs.unlinkSync(fullPath);
-                }
+        //         if (fs.existsSync(fullPath)) {
+        //             fs.unlinkSync(fullPath);
+        //         }
+        //     });
+        // }
+
+        /* ================= XÓA ẢNH TRÊN CLOUDINARY ================= */
+        // Kiểm tra nếu sản phẩm có mảng images và mảng không rỗng
+        if (item.images && item.images.length > 0) {
+            const deletePromises = item.images.map((url) => {
+                const publicId = getPublicIdFromUrl(url, "rms/menu-items");
+                return cloudinary.uploader.destroy(publicId);
             });
+            await Promise.all(deletePromises);
         }
 
         await item.deleteOne();
@@ -323,17 +379,16 @@ export const deleteMenuItem = async (req, res) => {
     }
 };
 
-
 // TOGGLE AVAILABILITY STATUS
 export const toggleAvailabilityStatus = async (req, res) => {
     try {
-
         const item = await MenuItem
             .findById(req.params.id)
             .populate("category");
 
         if (!item) {
             return res.status(404).json({
+                success: false,
                 message: "Không tìm thấy sản phẩm"
             });
         }
@@ -343,26 +398,82 @@ export const toggleAvailabilityStatus = async (req, res) => {
                 ? "unavailable"
                 : "available";
 
-        // Nếu muốn bật available nhưng category inactive
+        // ✅ Nếu muốn tắt available (unavailable), check order
+        if (newStatus === "unavailable") {
+            // Tìm orders đang pre-order hoặc active có chứa item này
+            const activeOrders = await Order.findOne({
+                orderStatus: { $in: ["pre-order", "active"] },
+                "subOrders.items.menuItem": item._id,
+                "subOrders.items.status": { $nin: ["cancelled", "out_of_stock"] }
+            });
+
+            if (activeOrders) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Không thể ngừng bán món này vì còn đơn hàng đang xử lý chứa sản phẩm này",
+                    data: item
+                });
+            }
+        }
+
+        // ✅ Nếu muốn bật available nhưng category inactive
         if (newStatus === "available" && item.category.status === "inactive") {
-            return res.json({
+            return res.status(400).json({
+                success: false,
                 message: "Danh mục đang bị khóa, không thể bật bán sản phẩm",
                 data: item
             });
         }
 
         item.availabilityStatus = newStatus;
-
         await item.save();
 
         res.json({
+            success: true,
             message: `Đã chuyển trạng thái sang "${item.availabilityStatus}"`,
             data: item,
         });
 
     } catch (error) {
         res.status(500).json({
+            success: false,
             message: error.message
+        });
+    }
+};
+
+// lấy item theo category con
+export const getMenuItemsByChildCategory = async (req, res) => {
+    try {
+        const { category, search } = req.query;
+
+        const filter = {};
+
+        // lọc theo category con
+        if (category) {
+            filter.category = new mongoose.Types.ObjectId(category);
+        }
+
+        // chỉ lấy món đang bán
+        filter.availabilityStatus = { $ne: "unavailable" };
+
+        // search theo tên món
+        if (search) {
+            filter.itemName = { $regex: search, $options: "i" };
+        }
+
+        const items = await MenuItem.find(filter)
+            .populate("category", "categoryName")
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            data: items,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
         });
     }
 };

@@ -1,0 +1,313 @@
+[{
+  "_id": {
+    "$oid": "65f000000000000000000002"
+  },
+  "fullName": "Waiter 1",
+  "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+  "phone": "0900000002",
+  "email": "waiter1@example.com",
+  "role": "waiter",
+  "status": "active",
+  "code": "NV000006"
+},
+{
+  "_id": {
+    "$oid": "65f000000000000000000001"
+  },
+  "fullName": "Waiter 2",
+  "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+  "phone": "0900000001",
+  "email": "waiter2@example.com",
+  "role": "waiter",
+  "status": "active",
+  "code": "NV000012"
+},
+{
+  "_id": {
+    "$oid": "65f000000000000000000004"
+  },
+  "fullName": "Dinh Thi Thuy",
+  "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+  "phone": "0975432353",
+  "email": "thuydthe181836@fpt.edu.vn",
+  "role": "manager",
+  "status": "active",
+  "code": "NV000011"
+},
+{
+  "_id": {
+    "$oid": "69a907ba16da283576823ca2"
+  },
+  "fullName": "Đoàn Quang Huy",
+  "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+  "phone": "0123456789",
+  "email": "doanhuy2004@gmail.com",
+  "role": "manager",
+  "status": "active",
+  "code": "NV000010"
+},
+{
+  "_id": {
+    "$oid": "69a907ba16da283576823ca3"
+  },
+  "fullName": "Nguyễn Minh Quân",
+  "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+  "phone": "0123456789",
+  "email": "quannguyenkm16122004@gmail.com",
+  "role": "manager",
+  "status": "active",
+  "code": "NV000009"
+},
+{
+  "_id": {
+    "$oid": "69a907ba16da283576823ca4"
+  },
+  "fullName": "Nguyễn Văn Hoàng",
+  "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+  "phone": "0123456789",
+  "email": "hoangptkdhy@gmail.com",
+  "role": "manager",
+  "status": "active",
+  "code": "NV000008"
+},
+{
+  "_id": {
+    "$oid": "69a907ba16da283576823ca5"
+  },
+  "fullName": "Hà Văn Vinh",
+  "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+  "phone": "0681228204",
+  "email": "vinhhv28@gmail.com",
+  "role": "manager",
+  "status": "active",
+  "code": "NV000007"
+},
+{
+  "_id": {
+    "$oid": "69a910724b6190467d2920d0"
+  },
+  "code": "NV000001",
+  "fullName": "Tran Van Updated",
+  "password": "$2b$10$ZHkaJvYtnkA2nNUj1JkuMuJUPRGyHzSiTzHM/LidTmC.yvnOnbEle",
+  "role": "waiter",
+  "phone": "0999888777",
+  "email": "test.e2e@example.com",
+  "status": "inactive",
+  "createdAt": {
+    "$date": "2026-03-05T05:11:14.551Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-05T06:17:19.501Z"
+  },
+  "__v": 0,
+  "address": "",
+  "city": "",
+  "facebook": "",
+  "gender": "",
+  "idNumber": "",
+  "notes": ""
+},
+{
+  "_id": {
+    "$oid": "69ae5026c62f5876466b123a"
+  },
+  "code": "NV000002",
+  "fullName": "Nguyễn Hoàng 1",
+  "password": "$2b$10$YhCb2FR3xK2PqjFKjvjthO2RZ.JllemqkoD.LBqBOzJR/CoGztWqW",
+  "role": "waiter",
+  "phone": "0375559352",
+  "email": "hn447529@gmail.com",
+  "status": "active",
+  "idNumber": "03320423323",
+  "birthDate": {
+    "$date": "2004-01-10T17:00:00.000Z"
+  },
+  "gender": "Nam",
+  "startDate": {
+    "$date": "2026-03-09T04:43:45.900Z"
+  },
+  "facebook": "https://www.facebook.com/hoangnvhe181030",
+  "address": "Phu thinh, kim dong",
+  "notes": "abc",
+  "photo": "/uploads/1773031462518-847563265.png",
+  "createdAt": {
+    "$date": "2026-03-09T04:44:22.781Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-09T04:44:22.781Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ae52bec62f5876466b124c"
+  },
+  "code": "NV000003",
+  "fullName": "ávsavsa",
+  "password": "$2b$10$48POy1q6xv5DbRhZF011HeFZLkwhk5THa2LH6rB3IMFkyOEMtXitu",
+  "role": "waiter",
+  "phone": "0375559351",
+  "email": "black2k4hy@gmail.com",
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-09T04:55:26.146Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-10T01:12:43.649Z"
+  },
+  "__v": 0,
+  "notes": "ácca"
+},
+{
+  "_id": {
+    "$oid": "69ae52d1c62f5876466b1252"
+  },
+  "code": "NV000004",
+  "fullName": "ávsvavsa",
+  "password": "$2b$10$W3vRt6gkp3LQeZuiiM2g9uVoIKzGlJwkcbceX3NQCTGUagWcgqUPu",
+  "role": "waiter",
+  "phone": "0492343243",
+  "email": "honersakax@hotmail.com",
+  "status": "active",
+  "photo": "/uploads/1773032145158-946502643.png",
+  "createdAt": {
+    "$date": "2026-03-09T04:55:45.414Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-09T04:55:45.414Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69ae52f5c62f5876466b1260"
+  },
+  "code": "NV000005",
+  "fullName": "Anh nam Pham",
+  "password": "$2b$10$OYrQV4Hm.vaJ69SWnC18Re8e/o2.QXsAkXdVzFxb.KhGKlppmkHNC",
+  "role": "waiter",
+  "phone": "0375559358",
+  "email": "hn44752@gmail.com",
+  "status": "inactive",
+  "createdAt": {
+    "$date": "2026-03-09T04:56:21.508Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-09T14:42:40.457Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69af79372cdc5ddc01a57c3e"
+  },
+  "code": "NV000013",
+  "fullName": "nhanvien1",
+  "password": "$2b$10$U3AF36oYdlrJp2iRLuavsu/5YDE.c6k/kL.tU7JnMFKxlhsyZIBUS",
+  "role": "receptionist",
+  "phone": "0987123456",
+  "email": "nv1@gmail.com",
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-10T01:51:51.600Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-10T01:51:51.600Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "code": "NV000014",
+  "fullName": "Nguyễn Hoàng",
+  "password": "$2b$10$mmRYnOiaSg9DLNjlGgYgFufPxAx75taPdiBukXPFwBtF63JLfTTy2",
+  "role": "receptionist",
+  "phone": "0375559322",
+  "email": "hoangptkdhy1@gmail.com",
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-14T05:06:57.756Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-14T05:06:57.756Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b68d38a66964e926fc78e7"
+  },
+  "code": "NV000015",
+  "fullName": "Nguyễn Minh Quân",
+  "password": "$2b$10$AIyje3.ocQ/ORzcfi15X6.HYLwn2fGy3zSD6vC49o9gys7Jy6iZha",
+  "role": "receptionist",
+  "phone": "0889501529",
+  "email": "quankmksnb@gmail.com",
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-15T10:43:04.693Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-15T10:43:04.693Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b7c57bc5af50448e228a8a"
+  },
+  "code": "NV000016",
+  "fullName": "Vinh Đẹp Trai",
+  "password": "$2b$10$hzbf1lXUEkItqIYDEPO3heOWa3D2Ww3ve2HaoHfi1C20C6jfqcL5W",
+  "role": "kitchenStaff",
+  "phone": "0981228204",
+  "email": "vinhhvhe180184@fpt.edu.vn",
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-16T08:55:23.360Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-16T08:55:23.360Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b830b706e664c994b96228"
+  },
+  "code": "NV000017",
+  "fullName": "Vinh Phục Vụ",
+  "password": "$2b$10$s2DkJynmSj1Xx67WvhaC7uam/BSxM12qwAJVN3OlErluuTOZSlbsS",
+  "role": "waiter",
+  "phone": "0981228284",
+  "email": "vinhphucvu@gmail.com",
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-16T16:32:55.761Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-16T16:32:55.761Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb3ea28662dce687c523e0"
+  },
+  "code": "NV000018",
+  "fullName": "Vinh Lễ Tân",
+  "password": "$2b$10$okhH8gqzGY6fSdSOoOEZr.nHt2Ru9LvO/wJSEQl9rz.4Vg/Lv8Mky",
+  "role": "receptionist",
+  "phone": "123456789",
+  "email": "vinhletan@gmail.com",
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-19T00:09:06.518Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T00:09:06.518Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,1563 @@
+[{
+  "_id": {
+    "$oid": "69b812439f4f0d3b2c3274ae"
+  },
+  "reservationDateTime": "2026-03-16T18:00:00.000Z",
+  "checkInTime": null,
+  "checkOutTime": null,
+  "numberOfGuests": 4,
+  "status": "cancelled",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "Nguyễn Văn A",
+    "phone": "0900000000"
+  },
+  "tables": [
+    "69af1103397f8c353331df0f"
+  ],
+  "user": "69b4ecf1eed254a323f08960",
+  "note": "Khách muốn bàn gần cửa sổ",
+  "updatedAt": {
+    "$date": "2026-03-16T17:12:14.359Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69b826a8c98ac89ec33d88d2"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-20T11:00:00.000Z"
+  },
+  "numberOfGuests": 6,
+  "status": "completed",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "Nguyen Van A",
+    "phone": "0889501522"
+  },
+  "tables": [
+    {
+      "$oid": "69af17cdcab23cdf69f57eab"
+    },
+    {
+      "$oid": "69b22fe51720730ba651cd4e"
+    }
+  ],
+  "createdAt": {
+    "$date": "2026-03-16T15:50:00.997Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-16T17:09:25.469Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-16T17:09:25.468Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69b82bb0a16f050ce53e3be3"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-16T16:00:00.394Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "hoàng",
+    "phone": "0375559358"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fec1720730ba651cd53"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-16T16:11:28.494Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-16T17:40:00.040Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b83502a62774bc9868031d"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-16T06:00:00.648Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "hoàng",
+    "phone": "0375559321"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fe51720730ba651cd4e"
+    },
+    {
+      "$oid": "69af17cdcab23cdf69f57eab"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-16T16:51:14.540Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-16T17:40:00.040Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b83617a62774bc98680343"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-18T09:00:00.000Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "abc",
+    "phone": "0439434432"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fe51720730ba651cd4e"
+    },
+    {
+      "$oid": "69b22fec1720730ba651cd53"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-16T16:55:51.026Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-16T17:10:09.699Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b83cb4b30e128faf69f7bc"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-16T21:00:00.067Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "avas",
+    "phone": "4324242323"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fe51720730ba651cd4e"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-16T17:24:04.240Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-17T02:00:00.064Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b8b70d7f93cda663a151da"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-16T23:00:00.653Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "Nguyen a",
+    "phone": "0943243243"
+  },
+  "tables": [
+    {
+      "$oid": "69af1103397f8c353331df0f"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-17T02:06:05.772Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-17T02:10:00.023Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b8b71f7f93cda663a151e1"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-16T23:00:00.653Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "Anh abc",
+    "phone": "094324324"
+  },
+  "tables": [
+    {
+      "$oid": "69af17cdcab23cdf69f57eab"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-17T02:06:23.647Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-17T02:10:00.023Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bacc3b9ab2b3e13b80766a"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T12:00:00.000Z"
+  },
+  "numberOfGuests": 5,
+  "status": "cancelled",
+  "cancellationReason": "ads",
+  "customer": {
+    "customer": "Anh Turi",
+    "phone": "0889501522"
+  },
+  "tables": [
+    {
+      "$oid": "69af17cdcab23cdf69f57eab"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-18T16:00:59.183Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-18T16:35:08.647Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-18T16:22:20.440Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69bace489ab2b3e13b8076a6"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T12:00:00.000Z"
+  },
+  "numberOfGuests": 12,
+  "status": "cancelled",
+  "cancellationReason": "dsa",
+  "customer": {
+    "customer": "Anh Huy Quang Đoàn",
+    "phone": "0915565555"
+  },
+  "tables": [
+    {
+      "$oid": "69af1727cab23cdf69f57e90"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-18T16:09:44.694Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-18T17:54:13.449Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bacf889ab2b3e13b8076bb"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T13:00:00.000Z"
+  },
+  "numberOfGuests": 18,
+  "status": "cancelled",
+  "cancellationReason": "không thích nhà hàng này",
+  "customer": {
+    "customer": "Anh Vinh Văn Hà",
+    "phone": "5675757567657"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fe51720730ba651cd4e"
+    },
+    {
+      "$oid": "69b22fec1720730ba651cd53"
+    }
+  ],
+  "note": "chỉ tiếp 2 ngón",
+  "createdAt": {
+    "$date": "2026-03-18T16:15:04.595Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-18T16:15:52.767Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bad02d9ab2b3e13b8076d4"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T14:00:00.000Z"
+  },
+  "numberOfGuests": 8,
+  "status": "cancelled",
+  "cancellationReason": "dsa",
+  "customer": {
+    "customer": "Anh Nà Ná NA NA",
+    "phone": "5345345345345"
+  },
+  "tables": [
+    {
+      "$oid": "69ba69b3923a44096684a76f"
+    },
+    {
+      "$oid": "69ba69be923a44096684a855"
+    }
+  ],
+  "note": "2 bàn 4 người",
+  "createdAt": {
+    "$date": "2026-03-18T16:17:49.173Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-18T16:35:12.907Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bad1b69ab2b3e13b80782f"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T13:00:00.000Z"
+  },
+  "numberOfGuests": 3,
+  "status": "seated",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "Anh Hoàng Virruss",
+    "phone": "1298437321"
+  },
+  "tables": [
+    {
+      "$oid": "69ba69a5923a44096684a63e"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-18T16:24:22.196Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-18T16:25:26.615Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-18T16:25:26.615Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69bad53b9ab2b3e13b8078cb"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T13:00:00.000Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "a",
+  "customer": {
+    "customer": "AnhPN",
+    "phone": "1231231221323"
+  },
+  "tables": [
+    {
+      "$oid": "69ba69be923a44096684a855"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-18T16:39:23.703Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T04:14:38.687Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bad9f9d7e2292c14a50179"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-18T05:00:00.197Z"
+  },
+  "numberOfGuests": 1,
+  "status": "seated",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "hoang",
+    "phone": "094324243342"
+  },
+  "tables": [
+    {
+      "$oid": "69ba69be923a44096684a855"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-18T16:59:37.828Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-18T17:00:41.807Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-18T17:00:41.806Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69bada7ed7e2292c14a5018d"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-18T02:00:00.197Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "abcas",
+    "phone": "04329243432"
+  },
+  "tables": [
+    {
+      "$oid": "69ba691d923a4409668475b5"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-18T17:01:50.269Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-18T17:02:00.020Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69badb87f0c7b3d0fee27b22"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T11:00:00.255Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "ab",
+  "customer": {
+    "customer": "faksfs",
+    "phone": "094323443"
+  },
+  "tables": [
+    {
+      "$oid": "69ba6a1b923a44096684b84b"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-18T17:06:15.200Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-18T18:18:39.409Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69badbfef0c7b3d0fee27b2b"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-20T08:00:00.000Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "Abc",
+    "phone": "vâsvavsv"
+  },
+  "tables": [
+    {
+      "$oid": "69ba6a1b923a44096684b84b"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-18T17:08:14.741Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-21T07:12:00.025Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69badfaab267f686e4f928b6"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T01:00:00.000Z"
+  },
+  "numberOfGuests": 1,
+  "status": "seated",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "abc",
+    "phone": "0943665023"
+  },
+  "tables": [
+    {
+      "$oid": "69ba69cf923a44096684aaea"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-18T17:23:54.665Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-18T17:24:14.143Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-18T17:24:14.076Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69badfd2b267f686e4f928cc"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T03:00:00.000Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "đuổi khách",
+  "customer": {
+    "customer": "agomas",
+    "phone": "09342342"
+  },
+  "tables": [
+    {
+      "$oid": "69ba691d923a4409668475b5"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-18T17:24:34.811Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T03:57:05.983Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-18T17:24:56.198Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69bae63488c42100c5d46d73"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-20T12:00:00.000Z"
+  },
+  "numberOfGuests": 2,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "Anhpn",
+    "phone": "31232131221"
+  },
+  "tables": [
+    {
+      "$oid": "69ba69cf923a44096684aaea"
+    }
+  ],
+  "note": "học triết cho tau",
+  "createdAt": {
+    "$date": "2026-03-18T17:51:48.376Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-21T07:12:00.025Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bae72b88c42100c5d46db4"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T12:00:00.000Z"
+  },
+  "numberOfGuests": 12,
+  "status": "cancelled",
+  "cancellationReason": "b",
+  "customer": {
+    "customer": "Anh Tên Là =",
+    "phone": "31232131231313"
+  },
+  "tables": [
+    {
+      "$oid": "69af1727cab23cdf69f57e90"
+    },
+    {
+      "$oid": "69ba6ba0923a440966853a0e"
+    }
+  ],
+  "note": "bàn 11 thêm 1 ghế",
+  "createdAt": {
+    "$date": "2026-03-18T17:55:55.572Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T04:14:41.490Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb3ede8662dce687c523fc"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T05:00:00.775Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "không ăn",
+  "customer": {
+    "customer": "Anh Vinh",
+    "phone": "234567865"
+  },
+  "tables": [
+    {
+      "$oid": "69af17cdcab23cdf69f57eab"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-19T00:10:06.038Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T03:56:40.759Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-19T00:10:28.465Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69bb3f448662dce687c5244d"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T00:00:00.775Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "huyr",
+  "customer": {
+    "customer": "anh vinh test bếp",
+    "phone": "3243563254"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fe51720730ba651cd4e"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-19T00:11:48.802Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T00:14:38.101Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb402b8662dce687c524d0"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T00:00:00.775Z"
+  },
+  "numberOfGuests": 1,
+  "status": "completed",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "anh vinh test bep",
+    "phone": "4376879809"
+  },
+  "tables": [
+    {
+      "$oid": "69ba6a1b923a44096684b84b"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-19T00:15:39.323Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T00:15:55.658Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-19T00:15:55.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69bb6a032eba6600590c3c44"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T03:13:51.820Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Không ăn",
+  "customer": {
+    "customer": "Anh Vinh",
+    "phone": "32124324324"
+  },
+  "tables": [
+    {
+      "$oid": "69ba6a1b923a44096684b84b"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-19T03:14:11.801Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T03:55:52.401Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-19T03:14:21.690Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69bb6ab82eba6600590c3c61"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-20T04:00:00.000Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "Anh Thúy",
+    "phone": "423432442332"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fe51720730ba651cd4e"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-19T03:17:12.980Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-21T07:12:00.025Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb74eca6d179879f131da7"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T04:00:00.759Z"
+  },
+  "numberOfGuests": 6,
+  "status": "seated",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "Vinh Test",
+    "phone": "234567891"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fe51720730ba651cd4e"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-19T04:00:44.370Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T04:00:59.827Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-19T04:00:59.670Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69bb74f5203e30a4d3fba78c"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T04:00:35.950Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "ACBN",
+    "phone": "09436650532"
+  },
+  "tables": [
+    {
+      "$oid": "69ba697b923a440966849866"
+    }
+  ],
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-19T04:00:53.115Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T04:31:00.037Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb7651d8f4b4b328192953"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T06:00:00.665Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "d",
+  "customer": {
+    "customer": "abca213",
+    "phone": "098765435"
+  },
+  "tables": [
+    {
+      "$oid": "69af1103397f8c353331df0f"
+    }
+  ],
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-19T04:06:41.172Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T04:14:47.426Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb7e3d08c3f7587fe6cfc3"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-18T03:00:00.000Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "absaba",
+    "phone": "09432432342"
+  },
+  "tables": [
+    {
+      "$oid": "69ba6ba0923a440966853a0e"
+    }
+  ],
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-19T04:40:29.741Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T04:41:00.045Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb7e6b34d99b96bea02984"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-17T03:00:00.000Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "bábsbas",
+    "phone": "0943243443"
+  },
+  "tables": [
+    {
+      "$oid": "69af1103397f8c353331df0f"
+    }
+  ],
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-19T04:41:15.353Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T04:42:00.024Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb7e8734d99b96bea02993"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-17T03:00:00.000Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "babsabsa",
+    "phone": "0943432432"
+  },
+  "tables": [
+    {
+      "$oid": "69af1727cab23cdf69f57e90"
+    }
+  ],
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-19T04:41:43.282Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-19T04:42:00.024Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb7f2f99f0cb7fca3b50ac"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-20T14:00:00.000Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "vávasvsav",
+    "phone": "0943234443"
+  },
+  "tables": [
+    {
+      "$oid": "69ba691d923a4409668475b5"
+    }
+  ],
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-19T04:44:31.907Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-21T07:12:00.025Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bb8457b7493a764dcbbb26"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-19T06:00:00.748Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "abc",
+    "phone": "09432432234"
+  },
+  "tables": [
+    {
+      "$oid": "69af17cdcab23cdf69f57eab"
+    }
+  ],
+  "user": {
+    "$oid": "69b68d38a66964e926fc78e7"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-19T05:06:31.736Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-21T07:12:00.025Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c11d89099410b36083cdbc"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-23T12:00:00.000Z"
+  },
+  "numberOfGuests": 5,
+  "status": "seated",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "Updated Customer",
+    "phone": "abc"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fe51720730ba651cd4e"
+    }
+  ],
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-23T11:01:29.724Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T11:16:24.021Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-23T11:16:23.956Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69c11fde099410b36083cdd0"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-23T12:00:00.000Z"
+  },
+  "numberOfGuests": 3,
+  "status": "cancelled",
+  "cancellationReason": "Test cancel reason",
+  "customer": {
+    "customer": "Test CRUD 01",
+    "phone": "0912345678"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fec1720730ba651cd53"
+    }
+  ],
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "note": "Test tTest tao dat ban moi - CRUD 01",
+  "createdAt": {
+    "$date": "2026-03-23T11:11:26.588Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T11:16:07.566Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c15ac6ee0b49c1a94bd3d5"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-23T15:46:00.700Z"
+  },
+  "numberOfGuests": 9,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "Anh Đừng Đi",
+    "phone": "0889501521"
+  },
+  "tables": [
+    {
+      "$oid": "69ba691d923a4409668475b5"
+    }
+  ],
+  "user": {
+    "$oid": "69b68d38a66964e926fc78e7"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-23T15:22:46.114Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T16:17:00.025Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c15de3ee0b49c1a94bd409"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-23T16:08:00.000Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "a",
+  "customer": {
+    "customer": "d",
+    "phone": "s"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fec1720730ba651cd53"
+    }
+  ],
+  "user": {
+    "$oid": "69b68d38a66964e926fc78e7"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-23T15:36:03.008Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T15:36:13.582Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c166f5ee0b49c1a94bd4d0"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-23T16:14:02.586Z"
+  },
+  "numberOfGuests": 11,
+  "status": "completed",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "Thích Là Nhích",
+    "phone": "0915561324"
+  },
+  "tables": [
+    {
+      "$oid": "69af17cdcab23cdf69f57eab"
+    },
+    {
+      "$oid": "69af1727cab23cdf69f57e90"
+    }
+  ],
+  "user": {
+    "$oid": "69b68d38a66964e926fc78e7"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-23T16:14:45.667Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T17:00:41.112Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-23T16:14:53.527Z"
+  },
+  "checkOutTime": {
+    "$date": "2026-03-23T17:00:41.111Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69c16745ee0b49c1a94bd543"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-23T16:15:23.437Z"
+  },
+  "numberOfGuests": 4,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "Alibaba",
+    "phone": "0915561999"
+  },
+  "tables": [
+    {
+      "$oid": "69ba69cf923a44096684aaea"
+    },
+    {
+      "$oid": "69ba6ba0923a440966853a0e"
+    }
+  ],
+  "user": {
+    "$oid": "69b68d38a66964e926fc78e7"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-23T16:16:05.117Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T16:46:00.019Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c1683c027c7f5d394c0cdb"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-23T16:59:00.200Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Anh Độ không đến",
+  "customer": {
+    "customer": "Độ Mixi",
+    "phone": "0915567284"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fec1720730ba651cd53"
+    }
+  ],
+  "user": {
+    "$oid": "69b68d38a66964e926fc78e7"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-23T16:20:12.609Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T16:20:34.360Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c168e1027c7f5d394c0d11"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-23T16:00:00.226Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Ảnh không đến",
+  "customer": {
+    "customer": "Pew Pew",
+    "phone": "0934333646"
+  },
+  "tables": [
+    {
+      "$oid": "69ba691d923a4409668475b5"
+    }
+  ],
+  "user": {
+    "$oid": "69b68d38a66964e926fc78e7"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-23T16:22:57.522Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-23T16:23:17.160Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c1e44496ea135e481e4b3c"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-24T02:00:00.589Z"
+  },
+  "numberOfGuests": 2,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "Anh Sơn",
+    "phone": "0912345677"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fe51720730ba651cd4e"
+    }
+  ],
+  "user": {
+    "$oid": "69b68d38a66964e926fc78e7"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-24T01:09:24.206Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T02:31:00.018Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c1e4f4a2544aa16afa3251"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-24T03:00:00.956Z"
+  },
+  "numberOfGuests": 10,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "Hoàng",
+    "phone": "0943665053"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fec1720730ba651cd53"
+    },
+    {
+      "$oid": "69ba691d923a4409668475b5"
+    }
+  ],
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-24T01:12:20.770Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T06:01:00.031Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c1e538a2544aa16afa3263"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-24T04:00:00.956Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "ab",
+  "customer": {
+    "customer": "Kiên",
+    "phone": "0375559443"
+  },
+  "tables": [
+    {
+      "$oid": "69af1103397f8c353331df0f"
+    }
+  ],
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-24T01:13:28.758Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T01:13:45.158Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c1e65d56978551c3a3fefc"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-24T05:00:00.115Z"
+  },
+  "numberOfGuests": 1,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "abc",
+    "phone": "0943665055"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fe51720730ba651cd4e"
+    }
+  ],
+  "user": {
+    "$oid": "69b4ecf1eed254a323f08960"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-24T01:18:21.477Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T06:01:00.031Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c1f7643a9ab94cc0841bc8"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-24T03:00:00.310Z"
+  },
+  "numberOfGuests": 2,
+  "status": "cancelled",
+  "cancellationReason": "Quá giờ 30 phút không nhận bàn - Tự động hủy",
+  "customer": {
+    "customer": "Huy0123576",
+    "phone": "0536373811"
+  },
+  "tables": [
+    {
+      "$oid": "69ba697b923a440966849866"
+    }
+  ],
+  "user": {
+    "$oid": "69b68d38a66964e926fc78e7"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-24T02:31:00.848Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T06:01:00.031Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c410a917c638f13749d1f0"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-25T16:44:00.000Z"
+  },
+  "numberOfGuests": 2,
+  "status": "seated",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "Huy111",
+    "phone": "0573738382"
+  },
+  "tables": [
+    {
+      "$oid": "69ba691d923a4409668475b5"
+    }
+  ],
+  "user": {
+    "$oid": "69af79372cdc5ddc01a57c3e"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-25T16:43:21.338Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-25T16:43:45.823Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-25T16:43:45.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69c483ab9f82be60b9391893"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-26T01:00:00.994Z"
+  },
+  "numberOfGuests": 2,
+  "status": "seated",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "Vinh đẹp trai",
+    "phone": "0981818392"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fe51720730ba651cd4e"
+    }
+  ],
+  "user": {
+    "$oid": "69bb3ea28662dce687c523e0"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-26T00:54:03.544Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-26T00:54:06.328Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-26T00:54:06.288Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69c485f69f82be60b93919ea"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-26T02:00:00.994Z"
+  },
+  "numberOfGuests": 1,
+  "status": "seated",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "22",
+    "phone": "0922222222"
+  },
+  "tables": [
+    {
+      "$oid": "69b22fec1720730ba651cd53"
+    }
+  ],
+  "user": {
+    "$oid": "69b7c57bc5af50448e228a8a"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-26T01:03:50.994Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-26T01:03:53.391Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-26T01:03:53.358Z"
+  }
+}]

@@ -1,8 +1,11 @@
 import express from "express";
 import cors from "cors";
-import employeeRoutes from "./routes/employee.routes.js";
+import employeeRoutes from "./routes/employeeRoutes.js";
+// import exportRoutes from "./routes/export.routes.js";
 import routes from "./routes/index.js";
 
+// Initialize exporters (self-register with exportService)
+// import "./services/exporters/employeeExporter.js";
 
 const app = express();
 
@@ -20,5 +23,6 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/api/employees", employeeRoutes);
+// app.use("/api/export", exportRoutes);
 
 export default app;
