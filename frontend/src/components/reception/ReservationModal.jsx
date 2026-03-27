@@ -466,6 +466,7 @@ export default function ReservationModal({
   const [selectedItems, setSelectedItems] = useState({}); // { menuItemId: quantity } (same mode)
   const [separateOrders, setSeparateOrders] = useState({}); // { tableId: { menuItemId: quantity } } (separate mode)
   const [showAvailableTables, setShowAvailableTables] = useState(false);
+  const [frozenTime, setFrozenTime] = useState(null); // snapshot thời gian khi mở modal bàn trống
 
   // Tính tổng số ghế tối đa của các bàn đã chọn
   const maxGuests = useMemo(() => {
@@ -934,7 +935,10 @@ export default function ReservationModal({
               </label>
               <button
                 className="text-xs text-blue-600 hover:underline cursor-pointer"
-                onClick={() => setShowAvailableTables(true)}
+                onClick={() => {
+                  setFrozenTime(arrivalTime); // snapshot thời gian hiện tại
+                  setShowAvailableTables(true);
+                }}
               >
                 Xem bàn trống
               </button>
@@ -1020,10 +1024,13 @@ export default function ReservationModal({
       {/* Modal danh sách bàn trống */}
       <AvailableTablesModal
         open={showAvailableTables}
-        onClose={() => setShowAvailableTables(false)}
+        onClose={() => {
+          setShowAvailableTables(false);
+          setFrozenTime(null);
+        }}
         onSelect={(tableIds) => setSelectedTables(tableIds)}
         alreadySelected={selectedTables}
-        dateTime={arrivalTime}
+        dateTime={frozenTime}
       />
     </Modal>
   );

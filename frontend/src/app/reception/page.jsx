@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { getAllTables } from "@/services/tableService";
+import {getAllActiveTables} from "@/services/tableService";
 import useAreas from "@/hooks/useAreas";
 import {
   getReservedTables,
@@ -86,7 +86,7 @@ export default function ReceptionPage() {
   useEffect(() => {
     const fetchTables = async () => {
       try {
-        const res = await getAllTables();
+        const res = await getAllActiveTables();
         setTables(res.data || []);
       } catch (err) {
         console.error("Failed to fetch tables:", err);
