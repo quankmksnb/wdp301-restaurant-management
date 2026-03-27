@@ -33,7 +33,6 @@ const employeeExporter = {
         { header: "Vai trò", key: "role", width: 14 },
         { header: "Ngày bắt đầu", key: "startDate", width: 14 },
         { header: "Địa chỉ", key: "address", width: 30 },
-        { header: "Tỉnh/TP", key: "city", width: 16 },
         { header: "Trạng thái", key: "status", width: 16 },
     ],
 
@@ -72,7 +71,6 @@ const employeeExporter = {
                 ? new Date(emp.startDate).toLocaleDateString("vi-VN")
                 : "",
             address: emp.address || "",
-            city: emp.city || "",
             status: statusLabels[emp.status] || emp.status || "",
         }));
     },

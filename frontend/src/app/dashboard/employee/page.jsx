@@ -94,10 +94,8 @@ export default function EmployeePage() {
             ? new Date(emp.startDate).toLocaleDateString("vi-VN")
             : "",
           email: emp.email || "",
-          facebook: emp.facebook || "",
+
           address: emp.address || "",
-          city: emp.city || "",
-          notes: emp.notes || "",
           role: emp.role || "",
           status: emp.status || "",
         }));

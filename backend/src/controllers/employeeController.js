@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import { uploadToCloudinary } from "../utils/cloudinaryUpload.js";
 
 /**
  * Generate next employee code: NV000001, NV000002, ...
@@ -36,10 +37,8 @@ export const createEmployee = async (req, res) => {
             position,
             startDate,
             email,
-            facebook,
+
             address,
-            city,
-            notes,
         } = req.body;
 
         if (!name) {
@@ -79,8 +78,12 @@ export const createEmployee = async (req, res) => {
             }
         }
 
-        // Handle photo upload
-        const photo = req.file ? `/uploads/${req.file.filename}` : undefined;
+        // Handle photo upload to Cloudinary
+        let photo;
+        if (req.file) {
+            const result = await uploadToCloudinary(req.file.buffer, "rms/employees");
+            photo = result.secure_url;
+        }
 
         const employee = new User({
             code: employeeCode,
@@ -95,10 +98,8 @@ export const createEmployee = async (req, res) => {
             position,
             startDate: startDate || undefined,
             email,
-            facebook,
+
             address,
-            city,
-            notes,
             photo,
         });
 
@@ -204,7 +205,7 @@ export const getEmployeeById = async (req, res) => {
  */
 export const updateEmployee = async (req, res) => {
     try {
-        const { name, phone, role, password, idNumber, birthDate, gender, department, position, startDate, facebook, address, city, notes } = req.body;
+        const { name, phone, role, password, idNumber, birthDate, gender, department, position, startDate, address } = req.body;
 
         const employee = await User.findById(req.params.id);
         if (!employee) {
@@ -238,14 +239,13 @@ export const updateEmployee = async (req, res) => {
         if (department !== undefined) employee.department = department;
         if (position !== undefined) employee.position = position;
         if (startDate !== undefined) employee.startDate = startDate || undefined;
-        if (facebook !== undefined) employee.facebook = facebook;
-        if (address !== undefined) employee.address = address;
-        if (city !== undefined) employee.city = city;
-        if (notes !== undefined) employee.notes = notes;
 
-        // Handle photo upload
+        if (address !== undefined) employee.address = address;
+
+        // Handle photo upload to Cloudinary
         if (req.file) {
-            employee.photo = `/uploads/${req.file.filename}`;
+            const result = await uploadToCloudinary(req.file.buffer, "rms/employees");
+            employee.photo = result.secure_url;
         }
 
         await employee.save();

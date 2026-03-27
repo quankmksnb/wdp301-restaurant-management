@@ -19,10 +19,8 @@ export default function EmployeeFormModal({ open, onClose, onSave, employee = nu
                     idNumber: employee.idNumber,
                     gender: employee.gender,
                     email: employee.email,
-                    facebook: employee.facebook,
+
                     address: employee.address,
-                    city: employee.city,
-                    notes: employee.notes,
                     role: employee.role,
                 });
             } else {
@@ -53,10 +51,8 @@ export default function EmployeeFormModal({ open, onClose, onSave, employee = nu
             if (values.birthDate) formData.append('birthDate', values.birthDate.toISOString());
             if (values.gender) formData.append('gender', values.gender);
             if (values.startDate) formData.append('startDate', values.startDate.toISOString());
-            if (values.facebook) formData.append('facebook', values.facebook);
+
             if (values.address) formData.append('address', values.address);
-            if (values.city) formData.append('city', values.city);
-            if (values.notes) formData.append('notes', values.notes);
 
             // Append image file if selected
             if (imageFile) {

@@ -2,21 +2,21 @@ import express from "express";
 import {
   createTable,
   deleteTable,
+  getAllActiveTables,
   getAllTables,
-  getTable,
   getTableByArea,
+  getTableById,
   getTables,
   toggleTableStatus,
   updateTable,
-  getAllActiveTables,
 } from "../controllers/tableController.js";
 
+import { authorizeRoles, verifyToken } from "../middlewares/authMiddleware.js";
 import { validate } from "../middlewares/validateMiddleware.js";
 import {
   createTableSchema,
   updateTableSchema,
 } from "../validators/tableValidator.js";
-import { authorizeRoles, verifyToken } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -34,7 +34,7 @@ router.get("/", verifyToken, getTables);
 
 router.get("/by-area", verifyToken, getTableByArea);
 
-router.get("/:id", verifyToken, getTable);
+router.get("/:id", verifyToken, getTableById);
 
 router.put(
   "/:id",

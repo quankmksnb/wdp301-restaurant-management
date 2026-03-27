@@ -1,11 +1,9 @@
 import express from "express";
 import cors from "cors";
-import employeeRoutes from "./routes/employeeRoutes.js";
-// import exportRoutes from "./routes/export.routes.js";
 import routes from "./routes/index.js";
 
 // Initialize exporters (self-register with exportService)
-// import "./services/exporters/employeeExporter.js";
+import "./services/exporters/employeeExporter.js";
 
 const app = express();
 
@@ -20,9 +18,5 @@ app.use("/uploads", express.static("uploads")); // Cho phép truy cập file tro
 app.get("/", (req, res) => {
   res.send("API is running with ES Modules 🚀");
 });
-
-// Routes
-app.use("/api/employees", employeeRoutes);
-// app.use("/api/export", exportRoutes);
 
 export default app;

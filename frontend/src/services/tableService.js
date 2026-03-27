@@ -40,3 +40,8 @@ export const getAllTables = async () => {
   const res = await api.get("/tables/all");
   return res.data;
 };
+
+export const getAllActiveTables = async () => {
+    const res = await api.get("/tables/active");
+    return res.data;
+};

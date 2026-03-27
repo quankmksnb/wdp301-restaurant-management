@@ -91,7 +91,7 @@ export const getTables = async (req, res) => {
   }
 };
 
-export const getTable = async (req, res) => {
+export const getTableById = async (req, res) => {
   try {
     const table = await Table.findById(req.params.id).populate(
       "area",
