@@ -3,6 +3,7 @@ import Order from "../models/Order.js";
 import Reservation from "../models/Reservation.js";
 import { VNPay, ProductCode, VnpLocale, dateFormat } from "vnpay";
 import vnpayConfig from "../configs/vnpay.js";
+import { logActivity } from "../utils/activityLogger.js";
 
 const { vnp_TmnCode, vnp_HashSecret, vnp_ReturnUrl } = vnpayConfig;
 
@@ -133,6 +134,13 @@ export const vnpayReturn = async (req, res) => {
     order.orderStatus = "completed";
     await order.save();
 
+    // Log activities
+    await logActivity(
+      payment.user, 
+      `vừa thanh toán đơn [${orderId}] qua VNPay - ${payment.amount.toLocaleString()}đ`, 
+      "payment"
+    );
+
     const reservation = await Reservation.findById(order.reservation);
     if (reservation) {
       reservation.status = "completed";
@@ -201,6 +209,13 @@ export const payByCash = async (req, res) => {
       paymentStatus: "completed",
       user: user,
     });
+
+    // Log activities
+    await logActivity(
+      user, 
+      `vừa thanh toán tiền mặt cho đơn [${orderId}] - ${amount.toLocaleString()}đ`, 
+      "payment"
+    );
 
     // ✅ update order
     order.orderStatus = "completed";

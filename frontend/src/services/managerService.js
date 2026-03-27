@@ -75,6 +75,15 @@ const managerService = {
       throw error;
     }
   },
+  getHistoryActivities: async () => {
+    try {
+      const response = await api.get("/manager/activities");
+      return response.data;
+    } catch (error) {
+      console.error("Error in getTopSellingItems:", error);
+      throw error;
+    }
+  },
 };
 
 export default managerService;

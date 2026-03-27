@@ -7,6 +7,7 @@ import {
   getAvailableTables,
   validateTablesForReservation,
 } from "../services/tableService.js";
+import { logActivity } from "../utils/activityLogger.js";
 
 /**
  * GET /api/reservations/available-tables
@@ -74,7 +75,6 @@ export const getReservedTablesController = async (req, res) => {
 export const createReservation = async (req, res) => {
   try {
     const { tables, reservationDateTime } = req.body;
-
     const validation = await validateTablesForReservation(tables, reservationDateTime);
     if (new Date(reservationDateTime) < new Date()) {
       return res.status(400).json({
@@ -107,6 +107,13 @@ export const createReservation = async (req, res) => {
       user: req.user?.id,
     });
 
+    
+    const tableNames = selectedTableDocs.map(t => t.tableName).join(", ");
+    await logActivity(
+      req.user?.id, 
+      `vừa tạo đặt bàn mới cho khách [${req.body.customer.customer}] tại bàn [${tableNames}]`, 
+      "reservation"
+    );
 
     res.status(201).json({
       success: true,
@@ -296,6 +303,7 @@ export const createReservationWithOrder = async (req, res) => {
 // api update status
 export const updateReservationStatus = async (req, res) => {
   try {
+    const user = req.user;
     const { id } = req.params;
     const { status, cancellationReason } = req.body;
 
@@ -314,7 +322,7 @@ export const updateReservationStatus = async (req, res) => {
       });
     }
 
-    const reservation = await Reservation.findById(id);
+    const reservation = await Reservation.findById(id).populate("tables", "tableName");
 
     if (!reservation) {
       return res.status(404).json({
@@ -396,12 +404,41 @@ export const updateReservationStatus = async (req, res) => {
 
     await reservation.save();
 
+    let logContent = "";
+    const tableNames = reservation.tables && reservation.tables.length > 0 
+                      ? reservation.tables.map(t => t.tableName).join(", ") 
+                      : "chưa xác định";
+    switch (status) {
+      case "seated":
+        logContent = `vừa xác nhận khách [${reservation.customer.customer}] đã vào bàn [${tableNames}]`;
+        break;
+      case "cancelled":
+        logContent = `vừa hủy đặt bàn của khách [${reservation.customer.customer}] - Lý do: ${cancellationReason || "Không có"}`;
+        break;
+      case "no_show":
+        logContent = `đã đánh dấu khách [${reservation.customer.customer}] không đến (No-show)`;
+        break;
+      case "completed":
+        logContent = `vừa hoàn tất (Checkout) cho khách [${reservation.customer.customer}]`;
+        break;
+      case "confirmed":
+        logContent = `vừa xác nhận lại trạng thái 'Chờ' cho khách [${reservation.customer.customer}]`;
+        break;
+      default:
+        logContent = `vừa cập nhật trạng thái đặt bàn của [${reservation.customer.customer}] thành ${status}`;
+    }
+
+    if (user) {
+      await logActivity(user.id, logContent, "reservation");
+    }
+
     res.json({
       success: true,
       message: "Cập nhật trạng thái reservation thành công",
       data: reservation,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
       message: "Lỗi khi cập nhật trạng thái reservation",

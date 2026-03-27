@@ -16,6 +16,7 @@ import { message } from "antd";
 import RevenueLineChart from "@/components/dashboard/charts/RevenueLineChart";
 import TopSellingChart from "@/components/dashboard/charts/TopSellingChart";
 import AreaRevenueChart from "@/components/dashboard/charts/AreaRevenueChart";
+import ActivityTimeline from "@/components/dashboard/ActivityTimeline";
 
 // Map label hiển thị sang key API
 const typeMap = {
@@ -35,7 +36,6 @@ export default function Dashboard() {
     profit: 0,
     orderCount: 0,
   });
-
   const [liveOperationStats, setLiveOperationStats] = useState({
     activeTables: 0,
     kitchenStatus: {
@@ -59,6 +59,10 @@ export default function Dashboard() {
   const [areaRevenueData, setAreaRevenueData] = useState([]);
   const [loadingArea, setLoadingArea] = useState(true);
   const [areaFilterLabel, setAreaFilterLabel] = useState("Tháng này");
+
+  // State history
+  const [historyActivities, setHistoryActivities] = useState([]);
+  const [loadingActivities, setLoadingActivities] = useState(true);
 
   // --- LOGIC XỬ LÝ DỮ LIỆU BIỂU ĐỒ (Điền ngày trống & xử lý tương lai) ---
   const fillMissingDates = useCallback((apiData, type) => {
@@ -194,8 +198,21 @@ export default function Dashboard() {
     }
   }, []);
 
+  const fetchHistoryActivities = async () => {
+    setLoadingActivities(true);
+    try {
+      const res = await managerService.getHistoryActivities();
+      setHistoryActivities(res);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoadingActivities(false);
+    }
+  };
+
   useEffect(() => {
     fetchSummaryRevenue();
+    fetchHistoryActivities();
   }, []);
 
   // Theo khu vực
@@ -294,15 +311,11 @@ export default function Dashboard() {
           </DashboardBox>
         </section>
 
-        <aside className="col-span-3 space-y-6">
-          <div className="bg-white rounded-lg shadow-sm p-4 h-130">
-            <h3 className="font-semibold text-sm mb-3 uppercase text-gray-500">
-              Các hoạt động gần đây
-            </h3>
-            <div className="flex items-center justify-center h-full text-gray-400 text-xs italic">
-              Chưa có hoạt động mới...
-            </div>
-          </div>
+        <aside className="col-span-3 h-full">
+          <ActivityTimeline
+            activities={historyActivities}
+            loading={loadingActivities}
+          />
         </aside>
       </div>
     </main>
