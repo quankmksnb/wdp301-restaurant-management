@@ -49,7 +49,7 @@ export default function TopSellingChart({ data = [], loading }) {
 
   return (
     <div className="h-full w-full flex flex-col">
-      {/* Thanh chuyển đổi (Tabs) */}
+      {/* (Tabs) */}
       <div className="flex justify-end mb-4 -mt-2">
         <div className="flex bg-gray-100 p-1 rounded-sm text-xs border border-gray-100">
           <button
@@ -110,25 +110,14 @@ export default function TopSellingChart({ data = [], loading }) {
                 axisLine={false}
                 tickLine={false}
               />
-
               <Tooltip content={CustomTooltip} cursor={{ fill: "#f9fafb" }} />
-
-              {/* Cột dữ liệu */}
               <Bar
                 dataKey={viewMode === "quantity" ? "value" : "revenue"}
-                radius={[0, 4, 4, 0]}
                 barSize={15}
-              >
-                {/* Đổi màu cột dựa theo viewMode */}
-                {chartData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={
-                      viewMode === "quantity" ? COLORS.quantity : COLORS.revenue
-                    }
-                  />
-                ))}
-              </Bar>
+                fill={
+                  viewMode === "quantity" ? COLORS.quantity : COLORS.revenue
+                }
+              />
             </BarChart>
           </ResponsiveContainer>
         )}

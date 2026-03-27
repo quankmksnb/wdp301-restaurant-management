@@ -63,6 +63,18 @@ const managerService = {
       throw error;
     }
   },
+
+  getRevenueByArea: async (period) => {
+    try {
+      const response = await api.get("/manager/revenue-area", {
+        params: { period },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error in getTopSellingItems:", error);
+      throw error;
+    }
+  },
 };
 
 export default managerService;

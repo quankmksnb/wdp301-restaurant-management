@@ -226,32 +226,23 @@ export const getTopSellingItems = async (req, res) => {
           orderDate: { $gte: startDate, $lte: endDate },
         },
       },
-      // Phẳng hóa mảng subOrders
       { $unwind: "$subOrders" },
-      // Phẳng hóa mảng items bên trong mỗi subOrder
       { $unwind: "$subOrders.items" },
       {
         $match: {
-          // LƯU Ý: Trong database của bạn có nhiều món bị "cancelled"
-          // Chúng ta chỉ lọc những món đã phục vụ thành công
           "subOrders.items.status": "served",
         },
       },
       {
         $group: {
-          // Nhóm theo ID món ăn để đảm bảo tính riêng biệt
+          // Nhóm theo ID món ăn
           _id: "$subOrders.items.menuItem",
-          // Lấy tên món từ snapshot trong đơn hàng
           name: { $first: "$subOrders.items.itemName" },
-          // Tổng số lượng bán ra
           value: { $sum: "$subOrders.items.quantity" },
-          // Tổng doanh thu của món đó
           revenue: { $sum: "$subOrders.items.subTotal" },
         },
       },
-      // Sắp xếp theo số lượng bán nhiều nhất
       { $sort: { value: -1 } },
-      // Lấy Top 10
       { $limit: 10 },
       {
         $project: {
@@ -269,5 +260,82 @@ export const getTopSellingItems = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: "Lỗi server", error: error.message });
+  }
+};
+
+export const getRevenueByArea = async (req, res) => {
+  const { period } = req.query; // period: 'week', 'month', 'year'
+
+  let startDate = new Date();
+  const endDate = new Date();
+
+  if (period === "week") {
+    startDate.setDate(startDate.getDate() - 7);
+  } else if (period === "month") {
+    startDate = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+  } else if (period === "year") {
+    startDate = new Date(startDate.getFullYear(), 0, 1);
+  }
+  startDate.setHours(0, 0, 0, 0);
+
+  try {
+    const areaRevenue = await Payment.aggregate([
+      {
+        $match: {
+          paymentStatus: "completed",
+          paymentDate: { $gte: startDate, $lte: endDate },
+        },
+      },
+      {
+        $lookup: {
+          from: "orders",
+          localField: "order",
+          foreignField: "_id",
+          as: "orderData",
+        },
+      },
+      { $unwind: "$orderData" },
+      { $unwind: "$orderData.subOrders" },
+      {
+        $lookup: {
+          from: "tables",
+          localField: "orderData.subOrders.table",
+          foreignField: "_id",
+          as: "tableData",
+        },
+      },
+      { $unwind: "$tableData" },
+      {
+        $lookup: {
+          from: "areas",
+          localField: "tableData.area",
+          foreignField: "_id",
+          as: "areaData",
+        },
+      },
+      { $unwind: "$areaData" },
+      {
+        $group: {
+          _id: "$areaData._id",
+          name: { $first: "$areaData.areaName" },
+          value: { $sum: "$orderData.subOrders.subTotalAmount" },
+        },
+      },
+      { $sort: { value: -1 } },
+      {
+        $project: {
+          _id: 0,
+          name: 1,
+          value: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json(areaRevenue);
+  } catch (error) {
+    res.status(500).json({
+      message: "Lỗi khi lấy doanh thu theo khu vực",
+      error: error.message,
+    });
   }
 };

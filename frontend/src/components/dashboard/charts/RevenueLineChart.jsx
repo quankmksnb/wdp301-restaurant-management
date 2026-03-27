@@ -58,7 +58,6 @@ export default function RevenueLineChart({ data, type }) {
             boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
           }}
           labelFormatter={(labelValue, payload) => {
-            // Hiển thị full ngày YYYY-MM-DD khi hover
             return payload[0]?.payload?.name || labelValue;
           }}
         />
@@ -67,7 +66,6 @@ export default function RevenueLineChart({ data, type }) {
           dataKey="revenue"
           stroke="#3b82f6"
           strokeWidth={3}
-          // Tùy biến dot: Không vẽ chấm tròn cho ngày tương lai
           dot={(props) => {
             const { cx, cy, payload } = props;
             if (payload.revenue === undefined) return null;

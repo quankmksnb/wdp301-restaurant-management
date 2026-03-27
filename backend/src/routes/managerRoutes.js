@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getLiveOperationsStatus,
+  getRevenueByArea,
   getRevenueChartData,
   getRevenueSummary,
   getTopSellingItems,
@@ -15,5 +16,6 @@ router.get("/revenue-summary", getRevenueSummary);
 router.get("/revenue-chart", getRevenueChartData);
 router.get("/live-operation", getLiveOperationsStatus);
 router.get("/top-selling", getTopSellingItems);
+router.get("/revenue-area", getRevenueByArea);
 
 export default router;

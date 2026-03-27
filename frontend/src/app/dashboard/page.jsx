@@ -15,6 +15,7 @@ import { formatCurrency, getYesterDayISOString } from "@/utils/utils";
 import { message } from "antd";
 import RevenueLineChart from "@/components/dashboard/charts/RevenueLineChart";
 import TopSellingChart from "@/components/dashboard/charts/TopSellingChart";
+import AreaRevenueChart from "@/components/dashboard/charts/AreaRevenueChart";
 
 // Map label hiển thị sang key API
 const typeMap = {
@@ -53,6 +54,11 @@ export default function Dashboard() {
   const [loadingTopSelling, setLoadingTopSelling] = useState(true);
   const [topSellingFilterLabel, setTopSellingFilterLabel] =
     useState("Tháng này");
+
+  // State cho Doanh thu theo khu vực
+  const [areaRevenueData, setAreaRevenueData] = useState([]);
+  const [loadingArea, setLoadingArea] = useState(true);
+  const [areaFilterLabel, setAreaFilterLabel] = useState("Tháng này");
 
   // --- LOGIC XỬ LÝ DỮ LIỆU BIỂU ĐỒ (Điền ngày trống & xử lý tương lai) ---
   const fillMissingDates = useCallback((apiData, type) => {
@@ -160,13 +166,25 @@ export default function Dashboard() {
     [fillMissingDates],
   );
 
+  const fetchAreaRevenueData = useCallback(async (label) => {
+    setLoadingArea(true);
+    try {
+      const period = typeMap[label] || "month";
+      const data = await managerService.getRevenueByArea(period);
+      setAreaRevenueData(data || []);
+    } catch (error) {
+      console.error("Fetch area revenue error:", error);
+      message.error("Không thể lấy dữ liệu doanh thu theo khu vực");
+    } finally {
+      setLoadingArea(false);
+    }
+  }, []);
+
   const fetchTopSellingData = useCallback(async (label) => {
     setLoadingTopSelling(true);
     try {
       const period = typeMap[label] || "month";
-      // Gọi API top-selling
       const res = await managerService.getTopSellingItems(period);
-      // Giả sử API trả về { success: true, data: [...] }
       setTopSellingData(res.data || []);
     } catch (error) {
       console.error("Fetch top selling error:", error);
@@ -177,17 +195,23 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    fetchChartData(filterLabel);
-  }, [filterLabel, fetchChartData]);
-
-  useEffect(() => {
     fetchSummaryRevenue();
-    fetchTopSellingData(topSellingFilterLabel);
-  }, [fetchTopSellingData, topSellingFilterLabel]);
+  }, []);
 
+  // Theo khu vực
+  useEffect(() => {
+    fetchAreaRevenueData(areaFilterLabel);
+  }, [areaFilterLabel, fetchAreaRevenueData]);
+
+  // Theo top selling
   useEffect(() => {
     fetchTopSellingData(topSellingFilterLabel);
   }, [topSellingFilterLabel, fetchTopSellingData]);
+
+  // Doanh thu
+  useEffect(() => {
+    fetchChartData();
+  }, [filterLabel, fetchChartData]);
   return (
     <main className="flex-1 p-6 bg-gray-50 overflow-y-auto">
       <div className="max-w-7xl mx-auto grid grid-cols-12 gap-6">
@@ -261,12 +285,12 @@ export default function Dashboard() {
           </DashboardBox>
 
           <DashboardBox
-            title="DOANH THU"
-            loading={loadingChart}
-            currentLabel={filterLabel}
-            onFilterChange={setFilterLabel}
+            title="DOANH THU THEO KHU VỰC"
+            loading={loadingArea}
+            currentLabel={areaFilterLabel}
+            onFilterChange={setAreaFilterLabel}
           >
-            <RevenueLineChart data={revenueData} type={typeMap[filterLabel]} />
+            <AreaRevenueChart data={areaRevenueData} loading={loadingArea} />
           </DashboardBox>
         </section>
 
