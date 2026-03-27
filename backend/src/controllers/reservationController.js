@@ -361,6 +361,18 @@ export const updateReservationStatus = async (req, res) => {
           });
         });
         await order.save();
+      } else {
+        // Không có pre-order → tạo Order rỗng với subOrders cho mỗi bàn
+        await Order.create({
+          reservation: id,
+          orderStatus: "active",
+          subOrders: reservation.tables.map((tableId) => ({
+            table: tableId,
+            items: [],
+            subTotalAmount: 0,
+          })),
+          user: req.user?.id,
+        });
       }
     }
 
