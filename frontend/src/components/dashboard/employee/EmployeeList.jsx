@@ -265,7 +265,7 @@ export default function EmployeeList({
                 <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-gray-200">
                     {record.photo ? (
                         <img
-                            src={`http://localhost:5000${record.photo}`}
+                            src={record.photo}
                             alt={record.name}
                             className="w-full h-full object-cover"
                             onError={(e) => {

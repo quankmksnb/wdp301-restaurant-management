@@ -8,8 +8,21 @@ function EmployeeInfoPanel({ employee }) {
         <div className="p-4">
             <div className="flex gap-6">
                 {/* Photo */}
-                <div className="w-24 h-24 bg-gray-200 rounded flex items-center justify-center flex-shrink-0">
-                    <span className="text-gray-400 text-3xl">📷</span>
+                <div className="w-24 h-24 bg-gray-200 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
+                    {employee.photo ? (
+                        <img
+                            src={employee.photo}
+                            alt={employee.name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.style.display = 'none';
+                                e.target.parentElement.innerHTML = '<span class="text-gray-400 text-3xl">📷</span>';
+                            }}
+                        />
+                    ) : (
+                        <span className="text-gray-400 text-3xl">📷</span>
+                    )}
                 </div>
 
                 {/* Info Grid */}

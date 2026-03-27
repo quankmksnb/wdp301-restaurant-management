@@ -132,49 +132,21 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
 
     return (
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-            {/* Khu vực cuộn Timeline */}
-            <div className="flex flex-1 min-h-0">
-                {/* Cột cố định bên trái: PHÒNG/BÀN */}
-                <div className="shrink-0 border-r border-gray-200 bg-white z-10" style={{ width: SIDEBAR_WIDTH }}>
-                    {/* Góc trên bên trái */}
-                    <div className="border-b border-gray-200">
-                        <div className="h-9 px-3 flex items-center font-bold text-sm text-gray-800 uppercase tracking-wide bg-blue-50">
+            {/* Container cuộn chính - cuộn cả ngang và dọc */}
+            <div ref={scrollRef} className="flex-1 overflow-auto min-h-0">
+                <div className="relative" style={{ width: totalWidth + SIDEBAR_WIDTH }}>
+
+                    {/* === HEADER ROW === */}
+                    <div className="flex sticky top-0 z-20">
+                        {/* Góc trên bên trái - sticky cả 2 chiều */}
+                        <div
+                            className="shrink-0 border-r border-b border-gray-200 bg-blue-50 z-30 h-9 px-3 flex items-center font-bold text-sm text-gray-800 uppercase tracking-wide"
+                            style={{ width: SIDEBAR_WIDTH, position: "sticky", left: 0 }}
+                        >
                             PHÒNG/BÀN
                         </div>
-                    </div>
-
-                    {/* Hàng khu vực + bàn */}
-                    {grouped.map((area) => (
-                        <div key={area._id}>
-                            <div
-                                onClick={() => toggleArea(area._id)}
-                                className="flex items-center gap-1 px-2 cursor-pointer bg-gray-100 hover:bg-gray-200 transition border-b border-gray-200"
-                                style={{ height: ROW_HEIGHT }}
-                            >
-                                {collapsedAreas[area._id]
-                                    ? <ChevronRight className="w-3 h-3 text-gray-500" />
-                                    : <ChevronDown className="w-3 h-3 text-gray-500" />}
-                                <span className="text-sm font-semibold text-gray-500">{area.areaName}</span>
-                            </div>
-
-                            {!collapsedAreas[area._id] && area.tables.map((tbl) => (
-                                <div
-                                    key={tbl._id}
-                                    className="flex items-center px-2 pl-5 border-b border-gray-100"
-                                    style={{ height: ROW_HEIGHT }}
-                                >
-                                    <span className="text-sm text-gray-700 truncate">{tbl.tableName}</span>
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-                </div>
-
-                {/* Lưới timeline có thể cuộn */}
-                <div ref={scrollRef} className="flex-1 overflow-x-auto overflow-y-auto">
-                    <div className="relative" style={{ width: totalWidth }}>
-                        {/* Hàng tiêu đề */}
-                        <div className="flex border-b border-gray-200 bg-blue-50 sticky top-0 z-[5] h-9">
+                        {/* Header giờ */}
+                        <div className="flex border-b border-gray-200 bg-blue-50 h-9">
                             {headerColumns.map((col) => (
                                 <div
                                     key={col.key}
@@ -191,21 +163,45 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                 </div>
                             ))}
                         </div>
+                    </div>
 
-                        {/* Hàng khu vực + bàn */}
-                        {grouped.map((area) => (
-                            <div key={area._id}>
-                                {/* Hàng tiêu đề khu vực */}
-                                <div className="bg-gray-100 border-b border-gray-200" style={{ height: ROW_HEIGHT }} />
+                    {/* === BODY ROWS === */}
+                    {grouped.map((area) => (
+                        <div key={area._id}>
+                            {/* Hàng tiêu đề khu vực */}
+                            <div className="flex" style={{ height: ROW_HEIGHT }}>
+                                {/* Sidebar cell - sticky left */}
+                                <div
+                                    onClick={() => toggleArea(area._id)}
+                                    className="shrink-0 flex items-center gap-1 px-2 cursor-pointer bg-gray-100 hover:bg-gray-200 transition border-b border-r border-gray-200 z-10"
+                                    style={{ width: SIDEBAR_WIDTH, position: "sticky", left: 0 }}
+                                >
+                                    {collapsedAreas[area._id]
+                                        ? <ChevronRight className="w-3 h-3 text-gray-500" />
+                                        : <ChevronDown className="w-3 h-3 text-gray-500" />}
+                                    <span className="text-sm font-semibold text-gray-500">{area.areaName}</span>
+                                </div>
+                                {/* Grid cell bên phải - area row */}
+                                <div className="flex-1 bg-gray-100 border-b border-gray-200" />
+                            </div>
 
-                                {/* Hàng bàn */}
-                                {!collapsedAreas[area._id] && area.tables.map((tbl) => {
-                                    const tblRes = getTableRes(tbl._id, tbl.tableName);
-                                    return (
-                                        <div key={tbl._id} className="flex border-b border-gray-100 relative" style={{ height: ROW_HEIGHT }}>
+                            {/* Hàng bàn */}
+                            {!collapsedAreas[area._id] && area.tables.map((tbl) => {
+                                const tblRes = getTableRes(tbl._id, tbl.tableName);
+                                return (
+                                    <div key={tbl._id} className="flex" style={{ height: ROW_HEIGHT }}>
+                                        {/* Sidebar cell - sticky left */}
+                                        <div
+                                            className="shrink-0 flex items-center px-2 pl-5 border-b border-r border-gray-200 bg-white z-10"
+                                            style={{ width: SIDEBAR_WIDTH, position: "sticky", left: 0 }}
+                                        >
+                                            <span className="text-sm text-gray-700 truncate">{tbl.tableName}</span>
+                                        </div>
+
+                                        {/* Grid cell bên phải - table row */}
+                                        <div className="flex border-b border-gray-100 relative" style={{ width: totalWidth }}>
                                             {/* Ô lưới */}
                                             {columns.map((col) => {
-                                                // Kiểm tra ô có phải giờ quá khứ không (chỉ cho chế độ xem ngày + hôm nay)
                                                 const now = new Date();
                                                 const isToday = viewMode === "day" && selectedDate &&
                                                     selectedDate.getDate() === now.getDate() &&
@@ -221,7 +217,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                         key={col.key}
                                                         onClick={() => !isPast && onCellClick(tbl, viewMode === "day" ? parseInt(col.label) : null)}
                                                         className={`shrink-0 border-r border-gray-100 transition ${isPast ? "bg-gray-200/60 cursor-not-allowed" : "cursor-pointer hover:bg-blue-50/40"}`}
-                                                        style={{ width: col.width }}
+                                                        style={{ width: col.width, height: ROW_HEIGHT }}
                                                     />
                                                 );
                                             })}
@@ -230,7 +226,6 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                             {viewMode === "day" && tblRes.map((res) => {
                                                 const sH = res.startTime.getHours() + res.startTime.getMinutes() / 60;
                                                 let eH = res.endTime.getHours() + res.endTime.getMinutes() / 60;
-                                                // Nếu endTime qua ngày hôm sau (VD: 23:15 - 0:15), clamp tới cuối grid (24h)
                                                 if (eH <= sH) eH = 24;
                                                 const left = Math.max((sH - 6) * CELL_WIDTH, 0);
                                                 const maxRight = (24 - 6) * CELL_WIDTH;
@@ -238,8 +233,6 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                 const w = Math.min(rawRight, maxRight) - left;
                                                 const col = STATUS_COLORS[res.status] || STATUS_COLORS.confirmed;
                                                 const isActive = activePopover === res._id;
-
-                                                // Clamp popup position so it doesn't overflow container
                                                 const popoverLeft = Math.min(left + 20, maxRight - 370);
 
                                                 return (
@@ -258,14 +251,12 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                             {res.customerName}
                                                         </div>
 
-                                                        {/* Cửa sổ chi tiết */}
                                                         {isActive && (
                                                             <div
                                                                 ref={popoverRef}
                                                                 className="absolute z-50 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden"
                                                                 style={{ left: Math.max(popoverLeft, 0), top: ROW_HEIGHT + 2, width: 360 }}
                                                             >
-                                                                {/* Phần đầu */}
                                                                 <div className="flex items-center justify-between px-3 py-2 bg-gray-50 border-b border-gray-100">
                                                                     <div className="flex items-center gap-2">
                                                                         <span className="w-2 h-2 rounded-full" style={{ backgroundColor: col.dot }} />
@@ -278,7 +269,6 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                                         <button onClick={(e) => { e.stopPropagation(); setActivePopover(null); }} className="p-1 rounded hover:bg-gray-200 cursor-pointer"><X className="w-3.5 h-3.5 text-gray-500" /></button>
                                                                     </div>
                                                                 </div>
-                                                                {/* Nội dung */}
                                                                 <div className="px-3 py-2 space-y-1.5 text-[11px] text-gray-700">
                                                                     <div className="grid grid-cols-2 gap-1">
                                                                         <div className="flex items-center gap-1.5"><Clock className="w-3 h-3 text-gray-400" />{fmtTime(res.startTime)} - {fmtTime(res.endTime)}</div>
@@ -287,7 +277,6 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                                     <div className="flex items-center gap-1.5"><Users className="w-3 h-3 text-gray-400" />{(res.guests?.adults || 0) + (res.guests?.children || 0)} (🧑{res.guests?.adults || 0} 👶{res.guests?.children || 0})</div>
                                                                     <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3 text-gray-400" />{res.tableName}</div>
                                                                 </div>
-                                                                {/* Hành động */}
                                                                 {res.status !== "cancelled" && (
                                                                     <div className="flex items-center justify-center gap-2 px-3 py-2 border-t border-gray-100 bg-gray-50">
                                                                         {res.status !== "seated" && (
@@ -318,7 +307,7 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                 );
                                             })}
 
-                                            {/* Khối đặt bàn (chế độ xem tuần/tháng) - hiển thị dạng thanh màu */}
+                                            {/* Khối đặt bàn (chế độ xem tuần/tháng) */}
                                             {viewMode !== "day" && tblRes.map((res) => {
                                                 const resDate = res.startTime;
                                                 const colIdx = columns.findIndex((c) =>
@@ -350,19 +339,19 @@ export default function Timeline({ areas, tables, reservations, statusFilters, o
                                                 );
                                             })}
                                         </div>
-                                    );
-                                })}
-                            </div>
-                        ))}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ))}
 
-                        {/* Đường chỉ thời gian đỏ (chỉ chế độ xem ngày) */}
-                        {viewMode === "day" && (
-                            <div className="absolute top-0 bottom-0 z-[3] pointer-events-none" style={{ left: currentTimePos }}>
-                                <div className="w-0 h-0 absolute top-0" style={{ borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "5px solid #dc2626", marginLeft: "-4px" }} />
-                                <div className="w-[2px] h-full bg-red-600 -ml-[1px]" />
-                            </div>
-                        )}
-                    </div>
+                    {/* Đường chỉ thời gian đỏ (chỉ chế độ xem ngày) */}
+                    {viewMode === "day" && (
+                        <div className="absolute top-0 bottom-0 z-[3] pointer-events-none" style={{ left: currentTimePos + SIDEBAR_WIDTH }}>
+                            <div className="w-0 h-0 absolute top-0" style={{ borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "5px solid #dc2626", marginLeft: "-4px" }} />
+                            <div className="w-[2px] h-full bg-red-600 -ml-[1px]" />
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
