@@ -15,6 +15,7 @@ export const MONTH_NAMES = [
 export const STATUS_COLORS = {
     confirmed: { bg: "#dcfce7", border: "#4ade80", text: "#166534", dot: "#22c55e" },
     seated: { bg: "#dbeafe", border: "#60a5fa", text: "#1e40af", dot: "#3b82f6" },
+    completed: { bg: "#f3e8ff", border: "#c084fc", text: "#6b21a8", dot: "#a855f7" },
     no_show: { bg: "#e5e7eb", border: "#9ca3af", text: "#374151", dot: "#9ca3af" },
     cancelled: { bg: "#fee2e2", border: "#fca5a5", text: "#dc2626", dot: "#ef4444" },
 };
