@@ -154,7 +154,12 @@ export const createReservationWithOrder = async (req, res) => {
     } = req.body;
 
     // Kiểm tra không được đặt bàn ở quá khứ
-    if (new Date(reservationDateTime) < new Date()) {
+    const nowMinute = new Date();
+    nowMinute.setSeconds(0, 0);
+    // So sánh theo phút (bỏ qua giây + mili-giây)
+    const reservationMinute = new Date(reservationDateTime);
+    reservationMinute.setSeconds(0, 0);
+    if (reservationMinute < nowMinute) {
       return res.status(400).json({
         success: false,
         message: "Không được đặt bàn ở quá khứ",
