@@ -322,9 +322,7 @@ export const getTableByArea = async (req, res) => {
 
                   {
                     orderStatus: "pre-order",
-                    "reservationData.status": {
-                      $in: ["confirmed", "seated"],
-                    },
+                    "reservationData.status": "confirmed",
                     "reservationData.reservationDateTime": {
                       $gte: startOfDay,
                       $lte: endOfDay,
@@ -334,7 +332,26 @@ export const getTableByArea = async (req, res) => {
               },
             },
 
-            { $sort: { createdAt: -1 } },
+            // thêm priority
+            {
+              $addFields: {
+                priority: {
+                  $cond: [
+                    { $eq: ["$orderStatus", "active"] },
+                    0, // active ưu tiên cao nhất
+                    1  // pre-order
+                  ]
+                }
+              }
+            },
+
+            // sort theo priority trước
+            {
+              $sort: {
+                priority: 1,
+                createdAt: -1
+              }
+            },
 
             {
               $project: {
