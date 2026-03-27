@@ -7,10 +7,11 @@ import {
   deleteEmployee,
 } from "../controllers/employeeController.js";
 import upload from "../middlewares/uploadMiddleware.js";
-import {authorizeRoles} from "../middlewares/authMiddleware.js";
+import { verifyToken, authorizeRoles } from "../middlewares/authMiddleware.js";
 
 const router = Router();
-router.use(authorizeRoles( "admin"));
+router.use(verifyToken);
+router.use(authorizeRoles("manager"));
 
 router.post("/", upload.single("photo"), createEmployee);
 router.get("/", getEmployees);
