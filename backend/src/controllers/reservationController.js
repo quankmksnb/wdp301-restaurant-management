@@ -73,18 +73,22 @@ export const getReservedTablesController = async (req, res) => {
  */
 export const createReservation = async (req, res) => {
   try {
-    const { tables, reservationDateTime } = req.body;
+    const { tables, reservationDateTime, numberOfGuests } = req.body;
 
     const validation = await validateTablesForReservation(tables, reservationDateTime);
-    if (new Date(reservationDateTime) < new Date()) {
+      const nowMinute = new Date();
+      nowMinute.setSeconds(0, 0);
+    // So sánh theo phút (bỏ qua giây + mili-giây)
+    const reservationMinute = new Date(reservationDateTime);
+    reservationMinute.setSeconds(0, 0);
+    if (reservationMinute < nowMinute) {
       return res.status(400).json({
         success: false,
         message: "Không được đặt bàn ở quá khứ",
       });
     }
 
-    // Kiểm tra số khách không vượt quá tổng số ghế
-    const { numberOfGuests } = req.body;
+
     const selectedTableDocs = await Table.find({ _id: { $in: tables } });
     const totalCapacity = selectedTableDocs.reduce((sum, t) => sum + (t.capacity || 0), 0);
     if (numberOfGuests > totalCapacity) {

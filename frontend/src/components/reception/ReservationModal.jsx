@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import {
   Modal,
   Input,
@@ -459,6 +459,7 @@ export default function ReservationModal({
 
   const [selectedTables, setSelectedTables] = useState([]);
   const [arrivalTime, setArrivalTime] = useState(null);
+  const isAutoTime = useRef(false); // true = đang tự động cập nhật giờ hiện tại
 
   // Trạng thái đặt món trước
   const [sameOrderMode, setSameOrderMode] = useState(true);
@@ -590,14 +591,29 @@ export default function ReservationModal({
           let defaultTime = dayjs();
           if (defaultTime.hour() < 6) {
             defaultTime = defaultTime.hour(6).minute(0).second(0);
+            isAutoTime.current = false;
+          } else {
+            isAutoTime.current = true; // bật chế độ realtime
           }
           setArrivalTime(defaultTime);
         } else {
+          isAutoTime.current = false;
           setArrivalTime(baseDate.hour(10).minute(0).second(0));
         }
       }
     }
   }, [open, prefilledTable, prefilledHour, selectedDate, editingReservation]);
+
+  // ── Realtime clock: cập nhật giờ hiện tại mỗi giây ──
+  useEffect(() => {
+    if (!open) return;
+    const timer = setInterval(() => {
+      if (isAutoTime.current) {
+        setArrivalTime(dayjs());
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [open]);
 
   // Lấy danh sách món ăn khi hiện phần đặt món trước
   useEffect(() => {
@@ -871,7 +887,10 @@ export default function ReservationModal({
               placeholder="Chọn ngày giờ đến"
               className="w-full"
               value={arrivalTime}
-              onChange={(val) => setArrivalTime(val)}
+              onChange={(val) => {
+                isAutoTime.current = false; // người dùng chọn tay → dừng realtime
+                setArrivalTime(val);
+              }}
               disabledDate={(current) => {
                 // Không cho chọn ngày trước hôm nay
                 return current && current.startOf('day').isBefore(dayjs().startOf('day'));

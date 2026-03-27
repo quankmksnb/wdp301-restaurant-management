@@ -40,7 +40,7 @@ function ExpandedInfoPanel({ employee }) {
                 <div className="w-24 h-24 bg-gray-200 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
                     {employee.photo ? (
                         <img
-                            src={`http://localhost:5000${employee.photo}`}
+                            src={employee.photo}
                             alt={employee.name}
                             className="w-full h-full object-cover"
                             onError={(e) => {
@@ -102,21 +102,10 @@ function ExpandedInfoPanel({ employee }) {
                         <div className="text-xs text-gray-500 mb-1">Email:</div>
                         <div className="font-medium line-clamp-2 break-words" title={employee.email}>{employee.email || '-'}</div>
                     </div>
-                    <div className="w-full overflow-hidden pr-2">
-                        <div className="text-xs text-gray-500 mb-1">Facebook:</div>
-                        <div className="font-medium line-clamp-2 break-words" title={employee.facebook}>{employee.facebook || '-'}</div>
-                    </div>
+
                     <div className="w-full overflow-hidden pr-2">
                         <div className="text-xs text-gray-500 mb-1">Địa chỉ:</div>
                         <div className="font-medium line-clamp-2 break-words" title={employee.address}>{employee.address || '-'}</div>
-                    </div>
-                </div>
-
-                {/* Notes section */}
-                <div className="w-full max-w-sm">
-                    <div className="text-xs text-gray-500 mb-1">Ghi chú:</div>
-                    <div className={`border rounded px-3 py-2 text-sm min-w-[200px] whitespace-pre-wrap ${employee.notes ? 'text-gray-700 bg-gray-50' : 'text-gray-400'}`}>
-                        {employee.notes || 'Ghi chú...'}
                     </div>
                 </div>
             </div>
@@ -213,7 +202,7 @@ export default function EmployeeList({
 
     const additionalColumnDefs = [
         { key: 'birthDate', label: 'Ngày sinh' },
-        { key: 'facebook', label: 'Facebook' },
+
         { key: 'address', label: 'Địa chỉ' },
         { key: 'position', label: 'Chức danh' },
         { key: 'startDate', label: 'Ngày bắt đầu làm việc' },
@@ -317,11 +306,7 @@ export default function EmployeeList({
             dataIndex: 'email',
             key: 'email',
         },
-        {
-            title: 'Facebook',
-            dataIndex: 'facebook',
-            key: 'facebook',
-        },
+
         {
             title: 'Địa chỉ',
             dataIndex: 'address',
@@ -336,16 +321,6 @@ export default function EmployeeList({
             title: 'Ngày bắt đầu làm việc',
             dataIndex: 'startDate',
             key: 'startDate',
-        },
-        {
-            title: 'Nợ và tạm ứng',
-            dataIndex: 'debt',
-            key: 'debt',
-        },
-        {
-            title: 'Ghi chú',
-            dataIndex: 'notes',
-            key: 'notes',
         },
     ];
 

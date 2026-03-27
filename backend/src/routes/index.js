@@ -8,6 +8,8 @@ import orderRoutes from "./orderRoutes.js";
 import reservationRoutes from "./reservationRoutes.js";
 import kitchenRoutes from "./kitchenRoute.js";
 import paymentRoutes from "./paymentRoutes.js";
+import employeeRoutes from "./employeeRoutes.js";
+import exportRoutes from "./exportRoutes.js";
 
 const router = express.Router();
 
@@ -25,5 +27,11 @@ router.use("/reservations", reservationRoutes);
 
 // kitchen
 router.use("/kitchen", kitchenRoutes);
+
+// employee
+router.use("/employees", employeeRoutes);
+
+// export
+router.use("/export", exportRoutes);
 
 export default router;

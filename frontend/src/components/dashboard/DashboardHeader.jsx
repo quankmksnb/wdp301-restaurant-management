@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import EmployeeDropdown from "./EmployeeDropdown";
 import TooltipIcon from "../auth/TooltipIcon";
 
 export default function DashboardHeader() {
@@ -16,11 +15,7 @@ export default function DashboardHeader() {
     { label: "Tổng quan", path: "/dashboard" },
     { label: "Hàng hóa", path: "/dashboard/products" },
     { label: "Phòng/Bàn", path: "/dashboard/table" },
-    {
-      label: "employee-dropdown",
-      path: "/dashboard/employee",
-      component: <EmployeeDropdown />,
-    },
+    { label: "Nhân viên", path: "/dashboard/employee" },
     { label: "Báo cáo", path: "/dashboard/reports" },
   ];
 

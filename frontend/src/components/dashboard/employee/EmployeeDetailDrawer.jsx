@@ -68,10 +68,7 @@ function EmployeeInfoPanel({ employee }) {
                         <div className="text-xs text-gray-500 mb-1">Email:</div>
                         <div className="font-medium">{employee.email || '-'}</div>
                     </div>
-                    <div>
-                        <div className="text-xs text-gray-500 mb-1">Facebook:</div>
-                        <div className="font-medium">{employee.facebook || '-'}</div>
-                    </div>
+
                     <div>
                         <div className="text-xs text-gray-500 mb-1">Địa chỉ:</div>
                         <div className="font-medium">{employee.address || '-'}</div>

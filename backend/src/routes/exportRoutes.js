@@ -3,7 +3,7 @@ import {
     createExport,
     getExportStatus,
     downloadExport,
-} from "../controllers/export.controller.js";
+} from "../controllers/exportController.js";
 
 const router = Router();
 

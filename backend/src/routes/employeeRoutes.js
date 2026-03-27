@@ -6,7 +6,7 @@ import {
   updateEmployee,
   deleteEmployee,
 } from "../controllers/employeeController.js";
-import upload from "../middlewares/upload.js";
+import upload from "../middlewares/uploadMiddleware.js";
 
 const router = Router();
 
