@@ -1,6 +1,13 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
-import { ClipboardList, DollarSign, Receipt, Users } from "lucide-react";
+import {
+  ClipboardList,
+  CookingPot,
+  DollarSign,
+  Receipt,
+  UserCheck,
+  Users,
+} from "lucide-react";
 import DashboardBox from "../../components/dashboard/DashboardBox";
 import ResultItem from "../../components/dashboard/ResultItem";
 import managerService from "@/services/managerService";
@@ -25,6 +32,13 @@ export default function Dashboard() {
     revenue: 0,
     profit: 0,
     orderCount: 0,
+  });
+
+  const [liveOperationStats, setLiveOperationStats] = useState({
+    activeTables: 0,
+    kitchenStatus: {
+      totalProcessing: 0,
+    },
   });
 
   // State cho biểu đồ
@@ -109,8 +123,10 @@ export default function Dashboard() {
         getYesterDayISOString(),
         getYesterDayISOString(),
       );
+      const liveOperationData = await managerService.getLiveOperations();
       setTodayRevenue(todaySummary);
       setYesterdayRevenue(yesterdaySummary);
+      setLiveOperationStats(liveOperationData);
     } catch (error) {
       console.error("Fetch summary error:", error);
       message.error("Không thể lấy dữ liệu doanh thu hôm nay");
@@ -174,6 +190,23 @@ export default function Dashboard() {
                 title="Số đơn hôm nay"
                 value={todayRevenue.orderCount + " đơn"}
                 note={"Hôm qua: " + yesterdayRevenue.orderCount + " đơn"}
+                loading={loadingRevenue}
+              />
+              <ResultItem
+                icon={<UserCheck />}
+                title="Bàn đang có khách"
+                value={liveOperationStats.activeTables + " bàn"}
+                note=""
+                loading={loadingRevenue}
+              />
+              <ResultItem
+                icon={<CookingPot />}
+                title="Món đang chế biến"
+                value={
+                  (liveOperationStats.kitchenStatus.totalProcessing || 0) +
+                  " món"
+                }
+                note=""
                 loading={loadingRevenue}
               />
             </div>

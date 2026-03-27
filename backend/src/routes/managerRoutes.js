@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getLiveOperationsStatus,
   getRevenueChartData,
   getRevenueSummary,
 } from "../controllers/managerController.js";
@@ -11,5 +12,6 @@ router.use(verifyToken);
 router.use(authorizeRoles("manager"));
 router.get("/revenue-summary", getRevenueSummary);
 router.get("/revenue-chart", getRevenueChartData);
+router.get("/live-operation", getLiveOperationsStatus);
 
 export default router;

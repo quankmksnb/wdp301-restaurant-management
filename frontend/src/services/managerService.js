@@ -40,6 +40,17 @@ const managerService = {
       throw error;
     }
   },
+
+  getLiveOperations: async () => {
+    try {
+      const response = await api.get("/manager/live-operation");
+
+      return response.data;
+    } catch (error) {
+      console.error("Error in getLiveOperations:", error);
+      throw error;
+    }
+  },
 };
 
 export default managerService;
