@@ -1,6 +1,6 @@
 "use client";
 
-import { Phone, MapPin, Package } from "lucide-react";
+import { Phone, MapPin, Package, Zap } from "lucide-react";
 
 export default function WaiterFooter() {
   return (
@@ -17,7 +17,6 @@ export default function WaiterFooter() {
         Hỗ trợ 1900 6522
       </span>
 
-      {/* CENTER - Status */}
       <div className="flex items-center gap-2 text-slate-600">
         <div className="flex items-center gap-1.5">
           <span className="relative flex h-2 w-2">
