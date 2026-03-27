@@ -14,6 +14,8 @@ export default function TableHeader({
   hasSelected = false,
   onDeselectAll = () => {},
   refreshTables,
+  areas = [],
+  onAreasChange,
 }) {
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openAreaModal, setOpenAreaModal] = useState(false);
@@ -60,15 +62,19 @@ export default function TableHeader({
 
       <AddTableModal
         open={openAddModal}
+        areas={areas}
         onClose={() => setOpenAddModal(false)}
         onConfirm={() => {
           refreshTables?.();
+          onAreasChange?.();
           setOpenAddModal(false);
         }}
       />
 
       <AreaListModal
         open={openAreaModal}
+        areas={areas}
+        onAreasChange={onAreasChange}
         onClose={() => setOpenAreaModal(false)}
       />
     </div>

@@ -4,11 +4,13 @@ import { useState } from "react";
 import { Input, Collapse, Radio, Select, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
-import useAreas from "@/hooks/useAreas";
 import AddAreaModal from "./modals/AddAreaModal";
 
-export default function TableFilterPanel({ onFilterChange }) {
-  const { areas } = useAreas();
+export default function TableFilterPanel({
+  areas = [],
+  onFilterChange,
+  onAreasChange,
+}) {
   const [openAreaModal, setOpenAreaModal] = useState(false);
 
   const [area, setArea] = useState("all");
@@ -48,9 +50,9 @@ export default function TableFilterPanel({ onFilterChange }) {
 
   const areaOptions = [
     { label: "Tất cả", value: "all" },
-    ...areas.map((area) => ({
-      label: area.areaName,
-      value: area._id,
+    ...areas.map((a) => ({
+      label: a.areaName,
+      value: a._id,
     })),
   ];
 
@@ -122,7 +124,10 @@ export default function TableFilterPanel({ onFilterChange }) {
       <AddAreaModal
         open={openAreaModal}
         onClose={() => setOpenAreaModal(false)}
-        onConfirm={() => setOpenAreaModal(false)}
+        onConfirm={() => {
+          onAreasChange?.();
+          setOpenAreaModal(false);
+        }}
       />
     </>
   );

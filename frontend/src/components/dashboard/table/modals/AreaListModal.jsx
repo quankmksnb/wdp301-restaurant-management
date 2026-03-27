@@ -11,15 +11,18 @@ import {
   PoweroffOutlined,
 } from "@ant-design/icons";
 
-import useAreas from "@/hooks/useAreas";
 import useAllTables from "@/hooks/useAllTables";
 import AddAreaModal from "./AddAreaModal";
 import UpdateAreaModal from "./UpdateAreaModal";
 import AddTableModal from "./AddTableModal";
 import { toggleAreaStatus } from "@/services/areaService";
 
-export default function AreaListModal({ open, onClose }) {
-  const { areas, refreshAreas } = useAreas();
+export default function AreaListModal({
+  open,
+  onClose,
+  areas = [],
+  onAreasChange,
+}) {
   const { tables, refreshTables } = useAllTables();
 
   const [openAdd, setOpenAdd] = useState(false);
@@ -49,7 +52,7 @@ export default function AreaListModal({ open, onClose }) {
         try {
           await toggleAreaStatus(area._id);
           message.success("Cập nhật thành công");
-          refreshAreas();
+          onAreasChange?.();
           refreshTables();
         } catch (error) {
           console.log(error);
@@ -184,7 +187,6 @@ export default function AreaListModal({ open, onClose }) {
                       onClick={(e) => handleOpenUpdateArea(e, area)}
                     />
 
-                    {/* Chevron icon rotates when collapsed */}
                     <DownOutlined
                       className="text-gray-400 text-xs transition-transform duration-200 ml-1"
                       style={{
@@ -247,7 +249,7 @@ export default function AreaListModal({ open, onClose }) {
         open={openAdd}
         onClose={() => setOpenAdd(false)}
         onConfirm={() => {
-          refreshAreas();
+          onAreasChange?.();
           setOpenAdd(false);
         }}
       />
@@ -260,7 +262,7 @@ export default function AreaListModal({ open, onClose }) {
           setSelectedAreaForUpdate(null);
         }}
         onConfirm={() => {
-          refreshAreas();
+          onAreasChange?.();
           setOpenUpdateArea(false);
           setSelectedAreaForUpdate(null);
         }}
@@ -268,12 +270,14 @@ export default function AreaListModal({ open, onClose }) {
 
       <AddTableModal
         open={openAddTable}
+        areas={areas}
         defaultArea={selectedAreaForTable}
         onClose={() => {
           setOpenAddTable(false);
           setSelectedAreaForTable(null);
         }}
         onConfirm={() => {
+          onAreasChange?.();
           refreshTables?.();
           setOpenAddTable(false);
           setSelectedAreaForTable(null);

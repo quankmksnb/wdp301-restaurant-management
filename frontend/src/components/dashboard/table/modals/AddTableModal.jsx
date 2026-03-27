@@ -5,7 +5,6 @@ import { Modal, Input, Select, InputNumber, Button, message } from "antd";
 import { SaveOutlined, CloseOutlined, PlusOutlined } from "@ant-design/icons";
 
 import AddAreaModal from "./AddAreaModal";
-import useAreas from "@/hooks/useAreas";
 import { createTable } from "@/services/tableService";
 
 const { TextArea } = Input;
@@ -15,10 +14,11 @@ export default function AddTableModal({
   onClose,
   onConfirm,
   defaultArea,
+  areas = [],
 }) {
-  const { areas, refreshAreas } = useAreas();
-
   const [openAreaModal, setOpenAreaModal] = useState(false);
+  // local copy để có thể thêm area mới vào dropdown ngay lập tức
+  const [localAreas, setLocalAreas] = useState([]);
 
   const [tableName, setTableName] = useState("");
   const [selectedArea, setSelectedArea] = useState(null);
@@ -26,6 +26,11 @@ export default function AddTableModal({
   const [note, setNote] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+  // Đồng bộ localAreas khi prop areas thay đổi
+  useEffect(() => {
+    setLocalAreas(areas);
+  }, [areas]);
 
   useEffect(() => {
     if (open && defaultArea) {
@@ -128,7 +133,7 @@ export default function AddTableModal({
                 placeholder="-- Chọn khu vực --"
                 value={selectedArea}
                 onChange={(value) => setSelectedArea(value)}
-                options={areas
+                options={localAreas
                   .filter((area) => area.areaStatus === "active")
                   .map((area) => ({ value: area._id, label: area.areaName }))}
               />
@@ -175,8 +180,13 @@ export default function AddTableModal({
         open={openAreaModal}
         onClose={() => setOpenAreaModal(false)}
         onConfirm={(newArea) => {
-          refreshAreas();
-          setSelectedArea(newArea._id);
+          // Thêm area mới vào local list ngay lập tức để dropdown hiển thị liền
+          if (newArea) {
+            setLocalAreas((prev) => [...prev, newArea]);
+            setSelectedArea(newArea._id);
+          }
+          // Báo lên page để refresh toàn bộ
+          onConfirm?.();
           setOpenAreaModal(false);
         }}
       />

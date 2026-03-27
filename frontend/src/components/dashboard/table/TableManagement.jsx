@@ -8,7 +8,7 @@ import TableDetail from "./TableDetail";
 
 import useTables from "@/hooks/useTables";
 
-export default function TableManagement({ filters }) {
+export default function TableManagement({ filters, areas, onAreasChange }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [page, setPage] = useState(1);
@@ -51,13 +51,16 @@ export default function TableManagement({ filters }) {
 
   const handleRowClick = (record) => {
     const key = record._id;
-
     setExpandedRowKeys((prev) => (prev.includes(key) ? [] : [key]));
   };
 
   return (
     <div>
-      <TableHeader refreshTables={refreshTables} />
+      <TableHeader
+        refreshTables={refreshTables}
+        areas={areas}
+        onAreasChange={onAreasChange}
+      />
 
       <Table
         rowKey="_id"
