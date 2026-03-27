@@ -59,7 +59,7 @@ export default function PaymentResult() {
           <circle cx="40" cy="53" r="2.5" fill="#f59e0b" />
         </svg>
       ),
-      label: "LỖI",
+      label: "ERROR",
       heading: "Có lỗi xảy ra",
       sub: "Không thể xác định trạng thái giao dịch. Vui lòng kiểm tra lại.",
       accent: "#f59e0b",
@@ -83,7 +83,7 @@ export default function PaymentResult() {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #0f1117;
+          background: #ffffff;
           font-family: 'Be Vietnam Pro', sans-serif;
           padding: 24px;
         }
