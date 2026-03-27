@@ -30,7 +30,8 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
     useEffect(() => {
         const tick = () => {
             const n = new Date();
-            setCurrentTimePos((n.getHours() + n.getMinutes() / 60) * CELL_WIDTH);
+            const START_HOUR = HOURS[0] || 6;
+            setCurrentTimePos((n.getHours() + n.getMinutes() / 60 - START_HOUR) * CELL_WIDTH);
         };
         tick();
         const iv = setInterval(tick, 60000);
@@ -207,7 +208,7 @@ export default function WeekView({ areas, tables, reservations, statusFilters, o
                                                     })}
 
                                                     {/* Đường chỉ thời gian hiện tại cho ngày hôm nay */}
-                                                    {d.toDateString() === today.toDateString() && (
+                                                    {d.toDateString() === new Date().toDateString() && currentTimePos >= 0 && (
                                                         <div className="absolute top-0 bottom-0 z-[3] pointer-events-none" style={{ left: currentTimePos }}>
                                                             <div className="w-[2px] h-full bg-red-500 opacity-70" />
                                                         </div>

@@ -293,9 +293,9 @@ export const getOrderByReservation = async (req, res) => {
       .populate('subOrders.items.menuItem');
 
     if (!order) {
-      return res.status(404).json({
-        success: false,
-        message: "Order không tồn tại",
+      return res.status(200).json({
+        success: true,
+        data: null,
       });
     }
 

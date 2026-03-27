@@ -7,6 +7,7 @@ import EmployeeInfoTab from './tabs/EmployeeInfoTab';
 export default function EmployeeFormModal({ open, onClose, onSave, employee = null }) {
     const [form] = Form.useForm();
     const [imageFile, setImageFile] = useState(null);
+    const [saving, setSaving] = useState(false);
     const isEdit = !!employee;
 
     useEffect(() => {
@@ -33,6 +34,8 @@ export default function EmployeeFormModal({ open, onClose, onSave, employee = nu
     const handleSave = async () => {
         try {
             const values = await form.validateFields();
+
+            setSaving(true);
 
             // Build FormData to support image upload
             const formData = new FormData();
@@ -62,6 +65,8 @@ export default function EmployeeFormModal({ open, onClose, onSave, employee = nu
             await onSave(formData);
         } catch (error) {
             // Form validation failed - ignore
+        } finally {
+            setSaving(false);
         }
     };
 
@@ -89,8 +94,12 @@ export default function EmployeeFormModal({ open, onClose, onSave, employee = nu
                 <button
                     key="save"
                     onClick={handleSave}
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 ml-2"
+                    disabled={saving}
+                    className={`px-4 py-2 text-white rounded ml-2 inline-flex items-center gap-2 ${saving ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
                 >
+                    {saving && (
+                        <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    )}
                     {isEdit ? 'Cập nhật' : 'Lưu'}
                 </button>,
             ]}
