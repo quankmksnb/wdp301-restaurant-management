@@ -74,19 +74,29 @@ export const getReservedTablesController = async (req, res) => {
  */
 export const createReservation = async (req, res) => {
   try {
-    const { tables, reservationDateTime } = req.body;
-    const validation = await validateTablesForReservation(tables, reservationDateTime);
-    if (new Date(reservationDateTime) < new Date()) {
+    const { tables, reservationDateTime, numberOfGuests } = req.body;
+
+    const validation = await validateTablesForReservation(
+      tables,
+      reservationDateTime,
+    );
+    const nowMinute = new Date();
+    nowMinute.setSeconds(0, 0);
+    // So sánh theo phút (bỏ qua giây + mili-giây)
+    const reservationMinute = new Date(reservationDateTime);
+    reservationMinute.setSeconds(0, 0);
+    if (reservationMinute < nowMinute) {
       return res.status(400).json({
         success: false,
         message: "Không được đặt bàn ở quá khứ",
       });
     }
 
-    // Kiểm tra số khách không vượt quá tổng số ghế
-    const { numberOfGuests } = req.body;
     const selectedTableDocs = await Table.find({ _id: { $in: tables } });
-    const totalCapacity = selectedTableDocs.reduce((sum, t) => sum + (t.capacity || 0), 0);
+    const totalCapacity = selectedTableDocs.reduce(
+      (sum, t) => sum + (t.capacity || 0),
+      0,
+    );
     if (numberOfGuests > totalCapacity) {
       return res.status(400).json({
         success: false,
@@ -106,14 +116,6 @@ export const createReservation = async (req, res) => {
       ...req.body,
       user: req.user?.id,
     });
-
-    
-    const tableNames = selectedTableDocs.map(t => t.tableName).join(", ");
-    await logActivity(
-      req.user?.id, 
-      `vừa tạo đặt bàn mới cho khách [${req.body.customer.customer}] tại bàn [${tableNames}]`, 
-      "reservation"
-    );
 
     res.status(201).json({
       success: true,
@@ -155,7 +157,10 @@ export const createReservationWithOrder = async (req, res) => {
 
     // Kiểm tra số khách không vượt quá tổng số ghế
     const selectedTableDocs = await Table.find({ _id: { $in: tables } });
-    const totalCapacity = selectedTableDocs.reduce((sum, t) => sum + (t.capacity || 0), 0);
+    const totalCapacity = selectedTableDocs.reduce(
+      (sum, t) => sum + (t.capacity || 0),
+      0,
+    );
     if (numberOfGuests > totalCapacity) {
       return res.status(400).json({
         success: false,
@@ -163,7 +168,10 @@ export const createReservationWithOrder = async (req, res) => {
       });
     }
 
-    const validation = await validateTablesForReservation(tables, reservationDateTime);
+    const validation = await validateTablesForReservation(
+      tables,
+      reservationDateTime,
+    );
 
     if (!validation.valid) {
       return res.status(400).json({
@@ -322,7 +330,7 @@ export const updateReservationStatus = async (req, res) => {
       });
     }
 
-    const reservation = await Reservation.findById(id).populate("tables", "tableName");
+    const reservation = await Reservation.findById(id);
 
     if (!reservation) {
       return res.status(404).json({
@@ -332,7 +340,10 @@ export const updateReservationStatus = async (req, res) => {
     }
 
     // Không cho phép hủy nếu đã nhận bàn, hoàn thành, hoặc đã hủy
-    if (status === "cancelled" && ["seated", "completed", "cancelled"].includes(reservation.status)) {
+    if (
+      status === "cancelled" &&
+      ["seated", "completed", "cancelled"].includes(reservation.status)
+    ) {
       return res.status(400).json({
         success: false,
         message: "Không thể hủy bàn đã nhận, đã hoàn thành hoặc đã hủy",
@@ -404,34 +415,6 @@ export const updateReservationStatus = async (req, res) => {
 
     await reservation.save();
 
-    let logContent = "";
-    const tableNames = reservation.tables && reservation.tables.length > 0 
-                      ? reservation.tables.map(t => t.tableName).join(", ") 
-                      : "chưa xác định";
-    switch (status) {
-      case "seated":
-        logContent = `vừa xác nhận khách [${reservation.customer.customer}] đã vào bàn [${tableNames}]`;
-        break;
-      case "cancelled":
-        logContent = `vừa hủy đặt bàn của khách [${reservation.customer.customer}] - Lý do: ${cancellationReason || "Không có"}`;
-        break;
-      case "no_show":
-        logContent = `đã đánh dấu khách [${reservation.customer.customer}] không đến (No-show)`;
-        break;
-      case "completed":
-        logContent = `vừa hoàn tất (Checkout) cho khách [${reservation.customer.customer}]`;
-        break;
-      case "confirmed":
-        logContent = `vừa xác nhận lại trạng thái 'Chờ' cho khách [${reservation.customer.customer}]`;
-        break;
-      default:
-        logContent = `vừa cập nhật trạng thái đặt bàn của [${reservation.customer.customer}] thành ${status}`;
-    }
-
-    if (user) {
-      await logActivity(user.id, logContent, "reservation");
-    }
-
     res.json({
       success: true,
       message: "Cập nhật trạng thái reservation thành công",
@@ -466,12 +449,17 @@ export const updateReservation = async (req, res) => {
 
     const reservation = await Reservation.findById(id);
     if (!reservation) {
-      return res.status(404).json({ success: false, message: "Không tìm thấy reservation" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Không tìm thấy reservation" });
     }
 
     // Kiểm tra số khách không vượt quá tổng số ghế
     const selectedTableDocs = await Table.find({ _id: { $in: tables } });
-    const totalCapacity = selectedTableDocs.reduce((sum, t) => sum + (t.capacity || 0), 0);
+    const totalCapacity = selectedTableDocs.reduce(
+      (sum, t) => sum + (t.capacity || 0),
+      0,
+    );
     if (numberOfGuests > totalCapacity) {
       return res.status(400).json({
         success: false,
@@ -480,7 +468,11 @@ export const updateReservation = async (req, res) => {
     }
 
     // Validate table availability, excluding this reservation
-    const validation = await validateTablesForReservation(tables, reservationDateTime, id);
+    const validation = await validateTablesForReservation(
+      tables,
+      reservationDateTime,
+      id,
+    );
     if (!validation.valid) {
       return res.status(400).json({
         success: false,
@@ -500,12 +492,20 @@ export const updateReservation = async (req, res) => {
     // Find and update Order
     let order = await Order.findOne({ reservation: id });
     if (!order) {
-      order = new Order({ reservation: id, user: req.user?.id, orderStatus: "pre-order" });
+      order = new Order({
+        reservation: id,
+        user: req.user?.id,
+        orderStatus: "pre-order",
+      });
     }
 
     let subOrders = [];
     if (!items || items.length === 0) {
-      subOrders = tables.map((tableId) => ({ table: tableId, items: [], subTotalAmount: 0 }));
+      subOrders = tables.map((tableId) => ({
+        table: tableId,
+        items: [],
+        subTotalAmount: 0,
+      }));
     } else {
       let menuItemIds = [];
       if (orderMode === "same") {
@@ -522,7 +522,8 @@ export const updateReservation = async (req, res) => {
         for (const table of tables) {
           const orderItems = items.map((item) => {
             const menu = menuMap[item.menuItem];
-            if (!menu) throw new Error(`Menu item không tồn tại: ${item.menuItem}`);
+            if (!menu)
+              throw new Error(`Menu item không tồn tại: ${item.menuItem}`);
             return {
               menuItem: menu._id,
               itemName: menu.itemName,
@@ -542,7 +543,8 @@ export const updateReservation = async (req, res) => {
           }
           const orderItems = tableOrder.items.map((item) => {
             const menu = menuMap[item.menuItem];
-            if (!menu) throw new Error(`Menu item không tồn tại: ${item.menuItem}`);
+            if (!menu)
+              throw new Error(`Menu item không tồn tại: ${item.menuItem}`);
             return {
               menuItem: menu._id,
               itemName: menu.itemName,
@@ -553,17 +555,24 @@ export const updateReservation = async (req, res) => {
               subTotal: menu.price * item.quantity,
             };
           });
-          subOrders.push({ table: tableOrder.table, items: orderItems, subTotalAmount: 0 });
+          subOrders.push({
+            table: tableOrder.table,
+            items: orderItems,
+            subTotalAmount: 0,
+          });
         }
       }
     }
 
     order.subOrders = subOrders;
 
-    // Calculate total explicitly before saving 
+    // Calculate total explicitly before saving
     let total = 0;
-    order.subOrders.forEach(sub => {
-      sub.subTotalAmount = sub.items.reduce((sum, item) => sum + (item.subTotal || 0), 0);
+    order.subOrders.forEach((sub) => {
+      sub.subTotalAmount = sub.items.reduce(
+        (sum, item) => sum + (item.subTotal || 0),
+        0,
+      );
       total += sub.subTotalAmount;
     });
     order.totalAmount = total;

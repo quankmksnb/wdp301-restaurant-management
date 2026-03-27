@@ -9,6 +9,8 @@ import reservationRoutes from "./reservationRoutes.js";
 import kitchenRoutes from "./kitchenRoute.js";
 import paymentRoutes from "./paymentRoutes.js";
 import managerRoutes from "./managerRoutes.js";
+import employeeRoutes from "./employeeRoutes.js";
+import exportRoutes from "./exportRoutes.js";
 
 const router = express.Router();
 
@@ -29,5 +31,11 @@ router.use("/kitchen", kitchenRoutes);
 
 // manager report dashboard
 router.use("/manager", managerRoutes);
+
+// employee
+router.use("/employees", employeeRoutes);
+
+// export
+router.use("/export", exportRoutes);
 
 export default router;

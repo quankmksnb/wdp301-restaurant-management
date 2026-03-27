@@ -134,13 +134,6 @@ export default function WaiterHeader({
         <div className="flex items-center gap-1.5">
 
           <button
-            className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/15 hover:bg-white/25 border border-white/25 hover:border-white/40 transition-all cursor-pointer group"
-            title="Thêm bàn"
-          >
-            <Plus size={18} className="text-white group-hover:scale-110 transition-transform" />
-          </button>
-
-          <button
             onClick={() => setSoundOn(prev => !prev)}
             className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/15 hover:bg-white/25 border border-white/25 hover:border-white/40 transition-all cursor-pointer group"
             title={soundOn ? "Tắt âm thanh" : "Bật âm thanh"}
@@ -150,14 +143,6 @@ export default function WaiterHeader({
             ) : (
               <VolumeX size={18} className="text-white/60 group-hover:text-white group-hover:scale-110 transition-all" />
             )}
-          </button>
-
-          <button
-            className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/15 hover:bg-white/25 border border-white/25 hover:border-white/40 transition-all cursor-pointer group relative"
-            title="Thông báo"
-          >
-            <Bell size={18} className="text-white group-hover:scale-110 transition-transform" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-400 rounded-full animate-pulse" />
           </button>
 
           <button

@@ -29,10 +29,8 @@ const userSchema = new mongoose.Schema(
     birthDate: { type: Date },
     gender: { type: String, enum: ["Nam", "Nữ", ""] },
     startDate: { type: Date },
-    facebook: { type: String },
+
     address: { type: String },
-    city: { type: String },
-    notes: { type: String },
     photo: { type: String },
   },
   { timestamps: true }
