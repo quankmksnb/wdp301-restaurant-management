@@ -8,15 +8,17 @@ import {
     getCategoryTree,
     getChildCategories,
 } from "../controllers/menuCategoryController.js";
+import { authorizeRoles, verifyToken } from "../middlewares/authMiddleware.js";
+
 
 const router = express.Router();
 
-router.post("/", createCategory);
-router.post("/parent", createParentCategory);
+router.post("/", verifyToken, authorizeRoles("manager"), createCategory);
+router.post("/parent", verifyToken, authorizeRoles("manager"), createParentCategory);
 router.get("/", getAllCategories);
 router.get("/tree", getCategoryTree);
 router.get("/children", getChildCategories);
-router.put("/:id", updateCategory);
-router.delete("/:id", deleteCategory);
+router.put("/:id", verifyToken, authorizeRoles("manager"), updateCategory);
+router.delete("/:id", verifyToken, authorizeRoles("manager"), deleteCategory);
 
 export default router;
