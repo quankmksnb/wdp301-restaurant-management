@@ -17,8 +17,6 @@ export default function WaiterFooter() {
         Hỗ trợ 1900 6522
       </span>
 
-      </div>
-
       {/* CENTER - Status */}
       <div className="flex items-center gap-2 text-slate-600">
         <div className="flex items-center gap-1.5">
@@ -36,8 +34,6 @@ export default function WaiterFooter() {
           <span className="text-[11px] text-slate-600">v1.0.0</span>
         </div>
       </div>
-
-
     </footer>
   );
 }
