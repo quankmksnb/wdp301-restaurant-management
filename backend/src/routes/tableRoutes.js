@@ -8,7 +8,7 @@ import {
   getTables,
   toggleTableStatus,
   updateTable,
-    getAllActiveTables,
+  getAllActiveTables,
 } from "../controllers/tableController.js";
 
 import { validate } from "../middlewares/validateMiddleware.js";
@@ -16,23 +16,41 @@ import {
   createTableSchema,
   updateTableSchema,
 } from "../validators/tableValidator.js";
+import { verifyToken } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/all", getAllTables);
-router.get("/active", getAllActiveTables);
-router.post("/", validate(createTableSchema), createTable);
+router.get("/all", verifyToken, getAllTables);
+router.get("/active", verifyToken, getAllActiveTables);
+router.post(
+  "/",
+  verifyToken,
+  authorizeRoles("manager"),
+  validate(createTableSchema),
+  createTable,
+);
 
-router.get("/", getTables);
+router.get("/", verifyToken, getTables);
 
-router.get("/by-area", getTableByArea);
+router.get("/by-area", verifyToken, getTableByArea);
 
-router.get("/:id", getTable);
+router.get("/:id", verifyToken, getTable);
 
-router.put("/:id", validate(updateTableSchema), updateTable);
+router.put(
+  "/:id",
+  verifyToken,
+  authorizeRoles("manager"),
+  validate(updateTableSchema),
+  updateTable,
+);
 
-router.patch("/:id/status", toggleTableStatus);
+router.patch(
+  "/:id/status",
+  verifyToken,
+  authorizeRoles("manager"),
+  toggleTableStatus,
+);
 
-router.delete("/:id", deleteTable);
+router.delete("/:id", verifyToken, authorizeRoles("manager"), deleteTable);
 
 export default router;

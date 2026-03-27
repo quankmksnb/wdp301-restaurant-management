@@ -195,38 +195,3 @@ export const toggleAreaStatus = async (req, res) => {
     });
   }
 };
-
-export const deleteArea = async (req, res) => {
-  try {
-    const area = await Area.findById(req.params.id);
-
-    if (!area) {
-      return res.status(404).json({
-        success: false,
-        message: "Không tìm thấy khu vực",
-      });
-    }
-
-    // Không cho xóa nếu còn bàn
-    const tableCount = await Table.countDocuments({ area: area._id });
-    if (tableCount > 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Không thể xóa khu vực còn bàn, hãy xóa bàn trước",
-      });
-    }
-
-    await Area.findByIdAndDelete(req.params.id);
-
-    res.json({
-      success: true,
-      message: "Xóa khu vực thành công",
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Lỗi khi xóa khu vực",
-      error: error.message,
-    });
-  }
-};
