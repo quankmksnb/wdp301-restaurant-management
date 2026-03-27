@@ -67,7 +67,7 @@ export default function TopBar({ tabMode, setTabMode }) {
             <div className="ml-auto flex items-center gap-5">
 
                 <span className="flex items-center gap-1.5">
-                    <span>👤</span> {userPhone || "N/A"}
+                    {userPhone || "N/A"}
                 </span>
                 <div className="relative" ref={dropdownRef}>
                     <Menu

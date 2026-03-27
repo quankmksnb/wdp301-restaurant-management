@@ -109,8 +109,6 @@ export default function OrderPanel({
 
         <div className="flex-1 flex items-center gap-1"></div>
 
-        <TooltipIcon icon={<Plus size={14} />} label="Thêm khách" />
-        <TooltipIcon icon={<ShoppingCart size={14} />} label="Giỏ hàng" />
         <TooltipIcon
           label="Giá"
           onClick={() => setPriceSort(priceSort === "asc" ? "desc" : "asc")}
@@ -254,29 +252,6 @@ export default function OrderPanel({
       {/* Footer */}
       <div className="border-t border-slate-200">
         <div className="flex items-center px-3 py-2 gap-1">
-          <TooltipIcon label="Số lượng khách">
-            <div
-              onClick={() => setOpenGuest(true)}
-              className="flex items-center gap-1 bg-slate-100 rounded px-2 py-[3px] text-[12px] cursor-pointer"
-            >
-              <User size={12} />
-              <span className="text-slate-700">{guestCount}</span>
-            </div>
-          </TooltipIcon>
-
-          {[
-            {
-              icon: <Edit2 size={12} />,
-              label: "Ghi chú",
-              onClick: () => setOpenNote(true),
-            },
-            { icon: <History size={12} />, label: "Lịch sử báo bếp" },
-            { icon: <CheckSquare size={12} />, label: "Kiểm đồ" },
-          ].map((b, i) => (
-            <TooltipIcon key={i} label={b.label}>
-              <IconBtn onClick={b.onClick}>{b.icon}</IconBtn>
-            </TooltipIcon>
-          ))}
 
           <div className="flex-1" />
           <span className="text-slate-500 text-[13px]">Tổng tiền</span>

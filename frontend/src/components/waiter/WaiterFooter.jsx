@@ -48,10 +48,6 @@ export default function WaiterFooter() {
         </div>
       </div>
 
-      {/* RIGHT - Copyright */}
-      <div className="text-slate-500 text-[11px]">
-        © 2026 POS System • Built with ❤️
-      </div>
 
     </footer>
   );
