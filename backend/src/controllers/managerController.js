@@ -1,3 +1,4 @@
+import Activity from "../models/Activity.js";
 import Order from "../models/Order.js";
 import Payment from "../models/Payment.js";
 import Reservation from "../models/Reservation.js";
@@ -337,5 +338,17 @@ export const getRevenueByArea = async (req, res) => {
       message: "Lỗi khi lấy doanh thu theo khu vực",
       error: error.message,
     });
+  }
+};
+
+export const getRecentActivities = async (req, res) => {
+  try {
+    const activities = await Activity.find()
+      .populate("user", "fullName")
+      .sort({ createdAt: -1 })
+      .limit(20);
+    res.json(activities);
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi lấy lịch sử hoạt động" });
   }
 };
