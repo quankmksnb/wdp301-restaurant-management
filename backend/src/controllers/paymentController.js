@@ -21,15 +21,23 @@ export const createPayment = async (req, res) => {
     const { orderId, amount, user } = req.body;
 
     if (!user)
-      return res.status(400).json({ success: false, message: "User ID là bắt buộc" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User ID là bắt buộc" });
     if (!amount || amount <= 0)
-      return res.status(400).json({ success: false, message: "Số tiền không hợp lệ" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Số tiền không hợp lệ" });
 
     const order = await Order.findById(orderId);
     if (!order)
-      return res.status(404).json({ success: false, message: "Order không tồn tại" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Order không tồn tại" });
     if (order.orderStatus === "completed")
-      return res.status(400).json({ success: false, message: "Order đã thanh toán" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Order đã thanh toán" });
 
     // ✅ Tính lại amount từ items đã phục vụ thực tế
     const billableStatuses = ["preparing", "ready", "served"];
@@ -106,7 +114,7 @@ export const vnpayReturn = async (req, res) => {
 
     if (!verify.isVerified || !verify.isSuccess) {
       return res.redirect(
-        `http://localhost:3000/payment-result?status=fail&orderId=${orderId}`
+        `http://localhost:3000/payment-result?status=fail&orderId=${orderId}`,
       );
     }
 
@@ -115,14 +123,14 @@ export const vnpayReturn = async (req, res) => {
 
     if (!payment || !order) {
       return res.redirect(
-        `http://localhost:3000/payment-result?status=fail&orderId=${orderId}`
+        `http://localhost:3000/payment-result?status=fail&orderId=${orderId}`,
       );
     }
 
     // Tránh xử lý lại nếu đã completed
     if (payment.paymentStatus === "completed") {
       return res.redirect(
-        `http://localhost:3000/payment-result?status=success&orderId=${orderId}`
+        `http://localhost:3000/payment-result?status=success&orderId=${orderId}`,
       );
     }
 
@@ -136,9 +144,9 @@ export const vnpayReturn = async (req, res) => {
 
     // Log activities
     await logActivity(
-      payment.user, 
-      `vừa thanh toán đơn [${orderId}] qua VNPay - ${payment.amount.toLocaleString()}đ`, 
-      "payment"
+      payment.user,
+      `vừa thanh toán đơn [${orderId}] qua VNPay - ${payment.amount.toLocaleString()}đ`,
+      "payment",
     );
 
     const reservation = await Reservation.findById(order.reservation);
@@ -149,7 +157,7 @@ export const vnpayReturn = async (req, res) => {
     }
 
     return res.redirect(
-      `http://localhost:3000/payment-result?status=success&orderId=${orderId}`
+      `http://localhost:3000/payment-result?status=success&orderId=${orderId}`,
     );
   } catch (error) {
     return res.redirect(`http://localhost:3000/payment-result?status=error`);
@@ -212,9 +220,9 @@ export const payByCash = async (req, res) => {
 
     // Log activities
     await logActivity(
-      user, 
-      `vừa thanh toán tiền mặt cho đơn [${orderId}] - ${amount.toLocaleString()}đ`, 
-      "payment"
+      user,
+      `vừa thanh toán tiền mặt cho đơn  - ${amount.toLocaleString()}đ`,
+      "payment",
     );
 
     // ✅ update order
