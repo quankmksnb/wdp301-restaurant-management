@@ -1,155 +1,52 @@
 [{
   "_id": {
-    "$oid": "69ba76c7e539191b34bf6397"
+    "$oid": "69c69d09fc4887eed6dbda25"
   },
   "order": {
-    "$oid": "69b812ca9f4f0d3b2c3274b4"
+    "$oid": "69c69ada625349ac50b57e72"
   },
-  "amount": 375000,
-  "cashReceived": 375000,
+  "amount": 130000,
+  "cashReceived": 130000,
   "change": 0,
   "paymentMethod": "cash",
   "paymentStatus": "completed",
   "user": {
-    "$oid": "69af79372cdc5ddc01a57c3e"
+    "$oid": "69c68a43625349ac50b57755"
   },
   "paymentDate": {
-    "$date": "2026-03-18T09:56:23.659Z"
+    "$date": "2026-03-27T15:06:49.720Z"
   },
   "createdAt": {
-    "$date": "2026-03-18T09:56:23.662Z"
+    "$date": "2026-03-27T15:06:49.721Z"
   },
   "updatedAt": {
-    "$date": "2026-03-18T09:56:23.662Z"
+    "$date": "2026-03-27T15:06:49.721Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "69bae85688c42100c5d46e82"
+    "$oid": "69c69d5ffc4887eed6dbdbb3"
   },
   "order": {
-    "$oid": "69badfaab267f686e4f928b8"
+    "$oid": "69c69ba5625349ac50b57edf"
   },
-  "amount": 255000,
-  "cashReceived": 500000,
-  "change": 245000,
-  "paymentMethod": "cash",
-  "paymentStatus": "completed",
-  "user": {
-    "$oid": "69af79372cdc5ddc01a57c3e"
-  },
-  "paymentDate": {
-    "$date": "2026-03-18T18:00:54.663Z"
-  },
-  "createdAt": {
-    "$date": "2026-03-18T18:00:54.663Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-18T18:00:54.663Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69bb3f538662dce687c52480"
-  },
-  "order": {
-    "$oid": "69b826a9c98ac89ec33d88d5"
-  },
-  "amount": 645000,
-  "cashReceived": 645000,
+  "amount": 836000,
+  "cashReceived": 836000,
   "change": 0,
   "paymentMethod": "cash",
   "paymentStatus": "completed",
   "user": {
-    "$oid": "69b830b706e664c994b96228"
+    "$oid": "69c68a43625349ac50b57755"
   },
   "paymentDate": {
-    "$date": "2026-03-19T00:12:03.819Z"
+    "$date": "2026-03-27T15:08:15.886Z"
   },
   "createdAt": {
-    "$date": "2026-03-19T00:12:03.819Z"
+    "$date": "2026-03-27T15:08:15.887Z"
   },
   "updatedAt": {
-    "$date": "2026-03-19T00:12:03.819Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69bb56aa04ff57d749f2cc60"
-  },
-  "order": {
-    "$oid": "69bb402b8662dce687c524d2"
-  },
-  "amount": 525000,
-  "cashReceived": 525000,
-  "change": 0,
-  "paymentMethod": "cash",
-  "paymentStatus": "completed",
-  "user": {
-    "$oid": "69af79372cdc5ddc01a57c3e"
-  },
-  "paymentDate": {
-    "$date": "2026-03-19T01:51:38.069Z"
-  },
-  "createdAt": {
-    "$date": "2026-03-19T01:51:38.069Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-19T01:51:38.069Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c171b8f61a742ff1922751"
-  },
-  "order": {
-    "$oid": "69c166f5ee0b49c1a94bd4d3"
-  },
-  "amount": 636000,
-  "cashReceived": 636000,
-  "change": 0,
-  "paymentMethod": "cash",
-  "paymentStatus": "completed",
-  "user": {
-    "$oid": "65f000000000000000000002"
-  },
-  "paymentDate": {
-    "$date": "2026-03-23T17:00:40.955Z"
-  },
-  "createdAt": {
-    "$date": "2026-03-23T17:00:40.959Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-23T17:00:40.959Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "69c49353efc57540e938cf4a"
-  },
-  "order": {
-    "$oid": "69c483e69f82be60b93918ad"
-  },
-  "amount": 532000,
-  "paymentMethod": "transfer",
-  "paymentStatus": "pending",
-  "transactionId": "69c483e69f82be60b93918ad-1774492048348",
-  "user": {
-    "$oid": "65f000000000000000000002"
-  },
-  "paymentDate": {
-    "$date": "2026-03-26T02:00:51.765Z"
-  },
-  "createdAt": {
-    "$date": "2026-03-26T02:00:51.767Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-26T02:27:28.388Z"
+    "$date": "2026-03-27T15:08:15.887Z"
   },
   "__v": 0
 }]

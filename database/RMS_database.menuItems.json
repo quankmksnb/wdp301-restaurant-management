@@ -1,192 +1,528 @@
 [{
   "_id": {
-    "$oid": "69a8e496758bb0947f29ec22"
+    "$oid": "69c69204625349ac50b57a93"
   },
-  "itemName": "Gà rang muối",
-  "productCode": "GRM001",
+  "itemName": "Salad ức gà áp chảo",
+  "productCode": "KV-001",
+  "price": 36000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774621187/rms/menu-items/gsxubxfwqx4wwg7ne2nf.jpg"
+  ],
+  "costPrice": 18000,
+  "category": {
+    "$oid": "69c6908b625349ac50b57a14"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:19:48.360Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:19:48.360Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6923d625349ac50b57a9b"
+  },
+  "itemName": "Gỏi ngó sen tôm thịt",
+  "productCode": "KV-002",
   "price": 80000,
   "description": "",
   "availabilityStatus": "available",
   "images": [
-    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316338/rms/menu-items/zqvf2gpeihmtnrfn7nqc.jpg"
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774621244/rms/menu-items/ymmyabqevyatksf7poig.jpg"
   ],
-  "costPrice": 60000,
+  "costPrice": 35000,
   "category": {
-    "$oid": "69a718daf2b0010546dad6d7"
+    "$oid": "69c6909e625349ac50b57a22"
   },
   "createdAt": {
-    "$date": "2026-03-05T02:04:06.327Z"
+    "$date": "2026-03-27T14:20:45.648Z"
   },
   "updatedAt": {
-    "$date": "2026-03-24T01:38:59.687Z"
+    "$date": "2026-03-27T14:20:45.648Z"
   },
-  "__v": 1
+  "__v": 0
 },
 {
   "_id": {
-    "$oid": "69a8e65a758bb0947f29ec61"
+    "$oid": "69c69294625349ac50b57aa6"
   },
-  "itemName": "Trà sữa trân châu đường đen",
-  "productCode": "TS001",
-  "price": 35000,
-  "description": "trà sữa trân châu đường đen",
+  "itemName": "Súp gà",
+  "productCode": "KV-003",
+  "price": 50000,
+  "description": "",
   "availabilityStatus": "available",
   "images": [
-    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316382/rms/menu-items/qg4ilrhmfxy3etfqb8f6.jpg"
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774621331/rms/menu-items/qijzmyzgmuwsu91mc7yo.webp"
   ],
-  "costPrice": 14000,
+  "costPrice": 25000,
   "category": {
-    "$oid": "69a63c3d0ebe5960a93dce06"
+    "$oid": "69c69099625349ac50b57a1b"
   },
   "createdAt": {
-    "$date": "2026-03-05T02:11:38.169Z"
+    "$date": "2026-03-27T14:22:12.505Z"
   },
   "updatedAt": {
-    "$date": "2026-03-24T01:39:44.137Z"
+    "$date": "2026-03-27T14:22:12.505Z"
   },
-  "__v": 1
+  "__v": 0
 },
 {
   "_id": {
-    "$oid": "69af6d547952f66912fbb2b1"
+    "$oid": "69c692cc625349ac50b57aae"
   },
-  "itemName": "Bia 333 (lon)",
-  "productCode": "BIA002",
+  "itemName": "Súp hải sản tóc tiên",
+  "productCode": "KV-004",
+  "price": 120000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774621387/rms/menu-items/zjen3ci82nqs2cykn2ig.webp"
+  ],
+  "costPrice": 50000,
+  "category": {
+    "$oid": "69c69099625349ac50b57a1b"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:23:08.555Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:23:08.555Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69354625349ac50b57abc"
+  },
+  "itemName": "Bò sốt tiêu đen (kèm bánh mì)",
+  "productCode": "MC-001",
+  "price": 185000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774621522/rms/menu-items/aqjd5fetqpozzxyaxums.webp"
+  ],
+  "costPrice": 75000,
+  "category": {
+    "$oid": "69c6934c625349ac50b57ab7"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:25:24.463Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:25:24.463Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c693ab625349ac50b57ac8"
+  },
+  "itemName": "Cá chẽm hấp Hồng Kông",
+  "productCode": "MC-002",
+  "price": 250000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774621610/rms/menu-items/ze3r4p3yrf57fbaubig7.jpg"
+  ],
+  "costPrice": 110000,
+  "category": {
+    "$oid": "69c6934c625349ac50b57ab7"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:26:51.821Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:26:51.821Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c693fc625349ac50b57ad1"
+  },
+  "itemName": "Tôm sú rang muối",
+  "productCode": "MC-003",
+  "price": 210000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774621691/rms/menu-items/zpkep3ylk2zf3qc7siqw.webp"
+  ],
+  "costPrice": 95000,
+  "category": {
+    "$oid": "69c690cb625349ac50b57a30"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:28:12.219Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:28:12.219Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6942c625349ac50b57ad9"
+  },
+  "itemName": "Gà ta ủ muối hoa tiêu",
+  "productCode": "MC-004",
+  "price": 280000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774621737/rms/menu-items/ihbzi2jblbidgtgl0ggw.jpg"
+  ],
+  "costPrice": 120000,
+  "category": {
+    "$oid": "69c6934c625349ac50b57ab7"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:29:00.056Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:29:00.056Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6947e625349ac50b57ae6"
+  },
+  "itemName": "Cơm chiên hải sản hoàng kim",
+  "productCode": "MC-005",
+  "price": 150000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774621821/rms/menu-items/ipoezdzbqlg89ikvhyoj.jpg"
+  ],
+  "costPrice": 50000,
+  "category": {
+    "$oid": "69c69453625349ac50b57ae0"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:30:22.748Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:30:22.748Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c694c4625349ac50b57aee"
+  },
+  "itemName": "Cơm chiên dương châu",
+  "productCode": "MC-006",
+  "price": 160000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774621891/rms/menu-items/f0z74vx3ktuutokx6jws.webp"
+  ],
+  "costPrice": 75000,
+  "category": {
+    "$oid": "69c69453625349ac50b57ae0"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:31:32.568Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:31:32.568Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69539625349ac50b57af7"
+  },
+  "itemName": "Thanh thủy đánh đá",
+  "productCode": "DU-001",
+  "price": 36000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774622008/rms/menu-items/zvaspxrigcgpop9jpvw0.jpg"
+  ],
+  "costPrice": 1800,
+  "category": {
+    "$oid": "69c69174625349ac50b57a67"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:33:29.222Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:33:29.222Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c695a2625349ac50b57b00"
+  },
+  "itemName": "Bia Heineken Bạc Silver",
+  "productCode": "DU-002",
+  "price": 25000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774622113/rms/menu-items/izrtirj6fjrpcyyvs5rw.jpg"
+  ],
+  "costPrice": 18000,
+  "category": {
+    "$oid": "69c69168625349ac50b57a60"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:35:14.547Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:35:14.547Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c695e9625349ac50b57b08"
+  },
+  "itemName": "Đậu tẩm thành",
+  "productCode": "MC-007",
+  "price": 77000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774622183/rms/menu-items/lsx4muu6bnawuyakanug.jpg"
+  ],
+  "costPrice": 28000,
+  "category": {
+    "$oid": "69c6934c625349ac50b57ab7"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:36:25.504Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:36:25.504Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6962a625349ac50b57b12"
+  },
+  "itemName": "Bia Hà Nội (330ml)",
+  "productCode": "DU-003",
+  "price": 18000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774622249/rms/menu-items/ktib2eabrea1oiozeybz.jpg"
+  ],
+  "costPrice": 12000,
+  "category": {
+    "$oid": "69c69168625349ac50b57a60"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:37:30.123Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:37:30.123Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69688625349ac50b57b1b"
+  },
+  "itemName": "Apple Meo Meo",
+  "productCode": "DU-004",
+  "price": 40000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774622343/rms/menu-items/rehezi8x91paokidjbb0.jpg"
+  ],
+  "costPrice": 25000,
+  "category": {
+    "$oid": "69c69168625349ac50b57a60"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:39:04.735Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:39:04.735Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c696ec625349ac50b57b23"
+  },
+  "itemName": "Mộng Mơ",
+  "productCode": "DU-005",
+  "price": 45000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774622443/rms/menu-items/ghdvin6kle71cluia3qb.jpg"
+  ],
+  "costPrice": 20000,
+  "category": {
+    "$oid": "69c69168625349ac50b57a60"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:40:44.529Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:40:44.529Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6973a625349ac50b57b2c"
+  },
+  "itemName": "Nước Aquafina (500ml)",
+  "productCode": "DU-006",
+  "price": 10000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774622521/rms/menu-items/sl8dpglyx55mdjaiy3ee.jpg"
+  ],
+  "costPrice": 5000,
+  "category": {
+    "$oid": "69c69182625349ac50b57a6e"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:42:02.599Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:42:02.599Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69773625349ac50b57b33"
+  },
+  "itemName": "Coca lon (320ml)",
+  "productCode": "DU-007",
   "price": 15000,
   "description": "",
   "availabilityStatus": "available",
   "images": [
-    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316404/rms/menu-items/obrkjmlw8pltfriqcf46.jpg"
-  ],
-  "costPrice": 9000,
-  "category": {
-    "$oid": "69af6d447952f66912fbb2ac"
-  },
-  "createdAt": {
-    "$date": "2026-03-10T01:01:08.304Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T01:40:05.969Z"
-  },
-  "__v": 1
-},
-{
-  "_id": {
-    "$oid": "69af6ec07952f66912fbb2de"
-  },
-  "itemName": "Kem cốc vani",
-  "productCode": "KEM001",
-  "price": 25000,
-  "description": "",
-  "availabilityStatus": "available",
-  "images": [
-    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316435/rms/menu-items/ute7bjwfggsqdcbhumip.png"
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774622578/rms/menu-items/byvdrjlyo5ln8tbupdzd.webp"
   ],
   "costPrice": 8000,
   "category": {
-    "$oid": "69a8f52d812bac6f0040d747"
+    "$oid": "69c69182625349ac50b57a6e"
   },
   "createdAt": {
-    "$date": "2026-03-10T01:07:12.755Z"
+    "$date": "2026-03-27T14:42:59.333Z"
   },
   "updatedAt": {
-    "$date": "2026-03-24T01:40:37.105Z"
+    "$date": "2026-03-27T14:42:59.333Z"
   },
-  "__v": 1
+  "__v": 0
 },
 {
   "_id": {
-    "$oid": "69af81016c36d57c64879b47"
+    "$oid": "69c697ee625349ac50b57b3d"
   },
-  "itemName": "Heineiken",
-  "productCode": "BIA003",
+  "itemName": "Sinh tố lúa mạch (ca 1.5l)",
+  "productCode": "DU-008",
+  "price": 60000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774622701/rms/menu-items/pfxa6ywitqf8xkenbrvg.webp"
+  ],
+  "costPrice": 30000,
+  "category": {
+    "$oid": "69c69168625349ac50b57a60"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:45:02.926Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:45:02.926Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69871625349ac50b57b63"
+  },
+  "itemName": "Trái cây thập cẩm theo mùa",
+  "productCode": "TM-001",
+  "price": 60000,
+  "description": "",
+  "availabilityStatus": "available",
+  "images": [
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774622832/rms/menu-items/adiuibvyzpiksfwftwrv.jpg"
+  ],
+  "costPrice": 25000,
+  "category": {
+    "$oid": "69c69853625349ac50b57b5d"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:47:13.820Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:47:13.820Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c698c7625349ac50b57b70"
+  },
+  "itemName": "Ngọc Bưởi Hoàng Kim",
+  "productCode": "TM-002",
   "price": 25000,
   "description": "",
   "availabilityStatus": "available",
   "images": [
-    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316445/rms/menu-items/dnmqgxjsrtb2gvrlgqot.jpg"
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774622918/rms/menu-items/oqgkjgteqbbmdr2e5bcv.jpg"
   ],
-  "costPrice": 10000,
+  "costPrice": 8000,
   "category": {
-    "$oid": "69af6d447952f66912fbb2ac"
+    "$oid": "69c698a0625349ac50b57b6b"
   },
   "createdAt": {
-    "$date": "2026-03-10T02:25:05.430Z"
+    "$date": "2026-03-27T14:48:39.966Z"
   },
   "updatedAt": {
-    "$date": "2026-03-24T01:40:47.033Z"
+    "$date": "2026-03-27T14:49:45.194Z"
   },
-  "__v": 2
+  "__v": 0
 },
 {
   "_id": {
-    "$oid": "69bb6f5b787e71713e0999ab"
+    "$oid": "69c69a14625349ac50b57c2e"
   },
-  "itemName": "Cháo vịt",
-  "productCode": "CV001",
-  "price": 25000,
-  "description": "cháo vịt ngoăn lắm",
-  "availabilityStatus": "available",
-  "images": [
-    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316348/rms/menu-items/tw0pu3lwtqc7c8zuibql.jpg"
-  ],
-  "costPrice": 16000,
-  "category": {
-    "$oid": "69bb6f24787e71713e0999a6"
-  },
-  "createdAt": {
-    "$date": "2026-03-19T03:36:59.968Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T01:39:07.661Z"
-  },
-  "__v": 1
-},
-{
-  "_id": {
-    "$oid": "69be4e2c437d965a16c2b760"
-  },
-  "itemName": "Cơm chiên dương châu",
-  "productCode": "COM2",
-  "price": 16000,
+  "itemName": "Chè dưỡng nhan tuyết yến",
+  "productCode": "TM-003",
+  "price": 45000,
   "description": "",
   "availabilityStatus": "available",
   "images": [
-    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316329/rms/menu-items/dkqggq9ka48stonx0s0l.jpg"
+    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774623251/rms/menu-items/zrsr5m7pih7ihyssuwuf.jpg"
   ],
-  "costPrice": 14000,
+  "costPrice": 18000,
   "category": {
-    "$oid": "69be4d80437d965a16c2b74b"
+    "$oid": "69c698a0625349ac50b57b6b"
   },
   "createdAt": {
-    "$date": "2026-03-21T07:52:12.182Z"
+    "$date": "2026-03-27T14:54:12.604Z"
   },
   "updatedAt": {
-    "$date": "2026-03-24T01:38:50.157Z"
+    "$date": "2026-03-27T14:54:12.604Z"
   },
-  "__v": 1
-},
-{
-  "_id": {
-    "$oid": "69c1688031b6a9301547c8ae"
-  },
-  "itemName": "Viên Kim Cương",
-  "productCode": "CC001",
-  "price": 500000,
-  "description": "",
-  "availabilityStatus": "available",
-  "images": [
-    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774316271/rms/menu-items/mu2lx1gc4bw3ex7stuyb.jpg"
-  ],
-  "costPrice": 50000,
-  "category": {
-    "$oid": "69c1672f6848d13f4460e388"
-  },
-  "createdAt": {
-    "$date": "2026-03-23T16:21:20.233Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-24T01:37:52.850Z"
-  },
-  "__v": 3
+  "__v": 0
 }]
