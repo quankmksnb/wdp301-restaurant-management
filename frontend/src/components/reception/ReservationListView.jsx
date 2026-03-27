@@ -37,8 +37,9 @@ export default function ReservationListView({
         const total = reservations.length;
         const confirmed = reservations.filter(r => r.status === "confirmed").length;
         const seated = reservations.filter(r => r.status === "seated").length;
+        const completed = reservations.filter(r => r.status === "completed").length;
         const cancelled = reservations.filter(r => r.status === "cancelled").length;
-        return { total, confirmed, seated, cancelled };
+        return { total, confirmed, seated, completed, cancelled };
     }, [reservations]);
 
     // Lọc danh sách đặt bàn
@@ -48,8 +49,6 @@ export default function ReservationListView({
         // Lọc theo trạng thái
         if (statusFilter !== "all") {
             data = data.filter(r => r.status === statusFilter);
-        } else {
-            data = data.filter(r => statusFilters[r.status]);
         }
 
         // Tìm kiếm
@@ -238,7 +237,7 @@ export default function ReservationListView({
                 </div>
 
                 {/* Thẻ thống kê */}
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-5 gap-4">
                     <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-xl p-3 border border-blue-100">
                         <div className="text-xs text-blue-600 font-medium mb-1">Tổng đặt bàn</div>
                         <div className="text-2xl font-bold text-blue-700">{stats.total}</div>
@@ -250,6 +249,10 @@ export default function ReservationListView({
                     <div className="bg-gradient-to-br from-indigo-50 to-indigo-100/50 rounded-xl p-3 border border-indigo-100">
                         <div className="text-xs text-indigo-600 font-medium mb-1">Đã nhận bàn</div>
                         <div className="text-2xl font-bold text-indigo-700">{stats.seated}</div>
+                    </div>
+                    <div className="bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-xl p-3 border border-purple-100">
+                        <div className="text-xs text-purple-600 font-medium mb-1">Hoàn thành</div>
+                        <div className="text-2xl font-bold text-purple-700">{stats.completed}</div>
                     </div>
                     <div className="bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-xl p-3 border border-gray-200">
                         <div className="text-xs text-gray-500 font-medium mb-1">Đã hủy</div>
@@ -292,6 +295,7 @@ export default function ReservationListView({
                         { label: "Tất cả trạng thái", value: "all" },
                         { label: "Đã xếp bàn", value: "confirmed" },
                         { label: "Đã nhận bàn", value: "seated" },
+                        { label: "Hoàn thành", value: "completed" },
                         { label: "Đã hủy", value: "cancelled" },
                     ]}
                 />

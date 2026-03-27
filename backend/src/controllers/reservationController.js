@@ -11,6 +11,7 @@ import { logActivity } from "../utils/activityLogger.js";
 
 /**
  * GET /api/reservations/available-tables
+ * Lấy danh sách các bàn trống
  */
 export const getAvailableTablesController = async (req, res) => {
   try {
@@ -45,9 +46,7 @@ export const getAvailableTablesController = async (req, res) => {
  */
 export const getReservedTablesController = async (req, res) => {
   try {
-    const reservations = await Reservation.find({
-      status: { $in: ["confirmed", "seated", "cancelled"] },
-    })
+    const reservations = await Reservation.find()
       .populate({
         path: "tables",
         populate: { path: "area", select: "areaName" },

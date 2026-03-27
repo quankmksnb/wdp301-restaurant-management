@@ -75,6 +75,7 @@ export default function ReceptionPage() {
   const [statusFilters, setStatusFilters] = useState({
     confirmed: true,
     seated: true,
+    completed: true,
     no_show: true,
     cancelled: false,
   });
