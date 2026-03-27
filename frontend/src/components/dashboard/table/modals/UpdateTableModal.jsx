@@ -121,10 +121,12 @@ export default function UpdateTableModal({ open, onClose, onConfirm, table }) {
             placeholder="-- Chọn khu vực --"
             value={selectedArea}
             onChange={(value) => setSelectedArea(value)}
-            options={areas.map((area) => ({
-              value: area._id,
-              label: area.areaName,
-            }))}
+            options={areas
+              .filter(
+                (area) =>
+                  area.areaStatus === "active" || area._id === table?.area?._id,
+              )
+              .map((area) => ({ value: area._id, label: area.areaName }))}
           />
         </div>
 

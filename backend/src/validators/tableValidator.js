@@ -7,9 +7,7 @@ export const createTableSchema = z.object({
     })
     .min(2, "Tên bàn phải ít nhất 2 ký tự"),
 
-  tableNumber: z.number({
-    required_error: "Số bàn là bắt buộc",
-  }),
+  tableNumber: z.number().optional(),
 
   capacity: z.number({
     required_error: "Sức chứa là bắt buộc",

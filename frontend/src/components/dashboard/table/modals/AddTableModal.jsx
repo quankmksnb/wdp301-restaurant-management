@@ -128,10 +128,9 @@ export default function AddTableModal({
                 placeholder="-- Chọn khu vực --"
                 value={selectedArea}
                 onChange={(value) => setSelectedArea(value)}
-                options={areas.map((area) => ({
-                  value: area._id,
-                  label: area.areaName,
-                }))}
+                options={areas
+                  .filter((area) => area.areaStatus === "active")
+                  .map((area) => ({ value: area._id, label: area.areaName }))}
               />
               <Button
                 size="large"

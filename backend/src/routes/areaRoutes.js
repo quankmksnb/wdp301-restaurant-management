@@ -1,12 +1,13 @@
 import express from "express";
 import {
   createArea,
-  deleteArea,
   getAreaById,
   getAreas,
+  toggleAreaStatus,
   updateArea,
 } from "../controllers/areaController.js";
 
+import { authorizeRoles, verifyToken } from "../middlewares/authMiddleware.js";
 import { validate } from "../middlewares/validateMiddleware.js";
 import {
   createAreaSchema,
@@ -15,14 +16,31 @@ import {
 
 const router = express.Router();
 
-router.post("/", validate(createAreaSchema), createArea);
+router.post(
+  "/",
+  verifyToken,
+  authorizeRoles("manager"),
+  validate(createAreaSchema),
+  createArea,
+);
 
-router.get("/", getAreas);
+router.get("/", verifyToken, getAreas);
 
-router.get("/:id", getAreaById);
+router.get("/:id", verifyToken, getAreaById);
 
-router.put("/:id", validate(updateAreaSchema), updateArea);
+router.put(
+  "/:id",
+  verifyToken,
+  authorizeRoles("manager"),
+  validate(updateAreaSchema),
+  updateArea,
+);
 
-router.delete("/:id", deleteArea);
+router.patch(
+  "/:id/status",
+  verifyToken,
+  authorizeRoles("manager"),
+  toggleAreaStatus,
+);
 
 export default router;
