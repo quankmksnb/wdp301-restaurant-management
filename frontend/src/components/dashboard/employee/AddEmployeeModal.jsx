@@ -109,7 +109,7 @@ export default function EmployeeFormModal({ open, onClose, onSave, employee = nu
                     isEdit={isEdit}
                     imageFile={imageFile}
                     onImageChange={setImageFile}
-                    existingImageUrl={employee?.photo ? `http://localhost:5000${employee.photo}` : null}
+                    existingImageUrl={employee?.photo || null}
                 />
             </Form>
         </Modal>
