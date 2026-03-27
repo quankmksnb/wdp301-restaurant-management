@@ -117,6 +117,13 @@ export const createReservation = async (req, res) => {
       user: req.user?.id,
     });
 
+    const tableNames = selectedTableDocs.map((t) => t.tableName).join(", ");
+    await logActivity(
+      req.user?.id,
+      `vừa tạo đặt bàn mới cho khách [${req.body.customer.customer}] tại bàn [${tableNames}]`,
+      "reservation",
+    );
+
     res.status(201).json({
       success: true,
       message: "Đặt bàn thành công",
@@ -330,7 +337,10 @@ export const updateReservationStatus = async (req, res) => {
       });
     }
 
-    const reservation = await Reservation.findById(id);
+    const reservation = await Reservation.findById(id).populate(
+      "tables",
+      "tableName",
+    );
 
     if (!reservation) {
       return res.status(404).json({
@@ -414,6 +424,35 @@ export const updateReservationStatus = async (req, res) => {
     }
 
     await reservation.save();
+
+    let logContent = "";
+    const tableNames =
+      reservation.tables && reservation.tables.length > 0
+        ? reservation.tables.map((t) => t.tableName).join(", ")
+        : "chưa xác định";
+    switch (status) {
+      case "seated":
+        logContent = `vừa xác nhận khách [${reservation.customer.customer}] đã vào bàn [${tableNames}]`;
+        break;
+      case "cancelled":
+        logContent = `vừa hủy đặt bàn của khách [${reservation.customer.customer}] - Lý do: ${cancellationReason || "Không có"}`;
+        break;
+      case "no_show":
+        logContent = `đã đánh dấu khách [${reservation.customer.customer}] không đến (No-show)`;
+        break;
+      case "completed":
+        logContent = `vừa hoàn tất (Checkout) cho khách [${reservation.customer.customer}]`;
+        break;
+      case "confirmed":
+        logContent = `vừa xác nhận lại trạng thái 'Chờ' cho khách [${reservation.customer.customer}]`;
+        break;
+      default:
+        logContent = `vừa cập nhật trạng thái đặt bàn của [${reservation.customer.customer}] thành ${status}`;
+    }
+
+    if (user) {
+      await logActivity(user.id, logContent, "reservation");
+    }
 
     res.json({
       success: true,
