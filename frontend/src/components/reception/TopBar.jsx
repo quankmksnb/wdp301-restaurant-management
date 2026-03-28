@@ -16,7 +16,7 @@ export default function TopBar({ tabMode, setTabMode }) {
             const token = localStorage.getItem("token");
             if (token) {
                 const decoded = jwtDecode(token);
-                setUserPhone(decoded.phone || "");
+                setUserPhone(decoded.fullName || "");
             }
         } catch (e) {
             console.error("Error decoding token:", e);
