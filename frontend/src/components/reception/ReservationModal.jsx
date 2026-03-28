@@ -584,8 +584,19 @@ export default function ReservationModal({
       // Set default arrival time based on selectedDate
       const baseDate = selectedDate ? dayjs(selectedDate) : dayjs();
       if (prefilledHour !== undefined && prefilledHour !== null) {
-        const safeHour = prefilledHour < 6 ? 6 : prefilledHour;
-        setArrivalTime(baseDate.hour(safeHour).minute(0).second(0));
+        const isToday = baseDate.isSame(dayjs(), 'day');
+        const currentHour = dayjs().hour();
+
+        if (isToday && prefilledHour === currentHour) {
+          // Bật realtime nếu chọn đúng ô giờ hiện tại
+          isAutoTime.current = true;
+          setArrivalTime(dayjs());
+        } else {
+          // Tắt realtime nếu chọn giờ khác
+          isAutoTime.current = false;
+          const safeHour = prefilledHour < 6 ? 6 : prefilledHour;
+          setArrivalTime(baseDate.hour(safeHour).minute(0).second(0));
+        }
       } else {
         const isToday = baseDate.isSame(dayjs(), 'day');
         if (isToday) {
@@ -888,6 +899,11 @@ export default function ReservationModal({
               placeholder="Chọn ngày giờ đến"
               className="w-full"
               value={arrivalTime}
+              onOpenChange={(open) => {
+                if (open) {
+                  isAutoTime.current = false; // dừng realtime ngay khi người dùng click để mở DatePicker
+                }
+              }}
               onChange={(val) => {
                 isAutoTime.current = false; // người dùng chọn tay → dừng realtime
                 setArrivalTime(val);
