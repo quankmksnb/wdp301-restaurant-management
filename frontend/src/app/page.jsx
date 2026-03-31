@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import { Mail, Lock, Phone } from "lucide-react";
 import toast from "react-hot-toast";
+import { connectSocket } from "@/services/socket";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -72,6 +73,8 @@ export default function LoginPage() {
       const data = res.data;
 
       localStorage.setItem("token", data.token);
+
+      connectSocket(data.token);
 
       const decoded = jwtDecode(data.token);
       const role = decoded.role;

@@ -21,6 +21,7 @@ import {
   getOrderBill,
 } from "@/services/orderService";
 import { getAllAreas } from "@/services/areaService";
+import { useSocket } from "@/context/SocketContext";
 
 export default function WaiterPage() {
   const [activeTab, setActiveTab] = useState("phonban");
@@ -36,6 +37,8 @@ export default function WaiterPage() {
     setSearchQuery(q);
     if (q.trim()) setActiveTab("thucdon");
   };
+  // Socket
+  const { socket, isConnected } = useSocket();
 
   const [areas, setAreas] = useState([]);
   const [tables, setTables] = useState([]);
@@ -109,6 +112,12 @@ export default function WaiterPage() {
     };
     fetchMenuItems();
   }, [activeCat]);
+
+  useEffect(() => {
+    if (socket && isConnected) {
+      socket.emit("join_room", "waiter");
+    }
+  }, [socket, isConnected]);
 
   // ─── Refresh cart ─────────────────────────────────────────────────────────
   const refreshCart = useCallback(async (tableId, oId) => {
@@ -486,7 +495,7 @@ export default function WaiterPage() {
                       <p className="text-sm">
                         Không tìm thấy món{" "}
                         <span className="font-semibold text-slate-600">
-                          "{searchQuery}"
+                          {`"${searchQuery}"`}
                         </span>
                       </p>
                     </div>
