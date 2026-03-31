@@ -4,6 +4,10 @@ export const createCategory = (data) => {
     return api.post("/menu-categories", data);
 };
 
+export const createParentCategory = (data) => {
+    return api.post("/menu-categories/parent", data);
+}
+
 
 export const getAllCategories = (params) => {
     return api.get("/menu-categories", { params });
@@ -22,4 +26,10 @@ export const updateCategory = (id, data) => {
 
 export const deleteCategory = (id) => {
     return api.delete(`/menu-categories/${id}`);
+};
+
+
+// Lấy danh sách category con theo parentId
+export const getChildCategories = (params = {}) => {
+    return api.get("/menu-categories/children", { params });
 };

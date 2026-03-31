@@ -1,0 +1,361 @@
+[{
+  "_id": {
+    "$oid": "69c6906d625349ac50b579f8"
+  },
+  "categoryName": "khai vị",
+  "description": "Các món nhẹ như salad, súp, gỏi, hoặc đồ chiên khai vị",
+  "parentId": null,
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:13:01.746Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:13:01.746Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6908b625349ac50b57a14"
+  },
+  "categoryName": "salad",
+  "description": "",
+  "parentId": {
+    "$oid": "69c6906d625349ac50b579f8"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:13:31.337Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:13:31.337Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69099625349ac50b57a1b"
+  },
+  "categoryName": "súp",
+  "description": "",
+  "parentId": {
+    "$oid": "69c6906d625349ac50b579f8"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:13:45.671Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:13:45.671Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6909e625349ac50b57a22"
+  },
+  "categoryName": "gỏi",
+  "description": "",
+  "parentId": {
+    "$oid": "69c6906d625349ac50b579f8"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:13:50.661Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:13:50.661Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c690b4625349ac50b57a29"
+  },
+  "categoryName": "món chính",
+  "parentId": null,
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:14:12.782Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:14:12.782Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c690cb625349ac50b57a30"
+  },
+  "categoryName": "hải sản",
+  "description": "",
+  "parentId": {
+    "$oid": "69c690b4625349ac50b57a29"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:14:35.194Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:14:35.194Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c690d3625349ac50b57a37"
+  },
+  "categoryName": "lẩu",
+  "description": "",
+  "parentId": {
+    "$oid": "69c690b4625349ac50b57a29"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:14:43.945Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:14:43.945Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c690d9625349ac50b57a3e"
+  },
+  "categoryName": "nướng",
+  "description": "",
+  "parentId": {
+    "$oid": "69c690b4625349ac50b57a29"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:14:49.607Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:14:49.607Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69117625349ac50b57a45"
+  },
+  "categoryName": "combo & set",
+  "parentId": null,
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:15:51.326Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:15:51.326Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6912f625349ac50b57a4c"
+  },
+  "categoryName": "đồ uống",
+  "parentId": null,
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:16:15.442Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:16:15.442Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6913b625349ac50b57a52"
+  },
+  "categoryName": "tráng miệng",
+  "parentId": null,
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:16:27.609Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:16:27.609Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69155625349ac50b57a58"
+  },
+  "categoryName": "món ăn kèm",
+  "parentId": null,
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:16:53.666Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:16:53.666Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69168625349ac50b57a60"
+  },
+  "categoryName": "đồ uống có cồn",
+  "description": "",
+  "parentId": {
+    "$oid": "69c6912f625349ac50b57a4c"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:17:12.042Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:17:12.042Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69174625349ac50b57a67"
+  },
+  "categoryName": "đồ uống pha chế",
+  "description": "",
+  "parentId": {
+    "$oid": "69c6912f625349ac50b57a4c"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:17:24.862Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:17:24.862Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69182625349ac50b57a6e"
+  },
+  "categoryName": "đồ uống đóng chai/lon",
+  "description": "",
+  "parentId": {
+    "$oid": "69c6912f625349ac50b57a4c"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:17:38.077Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:17:38.077Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69190625349ac50b57a75"
+  },
+  "categoryName": "combo bữa tối",
+  "description": "",
+  "parentId": {
+    "$oid": "69c69117625349ac50b57a45"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:17:52.948Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:17:52.948Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6919c625349ac50b57a7d"
+  },
+  "categoryName": "set tiệc",
+  "description": "",
+  "parentId": {
+    "$oid": "69c69117625349ac50b57a45"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:18:04.051Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:18:04.051Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6934c625349ac50b57ab7"
+  },
+  "categoryName": "Món mặn",
+  "description": "",
+  "parentId": {
+    "$oid": "69c690b4625349ac50b57a29"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:25:16.136Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:25:16.136Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69453625349ac50b57ae0"
+  },
+  "categoryName": "cơm rang",
+  "description": "",
+  "parentId": {
+    "$oid": "69c690b4625349ac50b57a29"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:29:39.949Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:29:39.949Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69853625349ac50b57b5d"
+  },
+  "categoryName": "trái cây",
+  "description": "",
+  "parentId": {
+    "$oid": "69c6913b625349ac50b57a52"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:46:43.682Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:46:43.682Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c698a0625349ac50b57b6b"
+  },
+  "categoryName": "Chè",
+  "description": "",
+  "parentId": {
+    "$oid": "69c6913b625349ac50b57a52"
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T14:48:00.861Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:48:00.861Z"
+  },
+  "__v": 0
+}]

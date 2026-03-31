@@ -1,12 +1,23 @@
-import Area from "./Area.js"
+import mongoose from "mongoose";
+
 const tableSchema = new mongoose.Schema(
   {
-    tableNumber: { type: Number, required: true },
+    tableName: {
+      type: String,
+      required: [true, "Tên bàn là bắt buộc"],
+      trim: true,
+    },
+    tableNumber: { type: Number },
     capacity: { type: Number, required: true },
+    note: {
+      type: String,
+      trim: true,
+      default: "",
+    },
     tableStatus: {
       type: String,
-      enum: ["available", "occupied", "reserved"],
-      default: "available",
+      enum: ["active", "inactive"],
+      default: "active",
     },
     area: {
       type: mongoose.Schema.Types.ObjectId,

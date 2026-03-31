@@ -1,0 +1,120 @@
+[{
+  "_id": {
+    "$oid": "65f000000000000000000004"
+  },
+  "fullName": "Dinh Thi Thuy",
+  "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+  "phone": "0975432353",
+  "email": "thuydthe181836@fpt.edu.vn",
+  "role": "manager",
+  "status": "active",
+  "code": "NV000011"
+},
+{
+  "_id": {
+    "$oid": "69a907ba16da283576823ca2"
+  },
+  "fullName": "Đoàn Quang Huy",
+  "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+  "phone": "0123456789",
+  "email": "doanhuy2004@gmail.com",
+  "role": "manager",
+  "status": "active",
+  "code": "NV000010"
+},
+{
+  "_id": {
+    "$oid": "69a907ba16da283576823ca3"
+  },
+  "fullName": "Nguyễn Minh Quân",
+  "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+  "phone": "0123456789",
+  "email": "quannguyenkm16122004@gmail.com",
+  "role": "manager",
+  "status": "active",
+  "code": "NV000009"
+},
+{
+  "_id": {
+    "$oid": "69a907ba16da283576823ca4"
+  },
+  "fullName": "Nguyễn Văn Hoàng",
+  "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+  "phone": "0123456789",
+  "email": "hoangptkdhy@gmail.com",
+  "role": "manager",
+  "status": "active",
+  "code": "NV000008"
+},
+{
+  "_id": {
+    "$oid": "69a907ba16da283576823ca5"
+  },
+  "fullName": "Hà Văn Vinh",
+  "password": "$2b$10$SrwRXSS2JUIG2GUMwe.EL.9lriZzcU6eI0qobqPNdZ522Z/.ZY0nW",
+  "phone": "0681228204",
+  "email": "vinhhv28@gmail.com",
+  "role": "manager",
+  "status": "active",
+  "code": "NV000007"
+},
+{
+  "_id": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "code": "NV000012",
+  "fullName": "Lễ Tân 1",
+  "password": "$2b$10$yLUgEnU9mkU9xwAhoU9I6ue3xR6d1QMWYwTXFucs2yyujyRcWywEK",
+  "role": "receptionist",
+  "phone": "0981228204",
+  "email": "letan@gmail.com",
+  "status": "active",
+  "photo": "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774619103/rms/employees/vpdqzy4y0muup0c6tngv.jpg",
+  "createdAt": {
+    "$date": "2026-03-27T13:45:03.853Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T13:45:03.853Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68a43625349ac50b57755"
+  },
+  "code": "NV000013",
+  "fullName": "Phục Vụ 1",
+  "password": "$2b$10$/7HuT7AU6WYBHD01QritSuTB2.bSwx2fnmJa6hnOfmewbQKy3J5uC",
+  "role": "waiter",
+  "phone": "0981111111",
+  "email": "phucvu@gmail.com",
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-03-27T13:46:43.613Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T13:47:39.270Z"
+  },
+  "__v": 0,
+  "photo": "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774619258/rms/employees/tkyxgb8yodzcolw1gzzn.jpg"
+},
+{
+  "_id": {
+    "$oid": "69c68adc625349ac50b577c5"
+  },
+  "code": "NV000014",
+  "fullName": "Nhân Viên Bếp 1",
+  "password": "$2b$10$KanXMMSwE.RswU7R3butL.5PI6QGd.VzBgCi3QsdpzBH.JYeqT4cK",
+  "role": "kitchenStaff",
+  "phone": "09812222222",
+  "email": "nhabep@gmail.com",
+  "status": "active",
+  "photo": "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774619355/rms/employees/ihv8p1ejqwikjkdggj9v.jpg",
+  "createdAt": {
+    "$date": "2026-03-27T13:49:16.761Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T13:49:16.761Z"
+  },
+  "__v": 0
+}]

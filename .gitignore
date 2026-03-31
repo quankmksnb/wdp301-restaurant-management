@@ -33,3 +33,5 @@ coverage/
 # ===== Turbo / Cache =====
 .turbo/
 .cache/
+
+./skills

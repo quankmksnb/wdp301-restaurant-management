@@ -1,0 +1,52 @@
+[{
+  "_id": {
+    "$oid": "69c69d09fc4887eed6dbda25"
+  },
+  "order": {
+    "$oid": "69c69ada625349ac50b57e72"
+  },
+  "amount": 130000,
+  "cashReceived": 130000,
+  "change": 0,
+  "paymentMethod": "cash",
+  "paymentStatus": "completed",
+  "user": {
+    "$oid": "69c68a43625349ac50b57755"
+  },
+  "paymentDate": {
+    "$date": "2026-03-27T15:06:49.720Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T15:06:49.721Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T15:06:49.721Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c69d5ffc4887eed6dbdbb3"
+  },
+  "order": {
+    "$oid": "69c69ba5625349ac50b57edf"
+  },
+  "amount": 836000,
+  "cashReceived": 836000,
+  "change": 0,
+  "paymentMethod": "cash",
+  "paymentStatus": "completed",
+  "user": {
+    "$oid": "69c68a43625349ac50b57755"
+  },
+  "paymentDate": {
+    "$date": "2026-03-27T15:08:15.886Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T15:08:15.887Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T15:08:15.887Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,108 @@
+[{
+  "_id": {
+    "$oid": "69c68c1d625349ac50b577ff"
+  },
+  "areaName": "Sảnh Chính",
+  "description": "Khu vực trung tâm, thoáng đãng",
+  "areaStatus": "active",
+  "createdBy": {
+    "$oid": "69a907ba16da283576823ca5"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T13:54:37.366Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T13:54:37.366Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68c3a625349ac50b57805"
+  },
+  "areaName": "VIP 1",
+  "description": "Phòng riêng biệt, yên tĩnh",
+  "areaStatus": "active",
+  "createdBy": {
+    "$oid": "69a907ba16da283576823ca5"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T13:55:06.828Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:07:00.990Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68c42625349ac50b5780a"
+  },
+  "areaName": "Phòng VIP 2",
+  "description": "Phòng riêng biệt, yên tĩnh",
+  "areaStatus": "active",
+  "createdBy": {
+    "$oid": "69a907ba16da283576823ca5"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T13:55:14.681Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T13:55:14.681Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68c78625349ac50b57810"
+  },
+  "areaName": "Ngoài Trời",
+  "description": "Khu vực thoáng khí, view đẹp, phù hợp buổi tối",
+  "areaStatus": "active",
+  "createdBy": {
+    "$oid": "69a907ba16da283576823ca5"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T13:56:08.404Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T13:56:08.404Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68c92625349ac50b57815"
+  },
+  "areaName": "Tầng 2",
+  "description": "",
+  "areaStatus": "active",
+  "createdBy": {
+    "$oid": "69a907ba16da283576823ca5"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T13:56:34.879Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T13:56:34.879Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6995c625349ac50b57ba6"
+  },
+  "areaName": "Tầng 3",
+  "description": "",
+  "areaStatus": "active",
+  "createdBy": {
+    "$oid": "69a907ba16da283576823ca5"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:51:08.636Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:51:08.636Z"
+  },
+  "__v": 0
+}]

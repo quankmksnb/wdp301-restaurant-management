@@ -1,0 +1,139 @@
+[{
+  "_id": {
+    "$oid": "69c69ad5625349ac50b57e6b"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-27T15:00:00.838Z"
+  },
+  "numberOfGuests": 12,
+  "status": "completed",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "Nguyễn Văn A",
+    "phone": "0981228204"
+  },
+  "tables": [
+    {
+      "$oid": "69c68dd6625349ac50b5784b"
+    },
+    {
+      "$oid": "69c68dfb625349ac50b57856"
+    }
+  ],
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-27T14:57:25.861Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T15:06:49.742Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-27T14:57:30.462Z"
+  },
+  "checkOutTime": {
+    "$date": "2026-03-27T15:06:49.741Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69c69ba1625349ac50b57ed8"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-27T16:00:00.018Z"
+  },
+  "numberOfGuests": 10,
+  "status": "completed",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "AnhPN",
+    "phone": "0987222222"
+  },
+  "tables": [
+    {
+      "$oid": "69c68f1c625349ac50b578eb"
+    }
+  ],
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "note": "Tôi có thằng em giai",
+  "createdAt": {
+    "$date": "2026-03-27T15:00:49.445Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T15:08:15.900Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-27T15:00:53.695Z"
+  },
+  "checkOutTime": {
+    "$date": "2026-03-27T15:08:15.900Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69c69e54fc4887eed6dbdc0d"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-27T16:00:00.831Z"
+  },
+  "numberOfGuests": 3,
+  "status": "cancelled",
+  "cancellationReason": "Khách Hủy",
+  "customer": {
+    "customer": "Khách Hàng 2",
+    "phone": "0983767372"
+  },
+  "tables": [
+    {
+      "$oid": "69c68f1c625349ac50b578eb"
+    }
+  ],
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-27T15:12:20.276Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T15:12:29.217Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c6a05eb2b934ea01d78bf3"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-27T16:00:00.265Z"
+  },
+  "numberOfGuests": 6,
+  "status": "cancelled",
+  "cancellationReason": "khách hủy",
+  "customer": {
+    "customer": "Khách 06",
+    "phone": "0981223333"
+  },
+  "tables": [
+    {
+      "$oid": "69c68dd6625349ac50b5784b"
+    }
+  ],
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-27T15:21:02.685Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T15:21:10.370Z"
+  },
+  "__v": 0
+}]

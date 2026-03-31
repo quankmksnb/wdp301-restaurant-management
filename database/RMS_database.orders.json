@@ -1,0 +1,226 @@
+[{
+  "_id": {
+    "$oid": "69c69ada625349ac50b57e72"
+  },
+  "reservation": {
+    "$oid": "69c69ad5625349ac50b57e6b"
+  },
+  "orderStatus": "completed",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69c68dd6625349ac50b5784b"
+      },
+      "items": [],
+      "subTotalAmount": 0,
+      "_id": {
+        "$oid": "69c69ada625349ac50b57e73"
+      }
+    },
+    {
+      "table": {
+        "$oid": "69c68dfb625349ac50b57856"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69c69a14625349ac50b57c2e"
+          },
+          "itemName": "Chè dưỡng nhan tuyết yến",
+          "unitPrice": 45000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 45000,
+          "_id": {
+            "$oid": "69c69cc8fc4887eed6dbd951"
+          },
+          "createdAt": {
+            "$date": "2026-03-27T15:05:44.213Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-27T15:06:16.003Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c698c7625349ac50b57b70"
+          },
+          "itemName": "Ngọc Bưởi Hoàng Kim",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69c69cc8fc4887eed6dbd95e"
+          },
+          "createdAt": {
+            "$date": "2026-03-27T15:05:44.899Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-27T15:06:16.873Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c697ee625349ac50b57b3d"
+          },
+          "itemName": "Sinh tố lúa mạch (ca 1.5l)",
+          "unitPrice": 60000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 60000,
+          "_id": {
+            "$oid": "69c69cc9fc4887eed6dbd96d"
+          },
+          "createdAt": {
+            "$date": "2026-03-27T15:05:45.374Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-27T15:06:21.209Z"
+          }
+        }
+      ],
+      "subTotalAmount": 130000,
+      "_id": {
+        "$oid": "69c69ada625349ac50b57e74"
+      }
+    }
+  ],
+  "totalAmount": 130000,
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "taxAmount": 0,
+  "finalAmount": 130000,
+  "orderDate": {
+    "$date": "2026-03-27T14:57:30.465Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:57:30.466Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T15:06:49.736Z"
+  },
+  "__v": 3
+},
+{
+  "_id": {
+    "$oid": "69c69ba5625349ac50b57edf"
+  },
+  "reservation": {
+    "$oid": "69c69ba1625349ac50b57ed8"
+  },
+  "orderStatus": "completed",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69c68f1c625349ac50b578eb"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69c696ec625349ac50b57b23"
+          },
+          "itemName": "Mộng Mơ",
+          "unitPrice": 45000,
+          "quantity": 4,
+          "note": "",
+          "status": "served",
+          "subTotal": 180000,
+          "_id": {
+            "$oid": "69c69d1dfc4887eed6dbda42"
+          },
+          "createdAt": {
+            "$date": "2026-03-27T15:07:09.883Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-27T15:07:43.371Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c6923d625349ac50b57a9b"
+          },
+          "itemName": "Gỏi ngó sen tôm thịt",
+          "unitPrice": 80000,
+          "quantity": 2,
+          "note": "",
+          "status": "served",
+          "subTotal": 160000,
+          "_id": {
+            "$oid": "69c69d20fc4887eed6dbda6b"
+          },
+          "createdAt": {
+            "$date": "2026-03-27T15:07:12.814Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-27T15:07:41.723Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69294625349ac50b57aa6"
+          },
+          "itemName": "Súp gà",
+          "unitPrice": 50000,
+          "quantity": 2,
+          "note": "",
+          "status": "served",
+          "subTotal": 100000,
+          "_id": {
+            "$oid": "69c69d21fc4887eed6dbda84"
+          },
+          "createdAt": {
+            "$date": "2026-03-27T15:07:13.526Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-27T15:07:41.030Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69539625349ac50b57af7"
+          },
+          "itemName": "Thanh thủy đánh đá",
+          "unitPrice": 36000,
+          "quantity": 11,
+          "note": "",
+          "status": "served",
+          "subTotal": 396000,
+          "_id": {
+            "$oid": "69c69d25fc4887eed6dbdaa1"
+          },
+          "createdAt": {
+            "$date": "2026-03-27T15:07:17.738Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-27T15:07:40.644Z"
+          }
+        }
+      ],
+      "subTotalAmount": 836000,
+      "_id": {
+        "$oid": "69c69ba5625349ac50b57ee0"
+      }
+    }
+  ],
+  "totalAmount": 836000,
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "taxAmount": 0,
+  "finalAmount": 836000,
+  "orderDate": {
+    "$date": "2026-03-27T15:00:53.697Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T15:00:53.697Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T15:08:15.894Z"
+  },
+  "__v": 4
+}]

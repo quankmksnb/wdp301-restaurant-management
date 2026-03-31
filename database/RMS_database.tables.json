@@ -1,0 +1,209 @@
+[{
+  "_id": {
+    "$oid": "69c68dd6625349ac50b5784b"
+  },
+  "tableName": "Bàn C-01",
+  "capacity": 6,
+  "note": "Bàn thứ nhất, bên trái từ cửa ra vào",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c1d625349ac50b577ff"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:01:58.544Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:01:58.544Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68dfb625349ac50b57856"
+  },
+  "tableName": "Bàn C-02",
+  "capacity": 6,
+  "note": "Bàn thứ 2 bên trái, từ cửa ra vào",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c1d625349ac50b577ff"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:02:35.568Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:02:35.568Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68e1f625349ac50b5785d"
+  },
+  "tableName": "Bàn C-03",
+  "capacity": 6,
+  "note": "Bàn thứ 3 bên trái, từ cửa ra vào",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c1d625349ac50b577ff"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:03:11.702Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:03:11.702Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68e4b625349ac50b57863"
+  },
+  "tableName": "Bàn C-04",
+  "capacity": 4,
+  "note": "Bàn thứ 4, bên trái từ cửa ra vào",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c1d625349ac50b577ff"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:03:55.590Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:06:36.576Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68e6e625349ac50b5786a"
+  },
+  "tableName": "Bàn C-06",
+  "capacity": 6,
+  "note": "Bàn đầu tiên bên phải",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c1d625349ac50b577ff"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:04:30.665Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:05:31.084Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68e83625349ac50b57870"
+  },
+  "tableName": "Bàn C-07",
+  "capacity": 6,
+  "note": "Bàn thứ 2 bên phải",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c1d625349ac50b577ff"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:04:51.122Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:04:51.122Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68ebf625349ac50b578a0"
+  },
+  "tableName": "Bàn C-08",
+  "capacity": 6,
+  "note": "Bàn thứ 4 bên phải",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c1d625349ac50b577ff"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:05:51.460Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:05:51.460Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68f1c625349ac50b578eb"
+  },
+  "tableName": "Phòng VIP 1",
+  "capacity": 12,
+  "note": "",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c3a625349ac50b57805"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:07:24.659Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:07:24.659Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68f32625349ac50b578f0"
+  },
+  "tableName": "Bàn NT-01",
+  "capacity": 2,
+  "note": "",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c78625349ac50b57810"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:07:46.794Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:07:46.794Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68f3b625349ac50b578f5"
+  },
+  "tableName": "Bàn NT-02",
+  "capacity": 2,
+  "note": "",
+  "tableStatus": "active",
+  "area": {
+    "$oid": "69c68c78625349ac50b57810"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:07:55.267Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:07:55.267Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c68f96625349ac50b57997"
+  },
+  "tableName": "Bàn NT-03",
+  "capacity": 2,
+  "note": "",
+  "tableStatus": "inactive",
+  "area": {
+    "$oid": "69c68c78625349ac50b57810"
+  },
+  "createdAt": {
+    "$date": "2026-03-27T14:09:26.015Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-27T14:09:31.081Z"
+  },
+  "__v": 0
+}]
