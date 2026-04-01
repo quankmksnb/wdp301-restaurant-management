@@ -332,7 +332,7 @@ export default function WaiterPage() {
                   <ScrollableTabs className="pt-2 pb-1" scrollAmount={180}>
                     <button
                       onClick={() => setActiveAreaId("all")}
-                      className={`flex-shrink-0 px-3 py-1 rounded-full text-sm mr-1
+                      className={`shrink-0 px-3 py-1 rounded-full text-sm mr-1
                         ${
                           activeAreaId === "all"
                             ? "bg-blue-700 text-white font-bold"
@@ -345,7 +345,7 @@ export default function WaiterPage() {
                       <button
                         key={a._id}
                         onClick={() => setActiveAreaId(a._id)}
-                        className={`flex-shrink-0 px-3 py-1 rounded-full text-sm mr-1
+                        className={`shrink-0 px-3 py-1 rounded-full text-sm mr-1
                           ${
                             activeAreaId === a._id
                               ? "bg-blue-700 text-white font-bold"
@@ -356,7 +356,7 @@ export default function WaiterPage() {
                       </button>
                     ))}
                     {/* khoảng trống cuối + icon search */}
-                    <div className="flex-shrink-0 ml-2 flex items-center">
+                    <div className="shrink-0 ml-2 flex items-center">
                       <Search
                         size={16}
                         className="text-slate-500 cursor-pointer"
@@ -471,7 +471,7 @@ export default function WaiterPage() {
                       <button
                         key={c._id}
                         onClick={() => setActiveCat(c._id)}
-                        className={`flex-shrink-0 px-4 py-2 whitespace-nowrap border-b-2 transition-colors
+                        className={`shrink-0 px-4 py-2 whitespace-nowrap border-b-2 transition-colors
                           ${
                             activeCat === c._id
                               ? "border-blue-700 text-blue-700 font-bold"
