@@ -1,6 +1,7 @@
 import DishItem from "@/components/kitchen/items/DishItem";
 import kitchenService from "@/services/kitchenService";
-import { useEffect, useState } from "react";
+import { kitchenEvents } from "@/utils/kitchenEvents";
+import { useCallback, useEffect, useState } from "react";
 
 export default function ByDishTab({ searchTerm, updateStatus }) {
   const [dishes, setDishes] = useState([]);
@@ -33,7 +34,7 @@ export default function ByDishTab({ searchTerm, updateStatus }) {
       await updateStatus(target.orderItemId, nextStatus, 1, fetchData);
     }
   };
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -44,10 +45,19 @@ export default function ByDishTab({ searchTerm, updateStatus }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchTerm]);
+
   useEffect(() => {
     fetchData();
-  }, [searchTerm]);
+  }, [fetchData]);
+
+  useEffect(() => {
+    kitchenEvents.addEventListener("kitchen-updated", fetchData);
+
+    return () => {
+      kitchenEvents.removeEventListener("kitchen-updated", fetchData);
+    };
+  }, [fetchData]);
 
   if (loading)
     return <div className="p-6 text-gray-400 text-center">Đang tải...</div>;
@@ -72,7 +82,7 @@ export default function ByDishTab({ searchTerm, updateStatus }) {
           qty={dish.totalQty}
           onActionOne={() => handleAction(dish, "one")}
           onActionAll={() => handleAction(dish, "all")}
-          onOutOfStock={() => handleAction(dish, "cancel")}
+          onOutOfStock={() => handleAction(dish, "out_of_stock")}
           status={dish.status}
         />
       ))}

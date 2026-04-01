@@ -22,8 +22,10 @@ import {
 } from "@/services/orderService";
 import { getAllAreas } from "@/services/areaService";
 import { useSocket } from "@/context/SocketContext";
+import { Modal } from "antd";
 
 export default function WaiterPage() {
+  const [modal, contextHolder] = Modal.useModal();
   const [activeTab, setActiveTab] = useState("phonban");
   const [selTable, setSelTable] = useState(null);
   const [activeAreaId, setActiveAreaId] = useState("all");
@@ -31,6 +33,23 @@ export default function WaiterPage() {
   const [activeCat, setActiveCat] = useState("all");
   const [soundOn, setSoundOn] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const countDownModal = () => {
+    let secondsToGo = 5;
+
+    const instance = modal.warning({
+      title: "Vui lòng chọn bàn trước!",
+    });
+
+    const timer = setInterval(() => {
+      secondsToGo -= 1;
+    }, 1000);
+
+    setTimeout(() => {
+      clearInterval(timer);
+      instance.destroy();
+    }, secondsToGo * 1000);
+  };
 
   // Khi gõ search → tự chuyển sang tab thực đơn
   const handleSearch = (q) => {
@@ -190,7 +209,7 @@ export default function WaiterPage() {
   // ─── Thêm món ─────────────────────────────────────────────────────────────
   const addFood = async (food) => {
     if (!selTable) {
-      alert("Vui lòng chọn bàn trước!");
+      countDownModal();
       return;
     }
     if (!orderId) {
@@ -547,6 +566,7 @@ export default function WaiterPage() {
           )}
         </div>
         <WaiterFooter />
+        {contextHolder}
       </div>
     </ProtectedRoute>
   );

@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { socket } from "@/services/socket";
+import { connectSocket, socket } from "@/services/socket";
 
 const SocketContext = createContext();
 
@@ -14,14 +14,19 @@ export const SocketProvider = ({ children }) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token && !socket.connected) {
+      connectSocket(token);
+    }
+
     function onConnect() {
       setIsConnected(true);
-      console.log("Connected to RMS Socket: ", socket.id);
+      // console.log("Connected to RMS Socket: ", socket.id);
     }
 
     function onDisconnect() {
       setIsConnected(false);
-      console.log("Disconnected from Socket");
+      // console.log("Disconnected from Socket");
     }
 
     socket.on("connect", onConnect);
