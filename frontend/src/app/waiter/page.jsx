@@ -263,10 +263,10 @@ export default function WaiterPage() {
     try {
       await sendItemsToKitchen(orderId, { itemIds: pendingIds });
       await refreshCart(selTable._id, orderId);
-      if (soundOn) {
-        const a = new Audio("/sounds/ting.mp3");
-        a.play();
-      }
+      // if (soundOn) {
+      //   const a = new Audio("/sounds/ting.mp3");
+      //   a.play();
+      // }
     } catch (err) {
       console.error("Lỗi gửi bếp:", err);
     }
@@ -326,7 +326,7 @@ export default function WaiterPage() {
           {/* ── PHÒNG BÀN ── */}
           {activeTab === "phonban" && (
             <>
-              <div className="flex flex-col basis-[67%] bg-slate-200">
+              <div className="flex flex-col w-[67%] bg-slate-200">
                 <div className="bg-white border-b border-slate-200 px-4">
                   {/* ── Area tabs với scroll + mũi tên ── */}
                   <ScrollableTabs className="pt-2 pb-1" scrollAmount={180}>
@@ -463,7 +463,7 @@ export default function WaiterPage() {
           {/* ── THỰC ĐƠN ── */}
           {activeTab === "thucdon" && (
             <>
-              <div className="flex flex-col basis-[67%] bg-slate-50">
+              <div className="flex flex-col w-[67%] bg-slate-50">
                 {/* ── Category tabs với scroll + mũi tên ── */}
                 <div className="bg-white border-b border-slate-200 px-2">
                   <ScrollableTabs scrollAmount={200}>
