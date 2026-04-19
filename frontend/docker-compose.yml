@@ -7,9 +7,12 @@ services:
     restart: always
     ports:
       - "3001:3001"
+    env_file:
+      - .env  # Docker sẽ nạp file .env tại đây
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=http://localhost:5001 
+      # Cú pháp ${VAR} sẽ lấy giá trị từ file .env
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL} 
     networks:
       - rms-shared-network
 
