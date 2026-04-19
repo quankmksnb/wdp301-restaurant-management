@@ -239,7 +239,7 @@ export default function UpdateProductModal({
       message.success("Cập nhật hàng hóa thành công");
       onConfirm?.();
     } catch (err) {
-      if (err?.message && !err?.errorFields) message.error(err.message);
+      if (err?.response?.data?.message && !err?.errorFields) message.error(err?.response?.data?.message);
     } finally {
       setLoading(false);
     }

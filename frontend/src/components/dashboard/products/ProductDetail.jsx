@@ -180,7 +180,7 @@ export default function ProductDetail({ product, onRefresh }) {
                     message.success('Xóa sản phẩm thành công');
                     onRefresh?.();
                 } catch (err) {
-                    message.error(err?.message || 'Xóa thất bại');
+                    message.error(err?.response?.data?.message || 'Xóa thất bại');
                 } finally {
                     setDeleting(false);
                 }

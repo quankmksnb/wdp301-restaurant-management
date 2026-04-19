@@ -46,9 +46,16 @@ export default function TableDetail({ table, onRefresh }) {
       content: "Bạn có chắc muốn xóa bàn này?",
       okButtonProps: { danger: true },
       onOk: async () => {
-        await deleteTable(table._id);
-        message.success("Xóa bàn thành công");
-        onRefresh();
+        try {
+          await deleteTable(table._id);
+          message.success("Xóa bàn thành công");
+          onRefresh();
+        } catch (err) {
+          const errorMsg =
+            err?.response?.data?.message || "Có lỗi xảy ra khi xóa bàn";
+          message.error(errorMsg);
+          console.error("Delete table error:", err);
+        }
       },
     });
   };

@@ -17,6 +17,7 @@ import {
   createTableSchema,
   updateTableSchema,
 } from "../validators/tableValidator.js";
+import checkDemoMode from "../middlewares/checkDemoMode.js";
 
 const router = express.Router();
 
@@ -26,6 +27,7 @@ router.post(
   "/",
   verifyToken,
   authorizeRoles("manager"),
+  checkDemoMode,
   validate(createTableSchema),
   createTable,
 );
@@ -40,6 +42,7 @@ router.put(
   "/:id",
   verifyToken,
   authorizeRoles("manager"),
+  checkDemoMode,
   validate(updateTableSchema),
   updateTable,
 );
@@ -47,10 +50,17 @@ router.put(
 router.patch(
   "/:id/status",
   verifyToken,
+  checkDemoMode,
   authorizeRoles("manager"),
   toggleTableStatus,
 );
 
-router.delete("/:id", verifyToken, authorizeRoles("manager"), deleteTable);
+router.delete(
+  "/:id",
+  verifyToken,
+  authorizeRoles("manager"),
+  checkDemoMode,
+  deleteTable,
+);
 
 export default router;

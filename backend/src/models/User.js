@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema(
       enum: ["active", "inactive"],
       default: "active",
     },
+    isDemo: { type: Boolean, default: false },
     // Employee extended fields
     idNumber: { type: String },
     birthDate: { type: Date },
