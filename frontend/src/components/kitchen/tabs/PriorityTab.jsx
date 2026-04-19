@@ -16,7 +16,9 @@ export default function PriorityTab({ searchTerm, updateStatus }) {
       const res = await kitchenService.getPendingOrders({
         itemName: searchTerm,
       });
+
       setItems(res.data || []);
+      
     } catch (error) {
       console.error("Fetch priority items error:", error);
     } finally {
