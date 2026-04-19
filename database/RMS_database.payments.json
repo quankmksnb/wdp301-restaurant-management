@@ -49,4 +49,82 @@
     "$date": "2026-03-27T15:08:15.887Z"
   },
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69cb6e30aa26b8c6cea99b7c"
+  },
+  "order": {
+    "$oid": "69cb62b019e58f3ebf51f554"
+  },
+  "amount": 1988000,
+  "cashReceived": 2000000,
+  "change": 12000,
+  "paymentMethod": "cash",
+  "paymentStatus": "completed",
+  "user": {
+    "$oid": "69c68a43625349ac50b57755"
+  },
+  "paymentDate": {
+    "$date": "2026-03-31T06:48:16.404Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-31T06:48:16.405Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-31T06:48:16.405Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69cca0dd9f3c176f3fe676cb"
+  },
+  "order": {
+    "$oid": "69cb75b6a7e99838396ce49f"
+  },
+  "amount": 2652000,
+  "cashReceived": 2652000,
+  "change": 0,
+  "paymentMethod": "cash",
+  "paymentStatus": "completed",
+  "user": {
+    "$oid": "69c68a43625349ac50b57755"
+  },
+  "paymentDate": {
+    "$date": "2026-04-01T04:36:45.410Z"
+  },
+  "createdAt": {
+    "$date": "2026-04-01T04:36:45.415Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-01T04:36:45.415Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69e444631e123019f0094d6a"
+  },
+  "order": {
+    "$oid": "69e444291e123019f0094cce"
+  },
+  "amount": 70000,
+  "cashReceived": 70000,
+  "change": 0,
+  "paymentMethod": "cash",
+  "paymentStatus": "completed",
+  "user": {
+    "$oid": "69e43bffb26ed4c582b726b8"
+  },
+  "paymentDate": {
+    "$date": "2026-04-19T02:56:35.413Z"
+  },
+  "createdAt": {
+    "$date": "2026-04-19T02:56:35.414Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-19T02:56:35.414Z"
+  },
+  "__v": 0
 }]

@@ -136,4 +136,115 @@
     "$date": "2026-03-27T15:21:10.370Z"
   },
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69cb62af19e58f3ebf51f551"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-31T06:00:00.291Z"
+  },
+  "numberOfGuests": 6,
+  "status": "completed",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "Bùi Thị Hương Giang",
+    "phone": "0981228204"
+  },
+  "tables": [
+    {
+      "$oid": "69c68f1c625349ac50b578eb"
+    }
+  ],
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "note": "Bàn của nguoi yeu chu tri",
+  "createdAt": {
+    "$date": "2026-03-31T05:59:11.995Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-31T06:48:16.431Z"
+  },
+  "__v": 1,
+  "checkInTime": {
+    "$date": "2026-03-31T05:59:28.485Z"
+  },
+  "checkOutTime": {
+    "$date": "2026-03-31T06:48:16.430Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69cb75b4a7e99838396ce495"
+  },
+  "reservationDateTime": {
+    "$date": "2026-03-31T08:00:00.087Z"
+  },
+  "numberOfGuests": 6,
+  "status": "completed",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "Khách VIP",
+    "phone": "0981228204"
+  },
+  "tables": [
+    {
+      "$oid": "69c68dd6625349ac50b5784b"
+    }
+  ],
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-03-31T07:20:20.076Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-01T04:36:45.451Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-03-31T07:20:22.037Z"
+  },
+  "checkOutTime": {
+    "$date": "2026-04-01T04:36:45.450Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69e444251e123019f0094cc4"
+  },
+  "reservationDateTime": {
+    "$date": "2026-04-19T03:00:00.412Z"
+  },
+  "numberOfGuests": 1,
+  "status": "completed",
+  "cancellationReason": null,
+  "customer": {
+    "customer": "Anh Vinh",
+    "phone": "0981228204"
+  },
+  "tables": [
+    {
+      "$oid": "69c68dd6625349ac50b5784b"
+    }
+  ],
+  "user": {
+    "$oid": "69e43bd1b26ed4c582b726a5"
+  },
+  "note": "",
+  "createdAt": {
+    "$date": "2026-04-19T02:55:33.085Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-19T02:56:35.436Z"
+  },
+  "__v": 0,
+  "checkInTime": {
+    "$date": "2026-04-19T02:55:37.356Z"
+  },
+  "checkOutTime": {
+    "$date": "2026-04-19T02:56:35.436Z"
+  }
 }]

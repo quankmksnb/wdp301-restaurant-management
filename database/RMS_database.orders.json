@@ -223,4 +223,978 @@
     "$date": "2026-03-27T15:08:15.894Z"
   },
   "__v": 4
+},
+{
+  "_id": {
+    "$oid": "69cb62b019e58f3ebf51f554"
+  },
+  "reservation": {
+    "$oid": "69cb62af19e58f3ebf51f551"
+  },
+  "orderStatus": "completed",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69c68f1c625349ac50b578eb"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69c69539625349ac50b57af7"
+          },
+          "itemName": "Thanh thủy đánh đá",
+          "unitPrice": 36000,
+          "quantity": 6,
+          "note": "",
+          "status": "served",
+          "subTotal": 216000,
+          "_id": {
+            "$oid": "69cb62bc19e58f3ebf51f5b2"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T05:59:24.918Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T06:47:04.633Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c697ee625349ac50b57b3d"
+          },
+          "itemName": "Sinh tố lúa mạch (ca 1.5l)",
+          "unitPrice": 60000,
+          "quantity": 2,
+          "note": "",
+          "status": "served",
+          "subTotal": 120000,
+          "_id": {
+            "$oid": "69cb62bc19e58f3ebf51f5b3"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T05:59:24.918Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T06:47:04.110Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69871625349ac50b57b63"
+          },
+          "itemName": "Trái cây thập cẩm theo mùa",
+          "unitPrice": 60000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 60000,
+          "_id": {
+            "$oid": "69cb62bc19e58f3ebf51f5b4"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T05:59:24.918Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T06:47:18.791Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c6942c625349ac50b57ad9"
+          },
+          "itemName": "Gà ta ủ muối hoa tiêu",
+          "unitPrice": 280000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 280000,
+          "_id": {
+            "$oid": "69cb62bc19e58f3ebf51f5b5"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T05:59:24.918Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T06:47:05.433Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c693ab625349ac50b57ac8"
+          },
+          "itemName": "Cá chẽm hấp Hồng Kông",
+          "unitPrice": 250000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 250000,
+          "_id": {
+            "$oid": "69cb62bc19e58f3ebf51f5b6"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T05:59:24.918Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T06:47:05.605Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c693fc625349ac50b57ad1"
+          },
+          "itemName": "Tôm sú rang muối",
+          "unitPrice": 210000,
+          "quantity": 2,
+          "note": "",
+          "status": "served",
+          "subTotal": 420000,
+          "_id": {
+            "$oid": "69cb62bc19e58f3ebf51f5b7"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T05:59:24.918Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T06:47:11.185Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69204625349ac50b57a93"
+          },
+          "itemName": "Salad ức gà áp chảo",
+          "unitPrice": 36000,
+          "quantity": 2,
+          "note": "",
+          "status": "served",
+          "subTotal": 72000,
+          "_id": {
+            "$oid": "69cb62bc19e58f3ebf51f5b8"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T05:59:24.918Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T06:47:06.447Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c692cc625349ac50b57aae"
+          },
+          "itemName": "Súp hải sản tóc tiên",
+          "unitPrice": 120000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 120000,
+          "_id": {
+            "$oid": "69cb62bc19e58f3ebf51f5b9"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T05:59:24.918Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T06:47:08.990Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c6923d625349ac50b57a9b"
+          },
+          "itemName": "Gỏi ngó sen tôm thịt",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69cb62bc19e58f3ebf51f5ba"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T05:59:24.918Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T06:47:07.722Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69a14625349ac50b57c2e"
+          },
+          "itemName": "Chè dưỡng nhan tuyết yến",
+          "unitPrice": 45000,
+          "quantity": 3,
+          "note": "",
+          "status": "served",
+          "subTotal": 135000,
+          "_id": {
+            "$oid": "69cb62bc19e58f3ebf51f5bb"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T05:59:24.918Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T06:47:08.349Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c698c7625349ac50b57b70"
+          },
+          "itemName": "Ngọc Bưởi Hoàng Kim",
+          "unitPrice": 25000,
+          "quantity": 3,
+          "note": "",
+          "status": "served",
+          "subTotal": 75000,
+          "_id": {
+            "$oid": "69cb62bc19e58f3ebf51f5bc"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T05:59:24.918Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T06:47:10.494Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c694c4625349ac50b57aee"
+          },
+          "itemName": "Cơm chiên dương châu",
+          "unitPrice": 160000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 160000,
+          "_id": {
+            "$oid": "69cb62bc19e58f3ebf51f5bd"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T05:59:24.918Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T06:47:09.609Z"
+          }
+        }
+      ],
+      "subTotalAmount": 1988000,
+      "_id": {
+        "$oid": "69cb62bc19e58f3ebf51f5b1"
+      }
+    }
+  ],
+  "totalAmount": 1988000,
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "taxAmount": 0,
+  "finalAmount": 1988000,
+  "orderDate": {
+    "$date": "2026-03-31T05:59:12.007Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-31T05:59:12.012Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-31T06:48:16.425Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "69cb75b6a7e99838396ce49f"
+  },
+  "reservation": {
+    "$oid": "69cb75b4a7e99838396ce495"
+  },
+  "orderStatus": "completed",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69c68dd6625349ac50b5784b"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69c698c7625349ac50b57b70"
+          },
+          "itemName": "Ngọc Bưởi Hoàng Kim",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "out_of_stock",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69cb7604a7e99838396ce4cc"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:21:40.548Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T07:43:34.756Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69871625349ac50b57b63"
+          },
+          "itemName": "Trái cây thập cẩm theo mùa",
+          "unitPrice": 60000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 60000,
+          "_id": {
+            "$oid": "69cb7605a7e99838396ce4d7"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:21:41.151Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T07:32:20.981Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c697ee625349ac50b57b3d"
+          },
+          "itemName": "Sinh tố lúa mạch (ca 1.5l)",
+          "unitPrice": 60000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 60000,
+          "_id": {
+            "$oid": "69cb7605a7e99838396ce4e4"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:21:41.856Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T07:32:20.347Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c698c7625349ac50b57b70"
+          },
+          "itemName": "Ngọc Bưởi Hoàng Kim",
+          "unitPrice": 25000,
+          "quantity": 2,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 50000,
+          "_id": {
+            "$oid": "69cb7682a7e99838396ce51f"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:23:46.033Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T07:39:54.362Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69204625349ac50b57a93"
+          },
+          "itemName": "Salad ức gà áp chảo",
+          "unitPrice": 36000,
+          "quantity": 7,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 252000,
+          "_id": {
+            "$oid": "69cb7691a7e99838396ce551"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:24:01.716Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T07:32:27.797Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69294625349ac50b57aa6"
+          },
+          "itemName": "Súp gà",
+          "unitPrice": 50000,
+          "quantity": 3,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 150000,
+          "_id": {
+            "$oid": "69cb76d6a7e99838396ce5e7"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:25:10.478Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T07:32:21.441Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69354625349ac50b57abc"
+          },
+          "itemName": "Bò sốt tiêu đen (kèm bánh mì)",
+          "unitPrice": 185000,
+          "quantity": 3,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 555000,
+          "_id": {
+            "$oid": "69cb78765b9dbe0f69af3e45"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:32:06.732Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T07:32:18.882Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c6923d625349ac50b57a9b"
+          },
+          "itemName": "Gỏi ngó sen tôm thịt",
+          "unitPrice": 80000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 80000,
+          "_id": {
+            "$oid": "69cb788f5b9dbe0f69af3f14"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:32:31.458Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T07:39:53.865Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c6923d625349ac50b57a9b"
+          },
+          "itemName": "Gỏi ngó sen tôm thịt",
+          "unitPrice": 80000,
+          "quantity": 4,
+          "note": "",
+          "status": "out_of_stock",
+          "subTotal": 320000,
+          "_id": {
+            "$oid": "69cb7a4d5b9dbe0f69af3f8b"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:39:57.070Z"
+          },
+          "updatedAt": {
+            "$date": "2026-03-31T07:43:36.021Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c6962a625349ac50b57b12"
+          },
+          "itemName": "Bia Hà Nội (330ml)",
+          "unitPrice": 18000,
+          "quantity": 8,
+          "note": "",
+          "status": "out_of_stock",
+          "subTotal": 144000,
+          "_id": {
+            "$oid": "69cb7b2e5b9dbe0f69af4055"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:43:42.716Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:03:30.680Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c6923d625349ac50b57a9b"
+          },
+          "itemName": "Gỏi ngó sen tôm thịt",
+          "unitPrice": 80000,
+          "quantity": 3,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 240000,
+          "_id": {
+            "$oid": "69cb7b335b9dbe0f69af411d"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:43:47.640Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T03:46:26.550Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69204625349ac50b57a93"
+          },
+          "itemName": "Salad ức gà áp chảo",
+          "unitPrice": 36000,
+          "quantity": 5,
+          "note": "",
+          "status": "out_of_stock",
+          "subTotal": 180000,
+          "_id": {
+            "$oid": "69cb7b365b9dbe0f69af4199"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:43:50.566Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:31:48.945Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69354625349ac50b57abc"
+          },
+          "itemName": "Bò sốt tiêu đen (kèm bánh mì)",
+          "unitPrice": 185000,
+          "quantity": 4,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 740000,
+          "_id": {
+            "$oid": "69cb7b5a5b9dbe0f69af423e"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:44:26.433Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T03:46:24.987Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69204625349ac50b57a93"
+          },
+          "itemName": "Salad ức gà áp chảo",
+          "unitPrice": 36000,
+          "quantity": 4,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 144000,
+          "_id": {
+            "$oid": "69cb7bba5b9dbe0f69af42f2"
+          },
+          "createdAt": {
+            "$date": "2026-03-31T07:46:02.032Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T03:47:17.486Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c6942c625349ac50b57ad9"
+          },
+          "itemName": "Gà ta ủ muối hoa tiêu",
+          "unitPrice": 280000,
+          "quantity": 3,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 840000,
+          "_id": {
+            "$oid": "69cc982f0306290802fb449c"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T03:59:43.124Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T03:59:52.491Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c693ab625349ac50b57ac8"
+          },
+          "itemName": "Cá chẽm hấp Hồng Kông",
+          "unitPrice": 250000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 250000,
+          "_id": {
+            "$oid": "69cc98350306290802fb4559"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T03:59:49.524Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T03:59:56.767Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c693fc625349ac50b57ad1"
+          },
+          "itemName": "Tôm sú rang muối",
+          "unitPrice": 210000,
+          "quantity": 2,
+          "note": "",
+          "status": "served",
+          "subTotal": 420000,
+          "_id": {
+            "$oid": "69cc99200306290802fb4a7b"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T04:03:44.993Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:05:44.302Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69294625349ac50b57aa6"
+          },
+          "itemName": "Súp gà",
+          "unitPrice": 50000,
+          "quantity": 4,
+          "note": "",
+          "status": "served",
+          "subTotal": 200000,
+          "_id": {
+            "$oid": "69cc99230306290802fb4b09"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T04:03:47.996Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:05:42.876Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c692cc625349ac50b57aae"
+          },
+          "itemName": "Súp hải sản tóc tiên",
+          "unitPrice": 120000,
+          "quantity": 5,
+          "note": "",
+          "status": "served",
+          "subTotal": 600000,
+          "_id": {
+            "$oid": "69cc99250306290802fb4b7a"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T04:03:49.061Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:05:43.278Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c6973a625349ac50b57b2c"
+          },
+          "itemName": "Nước Aquafina (500ml)",
+          "unitPrice": 10000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 10000,
+          "_id": {
+            "$oid": "69cc993a0306290802fb4bf3"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T04:04:10.801Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:05:43.064Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c695e9625349ac50b57b08"
+          },
+          "itemName": "Đậu tẩm thành",
+          "unitPrice": 77000,
+          "quantity": 3,
+          "note": "",
+          "status": "served",
+          "subTotal": 231000,
+          "_id": {
+            "$oid": "69cc99960306290802fb4cc0"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T04:05:42.438Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:05:43.487Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69354625349ac50b57abc"
+          },
+          "itemName": "Bò sốt tiêu đen (kèm bánh mì)",
+          "unitPrice": 185000,
+          "quantity": 3,
+          "note": "",
+          "status": "served",
+          "subTotal": 555000,
+          "_id": {
+            "$oid": "69cc999d0306290802fb4d62"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T04:05:49.423Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:05:58.321Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c6962a625349ac50b57b12"
+          },
+          "itemName": "Bia Hà Nội (330ml)",
+          "unitPrice": 18000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 18000,
+          "_id": {
+            "$oid": "69cc9f63c43f233e45315875"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T04:30:27.123Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:32:02.005Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69204625349ac50b57a93"
+          },
+          "itemName": "Salad ức gà áp chảo",
+          "unitPrice": 36000,
+          "quantity": 1,
+          "note": "",
+          "status": "cancelled",
+          "subTotal": 36000,
+          "_id": {
+            "$oid": "69cc9f6ac43f233e453158e7"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T04:30:34.554Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:32:03.593Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c69539625349ac50b57af7"
+          },
+          "itemName": "Thanh thủy đánh đá",
+          "unitPrice": 36000,
+          "quantity": 1,
+          "note": "",
+          "status": "ready",
+          "subTotal": 36000,
+          "_id": {
+            "$oid": "69cc9fc649a3a6e2a3cf4afb"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T04:32:06.971Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:35:52.656Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c695a2625349ac50b57b00"
+          },
+          "itemName": "Bia Heineken Bạc Silver",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "ready",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69cca03d49a3a6e2a3cf4ba6"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T04:34:05.975Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:35:52.656Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c693ab625349ac50b57ac8"
+          },
+          "itemName": "Cá chẽm hấp Hồng Kông",
+          "unitPrice": 250000,
+          "quantity": 1,
+          "note": "",
+          "status": "ready",
+          "subTotal": 250000,
+          "_id": {
+            "$oid": "69cca06f49a3a6e2a3cf4c20"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T04:34:55.216Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:35:52.656Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c693ab625349ac50b57ac8"
+          },
+          "itemName": "Cá chẽm hấp Hồng Kông",
+          "unitPrice": 250000,
+          "quantity": 1,
+          "note": "",
+          "status": "ready",
+          "subTotal": 250000,
+          "_id": {
+            "$oid": "69cca07849a3a6e2a3cf4c9f"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T04:35:04.456Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:35:52.656Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c695a2625349ac50b57b00"
+          },
+          "itemName": "Bia Heineken Bạc Silver",
+          "unitPrice": 25000,
+          "quantity": 3,
+          "note": "",
+          "status": "ready",
+          "subTotal": 75000,
+          "_id": {
+            "$oid": "69cca0883d1e467d7174cdf0"
+          },
+          "createdAt": {
+            "$date": "2026-04-01T04:35:20.734Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-01T04:35:52.656Z"
+          }
+        }
+      ],
+      "subTotalAmount": 2652000,
+      "_id": {
+        "$oid": "69cb75b6a7e99838396ce4a0"
+      }
+    }
+  ],
+  "totalAmount": 2652000,
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "taxAmount": 0,
+  "finalAmount": 2652000,
+  "orderDate": {
+    "$date": "2026-03-31T07:20:22.040Z"
+  },
+  "createdAt": {
+    "$date": "2026-03-31T07:20:22.041Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-01T04:36:45.442Z"
+  },
+  "__v": 57
+},
+{
+  "_id": {
+    "$oid": "69e444291e123019f0094cce"
+  },
+  "reservation": {
+    "$oid": "69e444251e123019f0094cc4"
+  },
+  "orderStatus": "completed",
+  "subOrders": [
+    {
+      "table": {
+        "$oid": "69c68dd6625349ac50b5784b"
+      },
+      "items": [
+        {
+          "menuItem": {
+            "$oid": "69c69a14625349ac50b57c2e"
+          },
+          "itemName": "Chè dưỡng nhan tuyết yến",
+          "unitPrice": 45000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 45000,
+          "_id": {
+            "$oid": "69e444391e123019f0094cfb"
+          },
+          "createdAt": {
+            "$date": "2026-04-19T02:55:53.672Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-19T02:56:11.621Z"
+          }
+        },
+        {
+          "menuItem": {
+            "$oid": "69c698c7625349ac50b57b70"
+          },
+          "itemName": "Ngọc Bưởi Hoàng Kim",
+          "unitPrice": 25000,
+          "quantity": 1,
+          "note": "",
+          "status": "served",
+          "subTotal": 25000,
+          "_id": {
+            "$oid": "69e4443a1e123019f0094d06"
+          },
+          "createdAt": {
+            "$date": "2026-04-19T02:55:54.211Z"
+          },
+          "updatedAt": {
+            "$date": "2026-04-19T02:56:06.271Z"
+          }
+        }
+      ],
+      "subTotalAmount": 70000,
+      "_id": {
+        "$oid": "69e444291e123019f0094ccf"
+      }
+    }
+  ],
+  "totalAmount": 70000,
+  "user": {
+    "$oid": "69e43bd1b26ed4c582b726a5"
+  },
+  "taxAmount": 0,
+  "finalAmount": 70000,
+  "orderDate": {
+    "$date": "2026-04-19T02:55:37.359Z"
+  },
+  "createdAt": {
+    "$date": "2026-04-19T02:55:37.360Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-19T02:56:35.431Z"
+  },
+  "__v": 2
 }]

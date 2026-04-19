@@ -68,15 +68,16 @@
   "role": "receptionist",
   "phone": "0981228204",
   "email": "letan@gmail.com",
-  "status": "active",
+  "status": "inactive",
   "photo": "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774619103/rms/employees/vpdqzy4y0muup0c6tngv.jpg",
   "createdAt": {
     "$date": "2026-03-27T13:45:03.853Z"
   },
   "updatedAt": {
-    "$date": "2026-03-27T13:45:03.853Z"
+    "$date": "2026-04-19T02:32:35.730Z"
   },
-  "__v": 0
+  "__v": 0,
+  "isDemo": false
 },
 {
   "_id": {
@@ -115,6 +116,86 @@
   },
   "updatedAt": {
     "$date": "2026-03-27T13:49:16.761Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69e43bb5b26ed4c582b7269c"
+  },
+  "code": "NV000015",
+  "fullName": "Quản Lý Demo",
+  "password": "$2b$10$0TonBRbvrwLPC5c.lUdIKONYkSqDUlqOuw0dN5vH/nCFe3S9ioua.",
+  "role": "manager",
+  "phone": "0981228203",
+  "email": "quanly@demo.com",
+  "isDemo": true,
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-04-19T02:19:33.822Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-19T02:20:17.516Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69e43bd1b26ed4c582b726a5"
+  },
+  "code": "NV000016",
+  "fullName": "Lễ Tân Demo",
+  "password": "$2b$10$2p0fFxkXaTSgRxHCY8HJSeYqt1iXErR9LkFKCv82B4OG.K3qVFbwy",
+  "role": "receptionist",
+  "phone": "0981228202",
+  "email": "letan@demo.com",
+  "isDemo": true,
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-04-19T02:20:01.297Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-19T02:20:01.297Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69e43bffb26ed4c582b726b8"
+  },
+  "code": "NV000017",
+  "fullName": "Phục Vụ Demo",
+  "password": "$2b$10$E9YmzJry.RZIJJRKpFgigO0BIn7GQ8a0D3xLVr3fmHLj.mQ1xpID.",
+  "role": "waiter",
+  "phone": "0981228205",
+  "isDemo": true,
+  "email": "phucvu@demo.com",
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-04-19T02:20:47.973Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-19T02:20:47.973Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69e43c1bb26ed4c582b726c1"
+  },
+  "code": "NV000018",
+  "fullName": "Nhà Bếp Demo",
+  "password": "$2b$10$burCtUdsWgDJzX3VrJALk.qryic8cTlcrgPt6EztgRXJzF.xWg/um",
+  "role": "kitchenStaff",
+  "phone": "0981228206",
+  "email": "nhabep@demo.com",
+  "status": "active",
+  "isDemo": true,
+  "createdAt": {
+    "$date": "2026-04-19T02:21:15.553Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-19T02:21:15.553Z"
   },
   "__v": 0
 }]
