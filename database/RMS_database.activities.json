@@ -65,4 +65,140 @@
     "$date": "2026-03-27T15:21:10.373Z"
   },
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69cb62c019e58f3ebf51f5d4"
+  },
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "content": "vừa xác nhận khách [Bùi Thị Hương Giang] đã vào bàn [Phòng VIP 1]",
+  "type": "reservation",
+  "createdAt": {
+    "$date": "2026-03-31T05:59:28.496Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-31T05:59:28.496Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69cb6e30aa26b8c6cea99b7e"
+  },
+  "user": {
+    "$oid": "69c68a43625349ac50b57755"
+  },
+  "content": "vừa thanh toán tiền mặt cho đơn  - 1,988,000đ",
+  "type": "payment",
+  "createdAt": {
+    "$date": "2026-03-31T06:48:16.421Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-31T06:48:16.421Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69cb75b4a7e99838396ce497"
+  },
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "content": "vừa tạo đặt bàn mới cho khách [Khách VIP] tại bàn [Bàn C-01]",
+  "type": "reservation",
+  "createdAt": {
+    "$date": "2026-03-31T07:20:20.081Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-31T07:20:20.081Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69cb75b6a7e99838396ce4a3"
+  },
+  "user": {
+    "$oid": "69c689df625349ac50b57748"
+  },
+  "content": "vừa xác nhận khách [Khách VIP] đã vào bàn [Bàn C-01]",
+  "type": "reservation",
+  "createdAt": {
+    "$date": "2026-03-31T07:20:22.045Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-31T07:20:22.045Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69cca0dd9f3c176f3fe676cd"
+  },
+  "user": {
+    "$oid": "69c68a43625349ac50b57755"
+  },
+  "content": "vừa thanh toán tiền mặt cho đơn  - 2,652,000đ",
+  "type": "payment",
+  "createdAt": {
+    "$date": "2026-04-01T04:36:45.430Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-01T04:36:45.430Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69e444251e123019f0094cc6"
+  },
+  "user": {
+    "$oid": "69e43bd1b26ed4c582b726a5"
+  },
+  "content": "vừa tạo đặt bàn mới cho khách [Anh Vinh] tại bàn [Bàn C-01]",
+  "type": "reservation",
+  "createdAt": {
+    "$date": "2026-04-19T02:55:33.088Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-19T02:55:33.088Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69e444291e123019f0094cd2"
+  },
+  "user": {
+    "$oid": "69e43bd1b26ed4c582b726a5"
+  },
+  "content": "vừa xác nhận khách [Anh Vinh] đã vào bàn [Bàn C-01]",
+  "type": "reservation",
+  "createdAt": {
+    "$date": "2026-04-19T02:55:37.363Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-19T02:55:37.363Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69e444631e123019f0094d6c"
+  },
+  "user": {
+    "$oid": "69e43bffb26ed4c582b726b8"
+  },
+  "content": "vừa thanh toán tiền mặt cho đơn  - 70,000đ",
+  "type": "payment",
+  "createdAt": {
+    "$date": "2026-04-19T02:56:35.429Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-19T02:56:35.429Z"
+  },
+  "__v": 0
 }]

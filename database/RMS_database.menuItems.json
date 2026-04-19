@@ -48,30 +48,6 @@
 },
 {
   "_id": {
-    "$oid": "69c69294625349ac50b57aa6"
-  },
-  "itemName": "Súp gà",
-  "productCode": "KV-003",
-  "price": 50000,
-  "description": "",
-  "availabilityStatus": "available",
-  "images": [
-    "https://res.cloudinary.com/dhnsetr0x/image/upload/v1774621331/rms/menu-items/qijzmyzgmuwsu91mc7yo.webp"
-  ],
-  "costPrice": 25000,
-  "category": {
-    "$oid": "69c69099625349ac50b57a1b"
-  },
-  "createdAt": {
-    "$date": "2026-03-27T14:22:12.505Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-27T14:22:12.505Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
     "$oid": "69c692cc625349ac50b57aae"
   },
   "itemName": "Súp hải sản tóc tiên",

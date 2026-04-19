@@ -114,25 +114,6 @@
 },
 {
   "_id": {
-    "$oid": "69c68ebf625349ac50b578a0"
-  },
-  "tableName": "Bàn C-08",
-  "capacity": 6,
-  "note": "Bàn thứ 4 bên phải",
-  "tableStatus": "active",
-  "area": {
-    "$oid": "69c68c1d625349ac50b577ff"
-  },
-  "createdAt": {
-    "$date": "2026-03-27T14:05:51.460Z"
-  },
-  "updatedAt": {
-    "$date": "2026-03-27T14:05:51.460Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
     "$oid": "69c68f1c625349ac50b578eb"
   },
   "tableName": "Phòng VIP 1",

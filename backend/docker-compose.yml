@@ -1,0 +1,19 @@
+services:
+  rms-backend:
+    container_name: rms-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "5001:5000" # Map cổng 5001 máy thật vào 5000 của code
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+    networks:
+      - rms-shared-network
+
+networks:
+  rms-shared-network:
+    external: true
