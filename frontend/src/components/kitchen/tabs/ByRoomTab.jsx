@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { CheckCheck, ChevronsRight, Play } from "lucide-react";
-import { emitKitchenUpdate } from "@/utils/kitchenEvents";
+import { emitKitchenUpdate, kitchenEvents } from "@/utils/kitchenEvents";
 import RoomOrderItem from "@/components/kitchen/items/RoomOrderItem";
 import toast from "react-hot-toast";
 import kitchenService from "@/services/kitchenService";
@@ -25,9 +25,6 @@ export default function ByRoomTab() {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
   const updateStatus = async (id, status, quantity = "all") => {
     try {
       await kitchenService.updateItemStatus(id, status, quantity);
@@ -69,31 +66,18 @@ export default function ByRoomTab() {
       toast.error("Không thể cập nhật trạng thái hàng loạt");
     }
   };
-  const handleBulkActionForTable = async (items) => {
-    // Ưu tiên xử lý các món đang "preparing" trước, nếu không có thì xử lý "order_sent"
-    const preparingIds = items
-      .filter((i) => i.status === "preparing")
-      .map((i) => i.orderItemId);
-    const orderSentIds = items
-      .filter((i) => i.status === "order_sent")
-      .map((i) => i.orderItemId);
 
-    try {
-      if (preparingIds.length > 0) {
-        // Chuyển tất cả đang làm -> xong
-        await kitchenService.updateBulkStatus(preparingIds, "ready");
-        toast.success(`Đã xong ${preparingIds.length} món đang làm`);
-      } else if (orderSentIds.length > 0) {
-        // Chuyển tất cả đang chờ -> đang làm
-        await kitchenService.updateBulkStatus(orderSentIds, "preparing");
-        toast.success(`Đã nhận làm ${orderSentIds.length} món mới`);
-      }
-      fetchData();
-      emitKitchenUpdate();
-    } catch (error) {
-      toast.error("Lỗi cập nhật hàng loạt");
-    }
-  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    kitchenEvents.addEventListener("kitchen-updated", fetchData);
+
+    return () => {
+      kitchenEvents.removeEventListener("kitchen-updated", fetchData);
+    };
+  }, []);
 
   if (loading) return <div className="p-6 text-center">Loading...</div>;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBox from "@/components/kitchen/SearchBox";
 import PriorityTab from "@/components/kitchen/tabs/PriorityTab";
 import ByDishTab from "@/components/kitchen/tabs/ByDishTab";
@@ -8,8 +8,10 @@ import ByRoomTab from "@/components/kitchen/tabs/ByRoomTab";
 import toast from "react-hot-toast";
 import kitchenService from "@/services/kitchenService";
 import { emitKitchenUpdate } from "@/utils/kitchenEvents";
+import { useSocket } from "@/context/SocketContext";
 
 export default function TabLeft() {
+  const { socket, isConnected } = useSocket();
   const [activeTab, setActiveTab] = useState("priority");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -35,7 +37,7 @@ export default function TabLeft() {
       toast.error("Cập nhật trạng thái thất bại");
       console.error("Update status error:", error);
     }
-  };  
+  };
 
   return (
     <div className="flex-1 bg-[#003d7a] rounded-tr-md rounded-br-md flex flex-col overflow-hidden ">

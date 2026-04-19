@@ -17,6 +17,7 @@ import RevenueLineChart from "@/components/dashboard/charts/RevenueLineChart";
 import TopSellingChart from "@/components/dashboard/charts/TopSellingChart";
 import AreaRevenueChart from "@/components/dashboard/charts/AreaRevenueChart";
 import ActivityTimeline from "@/components/dashboard/ActivityTimeline";
+import { useSocket } from "@/context/SocketContext";
 
 // Map label hiển thị sang key API
 const typeMap = {
@@ -26,6 +27,9 @@ const typeMap = {
 };
 
 export default function Dashboard() {
+  // Socket
+  const { socket, isConnected } = useSocket();
+
   const [todayRevenue, setTodayRevenue] = useState({
     revenue: 0,
     profit: 0,
@@ -229,6 +233,13 @@ export default function Dashboard() {
   useEffect(() => {
     fetchChartData();
   }, [filterLabel, fetchChartData]);
+
+  useEffect(() => {
+    if (socket && isConnected) {
+      socket.emit("join_room", "manager");
+    }
+  }, [socket, isConnected]);
+  
   return (
     <main className="flex-1 p-6 bg-gray-50 overflow-y-auto">
       <div className="max-w-7xl mx-auto grid grid-cols-12 gap-6">

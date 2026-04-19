@@ -1,19 +1,25 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
 import routes from "./routes/index.js";
 
-// Initialize exporters (self-register with exportService)
+// Initialize exporters
 import "./services/exporters/employeeExporter.js";
+
+dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    credentials: true,
+  }),
+);
 app.use(express.json());
 
-// Sử dụng routes
 app.use("/api", routes);
-
-app.use("/uploads", express.static("uploads")); // Cho phép truy cập file trong thư mục uploads
 
 app.get("/", (req, res) => {
   res.send("API is running with ES Modules 🚀");

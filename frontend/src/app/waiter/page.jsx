@@ -21,8 +21,11 @@ import {
   getOrderBill,
 } from "@/services/orderService";
 import { getAllAreas } from "@/services/areaService";
+import { useSocket } from "@/context/SocketContext";
+import { Modal } from "antd";
 
 export default function WaiterPage() {
+  const [modal, contextHolder] = Modal.useModal();
   const [activeTab, setActiveTab] = useState("phonban");
   const [selTable, setSelTable] = useState(null);
   const [activeAreaId, setActiveAreaId] = useState("all");
@@ -31,11 +34,30 @@ export default function WaiterPage() {
   const [soundOn, setSoundOn] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const countDownModal = () => {
+    let secondsToGo = 5;
+
+    const instance = modal.warning({
+      title: "Vui lòng chọn bàn trước!",
+    });
+
+    const timer = setInterval(() => {
+      secondsToGo -= 1;
+    }, 1000);
+
+    setTimeout(() => {
+      clearInterval(timer);
+      instance.destroy();
+    }, secondsToGo * 1000);
+  };
+
   // Khi gõ search → tự chuyển sang tab thực đơn
   const handleSearch = (q) => {
     setSearchQuery(q);
     if (q.trim()) setActiveTab("thucdon");
   };
+  // Socket
+  const { socket, isConnected } = useSocket();
 
   const [areas, setAreas] = useState([]);
   const [tables, setTables] = useState([]);
@@ -110,6 +132,12 @@ export default function WaiterPage() {
     fetchMenuItems();
   }, [activeCat]);
 
+  useEffect(() => {
+    if (socket && isConnected) {
+      socket.emit("join_room", "waiter");
+    }
+  }, [socket, isConnected]);
+
   // ─── Refresh cart ─────────────────────────────────────────────────────────
   const refreshCart = useCallback(async (tableId, oId) => {
     if (!oId) return;
@@ -181,7 +209,7 @@ export default function WaiterPage() {
   // ─── Thêm món ─────────────────────────────────────────────────────────────
   const addFood = async (food) => {
     if (!selTable) {
-      alert("Vui lòng chọn bàn trước!");
+      countDownModal();
       return;
     }
     if (!orderId) {
@@ -254,10 +282,10 @@ export default function WaiterPage() {
     try {
       await sendItemsToKitchen(orderId, { itemIds: pendingIds });
       await refreshCart(selTable._id, orderId);
-      if (soundOn) {
-        const a = new Audio("/sounds/ting.mp3");
-        a.play();
-      }
+      // if (soundOn) {
+      //   const a = new Audio("/sounds/ting.mp3");
+      //   a.play();
+      // }
     } catch (err) {
       console.error("Lỗi gửi bếp:", err);
     }
@@ -317,13 +345,13 @@ export default function WaiterPage() {
           {/* ── PHÒNG BÀN ── */}
           {activeTab === "phonban" && (
             <>
-              <div className="flex flex-col basis-[67%] bg-slate-200">
+              <div className="flex flex-col w-[67%] bg-slate-200">
                 <div className="bg-white border-b border-slate-200 px-4">
                   {/* ── Area tabs với scroll + mũi tên ── */}
                   <ScrollableTabs className="pt-2 pb-1" scrollAmount={180}>
                     <button
                       onClick={() => setActiveAreaId("all")}
-                      className={`flex-shrink-0 px-3 py-1 rounded-full text-sm mr-1
+                      className={`shrink-0 px-3 py-1 rounded-full text-sm mr-1
                         ${
                           activeAreaId === "all"
                             ? "bg-blue-700 text-white font-bold"
@@ -336,7 +364,7 @@ export default function WaiterPage() {
                       <button
                         key={a._id}
                         onClick={() => setActiveAreaId(a._id)}
-                        className={`flex-shrink-0 px-3 py-1 rounded-full text-sm mr-1
+                        className={`shrink-0 px-3 py-1 rounded-full text-sm mr-1
                           ${
                             activeAreaId === a._id
                               ? "bg-blue-700 text-white font-bold"
@@ -347,7 +375,7 @@ export default function WaiterPage() {
                       </button>
                     ))}
                     {/* khoảng trống cuối + icon search */}
-                    <div className="flex-shrink-0 ml-2 flex items-center">
+                    <div className="shrink-0 ml-2 flex items-center">
                       <Search
                         size={16}
                         className="text-slate-500 cursor-pointer"
@@ -454,7 +482,7 @@ export default function WaiterPage() {
           {/* ── THỰC ĐƠN ── */}
           {activeTab === "thucdon" && (
             <>
-              <div className="flex flex-col basis-[67%] bg-slate-50">
+              <div className="flex flex-col w-[67%] bg-slate-50">
                 {/* ── Category tabs với scroll + mũi tên ── */}
                 <div className="bg-white border-b border-slate-200 px-2">
                   <ScrollableTabs scrollAmount={200}>
@@ -462,7 +490,7 @@ export default function WaiterPage() {
                       <button
                         key={c._id}
                         onClick={() => setActiveCat(c._id)}
-                        className={`flex-shrink-0 px-4 py-2 whitespace-nowrap border-b-2 transition-colors
+                        className={`shrink-0 px-4 py-2 whitespace-nowrap border-b-2 transition-colors
                           ${
                             activeCat === c._id
                               ? "border-blue-700 text-blue-700 font-bold"
@@ -486,7 +514,7 @@ export default function WaiterPage() {
                       <p className="text-sm">
                         Không tìm thấy món{" "}
                         <span className="font-semibold text-slate-600">
-                          "{searchQuery}"
+                          {`"${searchQuery}"`}
                         </span>
                       </p>
                     </div>
@@ -538,6 +566,7 @@ export default function WaiterPage() {
           )}
         </div>
         <WaiterFooter />
+        {contextHolder}
       </div>
     </ProtectedRoute>
   );

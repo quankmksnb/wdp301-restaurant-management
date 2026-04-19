@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import BackToTop from "../components/dashboard/BackToTop";
 import { Toaster } from "react-hot-toast";
+import { SocketProvider } from "@/context/SocketContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,16 +18,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased bg-gray-100`}>
-        {children}
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 2000,
-            style: {
-              fontSize: "14px",
-            },
-          }}
-        />
+        <SocketProvider>
+          {children}
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 2000,
+              style: {
+                fontSize: "14px",
+              },
+            }}
+          />
+        </SocketProvider>
         <BackToTop />
       </body>
     </html>
