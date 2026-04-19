@@ -13,6 +13,7 @@ import {
   createAreaSchema,
   updateAreaSchema,
 } from "../validators/areaValidator.js";
+import checkDemoMode from "../middlewares/checkDemoMode.js";
 
 const router = express.Router();
 
@@ -33,6 +34,7 @@ router.put(
   verifyToken,
   authorizeRoles("manager"),
   validate(updateAreaSchema),
+  checkDemoMode,
   updateArea,
 );
 
@@ -40,6 +42,7 @@ router.patch(
   "/:id/status",
   verifyToken,
   authorizeRoles("manager"),
+  checkDemoMode,
   toggleAreaStatus,
 );
 
