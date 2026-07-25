@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import Order from "../models/Order.js";
 import Reservation from "../models/Reservation.js";
 import MenuItem from "../models/MenuItem.js";
-import { getIO } from "../configs/socket.js";
 
 // Thêm món vào bàn
 export const addItemToTable = async (req, res) => {
@@ -136,13 +135,6 @@ export const sendItemsToKitchen = async (req, res) => {
 
     await order.save();
     
-    // Socket
-    const io = getIO();
-    
-    io.to("kitchen").emit("update_kitchen", {
-      message: "Món mới được gửi từ phục vụ!",
-    });
-
     res.status(200).json({
       success: true,
       message: "Đã gửi món xuống bếp",

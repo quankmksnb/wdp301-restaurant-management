@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from "react";
 import MeunuPopup from "@/components/kitchen/MeunuPopup";
 import ReadyItem from "@/components/kitchen/items/ReadyItem";
 import toast from "react-hot-toast";
-import { kitchenEvents } from "@/utils/kitchenEvents";
 
 export default function TabRight() {
   const [items, setItems] = useState([]);
@@ -33,13 +32,6 @@ export default function TabRight() {
   useEffect(() => {
     fetchData();
 
-    const handler = () => fetchData();
-
-    kitchenEvents.addEventListener("kitchen-updated", handler);
-
-    return () => {
-      kitchenEvents.removeEventListener("kitchen-updated", handler);
-    };
   }, []);
 
   const handleServe = async (id, quantity = "all") => {

@@ -18,7 +18,6 @@ import MonthView from "../../components/reception/MonthView";
 import ReservationListView from "../../components/reception/ReservationListView";
 import ReservationModal from "@/components/reception/ReservationModal";
 import ProtectedRoute from "@/services/protectedRoute";
-import { useSocket } from "@/context/SocketContext";
 
 // ─────────────────────────────────────────────────────────────────
 // Chuyển đổi dữ liệu reservation từ API sang dạng phẳng cho Timeline
@@ -63,9 +62,6 @@ function transformReservations(apiReservations) {
 // TRANG CHÍNH
 // ─────────────────────────────────────────────────────────────────
 export default function ReceptionPage() {
-  // Socket
-  const { socket, isConnected } = useSocket();
-
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState("day");
   const [tabMode, setTabMode] = useState("calendar");
@@ -254,12 +250,6 @@ export default function ReceptionPage() {
   const confirmedCount = reservations.filter(
     (r) => r.status === "confirmed",
   ).length;
-
-  useEffect(() => {
-    if (socket && isConnected) {
-      socket.emit("join_room", "reception");
-    }
-  }, [socket, isConnected]);
 
   return (
     <ProtectedRoute role="receptionist">

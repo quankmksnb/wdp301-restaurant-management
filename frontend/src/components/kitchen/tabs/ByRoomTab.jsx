@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { CheckCheck, ChevronsRight, Play } from "lucide-react";
-import { emitKitchenUpdate, kitchenEvents } from "@/utils/kitchenEvents";
 import RoomOrderItem from "@/components/kitchen/items/RoomOrderItem";
 import toast from "react-hot-toast";
 import kitchenService from "@/services/kitchenService";
@@ -29,7 +28,6 @@ export default function ByRoomTab() {
     try {
       await kitchenService.updateItemStatus(id, status, quantity);
 
-      emitKitchenUpdate();
       fetchData();
     } catch (error) {
       console.error(error);
@@ -58,9 +56,8 @@ export default function ByRoomTab() {
         toast.success(`Đã bắt đầu chế biến ${orderSentIds.length} món mới`);
       }
 
-      // Refresh dữ liệu và báo hiệu cho các tab khác
+      // Refresh dữ liệu
       fetchData();
-      emitKitchenUpdate();
     } catch (error) {
       console.error("Bulk update error:", error);
       toast.error("Không thể cập nhật trạng thái hàng loạt");
@@ -69,14 +66,6 @@ export default function ByRoomTab() {
 
   useEffect(() => {
     fetchData();
-  }, []);
-
-  useEffect(() => {
-    kitchenEvents.addEventListener("kitchen-updated", fetchData);
-
-    return () => {
-      kitchenEvents.removeEventListener("kitchen-updated", fetchData);
-    };
   }, []);
 
   if (loading) return <div className="p-6 text-center">Loading...</div>;

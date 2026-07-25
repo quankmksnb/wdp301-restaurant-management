@@ -1,6 +1,5 @@
 import { OrderItem } from "@/components/kitchen/items/OrderItem";
 import kitchenService from "@/services/kitchenService";
-import { kitchenEvents } from "@/utils/kitchenEvents";
 import { useCallback, useEffect, useState } from "react";
 
 const tagStatus = () => {};
@@ -23,14 +22,6 @@ export default function PriorityTab({ searchTerm, updateStatus }) {
       setLoading(false);
     }
   }, [searchTerm]);
-
-  useEffect(() => {
-    kitchenEvents.addEventListener("kitchen-updated", fetchData);
-
-    return () => {
-      kitchenEvents.removeEventListener("kitchen-updated", fetchData);
-    };
-  }, [fetchData]);
 
   useEffect(() => {
     fetchData();

@@ -1,6 +1,5 @@
 import DishItem from "@/components/kitchen/items/DishItem";
 import kitchenService from "@/services/kitchenService";
-import { kitchenEvents } from "@/utils/kitchenEvents";
 import { useCallback, useEffect, useState } from "react";
 
 export default function ByDishTab({ searchTerm, updateStatus }) {
@@ -49,14 +48,6 @@ export default function ByDishTab({ searchTerm, updateStatus }) {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
-
-  useEffect(() => {
-    kitchenEvents.addEventListener("kitchen-updated", fetchData);
-
-    return () => {
-      kitchenEvents.removeEventListener("kitchen-updated", fetchData);
-    };
   }, [fetchData]);
 
   if (loading)

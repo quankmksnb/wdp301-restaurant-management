@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import { Mail, Lock, Phone, UserCheck } from "lucide-react"; // Thêm UserCheck cho icon demo
 import toast from "react-hot-toast";
-import { connectSocket } from "@/services/socket";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -78,7 +77,6 @@ export default function LoginPage() {
 
       const data = res.data;
       localStorage.setItem("token", data.token);
-      connectSocket(data.token);
 
       const decoded = jwtDecode(data.token);
       const role = decoded.role;

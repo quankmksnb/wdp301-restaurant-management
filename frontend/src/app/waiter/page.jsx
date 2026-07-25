@@ -21,7 +21,6 @@ import {
   getOrderBill,
 } from "@/services/orderService";
 import { getAllAreas } from "@/services/areaService";
-import { useSocket } from "@/context/SocketContext";
 import { Modal } from "antd";
 
 export default function WaiterPage() {
@@ -56,9 +55,6 @@ export default function WaiterPage() {
     setSearchQuery(q);
     if (q.trim()) setActiveTab("thucdon");
   };
-  // Socket
-  const { socket, isConnected } = useSocket();
-
   const [areas, setAreas] = useState([]);
   const [tables, setTables] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -131,12 +127,6 @@ export default function WaiterPage() {
     };
     fetchMenuItems();
   }, [activeCat]);
-
-  useEffect(() => {
-    if (socket && isConnected) {
-      socket.emit("join_room", "waiter");
-    }
-  }, [socket, isConnected]);
 
   // ─── Refresh cart ─────────────────────────────────────────────────────────
   const refreshCart = useCallback(async (tableId, oId) => {
